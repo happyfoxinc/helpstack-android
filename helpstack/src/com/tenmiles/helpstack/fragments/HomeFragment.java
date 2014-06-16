@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class HomeFragment extends HSFragmentParent {
 	
 	private HSEmailGear emailGear;
 	
+	
 	public HomeFragment() {
 		
 	}
@@ -40,6 +42,11 @@ public class HomeFragment extends HSFragmentParent {
          mAdapter = new LocalAdapter(getActivity());
          
          mExpandableListView.setAdapter(mAdapter);
+         
+         
+         View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
+         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
+         mExpandableListView.addFooterView(report_an_issue_view);
          
          emailGear = new HSEmailGear();
          
@@ -77,6 +84,14 @@ public class HomeFragment extends HSFragmentParent {
 		}
 		
 	}
+	
+	private OnClickListener reportIssueClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+		}
+	};
 
 	private class LocalAdapter extends HSBaseExpandableListAdapter
 	 {

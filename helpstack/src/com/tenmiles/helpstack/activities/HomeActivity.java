@@ -1,13 +1,19 @@
 package com.tenmiles.helpstack.activities;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.fragments.HSFragmentManager;
 import com.tenmiles.helpstack.fragments.HomeFragment;
+import com.tenmiles.helpstack.fragments.SearchFragment;
 
 /**
  * 
@@ -18,6 +24,8 @@ import com.tenmiles.helpstack.fragments.HomeFragment;
  */
 public class HomeActivity extends HSActivityParent {
 
+	private SearchFragment mSearchFragment;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +37,11 @@ public class HomeActivity extends HSActivityParent {
                     .add(R.id.container, homeFrag)
                     .commit();
         }
+        
+        mSearchFragment = new SearchFragment();
+        getSupportFragmentManager().beginTransaction()
+        .add(R.id.search_container, mSearchFragment)
+        .commit();
     }
     
     @Override
@@ -44,6 +57,54 @@ public class HomeActivity extends HSActivityParent {
         
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        
+        MenuItem searchItem = menu.findItem(R.id.search);
+		SearchView searchView = new SearchView(this);
+		MenuItemCompat.setActionView(searchItem, searchView);
+		searchView.setQueryHint("Search");
+		searchView.setSubmitButtonEnabled(true);
+
+		searchView.setOnSearchClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mSearchFragment.searchStarted();
+			}
+		});
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextSubmit(String q) {
+				
+				mSearchFragment.doSearchForQuery(q);
+				
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				mSearchFragment.doSearchForQuery(newText);
+				return true;
+			}
+		});
+
+
+		MenuItemCompat.setOnActionExpandListener(searchItem, new OnActionExpandListener() {
+
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item) {
+				mSearchFragment.setVisibility(true);
+				return true;
+			}
+
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item) {
+				mSearchFragment.setVisibility(false);
+				return true;
+			}
+		});
+		
         return true;
     }
 
@@ -53,7 +114,9 @@ public class HomeActivity extends HSActivityParent {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.search) {
+        	
+        	
             return true;
         }
         return super.onOptionsItemSelected(item);
