@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
+import com.tenmiles.helpstack.logic.HSEmailGear;
+import com.tenmiles.helpstack.model.HSKBItem;
 
 /**
  * Initial Fragment that contains FAQ and Tickets
@@ -21,6 +23,8 @@ public class HomeFragment extends HSFragmentParent {
 
 	private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
+	
+	private HSEmailGear emailGear;
 	
 	public HomeFragment() {
 		
@@ -37,6 +41,8 @@ public class HomeFragment extends HSFragmentParent {
          
          mExpandableListView.setAdapter(mAdapter);
          
+         emailGear = new HSEmailGear();
+         
          initializeView();
          
          return rootView;
@@ -47,6 +53,15 @@ public class HomeFragment extends HSFragmentParent {
 		mAdapter.clearAll();
 		
 		mAdapter.addParent(0, "FAQ");
+		
+		{
+			int count = emailGear.getKBArticleCount();
+			for (int i = 0; i < count; i++) {
+				HSKBItem item = emailGear.getKBItemAtPosition(i);
+				mAdapter.addChild(0, item);
+			}
+		}
+		
 		
 		mAdapter.addParent(1, "ISSUES");
 		
@@ -87,6 +102,11 @@ public class HomeFragment extends HSFragmentParent {
 			}
 			else {
 				holder = (ChildViewHolder) convertView.getTag();
+			}
+			
+			if (groupPosition == 0) {
+				HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
+				holder.textView1.setText(item.getSubject());
 			}
 			
 			return convertView;
