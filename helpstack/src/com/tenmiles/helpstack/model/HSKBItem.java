@@ -3,6 +3,9 @@ package com.tenmiles.helpstack.model;
 import com.google.gson.annotations.SerializedName;
 
 public class HSKBItem {
+	
+	public static final int TYPE_ARTICLE = 0;
+	public static final int TYPE_SECTION = 1;
 
 	@SerializedName("subject")
 	private String subject;
@@ -14,7 +17,7 @@ public class HSKBItem {
 	private String id;
 	
 	@SerializedName("article_type")
-	private int articleType;
+	private int articleType; // 0 - article, 1 - section
 	
 	public HSKBItem() {
 	}

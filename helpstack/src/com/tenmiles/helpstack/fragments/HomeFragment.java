@@ -53,8 +53,8 @@ public class HomeFragment extends HSFragmentParent {
          report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
          mExpandableListView.addFooterView(report_an_issue_view);
          
-         HSEmailGear emailGear = new HSEmailGear(getActivity(), "support@happyfox.com",R.xml.articles);
-         gearSource = new HSSource(emailGear);
+         HSEmailGear emailGear = new HSEmailGear( "support@happyfox.com",R.xml.articles);
+         gearSource = new HSSource(getActivity(), emailGear);
          
          if (savedInstanceState == null) {
         	 initializeView();
