@@ -33,15 +33,11 @@ public class HomeActivity extends HSActivityParent {
 
         if (savedInstanceState == null) { // Activity started first time
         	HomeFragment homeFrag = HSFragmentManager.getHomeFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, homeFrag)
-                    .commit();
+        	HSFragmentManager.putFragmentInActivity(this, R.id.container, homeFrag, "Home");
         }
         
         mSearchFragment = new SearchFragment();
-        getSupportFragmentManager().beginTransaction()
-        .add(R.id.search_container, mSearchFragment)
-        .commit();
+        HSFragmentManager.putFragmentInActivity(this, R.id.search_container, mSearchFragment, "Search");
     }
     
     @Override
