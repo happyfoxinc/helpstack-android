@@ -3,8 +3,6 @@
  */
 package com.tenmiles.helpstack.logic;
 
-import android.content.Context;
-
 import com.android.volley.Response.ErrorListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSUser;
@@ -16,9 +14,10 @@ import com.tenmiles.helpstack.model.HSUser;
  */
 public abstract class HSGear {
 	
-	public HSGear(Context context) {
-		this.mContext = context;
+	public HSGear() {
 	}
+	
+	// TODO: Move all this to abstract method later
 	
 	/**
 	 * 
@@ -26,7 +25,10 @@ public abstract class HSGear {
 	 * @param success, return HFKBItem object
 	 * @param error
 	 */
-	public abstract void fetchKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener error );
+	public void fetchKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener error ) 
+	{
+		success.onSuccess(null);
+	}
 	
 	/**
 	 * 
@@ -35,8 +37,10 @@ public abstract class HSGear {
 	 * @param success, return HFTicket object
 	 * @param error
 	 */
-	public abstract void fetchAllTicket(HSUser userDetails, OnFetchedArraySuccessListener success, ErrorListener error);
-	
+	public void fetchAllTicket(HSUser userDetails, OnFetchedArraySuccessListener success, ErrorListener error)
+	{
+		success.onSuccess(null);
+	}
 	
 	/**
 	 * 
@@ -48,8 +52,10 @@ public abstract class HSGear {
 	 * @param success, return HFUser object
 	 * @param error
 	 */
-	public abstract void registerNewUser(String firstName, String lastname, String emailAddress, OnFetchedSuccessListener success, ErrorListener error);
-	
+	public void registerNewUser(String firstName, String lastname, String emailAddress, OnFetchedSuccessListener success, ErrorListener error)
+	{
+		success.onSuccess(null);
+	}
 	
 	
 		
@@ -58,14 +64,35 @@ public abstract class HSGear {
 		this.companySupportEmailAddress = companySupportEmailAddress;
 	}
 	
+	public void setNotImplementingKBFetching(int articleResid) {
+		implementsKBFetching = false;
+		this.articleResid = articleResid;
+	}
+	
+	public boolean haveImplementedTicketFetching() {
+		return implementsTicketFetching;
+	}
+	
+	public boolean haveImplementedKBFetching() {
+		return implementsKBFetching;
+	}
+	
+	public int getLocalArticleResourceId() {
+		return articleResid;
+	}
+	
+	public String getCompanySupportEmailAddress() {
+		return companySupportEmailAddress;
+	}
 	
 	// If this is true, we don't call kb article functions, will open email app is required.
 	private boolean implementsTicketFetching = true;
 	
+	private boolean implementsKBFetching = true;
+	
+	private int articleResid;
 	
 	private String companySupportEmailAddress;
-	
-	protected Context mContext;
 
 }
 
