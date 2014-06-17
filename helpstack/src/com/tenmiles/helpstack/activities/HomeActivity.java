@@ -44,7 +44,7 @@ public class HomeActivity extends HSActivityParent {
     public void configureActionBar(ActionBar actionBar) {
     	super.configureActionBar(actionBar);
     	
-    	actionBar.setTitle("Help and support");
+    	actionBar.setTitle("Help");
     }
 
 

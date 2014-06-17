@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.tenmiles.helpstack.NewIssueActivity" >
+
+    <item 
+        android:id="@+id/nextbutton"
+        android:title="@string/next"
+        android:visible="true"
+        />
+
+</menu>

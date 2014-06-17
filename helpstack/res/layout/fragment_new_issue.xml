@@ -6,21 +6,22 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tenmiles.helpstack.HomeActivity$PlaceholderFragment" >
+    tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment" >
 
-    <com.tenmiles.helpstack.theme.widget.HSExpandableListView
-        android:id="@+id/expandableList"
+    <EditText 
+        android:id="@+id/subjectField"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:lines="1"
+        android:layout_height="wrap_content"
+        android:hint="@string/subjecthint"/>
+    
+    <EditText
+        android:id="@+id/messageField"
+        android:layout_below="@id/subjectField"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:groupIndicator="@null"
-        android:cacheColorHint="#0000" />
-    
-    <Button 
-        android:id="@+id/reportIssueButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/expandableList"
-        android:layout_marginTop="10dp"
-        android:text="@string/report_issue" />
-    
+        android:hint="@string/messagehint"/>
+
 </RelativeLayout>

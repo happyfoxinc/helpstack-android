@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.logic.HSEmailGear;
 import com.tenmiles.helpstack.model.HSKBItem;
@@ -26,7 +28,7 @@ public class HomeFragment extends HSFragmentParent {
 	private LocalAdapter mAdapter;
 	
 	private HSEmailGear emailGear;
-	
+	boolean isNewUser = true;
 	
 	public HomeFragment() {
 		
@@ -49,6 +51,19 @@ public class HomeFragment extends HSFragmentParent {
          mExpandableListView.addFooterView(report_an_issue_view);
          
          emailGear = new HSEmailGear();
+         
+         Button reportIssueButton = (Button)rootView.findViewById(R.id.reportIssueButton);
+         reportIssueButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(isNewUser) {
+					HSActivityManager.startNewUserActivity(getActivity());
+				}else {
+					HSActivityManager.startNewIssueActivity(getActivity());
+				}
+			}
+		});
          
          initializeView();
          

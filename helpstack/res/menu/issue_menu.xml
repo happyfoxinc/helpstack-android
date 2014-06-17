@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.tenmiles.helpstack.NewIssueActivity" >
+
+    <item 
+        android:id="@+id/doneItem"
+        android:title="@string/done"
+        android:visible="true"
+        />
+
+</menu>
