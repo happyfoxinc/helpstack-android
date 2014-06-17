@@ -1,0 +1,10 @@
+<articles>
+
+    <article subject="lorem" text=
+        "This is new line \n See if you can see it." />
+    
+    <article subject="Test" text=
+        "This is new line 
+         See if you can see it." />
+
+</articles>

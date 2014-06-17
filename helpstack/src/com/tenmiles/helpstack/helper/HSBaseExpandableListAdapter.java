@@ -20,6 +20,7 @@ import android.widget.BaseExpandableListAdapter;
  *
  */
 public abstract class HSBaseExpandableListAdapter extends BaseExpandableListAdapter {
+	
 	ArrayList<Object> childrens = new ArrayList<Object>();
 	SparseArray<Parent> groups = new SparseArray<Parent>();
 	

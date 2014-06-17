@@ -10,10 +10,14 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.logic.HSEmailGear;
+import com.tenmiles.helpstack.logic.HSSource;
+import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 
 /**
@@ -26,9 +30,14 @@ public class HomeFragment extends HSFragmentParent {
 
 	private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
-	
+
 	private HSEmailGear emailGear;
 	boolean isNewUser = true;
+
+	private HSSource gearSource;
+	
+	private HSKBItem[] fetchedKbArticles;
+
 	
 	public HomeFragment() {
 		
@@ -50,8 +59,17 @@ public class HomeFragment extends HSFragmentParent {
          report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
          mExpandableListView.addFooterView(report_an_issue_view);
          
-         emailGear = new HSEmailGear();
+         HSEmailGear emailGear = new HSEmailGear(getActivity(), "support@happyfox.com",R.xml.articles);
+         gearSource = new HSSource(emailGear);
          
+         if (savedInstanceState == null) {
+        	 initializeView();
+         }
+         else {
+        	 fetchedKbArticles = (HSKBItem[]) savedInstanceState.getSerializable("kbArticles");
+        	 refreshList();
+         }
+
          Button reportIssueButton = (Button)rootView.findViewById(R.id.reportIssueButton);
          reportIssueButton.setOnClickListener(new OnClickListener() {
 			
@@ -66,20 +84,55 @@ public class HomeFragment extends HSFragmentParent {
 		});
          
          initializeView();
+
          
          return rootView;
     }
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("kbArticles", fetchedKbArticles);
+	}
 	 
 	private void initializeView() {
+		
+		// Show Loading
+		gearSource.requestKBArticle(null, new OnFetchedArraySuccessListener() {
+			
+			
+
+			@Override
+			public void onSuccess(Object[] kbArticles) {
+				
+				fetchedKbArticles = (HSKBItem[]) kbArticles;
+				refreshList();
+				
+				// Stop Loading
+			}
+			
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				// Stop Loading
+			}
+			
+		});
+		
+		
+	}
+	
+	private void refreshList() {
 		
 		mAdapter.clearAll();
 		
 		mAdapter.addParent(0, "FAQ");
 		
 		{
-			int count = emailGear.getKBArticleCount();
-			for (int i = 0; i < count; i++) {
-				HSKBItem item = emailGear.getKBItemAtPosition(i);
+			for (int i = 0; i < fetchedKbArticles.length ; i++) {
+				
+				HSKBItem item = (HSKBItem) fetchedKbArticles[i];
 				mAdapter.addChild(0, item);
 			}
 		}

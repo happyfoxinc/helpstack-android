@@ -1,6 +1,9 @@
 package com.tenmiles.helpstack.fragments;
 
+import com.tenmiles.helpstack.activities.HSActivityParent;
+
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 
 /**
  * 
@@ -11,4 +14,9 @@ import android.support.v4.app.Fragment;
  */
 public class HSFragmentParent extends Fragment {
 
+	ActionBar getActionBar() {
+		HSActivityParent act = (HSActivityParent) getActivity();
+		return act.getSupportActionBar();
+	}
+	
 }
