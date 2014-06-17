@@ -59,6 +59,7 @@ public class HomeActivity extends HSActivityParent {
         getMenuInflater().inflate(R.menu.home, menu);
         
         MenuItem searchItem = menu.findItem(R.id.search);
+        MenuItemCompat.setShowAsAction(searchItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS|MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 		SearchView searchView = new SearchView(this);
 		MenuItemCompat.setActionView(searchItem, searchView);
 		searchView.setQueryHint("Search");
