@@ -28,7 +28,7 @@ public class HSSource {
 		
 		if (gear.haveImplementedKBFetching()) {
 			
-			gear.fetchKBArticle(section, new SuccessWrapper(success) {
+			gear.fetchKBArticle(section,mRequestQueue,  new SuccessWrapper(success) {
 				@Override
 				public void onSuccess(Object[] successObject) {
 					

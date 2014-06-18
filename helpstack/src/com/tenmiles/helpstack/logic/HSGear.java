@@ -3,6 +3,7 @@
  */
 package com.tenmiles.helpstack.logic;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSUser;
@@ -21,11 +22,13 @@ public abstract class HSGear {
 	
 	/**
 	 * 
+	 * If u create a request add to queue and start it
+	 * 
 	 * @param section, it can be null for initial load of articles.
 	 * @param success, return HFKBItem object
 	 * @param error
 	 */
-	public void fetchKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener error ) 
+	public void fetchKBArticle(HSKBItem section, RequestQueue queue,  OnFetchedArraySuccessListener success, ErrorListener error ) 
 	{
 		success.onSuccess(null);
 	}
