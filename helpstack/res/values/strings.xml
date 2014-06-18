@@ -13,5 +13,7 @@
     <string name="messagehint">Message</string>
     <string name="title_activity_new_user">NewUserActivity</string>
     <string name="done">Done</string>
+    <string name="title_activity_article">ArticleActivity</string>
+    <string name="title_activity_section">SectionActivity</string>
 
 </resources>

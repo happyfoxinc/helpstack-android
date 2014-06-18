@@ -15,12 +15,12 @@
         android:groupIndicator="@null"
         android:cacheColorHint="#0000" />
     
-    <Button 
+   <!--  <Button 
         android:id="@+id/reportIssueButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/expandableList"
         android:layout_marginTop="10dp"
-        android:text="@string/report_issue" />
+        android:text="@string/report_issue" /> -->
     
 </RelativeLayout>

@@ -1,8 +1,10 @@
 package com.tenmiles.helpstack.model;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class HSKBItem {
+public class HSKBItem implements Serializable{
 	
 	public static final int TYPE_ARTICLE = 0;
 	public static final int TYPE_SECTION = 1;
@@ -26,6 +28,7 @@ public class HSKBItem {
 		this.id = id;
 		this.subject = subject;
 		this.body = body;
+		this.articleType = TYPE_ARTICLE;
 	}
 
 	public String getSubject() {
@@ -34,5 +37,21 @@ public class HSKBItem {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+	
+	public void setBody(String body) {
+		this.body = body;
+	}
+	
+	public String getBody() {
+		return this.body;
+	}
+	
+	public int getArticleType() {
+		return articleType;
+	}
+	
+	public void setArticleType(int type) {
+		articleType = type;
 	}
 }

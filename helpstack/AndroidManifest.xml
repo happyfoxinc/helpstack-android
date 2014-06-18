@@ -33,6 +33,14 @@
             android:name="com.tenmiles.helpstack.activities.NewUserActivity"
             android:label="@string/title_activity_new_user" >
         </activity>
+        <activity
+            android:name="com.tenmiles.helpstack.activities.ArticleActivity"
+            android:label="@string/title_activity_article" >
+        </activity>
+        <activity
+            android:name="com.tenmiles.helpstack.activities.SectionActivity"
+            android:label="@string/title_activity_section" >
+        </activity>
     </application>
 
 </manifest>

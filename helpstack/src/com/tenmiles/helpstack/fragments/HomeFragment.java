@@ -1,19 +1,21 @@
 package com.tenmiles.helpstack.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
-import com.tenmiles.helpstack.activities.HSActivityManager;
+import com.tenmiles.helpstack.activities.ArticleActivity;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
 import com.tenmiles.helpstack.logic.HSEmailGear;
@@ -58,7 +60,7 @@ public class HomeFragment extends HSFragmentParent {
          
          View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
          report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
-     //    mExpandableListView.addFooterView(report_an_issue_view);
+         mExpandableListView.addFooterView(report_an_issue_view);
          
          HSEmailGear emailGear = new HSEmailGear( "support@happyfox.com",R.xml.articles);
          gearSource = new HSSource(getActivity(), emailGear);
@@ -71,18 +73,18 @@ public class HomeFragment extends HSFragmentParent {
         	 refreshList();
          }
 
-         Button reportIssueButton = (Button)rootView.findViewById(R.id.reportIssueButton);
-         reportIssueButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if(isNewUser) {
-					HSActivityManager.startNewUserActivity(getActivity());
-				}else {
-					HSActivityManager.startNewIssueActivity(getActivity());
-				}
-			}
-		});
+//         Button reportIssueButton = (Button)rootView.findViewById(R.id.reportIssueButton);
+//         reportIssueButton.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				if(isNewUser) {
+//					HSActivityManager.startNewUserActivity(getActivity());
+//				}else {
+//					HSActivityManager.startNewIssueActivity(getActivity());
+//				}
+//			}
+//		});
          
          initializeView();
 
@@ -93,6 +95,7 @@ public class HomeFragment extends HSFragmentParent {
 			public boolean onChildListItemLongClick(int groupPosition,
 					int childPosition, String type, Object map) {
 				// TODO Auto-generated method stub
+				
 				return false;
 			}
 			
@@ -100,7 +103,18 @@ public class HomeFragment extends HSFragmentParent {
 			public void onChildListItemClick(int groupPosition, int childPosition,
 					String type, Object map) {
 				// TODO Auto-generated method stub
-				
+				Log.v("HelpStack", "Item clicked");
+				HSKBItem kbItemClicked = (HSKBItem) mAdapter.getChild(groupPosition, childPosition);
+				if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
+					//Type article
+					Intent intent = new Intent(getActivity(), ArticleActivity.class);
+					intent.putExtra("item", kbItemClicked);
+					startActivity(intent);
+					
+				} else {
+					//Type section
+					
+				}
 			}
 			
 			@Override
@@ -182,7 +196,7 @@ public class HomeFragment extends HSFragmentParent {
 		
 		@Override
 		public void onClick(View v) {
-			
+			Log.v("Helpstack","Report an issue");
 		}
 	};
 
@@ -205,7 +219,6 @@ public class HomeFragment extends HSFragmentParent {
 				
 				holder.parent = convertView;
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
-				
 				
 				convertView.setTag(holder);
 			}
