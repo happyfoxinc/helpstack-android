@@ -1,6 +1,7 @@
 package com.tenmiles.helpstack.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,12 @@ public class SearchFragment extends HSFragmentParent {
 
 	public void searchStarted() {
 		// TODO Auto-generated method stub
-		
+		Log.v("search","started");
 	}
 
 	public void doSearchForQuery(String q) {
 		// TODO Auto-generated method stub
-		
+		Log.v("search","do querry");
 	}
 
 	public void setVisibility(boolean visible) {

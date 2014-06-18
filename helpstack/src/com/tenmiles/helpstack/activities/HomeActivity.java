@@ -112,8 +112,6 @@ public class HomeActivity extends HSActivityParent {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.search) {
-        	
-        	
             return true;
         }
         return super.onOptionsItemSelected(item);
