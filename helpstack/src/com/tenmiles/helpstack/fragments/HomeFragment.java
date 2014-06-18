@@ -1,6 +1,10 @@
 package com.tenmiles.helpstack.fragments;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +17,9 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
+import com.tenmiles.helpstack.activities.NewIssueActivity;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
-import com.tenmiles.helpstack.logic.HSHelpStack;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
@@ -60,7 +64,7 @@ public class HomeFragment extends HSFragmentParent {
          mExpandableListView.addFooterView(report_an_issue_view);
          
          
-         gearSource = new HSSource (getActivity(), HSHelpStack.getInstance(getActivity()).getGear());
+         gearSource = new HSSource (getActivity());
          
          if (savedInstanceState == null) {
         	 initializeView();
@@ -106,6 +110,22 @@ public class HomeFragment extends HSFragmentParent {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("kbArticles", fetchedKbArticles);
 		outState.putSerializable("tickets", fetchedTickets);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (requestCode == 1003) {
+			if (resultCode == HSActivityManager.resultCode_sucess) {
+				ArrayList<HSTicket> temp = new ArrayList<HSTicket>(Arrays.asList(fetchedTickets));
+				temp.add((HSTicket)data.getSerializableExtra(NewIssueActivity.RESULT_TICKET));
+				HSTicket[] array = new HSTicket[0];
+				array = temp.toArray(array);
+				fetchedTickets = array;
+				refreshList();
+			}
+		}
 	}
 	 
 	private void initializeView() {
@@ -181,11 +201,19 @@ public class HomeFragment extends HSFragmentParent {
 		
 		@Override
 		public void onClick(View v) {
-			if(gearSource.isNewUser()) {
-				HSActivityManager.startNewUserActivity(getActivity());
-			}else {
-				HSActivityManager.startNewIssueActivity(getActivity());
+			
+			if (gearSource.haveImplementedTicketFetching()) {
+				if(gearSource.isNewUser()) {
+					HSActivityManager.startNewUserActivity(getActivity(), 1003);
+				}else {
+					HSActivityManager.startNewIssueActivity(getActivity(), gearSource.getUser(), 1003);
+				}
 			}
+			else {
+				gearSource.launchEmailAppWithEmailAddress(getActivity());
+			}
+			
+			
 		}
 	};
 
@@ -227,6 +255,10 @@ public class HomeFragment extends HSFragmentParent {
 					}
 				});
 				
+			}
+			else {
+				HSTicket item = (HSTicket) getChild(groupPosition, childPosition);
+				holder.textView1.setText(item.getSubject());
 			}
 			
 			return convertView;

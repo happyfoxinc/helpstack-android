@@ -36,4 +36,25 @@ public class HSUser implements Serializable {
 		user.emailAddress = email;
 		return user;
 	}
+	
+	public String getFirstName() {
+		return first_Name;
+	}
+	
+	public String getLastName() {
+		return last_Name;
+	}
+	
+	public String getFullName() {
+		return ""+first_Name+" "+last_Name;
+	}
+	
+	public String getEmail() {
+		return emailAddress;
+	}
+
+	public static HSUser appendCredentialOnUserDetail(HSUser user, String userId, String access_token) {
+		user.userId = userId;
+		return user;
+	}
 }

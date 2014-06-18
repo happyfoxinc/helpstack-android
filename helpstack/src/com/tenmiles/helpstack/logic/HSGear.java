@@ -5,6 +5,7 @@ package com.tenmiles.helpstack.logic;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSUser;
 
@@ -28,9 +29,9 @@ public abstract class HSGear {
 	 * @param success, return HFKBItem object
 	 * @param error
 	 */
-	public void fetchKBArticle(HSKBItem section, RequestQueue queue,  OnFetchedArraySuccessListener success, ErrorListener error ) 
+	public void fetchKBArticle(HSKBItem section, RequestQueue queue,  OnFetchedArraySuccessListener success, ErrorListener errorListener ) 
 	{
-		success.onSuccess(null);
+		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	
 	/**
@@ -40,9 +41,9 @@ public abstract class HSGear {
 	 * @param success, return HFTicket object
 	 * @param error
 	 */
-	public void fetchAllTicket(HSUser userDetails, OnFetchedArraySuccessListener success, ErrorListener error)
+	public void fetchAllTicket(HSUser userDetails,RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
 	{
-		success.onSuccess(null);
+		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	
 	/**
@@ -55,9 +56,22 @@ public abstract class HSGear {
 	 * @param success, return HFUser object
 	 * @param error
 	 */
-	public void registerNewUser(String firstName, String lastname, String emailAddress, OnFetchedSuccessListener success, ErrorListener error)
+	public void registerNewUser(String firstName, String lastname, String emailAddress, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener)
 	{
-		success.onSuccess(null);
+		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param user
+	 * @param message
+	 * @param body
+	 * @param successListener
+	 * @param errorListener
+	 */
+	public void createNewTicket(HSUser user, String message, String body, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
+		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	
 	

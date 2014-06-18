@@ -17,4 +17,15 @@ public class HSTicket implements Serializable {
 	@SerializedName("ticket_id")
 	private String ticketId;
 
+	public static HSTicket createATicket(String id, String subject) {
+		HSTicket ticket = new HSTicket();
+		ticket.ticketId = id;
+		ticket.subject = subject;
+		return ticket;
+	}
+	
+	public String getSubject() {
+		return subject;
+	}
+	
 }

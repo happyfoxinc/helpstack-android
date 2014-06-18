@@ -11,9 +11,11 @@
     <EditText 
         android:id="@+id/subjectField"
         android:layout_alignParentTop="true"
+        android:inputType="textEmailSubject"
         android:layout_width="match_parent"
         android:lines="1"
         android:layout_height="wrap_content"
+        android:text="Test ticket"
         android:hint="@string/subjecthint"/>
     
     <EditText
@@ -23,6 +25,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:text="This is a test ticket"
         android:hint="@string/messagehint"/>
 
 </RelativeLayout>

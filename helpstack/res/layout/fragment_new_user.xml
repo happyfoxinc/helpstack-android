@@ -15,30 +15,33 @@
     
     <EditText
         android:id="@+id/firstname"
-        android:inputType="text"
+        android:inputType="textPersonName"
         android:hint="First Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Nalin"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
     
     <EditText
         android:id="@+id/lastname"
-        android:inputType="text"
+        android:inputType="textPersonName"
         android:hint="Last Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Chhajer"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
     
     <EditText
         android:id="@+id/email"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:hint="Email address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="nalin@tenmiles.com"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>

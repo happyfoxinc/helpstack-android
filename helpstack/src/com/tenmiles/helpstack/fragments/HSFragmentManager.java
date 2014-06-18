@@ -19,6 +19,12 @@ public class HSFragmentManager {
 		return fragment;
 	}
 	
+
+
+	public static IssueDetailFragment getIssueDetailFragment() {
+		return new IssueDetailFragment();
+	}
+	
 	public static SearchFragment getSearchFragment() {
 		SearchFragment fragment = new SearchFragment();
 		return fragment;
@@ -28,6 +34,8 @@ public class HSFragmentManager {
 		FragmentManager fragMgr = activity.getSupportFragmentManager();
 		return (HSFragmentParent) fragMgr.findFragmentByTag(tag);
 	}
+	
+	
 	
 	public static void putFragmentInActivity(HSActivityParent activity, int resid, HSFragmentParent frag, String tag) {
 		// above is proper.

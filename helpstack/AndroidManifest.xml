@@ -12,10 +12,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="com.tenmiles.helpstack.application.HSApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" android:name=".application.HSApplication">
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.tenmiles.helpstack.activities.HomeActivity"
             android:label="@string/app_name" >
@@ -27,11 +28,16 @@
         </activity>
         <activity
             android:name="com.tenmiles.helpstack.activities.NewIssueActivity"
-            android:label="@string/title_activity_new_issue" android:windowSoftInputMode="adjustResize">
+            android:label="@string/title_activity_new_issue"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name="com.tenmiles.helpstack.activities.NewUserActivity"
             android:label="@string/title_activity_new_user" >
+        </activity>
+        <activity
+            android:name="com.tenmiles.helpstack.activities.IssueDetailActivity"
+            android:label="@string/title_activity_issue_detail" >
         </activity>
     </application>
 
