@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
+import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
 import com.tenmiles.helpstack.logic.HSEmailGear;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
@@ -28,10 +31,14 @@ public class HomeFragment extends HSFragmentParent {
 
 	private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
-	
+
+	private HSEmailGear emailGear;
+	boolean isNewUser = true;
+
 	private HSSource gearSource;
 	
 	private HSKBItem[] fetchedKbArticles;
+
 	
 	public HomeFragment() {
 		
@@ -51,7 +58,7 @@ public class HomeFragment extends HSFragmentParent {
          
          View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
          report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
-         mExpandableListView.addFooterView(report_an_issue_view);
+     //    mExpandableListView.addFooterView(report_an_issue_view);
          
          HSEmailGear emailGear = new HSEmailGear( "support@happyfox.com",R.xml.articles);
          gearSource = new HSSource(getActivity(), emailGear);
@@ -63,7 +70,46 @@ public class HomeFragment extends HSFragmentParent {
         	 fetchedKbArticles = (HSKBItem[]) savedInstanceState.getSerializable("kbArticles");
         	 refreshList();
          }
+
+         Button reportIssueButton = (Button)rootView.findViewById(R.id.reportIssueButton);
+         reportIssueButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(isNewUser) {
+					HSActivityManager.startNewUserActivity(getActivity());
+				}else {
+					HSActivityManager.startNewIssueActivity(getActivity());
+				}
+			}
+		});
          
+         initializeView();
+
+         
+         mAdapter.setOnChildItemClickListener(new OnChildItemClickListener() {
+			
+			@Override
+			public boolean onChildListItemLongClick(int groupPosition,
+					int childPosition, String type, Object map) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			@Override
+			public void onChildListItemClick(int groupPosition, int childPosition,
+					String type, Object map) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onChildCheckedListner(int groupPosition, int childPosition,
+					String type, Object map, boolean checked) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
          
          return rootView;
     }
@@ -148,7 +194,7 @@ public class HomeFragment extends HSFragmentParent {
 		}
 
 		@Override
-		public View getChildView(int groupPosition, int childPosition,
+		public View getChildView(final int groupPosition,final int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			
 			ChildViewHolder holder;
@@ -157,6 +203,7 @@ public class HomeFragment extends HSFragmentParent {
 				convertView = mLayoutInflater.inflate(R.layout.expandable_child_home_default, null);
 				holder = new ChildViewHolder();
 				
+				holder.parent = convertView;
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
 				
 				
@@ -167,8 +214,16 @@ public class HomeFragment extends HSFragmentParent {
 			}
 			
 			if (groupPosition == 0) {
-				HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
+				final HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
 				holder.textView1.setText(item.getSubject());
+				holder.parent.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						sendChildClickEvent(groupPosition, childPosition, null, item);
+					}
+				});
+				
 			}
 			
 			return convertView;
@@ -204,6 +259,7 @@ public class HomeFragment extends HSFragmentParent {
 		
 		private class ChildViewHolder {
 			TextView textView1;
+			View parent;
 		}
 	 }
 }
