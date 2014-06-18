@@ -15,6 +15,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.ArticleActivity;
+import com.tenmiles.helpstack.activities.SectionActivity;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
 import com.tenmiles.helpstack.logic.HSHelpStack;
@@ -104,6 +105,9 @@ public class HomeFragment extends HSFragmentParent {
 					
 				} else {
 					//Type section
+					Intent intent = new Intent(getActivity(), SectionActivity.class);
+					intent.putExtra("section_item", kbItemClicked);
+					startActivity(intent);
 					
 				}
 			}

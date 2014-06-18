@@ -28,7 +28,6 @@ public class HSKBItem implements Serializable{
 		this.id = id;
 		this.subject = subject;
 		this.body = body;
-		this.articleType = TYPE_ARTICLE;
 	}
 	
 	public static HSKBItem createForSection(String id, String subject) {
