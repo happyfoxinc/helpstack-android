@@ -2,7 +2,6 @@ package com.tenmiles.helpstack.logic;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +37,7 @@ public class HSHappyfoxGear extends HSGear {
 	}
 	
 	
-	
+	// This are cached here so server call can be minimized and improve the speed of UI
 	JSONArray allSectionsArray;
 	
 	@Override
@@ -53,7 +52,7 @@ public class HSHappyfoxGear extends HSGear {
 				public void onResponse(JSONArray sectionsArray) {
 					
 					allSectionsArray = sectionsArray;
-					ArrayList<HSKBItem> kbItemArray = new ArrayList<HSKBItem>();
+					ArrayList<HSKBItem> kbSectionArray = new ArrayList<HSKBItem>();
 					
 					int count  = sectionsArray.length();
 					for (int i = 0; i < count; i++) {
@@ -61,7 +60,7 @@ public class HSHappyfoxGear extends HSGear {
 							JSONObject sectionObject = sectionsArray.getJSONObject(i);
 							if (sectionObject.getJSONArray("articles").length() > 0) {
 								HSKBItem item = HSKBItem.createForSection(sectionObject.getString("id"), sectionObject.getString("name"));
-								kbItemArray.add(item);
+								kbSectionArray.add(item);
 							}
 							
 						} catch (JSONException e) {
@@ -71,7 +70,7 @@ public class HSHappyfoxGear extends HSGear {
 					}
 					
 					HSKBItem[] array = new HSKBItem[0];
-					array = kbItemArray.toArray(array);
+					array = kbSectionArray.toArray(array);
 					successCallback.onSuccess(array);
 					
 				}
@@ -81,11 +80,41 @@ public class HSHappyfoxGear extends HSGear {
 			queue.start();
 		}
 		else {
+			// Actually it should go to server to get list of all sections, but we are saving it here to avoid server call.
+			assert allSectionsArray!=null: "This gear was re-created and articles for section is lost.";
 			
+			int count  = allSectionsArray.length();
+			for (int i = 0; i < count; i++) {
+				try {
+					JSONObject sectionObject = allSectionsArray.getJSONObject(i);
+					String section_id = sectionObject.getString("id");
+					
+					if (section.getId().equals(section_id)) {
+						JSONArray articleArray = sectionObject.getJSONArray("articles");
+						ArrayList<HSKBItem> kbArticleArray = new ArrayList<HSKBItem>();
+						
+						for (int j = 0; j < articleArray.length(); j++) {
+							JSONObject arrayObject = articleArray.getJSONObject(j);
+							HSKBItem item = HSKBItem.createForArticle(arrayObject.getString("id"), arrayObject.getString("title"), arrayObject.getString("contents"));
+							kbArticleArray.add(item);
+						}
+						
+						HSKBItem[] array = new HSKBItem[0];
+						array = kbArticleArray.toArray(array);
+						success.onSuccess(array); // Work accomplished
+						
+						break;
+					}
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					errorListener.onErrorResponse(new VolleyError("parsing failed"));
+				}
+			}
 		}
-		
-		
 	}
+		
 	
 	
 	private abstract class HappyfoxBaseListner<T> implements Listener<T> {

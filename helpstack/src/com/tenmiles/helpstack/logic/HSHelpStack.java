@@ -31,6 +31,8 @@ public class HSHelpStack {
 	private static HSHelpStack singletonInstance = null;
 	private Context mContext;
 	
+	private HSGear gear;
+	
 	private HSHelpStack(Context context) {
 		this.mContext = context;
 		init(context);
@@ -40,4 +42,11 @@ public class HSHelpStack {
 		
 	}
 	
+	public void setGear(HSGear gear) {
+		this.gear = gear;
+	}
+	
+	public HSGear getGear() {
+		return this.gear;
+	}
 }

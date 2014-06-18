@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -16,7 +15,7 @@ import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
-import com.tenmiles.helpstack.logic.HSEmailGear;
+import com.tenmiles.helpstack.logic.HSHelpStack;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
@@ -31,10 +30,7 @@ public class HomeFragment extends HSFragmentParent {
 
 	private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
-
-	private HSEmailGear emailGear;
-	boolean isNewUser = true;
-
+	
 	private HSSource gearSource;
 	
 	private HSKBItem[] fetchedKbArticles;
@@ -57,11 +53,12 @@ public class HomeFragment extends HSFragmentParent {
          
          
          View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
-         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
-     //    mExpandableListView.addFooterView(report_an_issue_view);
+         report_an_issue_view.findViewById(R.id.button1)
+         	.setOnClickListener(reportIssueClickListener);
+         mExpandableListView.addFooterView(report_an_issue_view);
          
-         HSEmailGear emailGear = new HSEmailGear( "support@happyfox.com",R.xml.articles);
-         gearSource = new HSSource(getActivity(), emailGear);
+         
+         gearSource = new HSSource (getActivity(), HSHelpStack.getInstance(getActivity()).getGear());
          
          if (savedInstanceState == null) {
         	 initializeView();
@@ -70,19 +67,6 @@ public class HomeFragment extends HSFragmentParent {
         	 fetchedKbArticles = (HSKBItem[]) savedInstanceState.getSerializable("kbArticles");
         	 refreshList();
          }
-
-         Button reportIssueButton = (Button)rootView.findViewById(R.id.reportIssueButton);
-         reportIssueButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if(isNewUser) {
-					HSActivityManager.startNewUserActivity(getActivity());
-				}else {
-					HSActivityManager.startNewIssueActivity(getActivity());
-				}
-			}
-		});
          
          initializeView();
 
@@ -122,6 +106,7 @@ public class HomeFragment extends HSFragmentParent {
 	 
 	private void initializeView() {
 		
+		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 		// Show Loading
 		gearSource.requestKBArticle(null, new OnFetchedArraySuccessListener() {
 			
@@ -132,7 +117,7 @@ public class HomeFragment extends HSFragmentParent {
 				
 				fetchedKbArticles = (HSKBItem[]) kbArticles;
 				refreshList();
-				
+				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				// Stop Loading
 			}
 			
@@ -141,6 +126,7 @@ public class HomeFragment extends HSFragmentParent {
 			@Override
 			public void onErrorResponse(VolleyError arg0) {
 				// Stop Loading
+				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 			}
 			
 		});
@@ -175,14 +161,17 @@ public class HomeFragment extends HSFragmentParent {
 		for (int i = 0; i < count; i++) {
 			mExpandableListView.expandGroup(i);
 		}
-		
 	}
 	
 	private OnClickListener reportIssueClickListener = new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
-			
+			if(gearSource.isNewUser()) {
+				HSActivityManager.startNewUserActivity(getActivity());
+			}else {
+				HSActivityManager.startNewIssueActivity(getActivity());
+			}
 		}
 	};
 

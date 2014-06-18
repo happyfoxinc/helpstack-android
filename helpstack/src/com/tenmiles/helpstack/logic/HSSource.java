@@ -94,5 +94,9 @@ public class HSSource {
 		}
 		
 	}
+
+	public boolean isNewUser() {
+		return true;
+	}
 	
 }

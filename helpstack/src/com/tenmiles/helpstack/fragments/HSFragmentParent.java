@@ -19,4 +19,8 @@ public class HSFragmentParent extends Fragment {
 		return act.getSupportActionBar();
 	}
 	
+	public HSActivityParent getHelpStackActivity() {
+		HSActivityParent act = (HSActivityParent) getActivity();
+		return act;
+	}
 }
