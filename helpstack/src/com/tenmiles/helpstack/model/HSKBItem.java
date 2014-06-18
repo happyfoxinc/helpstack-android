@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class HSKBItem implements Serializable{
 	
-	public static final int TYPE_ARTICLE = 0;
-	public static final int TYPE_SECTION = 1;
+	transient public static final int TYPE_ARTICLE = 0;
+	transient public static final int TYPE_SECTION = 1;
 
 	@SerializedName("subject")
 	private String subject;
@@ -30,13 +30,31 @@ public class HSKBItem implements Serializable{
 		this.body = body;
 		this.articleType = TYPE_ARTICLE;
 	}
+	
+	public static HSKBItem createForSection(String id, String subject) {
+		HSKBItem item = new HSKBItem();
+		item.id = id;
+		item.subject = subject;
+		item.articleType = TYPE_SECTION;
+		
+		return item;
+	}
+	
+	public static HSKBItem createForArticle(String id, String subject, String text) {
+		HSKBItem item = new HSKBItem();
+		item.id = id;
+		item.subject = subject;
+		item.body = text;
+		item.articleType = TYPE_ARTICLE;
+		return item;
+	}
 
 	public String getSubject() {
 		return subject;
 	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
+	
+	public String getId() {
+		return id;
 	}
 	
 	public void setBody(String body) {

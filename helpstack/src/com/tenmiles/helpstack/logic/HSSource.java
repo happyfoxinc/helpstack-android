@@ -28,7 +28,7 @@ public class HSSource {
 		
 		if (gear.haveImplementedKBFetching()) {
 			
-			gear.fetchKBArticle(section, new SuccessWrapper(success) {
+			gear.fetchKBArticle(section,mRequestQueue,  new SuccessWrapper(success) {
 				@Override
 				public void onSuccess(Object[] successObject) {
 					
@@ -41,6 +41,7 @@ public class HSSource {
 			}, error);
 		}
 		else {
+			
 			try {
 				HSArticleReader reader = new HSArticleReader(gear.getLocalArticleResourceId());
 				success.onSuccess(reader.readArticlesFromResource(mContext));
@@ -90,9 +91,14 @@ public class HSSource {
 		
 		@Override
 		public void onSuccess(Object[] successObject) {
-			lastListner.onSuccess(successObject);
+			if (lastListner != null)
+				lastListner.onSuccess(successObject);
 		}
 		
+	}
+
+	public boolean isNewUser() {
+		return true;
 	}
 	
 }

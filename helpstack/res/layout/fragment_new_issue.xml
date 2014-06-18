@@ -19,9 +19,10 @@
     <EditText
         android:id="@+id/messageField"
         android:layout_below="@id/subjectField"
+        android:gravity="left|top"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:hint="@string/messagehint"/>
 
 </RelativeLayout>

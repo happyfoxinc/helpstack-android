@@ -1,8 +1,10 @@
 package com.tenmiles.helpstack.model;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class HSTicketUpdate {
+public class HSTicketUpdate implements Serializable {
 	
 	public static final int TYPE_STAFF = 0;
 	public static final int TYPE_USER = 1;

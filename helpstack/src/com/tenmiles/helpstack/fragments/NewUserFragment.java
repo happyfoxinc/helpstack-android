@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 public class NewUserFragment extends HSFragmentParent {
 
+	
 	public NewUserFragment() {
 		
 	}
