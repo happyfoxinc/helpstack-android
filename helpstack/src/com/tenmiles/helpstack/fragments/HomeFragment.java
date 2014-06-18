@@ -19,6 +19,7 @@ import com.tenmiles.helpstack.logic.HSHelpStack;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
+import com.tenmiles.helpstack.model.HSTicket;
 
 /**
  * Initial Fragment that contains FAQ and Tickets
@@ -34,6 +35,7 @@ public class HomeFragment extends HSFragmentParent {
 	private HSSource gearSource;
 	
 	private HSKBItem[] fetchedKbArticles;
+	private HSTicket[] fetchedTickets;
 
 	
 	public HomeFragment() {
@@ -65,6 +67,7 @@ public class HomeFragment extends HSFragmentParent {
          }
          else {
         	 fetchedKbArticles = (HSKBItem[]) savedInstanceState.getSerializable("kbArticles");
+        	 fetchedTickets = (HSTicket[]) savedInstanceState.getSerializable("tickets");
         	 refreshList();
          }
          
@@ -102,11 +105,13 @@ public class HomeFragment extends HSFragmentParent {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("kbArticles", fetchedKbArticles);
+		outState.putSerializable("tickets", fetchedTickets);
 	}
 	 
 	private void initializeView() {
 		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
+		
 		// Show Loading
 		gearSource.requestKBArticle(null, new OnFetchedArraySuccessListener() {
 			
@@ -131,7 +136,7 @@ public class HomeFragment extends HSFragmentParent {
 			
 		});
 		
-		
+		refreshList();
 	}
 	
 	private void refreshList() {
@@ -140,7 +145,7 @@ public class HomeFragment extends HSFragmentParent {
 		
 		mAdapter.addParent(0, "FAQ");
 		
-		{
+		if (fetchedKbArticles != null) {
 			for (int i = 0; i < fetchedKbArticles.length ; i++) {
 				
 				HSKBItem item = (HSKBItem) fetchedKbArticles[i];
@@ -149,7 +154,16 @@ public class HomeFragment extends HSFragmentParent {
 		}
 		
 		
-		mAdapter.addParent(1, "ISSUES");
+		if (fetchedTickets != null && fetchedTickets.length > 0) {
+			mAdapter.addParent(1, "ISSUES");
+			
+			for (int i = 0; i < fetchedTickets.length ; i++) {
+				
+				HSTicket item = (HSTicket) fetchedTickets[i];
+				mAdapter.addChild(0, item);
+			}
+		}
+		
 		
 		mAdapter.notifyDataSetChanged();
 		

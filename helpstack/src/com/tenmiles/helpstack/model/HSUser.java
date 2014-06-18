@@ -1,5 +1,7 @@
 package com.tenmiles.helpstack.model;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,10 +9,13 @@ import com.google.gson.annotations.SerializedName;
  * @author Nalin Chhajer
  *
  */
-public class HSUser {
+public class HSUser implements Serializable {
 
-	@SerializedName("full_name")
-	private String name;
+	@SerializedName("first_name")
+	private String first_Name;
+	
+	@SerializedName("last_name")
+	private String last_Name;
 	
 	@SerializedName("email")
 	private String emailAddress;
@@ -21,8 +26,14 @@ public class HSUser {
 	@SerializedName("user_id")
 	private String userId;
 	
-	public HSUser(String name, String emailAddress) {
-		this.name = name;
-		this.emailAddress = emailAddress;
+	public HSUser() {
+	}
+	
+	public static HSUser createNewUserWithDetails(String first_name, String last_name, String email) {
+		HSUser user = new HSUser();
+		user.first_Name = first_name;
+		user.last_Name = last_name;
+		user.emailAddress = email;
+		return user;
 	}
 }

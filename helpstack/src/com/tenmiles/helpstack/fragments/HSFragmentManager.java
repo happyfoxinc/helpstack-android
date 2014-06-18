@@ -24,6 +24,11 @@ public class HSFragmentManager {
 		return fragment;
 	}
 	
+	public static HSFragmentParent getFragmentInActivity(HSActivityParent activity,String tag) {
+		FragmentManager fragMgr = activity.getSupportFragmentManager();
+		return (HSFragmentParent) fragMgr.findFragmentByTag(tag);
+	}
+	
 	public static void putFragmentInActivity(HSActivityParent activity, int resid, HSFragmentParent frag, String tag) {
 		// above is proper.
 		FragmentManager fragMgr = activity.getSupportFragmentManager();

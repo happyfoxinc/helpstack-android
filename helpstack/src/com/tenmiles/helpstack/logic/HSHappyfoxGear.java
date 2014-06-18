@@ -13,6 +13,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.tenmiles.helpstack.model.HSKBItem;
+import com.tenmiles.helpstack.model.HSUser;
 
 
 public class HSHappyfoxGear extends HSGear {
@@ -115,7 +116,15 @@ public class HSHappyfoxGear extends HSGear {
 		}
 	}
 		
-	
+	@Override
+	public void registerNewUser(String firstName, String lastname,
+			String emailAddress, OnFetchedSuccessListener success,
+			ErrorListener error) {
+		
+		HSUser user = HSUser.createNewUserWithDetails(firstName, lastname, emailAddress);
+		success.onSuccess(user);
+		
+	}
 	
 	private abstract class HappyfoxBaseListner<T> implements Listener<T> {
 

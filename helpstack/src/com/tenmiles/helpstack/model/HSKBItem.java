@@ -1,11 +1,13 @@
 package com.tenmiles.helpstack.model;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class HSKBItem {
+public class HSKBItem implements Serializable{
 	
-	public static final int TYPE_ARTICLE = 0;
-	public static final int TYPE_SECTION = 1;
+	transient public static final int TYPE_ARTICLE = 0;
+	transient public static final int TYPE_SECTION = 1;
 
 	@SerializedName("subject")
 	private String subject;

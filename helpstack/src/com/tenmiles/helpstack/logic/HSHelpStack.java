@@ -49,4 +49,14 @@ public class HSHelpStack {
 	public HSGear getGear() {
 		return this.gear;
 	}
+	
+	/**
+	 * It is light weight call. Call this after calling setGear.
+	 * 
+	 * @param articleResId
+	 */
+	public void ovverideGearArticlesWithLocalArticlePath(int articleResId) {
+		assert gear != null : "Some gear has to be set before overridding gear with local article path";
+		gear.setNotImplementingKBFetching(articleResId);
+	}
 }

@@ -1,25 +1,14 @@
 package com.tenmiles.helpstack.activities;
 
-import com.tenmiles.helpstack.R;
-import com.tenmiles.helpstack.R.id;
-import com.tenmiles.helpstack.R.layout;
-import com.tenmiles.helpstack.R.menu;
-
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
+import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.fragments.HSFragmentManager;
 import com.tenmiles.helpstack.fragments.NewIssueFragment;
-import com.tenmiles.helpstack.fragments.NewUserFragment;
 
 public class NewIssueActivity extends HSActivityParent {
 
@@ -34,6 +23,8 @@ public class NewIssueActivity extends HSActivityParent {
 			NewIssueFragment issueFragment = new NewIssueFragment();
 			HSFragmentManager.putFragmentInActivity(this, R.id.container, issueFragment, "Issue");
 		}
+		
+		newIssueFragment = (NewIssueFragment) HSFragmentManager.getFragmentInActivity(this, "Issue");
 	}
 	
 	@Override
@@ -41,7 +32,7 @@ public class NewIssueActivity extends HSActivityParent {
     	super.configureActionBar(actionBar);
     	
     	actionBar.setTitle("New User");
-    	actionBar.setHomeButtonEnabled(true);
+    	actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
 	@Override
@@ -62,7 +53,11 @@ public class NewIssueActivity extends HSActivityParent {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.doneItem) {
+		if (id == android.R.id.home) {
+			finish();
+			return true;
+		}
+		else if (id == R.id.doneItem) {
 			newIssueFragment = new NewIssueFragment();
 			
 			HSFragmentManager.putFragmentInActivity(this, R.id.container, newIssueFragment, "Issue");

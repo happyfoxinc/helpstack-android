@@ -1,5 +1,7 @@
 package com.tenmiles.helpstack.model;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -7,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * @author Nalin Chhajer
  *
  */
-public class HSTicket {
+public class HSTicket implements Serializable {
 
 	@SerializedName("subject")
 	private String subject;
