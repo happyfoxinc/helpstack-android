@@ -27,6 +27,24 @@ public class HSKBItem {
 		this.subject = subject;
 		this.body = body;
 	}
+	
+	public static HSKBItem createForSection(String id, String subject) {
+		HSKBItem item = new HSKBItem();
+		item.id = id;
+		item.subject = subject;
+		item.articleType = TYPE_SECTION;
+		
+		return item;
+	}
+	
+	public static HSKBItem createForArticle(String id, String subject, String text) {
+		HSKBItem item = new HSKBItem();
+		item.id = id;
+		item.subject = subject;
+		item.body = text;
+		item.articleType = TYPE_ARTICLE;
+		return item;
+	}
 
 	public String getSubject() {
 		return subject;
