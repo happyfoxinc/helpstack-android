@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
@@ -22,7 +23,6 @@ import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
 import com.tenmiles.helpstack.activities.SectionActivity;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
-import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
@@ -78,43 +78,37 @@ public class HomeFragment extends HSFragmentParent {
          
          initializeView();
 
-         
-         mAdapter.setOnChildItemClickListener(new OnChildItemClickListener() {
+         mExpandableListView.setOnChildClickListener(new OnChildClickListener() {
 			
 			@Override
-			public boolean onChildListItemLongClick(int groupPosition,
-					int childPosition, String type, Object map) {
-				// TODO Auto-generated method stub
-				
-				return false;
-			}
-			
-			@Override
-			public void onChildListItemClick(int groupPosition, int childPosition,
-					String type, Object map) {
-				// TODO Auto-generated method stub
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
 				Log.v("HelpStack", "Item clicked");
-				HSKBItem kbItemClicked = (HSKBItem) mAdapter.getChild(groupPosition, childPosition);
-				if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
-					//Type article
-					Intent intent = new Intent(getActivity(), ArticleActivity.class);
-					intent.putExtra("item", kbItemClicked);
-					startActivity(intent);
-					
-				} else {
-					//Type section
-					Intent intent = new Intent(getActivity(), SectionActivity.class);
-					intent.putExtra("section_item", kbItemClicked);
-					startActivity(intent);
+				
+				if (groupPosition == 0) {
+					HSKBItem kbItemClicked = (HSKBItem) mAdapter.getChild(groupPosition, childPosition);
+					if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
+						//Type article
+						Intent intent = new Intent(getActivity(), ArticleActivity.class);
+						intent.putExtra("item", kbItemClicked);
+						startActivity(intent);
+						return true;
+						
+					} else {
+						//Type section
+						Intent intent = new Intent(getActivity(), SectionActivity.class);
+						intent.putExtra("section_item", kbItemClicked);
+						startActivity(intent);
+						return true;
+					}
+				}
+				if (groupPosition == 1) {
+					HSTicket ticket = (HSTicket) mAdapter.getChild(groupPosition, childPosition);
+					HSActivityManager.startIssueDetailActivity(getActivity(), ticket);
+					return true;
 					
 				}
-			}
-			
-			@Override
-			public void onChildCheckedListner(int groupPosition, int childPosition,
-					String type, Object map, boolean checked) {
-				// TODO Auto-generated method stub
-				
+				return false;
 			}
 		});
          
@@ -134,8 +128,9 @@ public class HomeFragment extends HSFragmentParent {
 		
 		if (requestCode == 1003) {
 			if (resultCode == HSActivityManager.resultCode_sucess) {
-				ArrayList<HSTicket> temp = new ArrayList<HSTicket>(Arrays.asList(fetchedTickets));
+				ArrayList<HSTicket> temp = new ArrayList<HSTicket>();
 				temp.add((HSTicket)data.getSerializableExtra(NewIssueActivity.RESULT_TICKET));
+				temp.addAll(Arrays.asList(fetchedTickets));
 				HSTicket[] array = new HSTicket[0];
 				array = temp.toArray(array);
 				fetchedTickets = array;
@@ -147,6 +142,8 @@ public class HomeFragment extends HSFragmentParent {
 	private void initializeView() {
 		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
+		
+		
 		
 		// Show Loading
 		gearSource.requestKBArticle(null, new OnFetchedArraySuccessListener() {
@@ -170,6 +167,24 @@ public class HomeFragment extends HSFragmentParent {
 				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 			}
 			
+		});
+		
+		gearSource.requestAllTickets(new OnFetchedArraySuccessListener() {
+			
+			@Override
+			public void onSuccess(Object[] tickets) {
+				fetchedTickets = (HSTicket[]) tickets;
+				refreshList();
+				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				// Stop Loading
+				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+				
+			}
 		});
 		
 		refreshList();
@@ -196,7 +211,7 @@ public class HomeFragment extends HSFragmentParent {
 			for (int i = 0; i < fetchedTickets.length ; i++) {
 				
 				HSTicket item = (HSTicket) fetchedTickets[i];
-				mAdapter.addChild(0, item);
+				mAdapter.addChild(1, item);
 			}
 		}
 		
@@ -217,11 +232,12 @@ public class HomeFragment extends HSFragmentParent {
 		
 		@Override
 		public void onClick(View v) {
+			
 			if (gearSource.haveImplementedTicketFetching()) {
 				if(gearSource.isNewUser()) {
-					HSActivityManager.startNewUserActivity(getActivity(), 1003);
+					HSActivityManager.startNewUserActivity(HomeFragment.this, 1003);
 				}else {
-					HSActivityManager.startNewIssueActivity(getActivity(), gearSource.getUser(), 1003);
+					HSActivityManager.startNewIssueActivity(HomeFragment.this, gearSource.getUser(), 1003);
 				}
 			}
 			else {
@@ -259,16 +275,10 @@ public class HomeFragment extends HSFragmentParent {
 			if (groupPosition == 0) {
 				final HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
 				holder.textView1.setText(item.getSubject());
-				holder.parent.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						sendChildClickEvent(groupPosition, childPosition, null, item);
-					}
-				});
+				
 				
 			}
-			else {
+			else if (groupPosition == 1){
 				HSTicket item = (HSTicket) getChild(groupPosition, childPosition);
 				holder.textView1.setText(item.getSubject());
 			}

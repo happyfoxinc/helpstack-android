@@ -1,5 +1,6 @@
 package com.tenmiles.helpstack.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
@@ -115,6 +116,11 @@ public class HomeActivity extends HSActivityParent {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+    	super.onActivityResult(arg0, arg1, arg2);
     }
 
 }

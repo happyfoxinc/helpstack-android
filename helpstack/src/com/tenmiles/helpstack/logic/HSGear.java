@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.model.HSKBItem;
+import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSUser;
 
 
@@ -58,7 +59,7 @@ public abstract class HSGear {
 	 */
 	public void registerNewUser(String firstName, String lastname, String emailAddress, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener)
 	{
-		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
+		success.onSuccess(HSUser.createNewUserWithDetails(firstName, lastname, emailAddress));
 	}
 	
 	/**
@@ -74,7 +75,17 @@ public abstract class HSGear {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	
-	
+	/**
+	 * 
+	 * 
+	 * @param userDetails
+	 * @param success, return HFTicket object
+	 * @param error
+	 */
+	public void fetchAllUpdateOnTicket(HSTicket ticket,RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
+	{
+		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
+	}
 		
 	public void setNotImplementingTicketsFetching(String companySupportEmailAddress) {
 		implementsTicketFetching = false;

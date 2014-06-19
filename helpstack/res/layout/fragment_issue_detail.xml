@@ -8,9 +8,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.tenmiles.helpstack.IssueDetailActivity$PlaceholderFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <com.tenmiles.helpstack.theme.widget.HSExpandableListView
+        android:id="@+id/expandableList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:groupIndicator="@null"
+        android:cacheColorHint="#0000" />
 
+    <RelativeLayout
+        android:id="@+id/replyLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/replyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="Add reply"
+            android:layout_toLeftOf="@+id/button1"
+            android:maxLines="4" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_alignBottom="@+id/replyEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Send" />
+
+    </RelativeLayout>
 </RelativeLayout>

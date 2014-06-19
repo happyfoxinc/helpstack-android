@@ -10,10 +10,12 @@
 
     <com.tenmiles.helpstack.theme.widget.HSExpandableListView
         android:id="@+id/expandableList"
+        android:layout_above="@+id/replyLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:groupIndicator="@null"
-        android:cacheColorHint="#0000" />
+        android:layout_height="match_parent"
+        android:cacheColorHint="#0000"
+        android:groupIndicator="@null" />
 
     
+
 </RelativeLayout>
