@@ -19,4 +19,32 @@ public class HSTicketUpdate implements Serializable {
 	private int updateBy; // 0 - Staff, 1 - User
 	
 	// Date, Attachments etc will come here
+	
+	public static HSTicketUpdate createUpdateByStaff(String updateId, String text) {
+		HSTicketUpdate update = new HSTicketUpdate();
+		update.updateBy = TYPE_STAFF;
+		update.text = text;
+		update.updateId = updateId;
+		return update;
+	}
+	
+	public static HSTicketUpdate createUpdateByUser(String updateId, String text) {
+		HSTicketUpdate update = new HSTicketUpdate();
+		update.updateBy = TYPE_USER;
+		update.text = text;
+		update.updateId = updateId;
+		return update;
+	}
+	
+	public boolean isStaffUpdate() {
+		return updateBy == TYPE_STAFF;
+	}
+	
+	public boolean isUserUpdate() {
+		return updateBy == TYPE_USER;
+	}
+	
+	public String getText() {
+		return text;
+	}
 }

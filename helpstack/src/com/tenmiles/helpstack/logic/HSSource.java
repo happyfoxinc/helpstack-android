@@ -15,6 +15,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.tenmiles.helpstack.model.HSKBItem;
+import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSUser;
 
 public class HSSource {
@@ -83,6 +84,10 @@ public class HSSource {
 	
 	public void createNewTicket(HSUser user, String subject, String message, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
 		gear.createNewTicket(user, subject, message, mRequestQueue, successListener, errorListener);
+	}
+	
+	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener error ) {
+		gear.fetchAllUpdateOnTicket(ticket, mRequestQueue, success, error);
 	}
 
 	public HSGear getGear() {

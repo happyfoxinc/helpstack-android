@@ -1,5 +1,7 @@
 package com.tenmiles.helpstack.activities;
 
+import com.tenmiles.helpstack.fragments.HSFragmentParent;
+import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSUser;
 
 import android.app.Activity;
@@ -23,19 +25,26 @@ public class HSActivityManager {
 		context.startActivity(intent);
 	}
 	
-	public static void startNewIssueActivity(Activity context, HSUser user, int requestCode) {
+	public static void startNewIssueActivity(HSFragmentParent context, HSUser user, int requestCode) {
+		Intent intent = new Intent(context.getActivity(), NewIssueActivity.class);
+		intent.putExtra(NewIssueActivity.EXTRAS_USER, user);
+		context.startActivityForResult(intent, requestCode);
+	}
+	
+	public static void startNewIssueActivity(HSActivityParent context, HSUser user, int requestCode) {
 		Intent intent = new Intent(context, NewIssueActivity.class);
 		intent.putExtra(NewIssueActivity.EXTRAS_USER, user);
 		context.startActivityForResult(intent, requestCode);
 	}
 	
-	public static void startNewUserActivity(Activity context, int requestCode) {
-		Intent intent = new Intent(context, NewUserActivity.class);
+	public static void startNewUserActivity(HSFragmentParent context, int requestCode) {
+		Intent intent = new Intent(context.getActivity(), NewUserActivity.class);
 		context.startActivityForResult(intent, requestCode);
 	}
 	
-	public static void startIssueDetailActivity(Activity context) {
+	public static void startIssueDetailActivity(Activity context, HSTicket ticket) {
 		Intent intent = new Intent(context, IssueDetailActivity.class);
+		intent.putExtra(IssueDetailActivity.EXTRAS_TICKET, ticket);
 		context.startActivity(intent);
 	}
 	

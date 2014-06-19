@@ -37,7 +37,8 @@
         </activity>
         <activity
             android:name="com.tenmiles.helpstack.activities.IssueDetailActivity"
-            android:label="@string/title_activity_issue_detail" >
+            android:label="@string/title_activity_issue_detail"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
 		<activity
             android:name="com.tenmiles.helpstack.activities.ArticleActivity"

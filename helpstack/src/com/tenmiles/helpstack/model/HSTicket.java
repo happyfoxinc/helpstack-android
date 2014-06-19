@@ -28,4 +28,8 @@ public class HSTicket implements Serializable {
 		return subject;
 	}
 	
+	public String getTicketId() {
+		return ticketId;
+	}
+	
 }
