@@ -1,0 +1,69 @@
+package com.tenmiles.helpstack.activities;
+
+import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.R.id;
+import com.tenmiles.helpstack.R.layout;
+import com.tenmiles.helpstack.R.menu;
+import com.tenmiles.helpstack.fragments.SectionFragment;
+import com.tenmiles.helpstack.model.HSKBItem;
+
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.os.Build;
+
+public class SectionActivity extends HSActivityParent {
+
+	ActionBar actionBar;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_section);
+		
+		HSKBItem kbSectionItem = (HSKBItem)getIntent().getSerializableExtra("section_item");
+
+		if (savedInstanceState == null) {
+			
+			SectionFragment sectionFragment = new SectionFragment();
+			sectionFragment.kbItem = kbSectionItem;
+			this.actionBar.setTitle(kbSectionItem.getSubject());
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.container, sectionFragment).commit();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.section, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void configureActionBar(ActionBar actionBar) {
+		// TODO Auto-generated method stub
+		super.configureActionBar(actionBar);
+		this.actionBar = actionBar;
+	}
+
+}

@@ -55,4 +55,20 @@ public class HSKBItem implements Serializable{
 	public String getId() {
 		return id;
 	}
+	
+	public void setBody(String body) {
+		this.body = body;
+	}
+	
+	public String getBody() {
+		return this.body;
+	}
+	
+	public int getArticleType() {
+		return articleType;
+	}
+	
+	public void setArticleType(int type) {
+		articleType = type;
+	}
 }

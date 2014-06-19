@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="app_name">HelpStack</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -13,6 +12,7 @@
     <string name="messagehint">Message</string>
     <string name="title_activity_new_user">NewUserActivity</string>
     <string name="done">Done</string>
+    <string name="title_activity_article">ArticleActivity</string>
+    <string name="title_activity_section">SectionActivity</string>
     <string name="title_activity_issue_detail">IssueDetailActivity</string>
-
 </resources>

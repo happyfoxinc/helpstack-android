@@ -33,12 +33,8 @@ public class NewIssueActivity extends HSActivityParent {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_issue);
 
-		if (savedInstanceState == null) {
-			NewIssueFragment issueFragment = new NewIssueFragment();
-			HSFragmentManager.putFragmentInActivity(this, R.id.container, issueFragment, "Issue");
-		}
-		
-		newIssueFragment = (NewIssueFragment) HSFragmentManager.getFragmentInActivity(this, "Issue");
+		newIssueFragment = new NewIssueFragment();
+		HSFragmentManager.putFragmentInActivity(this, R.id.container, newIssueFragment, "Issue");
 		
 		userDetails = (HSUser) getIntent().getExtras().getSerializable(EXTRAS_USER);
 	}

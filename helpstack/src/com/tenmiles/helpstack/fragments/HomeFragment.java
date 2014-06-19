@@ -6,6 +6,7 @@ import java.util.Arrays;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.activities.ArticleActivity;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
+import com.tenmiles.helpstack.activities.SectionActivity;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
 import com.tenmiles.helpstack.logic.HSSource;
@@ -59,8 +62,12 @@ public class HomeFragment extends HSFragmentParent {
          
          
          View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
+
+         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
+
          report_an_issue_view.findViewById(R.id.button1)
          	.setOnClickListener(reportIssueClickListener);
+
          mExpandableListView.addFooterView(report_an_issue_view);
          
          
@@ -84,6 +91,7 @@ public class HomeFragment extends HSFragmentParent {
 			public boolean onChildListItemLongClick(int groupPosition,
 					int childPosition, String type, Object map) {
 				// TODO Auto-generated method stub
+				
 				return false;
 			}
 			
@@ -91,7 +99,21 @@ public class HomeFragment extends HSFragmentParent {
 			public void onChildListItemClick(int groupPosition, int childPosition,
 					String type, Object map) {
 				// TODO Auto-generated method stub
-				
+				Log.v("HelpStack", "Item clicked");
+				HSKBItem kbItemClicked = (HSKBItem) mAdapter.getChild(groupPosition, childPosition);
+				if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
+					//Type article
+					Intent intent = new Intent(getActivity(), ArticleActivity.class);
+					intent.putExtra("item", kbItemClicked);
+					startActivity(intent);
+					
+				} else {
+					//Type section
+					Intent intent = new Intent(getActivity(), SectionActivity.class);
+					intent.putExtra("section_item", kbItemClicked);
+					startActivity(intent);
+					
+				}
 			}
 			
 			@Override
@@ -201,7 +223,6 @@ public class HomeFragment extends HSFragmentParent {
 		
 		@Override
 		public void onClick(View v) {
-			
 			if (gearSource.haveImplementedTicketFetching()) {
 				if(gearSource.isNewUser()) {
 					HSActivityManager.startNewUserActivity(getActivity(), 1003);
@@ -212,8 +233,6 @@ public class HomeFragment extends HSFragmentParent {
 			else {
 				gearSource.launchEmailAppWithEmailAddress(getActivity());
 			}
-			
-			
 		}
 	};
 
@@ -236,7 +255,6 @@ public class HomeFragment extends HSFragmentParent {
 				
 				holder.parent = convertView;
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
-				
 				
 				convertView.setTag(holder);
 			}

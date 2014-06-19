@@ -27,13 +27,8 @@ public class NewUserActivity extends HSActivityParent {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_user);
 		
-		if (savedInstanceState == null) {
-			NewUserFragment userFragment = new NewUserFragment();
-			HSFragmentManager.putFragmentInActivity(this, R.id.container, userFragment, "NewUser");
-		}
-		
-		newUserFragment = (NewUserFragment) HSFragmentManager.getFragmentInActivity(this, "NewUser");
-		
+		newUserFragment = new NewUserFragment();
+		HSFragmentManager.putFragmentInActivity(this, R.id.container, newUserFragment, "NewUser");
 	}
 	
 	@Override
@@ -70,7 +65,8 @@ public class NewUserActivity extends HSActivityParent {
 			// 
 			setSupportProgressBarIndeterminateVisibility(true);
 			HSSource source = new HSSource(this);
-			source.checkForUserDetailsValidity(newUserFragment.getFirstName(), newUserFragment.getLastName(), newUserFragment.getEmailAdddress(), new OnFetchedSuccessListener() {
+			source.checkForUserDetailsValidity(newUserFragment.getFirstName(), newUserFragment.getLastName(), 
+					newUserFragment.getEmailAdddress(), new OnFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(Object successObject) {
