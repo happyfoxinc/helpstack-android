@@ -66,7 +66,7 @@ public class HSTestDataGear extends HSGear
 		if (ticket.getTicketId().equals("1")) {
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[2];
 			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", "I have not received my order yet. Order id is 23405");
-			updateArray[1] = HSTicketUpdate.createUpdateByUser("2", "We have confirmed, it is on the way and you will receive it in 2 days");
+			updateArray[1] = HSTicketUpdate.createUpdateByStaff("2", "We have confirmed, it is on the way and you will receive it in 2 days");
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("2")) {

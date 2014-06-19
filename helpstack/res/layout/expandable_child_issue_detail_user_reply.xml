@@ -8,8 +8,9 @@
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="right"
         android:layout_marginLeft="80dp"
         android:layout_alignParentRight="true"
-        android:text="" />
+        android:text="Test" />
 			   
 </RelativeLayout>
