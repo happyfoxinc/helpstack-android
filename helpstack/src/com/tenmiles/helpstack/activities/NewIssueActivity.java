@@ -75,7 +75,8 @@ public class NewIssueActivity extends HSActivityParent {
 			
 			HSSource source = new HSSource(this);
 			
-			source.createNewTicket(userDetails, newIssueFragment.getSubject(), newIssueFragment.getMessage() , new OnNewTicketFetchedSuccessListener() {
+			source.createNewTicket(userDetails, newIssueFragment.getSubject(), newIssueFragment.getMessage() + HSSource.getDeviceInformation(NewIssueActivity.this)
+					, new OnNewTicketFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {

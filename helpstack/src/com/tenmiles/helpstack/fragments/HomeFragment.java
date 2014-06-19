@@ -264,7 +264,6 @@ public class HomeFragment extends HSFragmentParent {
 				convertView = mLayoutInflater.inflate(R.layout.expandable_child_home_default, null);
 				holder = new ChildViewHolder();
 				
-				holder.parent = convertView;
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
 				
 				convertView.setTag(holder);
@@ -274,7 +273,7 @@ public class HomeFragment extends HSFragmentParent {
 			}
 			
 			if (groupPosition == 0) {
-				final HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
+			    HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
 				holder.textView1.setText(item.getSubject());
 				
 				
@@ -317,7 +316,6 @@ public class HomeFragment extends HSFragmentParent {
 		
 		private class ChildViewHolder {
 			TextView textView1;
-			View parent;
 		}
 	 }
 }
