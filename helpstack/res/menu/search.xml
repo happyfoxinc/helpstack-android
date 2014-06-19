@@ -3,5 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.tenmiles.helpstack.activities.HomeActivity" >
 
-   
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="collapseActionView|ifRoom"
+        android:title="Search"
+        android:visible="true"/>
+
 </menu>

@@ -1,12 +1,19 @@
 package com.tenmiles.helpstack.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.model.HSKBItem;
 
 /**
  * Search Fragment
@@ -15,6 +22,7 @@ import com.tenmiles.helpstack.R;
 public class SearchFragment extends HSFragmentParent {
 
 	private View rootView;
+	private HSKBItem[] searchableKBArticle;
 
 	public SearchFragment() {
 		// Required empty public constructor
@@ -50,4 +58,58 @@ public class SearchFragment extends HSFragmentParent {
 		}
 	}
 
+	public void setKBArticleList(HSKBItem[] fetchedKbArticles) {
+		this.searchableKBArticle = fetchedKbArticles;
+	}
+	
+	public void addSearchViewInMenuItem(Context context, MenuItem searchItem) {
+		MenuItemCompat.setShowAsAction(searchItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS|MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		SearchView searchView = new SearchView(context);
+		MenuItemCompat.setActionView(searchItem, searchView);
+		searchView.setQueryHint("Search");
+		searchView.setSubmitButtonEnabled(true);
+
+		searchView.setOnSearchClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				searchStarted();
+			}
+		});
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextSubmit(String q) {
+				
+				doSearchForQuery(q);
+				
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				doSearchForQuery(newText);
+				return true;
+			}
+		});
+
+
+		MenuItemCompat.setOnActionExpandListener(searchItem, new OnActionExpandListener() {
+
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item) {
+				setVisibility(true);
+				return true;
+			}
+
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item) {
+				setVisibility(false);
+				return true;
+			}
+		});
+	}
+
+	
 }

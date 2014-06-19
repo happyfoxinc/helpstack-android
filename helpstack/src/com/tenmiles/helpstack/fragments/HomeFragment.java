@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -43,6 +46,8 @@ public class HomeFragment extends HSFragmentParent {
 	
 	private HSKBItem[] fetchedKbArticles;
 	private HSTicket[] fetchedTickets;
+	
+	private SearchFragment mSearchFragment;
 
 	
 	public HomeFragment() {
@@ -67,6 +72,12 @@ public class HomeFragment extends HSFragmentParent {
          mExpandableListView.setAdapter(mAdapter);
          
          gearSource = new HSSource (getActivity());
+         
+         
+         mSearchFragment = new SearchFragment();
+         HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
+         
+         setHasOptionsMenu(true);
          
          if (savedInstanceState == null) {
         	 initializeView();
@@ -139,6 +150,17 @@ public class HomeFragment extends HSFragmentParent {
 			}
 		}
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		
+		// Inflate the menu; this adds items to the action bar if it is present.
+		inflater.inflate(R.menu.search, menu);
+        
+        MenuItem searchItem = menu.findItem(R.id.search);
+        mSearchFragment.addSearchViewInMenuItem(getActivity(), searchItem);
+	}
 	 
 	private void initializeView() {
 		
@@ -155,6 +177,7 @@ public class HomeFragment extends HSFragmentParent {
 			public void onSuccess(Object[] kbArticles) {
 				
 				fetchedKbArticles = (HSKBItem[]) kbArticles;
+				mSearchFragment.setKBArticleList(fetchedKbArticles);
 				refreshList();
 				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				// Stop Loading
