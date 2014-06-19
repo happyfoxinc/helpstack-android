@@ -18,7 +18,7 @@ public class HSActivityParent extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		configureActionBar(getSupportActionBar());
-		setSupportProgressBarIndeterminate(true);
+//		setSupportProgressBarIndeterminate(true);
 	}
 
 	public void configureActionBar(ActionBar actionBar) {
