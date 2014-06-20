@@ -59,6 +59,8 @@ public class HSTicketUpdate implements Serializable {
 		return text;
 	}
 	
-	
+	public Date getUpdatedTime() {
+		return updateTime;
+	}
 	
  }

@@ -1,10 +1,14 @@
 package com.tenmiles.helpstack.fragments;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.logic.HSSource;
+import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
 import com.tenmiles.helpstack.model.HSTicket;
@@ -206,7 +211,11 @@ public class IssueDetailFragment extends HSFragmentParent
 				holder.nameField.setText("Staff");
 			}
 			
-		//	holder.timeField.setText(update.getUpdateAt());
+			Date updatedTime = update.getUpdatedTime();
+			
+			String dateString = HSUtils.convertToHumanReadableTime(updatedTime, Calendar.getInstance().getTimeInMillis());
+			
+			holder.timeField.setText(dateString);
 			
 			return convertView;
 		}
