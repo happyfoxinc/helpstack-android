@@ -42,7 +42,7 @@ public class SearchFragment extends HSFragmentParent {
 	private SearchAdapter searchAdapter;
 	private HSKBItem[] allKbArticles;
 	private ListView listView;
-
+	
 	public SearchFragment() {
 		// Required empty public constructor
 	}
@@ -83,8 +83,8 @@ public class SearchFragment extends HSFragmentParent {
 	}
 
 	public void searchStarted() {
-		// TODO Auto-generated method stub
-		Log.v("search","started");
+		searchAdapter.refreshList(allKbArticles);
+		searchAdapter.notifyDataSetChanged();
 	}
 
 	public void doSearchForQuery(String q) {
@@ -163,6 +163,10 @@ public class SearchFragment extends HSFragmentParent {
 			this.allKBItems = list;
 		}
 		
+		public void refreshList(HSKBItem[] list) {
+			this.allKBItems = list;
+		}
+		
 		@Override
 		public int getCount() {
 			if(searchResults == null) {
@@ -218,7 +222,7 @@ public class SearchFragment extends HSFragmentParent {
 				FilterResults results = new FilterResults();
 				if(constraint == null || constraint.length() == 0){
 					
-					results.values = allKBItems;
+					results.values = (HSKBItem[])allKBItems;
 					results.count = allKBItems.length;
 				}else {
 					// We perform filtering operation
