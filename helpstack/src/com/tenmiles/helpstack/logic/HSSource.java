@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -15,6 +16,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
+import android.text.Html;
+import android.text.SpannableString;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -28,6 +32,7 @@ import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSUser;
 
 public class HSSource {
+	private static final String TAG = HSSource.class.getSimpleName();
 	
 	private static final String HELPSTACK_DIRECTORY = "helpstack";
 	private static final String HELPSTACK_TICKETS_FILE_NAME = "tickets";
@@ -52,7 +57,7 @@ public class HSSource {
 		doReadUserFromCache();
 	}
 
-	public void requestKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener error ) {
+	public void requestKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
 		
 		if (gear.haveImplementedKBFetching()) {
 			
@@ -66,7 +71,7 @@ public class HSSource {
 					super.onSuccess(successObject);
 					
 				}
-			}, error);
+			}, new ErrorWrapper("Fetching KB articles", errorListener));
 		}
 		else {
 			
@@ -75,10 +80,10 @@ public class HSSource {
 				success.onSuccess(reader.readArticlesFromResource(mContext));
 			} catch (XmlPullParserException e) {
 				e.printStackTrace();
-				error.onErrorResponse(new VolleyError("Unable to parse local article XML"));
+				throwError(errorListener, "Unable to parse local article XML");
 			} catch (IOException e) {
 				e.printStackTrace();
-				error.onErrorResponse(new VolleyError("Unable to read local article XML"));
+				throwError(errorListener, "Unable to read local article XML");
 			}
 		}
 		
@@ -96,7 +101,7 @@ public class HSSource {
 	}
 	
 	public void checkForUserDetailsValidity(String firstName, String lastName, String email,OnFetchedSuccessListener success, ErrorListener errorListener) {
-		gear.registerNewUser(firstName, lastName, email, mRequestQueue, success, errorListener);
+		gear.registerNewUser(firstName, lastName, email, mRequestQueue, success, new ErrorWrapper("Registering New User", errorListener));
 	}
 	
 	public void createNewTicket(HSUser user, String subject, String message, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
@@ -112,11 +117,11 @@ public class HSSource {
 				super.onSuccess(udpatedUserDetail, ticket);
 				
 			}
-		}, errorListener);
+		}, new ErrorWrapper("Creating New Ticket", errorListener));
 	}
 	
-	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener error ) {
-		gear.fetchAllUpdateOnTicket(ticket, mRequestQueue, success, error);
+	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
+		gear.fetchAllUpdateOnTicket(ticket, mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
 
 	public HSGear getGear() {
@@ -176,6 +181,11 @@ public class HSSource {
 		
 		return builder.toString();
 	}
+	
+	
+	
+	
+	
 	
 	/////////////////////////////////////////////////
 	////////     Utility Functions  /////////////////
@@ -329,4 +339,52 @@ public class HSSource {
 		
 	}
 	
+	private class ErrorWrapper implements ErrorListener {
+
+		private ErrorListener errorListener;
+		private String methodName;
+
+		public ErrorWrapper(String methodName, ErrorListener errorListener) {
+			this.errorListener = errorListener;
+			this.methodName = methodName;
+		}
+		
+		@Override
+		public void onErrorResponse(VolleyError error) {
+			printErrorDescription(methodName, error);
+			this.errorListener.onErrorResponse(error);
+		}
+	}
+	
+	public static void throwError(ErrorListener errorListener, String error) {
+		VolleyError volleyError = new VolleyError(error);
+		printErrorDescription(null, volleyError);
+		errorListener.onErrorResponse(volleyError);
+	}
+	
+	private static void printErrorDescription (String methodName, VolleyError error)
+	{
+		if (methodName == null) {
+			Log.e(HSHelpStack.LOG_TAG, "Error occurred in HelpStack");
+		}
+		else {
+			Log.e(HSHelpStack.LOG_TAG, "Error occurred when executing " + methodName);
+		}
+		
+		Log.e(HSHelpStack.LOG_TAG, error.toString());
+		if (error.getMessage() != null) {
+			Log.e(HSHelpStack.LOG_TAG, error.getMessage());
+		}
+		
+		if (error.networkResponse != null && error.networkResponse.data != null) {
+			try {
+				Log.e(HSHelpStack.LOG_TAG, new String(error.networkResponse.data, "utf-8"));
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		error.printStackTrace();
+	}
 }

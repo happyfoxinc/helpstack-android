@@ -12,6 +12,7 @@ import android.util.Log;
  */
 public class HSHelpStack {
 	private static final String TAG = HSHelpStack.class.getSimpleName();
+	public static final String LOG_TAG = HSHelpStack.class.getSimpleName();
 
 	public static HSHelpStack getInstance(Context context) {
 		if (singletonInstance == null) {
