@@ -16,14 +16,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
-import android.text.Html;
-import android.text.SpannableString;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.tenmiles.helpstack.model.HSCachedTicket;
 import com.tenmiles.helpstack.model.HSCachedUser;
@@ -48,7 +45,7 @@ public class HSSource {
 	public HSSource(Context context) {
 		this.mContext = context;
 		setGear(HSHelpStack.getInstance(context).getGear());
-		mRequestQueue = Volley.newRequestQueue(context);
+		mRequestQueue = HSHelpStack.getInstance(context).getRequestQueue();
 		
 		cachedTickets = new HSCachedTicket();
 		cachedUser = new HSCachedUser();
@@ -121,7 +118,7 @@ public class HSSource {
 	}
 	
 	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
-		gear.fetchAllUpdateOnTicket(ticket, mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
+		gear.fetchAllUpdateOnTicket(ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
 
 	public HSGear getGear() {

@@ -1,9 +1,14 @@
 package com.tenmiles.helpstack.logic;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +25,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
+import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUser;
 
 
@@ -60,7 +66,7 @@ public class HSHappyfoxGear extends HSGear {
 		
 		
 		if (section == null) {
-			JsonArrayRequest request = new JsonArrayRequest(getApiUrl()+"kb/sections/", new HappyfoxBaseListner<JSONArray>(success) {
+			JsonArrayRequest request = new JsonArrayRequest(getApiUrl()+"kb/sections/", new HappyfoxBaseListner<JSONArray>(success, errorListener) {
 
 				@Override
 				public void onResponse(JSONArray sectionsArray) {
@@ -121,7 +127,6 @@ public class HSHappyfoxGear extends HSGear {
 					}
 					
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					errorListener.onErrorResponse(new VolleyError("parsing failed"));
 				}
@@ -171,7 +176,6 @@ public class HSHappyfoxGear extends HSGear {
 					HSUser user = HSUser.appendCredentialOnUserDetail(this.user,response.getJSONObject("user").getString("id"), null);
 					this.successListener.onSuccess(user, ticket);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					this.errorListener.onErrorResponse(new VolleyError("Parsing failed when creating a ticket"));
 				}
@@ -185,14 +189,104 @@ public class HSHappyfoxGear extends HSGear {
 		queue.start();
 	}
 	
+	@Override
+	public void fetchAllUpdateOnTicket(HSTicket ticket, HSUser user, RequestQueue queue,
+			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
+		
+		TicketJSONRequest request = new TicketJSONRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), null, new HappyfoxBaseListner<JSONObject>(success, errorListener) {
+
+			@Override
+			public void onResponse(JSONObject response) {
+				
+				try {
+					JSONArray updateArray = response.getJSONArray("updates");
+					
+					ArrayList<HSTicketUpdate> ticketUpdates = new ArrayList<HSTicketUpdate>();
+					
+					int updateLen = updateArray.length();
+					for (int i = 0; i < updateLen; i++) {
+						JSONObject updateObject = updateArray.getJSONObject(i);
+						
+						if (!updateObject.isNull("message")) {
+							
+							String updateId = null;
+							String userName = null;
+							JSONObject byObject = updateObject.getJSONObject("by");
+							if (!byObject.isNull("name")) {
+								userName = updateObject.getJSONObject("by").getString("name");
+							}
+							String message = updateObject.getJSONObject("message").getString("text");
+							
+							Date update_time = null;
+							if (!updateObject.isNull("timestamp")) {
+								update_time = parseTime(updateObject.getString("timestamp"));
+							}
+							
+							if (byObject.getString("type").equals("user")) {
+								ticketUpdates.add(HSTicketUpdate.createUpdateByUser(updateId, userName, message, update_time));
+							}
+							else {
+								ticketUpdates.add(HSTicketUpdate.createUpdateByStaff(updateId, userName, message, update_time));
+							}
+							
+							
+						}
+					}
+					
+					HSTicketUpdate[] array = new HSTicketUpdate[0];
+					array = ticketUpdates.toArray(array);
+					this.successCallback.onSuccess(array);
+				} catch (JSONException e) {
+					e.printStackTrace();
+					this.errorListener.onErrorResponse(new VolleyError("Parsing failed when fetching all update for a ticket"));
+				}
+				
+			}
+		}, errorListener);
+		
+		request.addCredential(api_key, auth_code);
+		
+		queue.add(request);
+		queue.start();
+	}
+
+	public String getApiUrl() {
+		return this.instanceUrl+"api/1.1/json/";
+	}
 	
+	protected static Date parseTime(String dateString) {
+		Date givenTimeDate = null;
+		try {
+			givenTimeDate = parseUTCString(dateString,"yyyy-MM-dd HH:mm:ss");
+		} catch (ParseException e) {
+			try {
+				givenTimeDate = parseUTCString(dateString,"yyyy-MM-dd");
+			} catch (ParseException e1) {
+				try {
+					givenTimeDate = parseUTCString(dateString,"yyyy-MM-dd HH:mm:ss.SSSSZ");
+				} catch (ParseException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+		return givenTimeDate;
+	}
+	
+	private static Date parseUTCString(String timeStr, String pattern) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat(pattern, Locale.getDefault());
+		format.setTimeZone(TimeZone.getTimeZone("UTC"));
+		return format.parse(timeStr);
+	}
 	
 	private abstract class HappyfoxBaseListner<T> implements Listener<T> {
 
-		public OnFetchedArraySuccessListener successCallback;
+		protected OnFetchedArraySuccessListener successCallback;
+		protected ErrorListener errorListener;
 
-		public HappyfoxBaseListner(OnFetchedArraySuccessListener success) {
+		public HappyfoxBaseListner(OnFetchedArraySuccessListener success,
+				ErrorListener errorListener) {
 			this.successCallback = success;
+			this.errorListener = errorListener;
 		}
 		
 	}
@@ -213,11 +307,6 @@ public class HSHappyfoxGear extends HSGear {
 		
 		
 	}
-
-	public String getApiUrl() {
-		return this.instanceUrl+"api/1.1/json/";
-	}
-	
 	
 	private class TicketJSONRequest extends JsonObjectRequest {
 
@@ -228,18 +317,15 @@ public class HSHappyfoxGear extends HSGear {
 				JSONObject jsonRequest, Listener<JSONObject> listener,
 				ErrorListener errorListener) {
 			super(method, url, jsonRequest, listener, errorListener);
-			// TODO Auto-generated constructor stub
 		}
 
 		public TicketJSONRequest(String url, JSONObject jsonRequest,
 				Listener<JSONObject> listener, ErrorListener errorListener) {
 			super(url, jsonRequest, listener, errorListener);
-			// TODO Auto-generated constructor stub
 		}
 		
 		@Override
 		public Map<String, String> getHeaders() throws AuthFailureError {
-			// TODO Auto-generated method stub
 			return headers;
 		}
 		

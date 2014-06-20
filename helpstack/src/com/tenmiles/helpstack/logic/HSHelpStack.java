@@ -1,5 +1,8 @@
 package com.tenmiles.helpstack.logic;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -33,6 +36,7 @@ public class HSHelpStack {
 	private Context mContext;
 	
 	private HSGear gear;
+	private RequestQueue mRequestQueue;
 	
 	private HSHelpStack(Context context) {
 		this.mContext = context;
@@ -40,7 +44,7 @@ public class HSHelpStack {
 	}
 
 	private void init(Context context) {
-		
+		mRequestQueue = Volley.newRequestQueue(context);
 	}
 	
 	public void setGear(HSGear gear) {
@@ -49,6 +53,10 @@ public class HSHelpStack {
 	
 	public HSGear getGear() {
 		return this.gear;
+	}
+	
+	public RequestQueue getRequestQueue() {
+		return mRequestQueue;
 	}
 	
 	/**

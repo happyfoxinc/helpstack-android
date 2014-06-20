@@ -21,10 +21,11 @@
     <EditText
         android:id="@+id/messageField"
         android:layout_below="@id/subjectField"
-        android:gravity="left|top"
+        android:gravity="left|bottom"
+        android:minLines="4"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="This is a test ticket"
         android:hint="@string/messagehint"/>
 

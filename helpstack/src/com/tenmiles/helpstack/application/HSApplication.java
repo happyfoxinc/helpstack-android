@@ -29,6 +29,6 @@ public class HSApplication extends Application{
 //		HSEmailGear emailGear = new HSEmailGear( "support@happyfox.com",R.xml.articles);
 //		helpStack.setGear(emailGear);
 		
-		helpStack.ovverideGearArticlesWithLocalArticlePath(R.xml.articles);
+//		helpStack.ovverideGearArticlesWithLocalArticlePath(R.xml.articles);
 	}
 }
