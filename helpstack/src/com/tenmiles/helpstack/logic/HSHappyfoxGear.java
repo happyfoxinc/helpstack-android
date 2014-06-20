@@ -1,13 +1,18 @@
 package com.tenmiles.helpstack.logic;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TimeZone;
 
 import org.json.JSONArray;
@@ -17,12 +22,19 @@ import org.json.JSONObject;
 import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.tenmiles.helpstack.logic.MultiPart.MultipartEntity;
+import com.tenmiles.helpstack.logic.MultiPart.StringPart;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
@@ -149,24 +161,18 @@ public class HSHappyfoxGear extends HSGear {
 			OnNewTicketFetchedSuccessListener successListener,
 			ErrorListener errorListener) {
 		
-		JSONObject postParams = new JSONObject();
-		try {
-			postParams.put("name", user.getFullName());
-			postParams.put("email", user.getEmail());
-			postParams.put("category", category_id);
-			postParams.put("priority", priority_id);
-			postParams.put("subject", message);
-			postParams.put("text", body);
-			
-		} catch (JSONException e) {
-			// Not gonna come here
-			errorListener.onErrorResponse(new VolleyError("Invalid data specified when creating ticket"));
-			e.printStackTrace();
-			return;
-		}
+		
+		Properties prop = new Properties();
+		prop.put("name", user.getFullName());
+		prop.put("email", user.getEmail());
+		prop.put("category", category_id);
+		prop.put("priority", priority_id);
+		prop.put("subject", message);
+		prop.put("text", body);
 		
 		
-		TicketJSONRequest request = new TicketJSONRequest(getApiUrl()+"new_ticket/", postParams, new CreateNewTicketSuccessListener(user, successListener, errorListener) {
+		
+		TickeFormRequest request = new TickeFormRequest(getApiUrl()+"new_ticket/", prop, new CreateNewTicketSuccessListener(user, successListener, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -193,7 +199,7 @@ public class HSHappyfoxGear extends HSGear {
 	public void fetchAllUpdateOnTicket(HSTicket ticket, HSUser user, RequestQueue queue,
 			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 		
-		TicketJSONRequest request = new TicketJSONRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), null, new HappyfoxArrayBaseListner<JSONObject>(success, errorListener) {
+		TickeFormRequest request = new TickeFormRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), new HappyfoxArrayBaseListner<JSONObject>(success, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -234,20 +240,11 @@ public class HSHappyfoxGear extends HSGear {
 			RequestQueue queue, OnFetchedSuccessListener success,
 			ErrorListener errorListener) {
 		
-		JSONObject postParams = new JSONObject();
-		try {
-			postParams.put("user", user.getUserId());
-			postParams.put("text", message);
-			
-		} catch (JSONException e) {
-			// Not gonna come here
-			errorListener.onErrorResponse(new VolleyError("Invalid data specified when adding reply to a ticket"));
-			e.printStackTrace();
-			return;
-		}
+		Properties prop = new Properties();
+		prop.put("user", user.getUserId());
+		prop.put("text", message);
 		
-		
-		TicketJSONRequest request = new TicketJSONRequest(getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", postParams, new HappyfoxBaseListner<JSONObject>(success, errorListener) {
+		TickeFormRequest request = new TickeFormRequest(getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", prop, new HappyfoxBaseListner<JSONObject>(success, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -393,21 +390,83 @@ public class HSHappyfoxGear extends HSGear {
 		
 	}
 	
-	private class TicketJSONRequest extends JsonObjectRequest {
-
+	private class TickeFormRequest extends Request<JSONObject> {
+		
+		private Listener<JSONObject> mListener;
+		
+		private MultipartEntity entity;
 		
 		HashMap<String, String> headers = new HashMap<String, String>();
 		
-		public TicketJSONRequest(int method, String url,
-				JSONObject jsonRequest, Listener<JSONObject> listener,
-				ErrorListener errorListener) {
-			super(method, url, jsonRequest, listener, errorListener);
+		public TickeFormRequest(String url, Properties requestProperties, Listener<JSONObject> listener,
+		            ErrorListener errorListener) {
+	        super(Method.POST, url, errorListener);
+	        mListener = listener;
+	        StringPart[] parts = new StringPart[requestProperties.size()];
+	        int i = 0;
+	        // iter properties
+	        Enumeration<Object> enumKey = requestProperties.keys();
+	        while(enumKey.hasMoreElements()) {
+	            String key = (String) enumKey.nextElement();
+	            String val = requestProperties.getProperty(key);
+	            parts[i] = new StringPart(key, val);
+	            i++;
+	        }
+	        
+	        entity = new MultipartEntity(parts);
+		}
+		
+		public TickeFormRequest(String url, Listener<JSONObject> listener,
+	            ErrorListener errorListener) {
+			super(Method.GET, url, errorListener);
+        	mListener = listener;
+		}
+		
+		@Override
+	    public String getBodyContentType()
+	    {
+			if (entity == null) {
+				return super.getBodyContentType();
+			}
+	        return entity.getContentType().getValue();
+	    }
+
+	    @Override
+	    public byte[] getBody() throws AuthFailureError
+	    {
+	    	if (entity == null) {
+	    		return super.getBody();
+	    	}
+	        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	        try
+	        {
+	            entity.writeTo(bos);
+	        }
+	        catch (IOException e)
+	        {
+	            VolleyLog.e("IOException writing to ByteArrayOutputStream");
+	        }
+	        return bos.toByteArray();
+	    }
+		 
+		@Override
+		protected void deliverResponse(JSONObject response) {
+		    mListener.onResponse(response);
 		}
 
-		public TicketJSONRequest(String url, JSONObject jsonRequest,
-				Listener<JSONObject> listener, ErrorListener errorListener) {
-			super(url, jsonRequest, listener, errorListener);
-		}
+		@Override
+	    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+	        try {
+	            String jsonString =
+	                new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+	            return Response.success(new JSONObject(jsonString),
+	                    HttpHeaderParser.parseCacheHeaders(response));
+	        } catch (UnsupportedEncodingException e) {
+	            return Response.error(new ParseError(e));
+	        } catch (JSONException je) {
+	            return Response.error(new ParseError(je));
+	        }
+	    }
 		
 		@Override
 		public Map<String, String> getHeaders() throws AuthFailureError {
@@ -419,6 +478,35 @@ public class HSHappyfoxGear extends HSGear {
 	    	String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 	    	headers.put("Authorization", "Basic "+base64EncodedCredentials);
 		}
-		
 	}
+	
+//	private class TicketJSONRequest extends JsonObjectRequest {
+//
+//		
+//		HashMap<String, String> headers = new HashMap<String, String>();
+//		
+//		public TicketJSONRequest(int method, String url,
+//				JSONObject jsonRequest, Listener<JSONObject> listener,
+//				ErrorListener errorListener) {
+//			super(method, url, jsonRequest, listener, errorListener);
+//		}
+//
+//		public TicketJSONRequest(String url, JSONObject jsonRequest,
+//				Listener<JSONObject> listener, ErrorListener errorListener) {
+//			super(url, jsonRequest, listener, errorListener);
+//		}
+//		
+//		@Override
+//		public Map<String, String> getHeaders() throws AuthFailureError {
+//			return headers;
+//		}
+//		
+//		public void addCredential(String name, String password) {
+//			String credentials = name + ":" + password;
+//	    	String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+//	    	headers.put("Authorization", "Basic "+base64EncodedCredentials);
+//		}
+//		
+//	}
+	
 }
