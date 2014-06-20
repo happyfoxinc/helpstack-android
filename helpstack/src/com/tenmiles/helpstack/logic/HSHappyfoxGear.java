@@ -185,11 +185,7 @@ public class HSHappyfoxGear extends HSGear {
 		queue.start();
 	}
 	
-	@Override
-	public void fetchAllTicket(HSUser userDetails,RequestQueue queue,
-			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
-		
-	}
+	
 	
 	private abstract class HappyfoxBaseListner<T> implements Listener<T> {
 
