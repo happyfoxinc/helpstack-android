@@ -120,6 +120,10 @@ public class HSSource {
 	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
 		gear.fetchAllUpdateOnTicket(ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
+	
+	public void addReplyOnATicket(String message, HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
+		gear.addReplyOnATicket(message, ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
+	}
 
 	public HSGear getGear() {
 		return gear;

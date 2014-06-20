@@ -59,6 +59,13 @@ public class HSTestDataGear extends HSGear
 		successListener.onSuccess(HSUser.appendCredentialOnUserDetail(user, "3", null), HSTicket.createATicket("4", message));
 	}
 	
+	@Override
+	public void addReplyOnATicket(String message, HSTicket ticket, HSUser user,
+			RequestQueue queue, OnFetchedSuccessListener success,
+			ErrorListener errorListener) {
+		
+		success.onSuccess(HSTicketUpdate.createUpdateByUser(null, user.getFullName(), message, Calendar.getInstance().getTime()));
+	}
 	
 	@Override
 	public void fetchAllUpdateOnTicket(HSTicket ticket,HSUser user,  RequestQueue queue,

@@ -52,6 +52,10 @@ public class HSUser implements Serializable {
 	public String getEmail() {
 		return emailAddress;
 	}
+	
+	public String getUserId() {
+		return userId;
+	}
 
 	public static HSUser appendCredentialOnUserDetail(HSUser user, String userId, String access_token) {
 		user.userId = userId;

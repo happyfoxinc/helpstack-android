@@ -66,7 +66,7 @@ public class HSHappyfoxGear extends HSGear {
 		
 		
 		if (section == null) {
-			JsonArrayRequest request = new JsonArrayRequest(getApiUrl()+"kb/sections/", new HappyfoxBaseListner<JSONArray>(success, errorListener) {
+			JsonArrayRequest request = new JsonArrayRequest(getApiUrl()+"kb/sections/", new HappyfoxArrayBaseListner<JSONArray>(success, errorListener) {
 
 				@Override
 				public void onResponse(JSONArray sectionsArray) {
@@ -193,7 +193,7 @@ public class HSHappyfoxGear extends HSGear {
 	public void fetchAllUpdateOnTicket(HSTicket ticket, HSUser user, RequestQueue queue,
 			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 		
-		TicketJSONRequest request = new TicketJSONRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), null, new HappyfoxBaseListner<JSONObject>(success, errorListener) {
+		TicketJSONRequest request = new TicketJSONRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), null, new HappyfoxArrayBaseListner<JSONObject>(success, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -208,28 +208,7 @@ public class HSHappyfoxGear extends HSGear {
 						JSONObject updateObject = updateArray.getJSONObject(i);
 						
 						if (!updateObject.isNull("message")) {
-							
-							String updateId = null;
-							String userName = null;
-							JSONObject byObject = updateObject.getJSONObject("by");
-							if (!byObject.isNull("name")) {
-								userName = updateObject.getJSONObject("by").getString("name");
-							}
-							String message = updateObject.getJSONObject("message").getString("text");
-							
-							Date update_time = null;
-							if (!updateObject.isNull("timestamp")) {
-								update_time = parseTime(updateObject.getString("timestamp"));
-							}
-							
-							if (byObject.getString("type").equals("user")) {
-								ticketUpdates.add(HSTicketUpdate.createUpdateByUser(updateId, userName, message, update_time));
-							}
-							else {
-								ticketUpdates.add(HSTicketUpdate.createUpdateByStaff(updateId, userName, message, update_time));
-							}
-							
-							
+							ticketUpdates.add(parseTicketUpdateFromJson(updateObject));
 						}
 					}
 					
@@ -249,7 +228,100 @@ public class HSHappyfoxGear extends HSGear {
 		queue.add(request);
 		queue.start();
 	}
+	
+	@Override
+	public void addReplyOnATicket(String message, HSTicket ticket, HSUser user,
+			RequestQueue queue, OnFetchedSuccessListener success,
+			ErrorListener errorListener) {
+		
+		JSONObject postParams = new JSONObject();
+		try {
+			postParams.put("user", user.getUserId());
+			postParams.put("text", message);
+			
+		} catch (JSONException e) {
+			// Not gonna come here
+			errorListener.onErrorResponse(new VolleyError("Invalid data specified when adding reply to a ticket"));
+			e.printStackTrace();
+			return;
+		}
+		
+		
+		TicketJSONRequest request = new TicketJSONRequest(getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", postParams, new HappyfoxBaseListner<JSONObject>(success, errorListener) {
 
+			@Override
+			public void onResponse(JSONObject response) {
+				
+				try {
+					
+					HSTicketUpdate update = null;
+					// fetch last message from user in update array.
+					JSONArray updateArray = response.getJSONArray("updates");
+					
+					int updateLen = updateArray.length();
+					assert updateLen>0 : "No updates were returned by server";
+					for (int i = updateLen - 1; i >= 0 ; i--) {
+						JSONObject updateObject = updateArray.getJSONObject(i);
+						
+						
+						JSONObject byObject = updateObject.getJSONObject("by");
+						
+						if (!byObject.getString("type").equals("user") && updateObject.isNull("message")) {
+							continue;
+						}
+						
+						update = parseTicketUpdateFromJson(updateObject);
+						
+						break;
+					}
+					
+					if (update == null) {
+						this.errorListener.onErrorResponse(new VolleyError("Could not find user message in update"));
+					}
+					else {
+						this.successCallback.onSuccess(update);
+					}
+					
+					
+					
+				} catch (JSONException e) {
+					e.printStackTrace();
+					this.errorListener.onErrorResponse(new VolleyError("Parsing failed when adding reply to a ticket"));
+				}
+				
+			}
+		}, errorListener);
+		
+		request.addCredential(api_key, auth_code);
+		
+		queue.add(request);
+		queue.start();
+		
+	}
+	
+	private HSTicketUpdate parseTicketUpdateFromJson(JSONObject updateObject) throws JSONException {
+		String updateId = null;
+		String userName = null;
+		
+		JSONObject byObject = updateObject.getJSONObject("by");
+		if (!byObject.isNull("name")) {
+			userName = updateObject.getJSONObject("by").getString("name");
+		}
+		String message = updateObject.getJSONObject("message").getString("text");
+		
+		Date update_time = null;
+		if (!updateObject.isNull("timestamp")) {
+			update_time = parseTime(updateObject.getString("timestamp"));
+		}
+		
+		if (byObject.getString("type").equals("user")) {
+			return HSTicketUpdate.createUpdateByUser(updateId, userName, message, update_time);
+		}
+		else {
+			return HSTicketUpdate.createUpdateByStaff(updateId, userName, message, update_time);
+		}
+	}
+	
 	public String getApiUrl() {
 		return this.instanceUrl+"api/1.1/json/";
 	}
@@ -278,12 +350,25 @@ public class HSHappyfoxGear extends HSGear {
 		return format.parse(timeStr);
 	}
 	
-	private abstract class HappyfoxBaseListner<T> implements Listener<T> {
+	private abstract class HappyfoxArrayBaseListner<T> implements Listener<T> {
 
 		protected OnFetchedArraySuccessListener successCallback;
 		protected ErrorListener errorListener;
 
-		public HappyfoxBaseListner(OnFetchedArraySuccessListener success,
+		public HappyfoxArrayBaseListner(OnFetchedArraySuccessListener success,
+				ErrorListener errorListener) {
+			this.successCallback = success;
+			this.errorListener = errorListener;
+		}
+		
+	}
+	
+	private abstract class HappyfoxBaseListner<T> implements Listener<T> {
+
+		protected OnFetchedSuccessListener successCallback;
+		protected ErrorListener errorListener;
+
+		public HappyfoxBaseListner(OnFetchedSuccessListener success,
 				ErrorListener errorListener) {
 			this.successCallback = success;
 			this.errorListener = errorListener;
