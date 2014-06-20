@@ -1,6 +1,13 @@
 package com.tenmiles.helpstack.logic;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -9,28 +16,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.tenmiles.helpstack.model.HSCachedTicket;
+import com.tenmiles.helpstack.model.HSCachedUser;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSUser;
 
 public class HSSource {
+	private static final String TAG = HSSource.class.getSimpleName();
+	
+	private static final String HELPSTACK_DIRECTORY = "helpstack";
+	private static final String HELPSTACK_TICKETS_FILE_NAME = "tickets";
+	private static final String HELPSTACK_TICKETS_USER_DATA = "user_credential";
 	
 	private HSGear gear;
 	private Context mContext;
 	private RequestQueue mRequestQueue;
 	
+	private HSCachedTicket cachedTickets;
+	private HSCachedUser cachedUser;
+	
 	public HSSource(Context context) {
 		this.mContext = context;
 		setGear(HSHelpStack.getInstance(context).getGear());
-		mRequestQueue = Volley.newRequestQueue(context);
+		mRequestQueue = HSHelpStack.getInstance(context).getRequestQueue();
+		
+		cachedTickets = new HSCachedTicket();
+		cachedUser = new HSCachedUser();
+		// read the ticket data from cache and maintain here
+		doReadTicketsFromCache();
+		doReadUserFromCache();
 	}
 
-	public void requestKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener error ) {
+	public void requestKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
 		
 		if (gear.haveImplementedKBFetching()) {
 			
@@ -44,7 +68,7 @@ public class HSSource {
 					super.onSuccess(successObject);
 					
 				}
-			}, error);
+			}, new ErrorWrapper("Fetching KB articles", errorListener));
 		}
 		else {
 			
@@ -53,10 +77,10 @@ public class HSSource {
 				success.onSuccess(reader.readArticlesFromResource(mContext));
 			} catch (XmlPullParserException e) {
 				e.printStackTrace();
-				error.onErrorResponse(new VolleyError("Unable to parse local article XML"));
+				throwError(errorListener, "Unable to parse local article XML");
 			} catch (IOException e) {
 				e.printStackTrace();
-				error.onErrorResponse(new VolleyError("Unable to read local article XML"));
+				throwError(errorListener, "Unable to read local article XML");
 			}
 		}
 		
@@ -64,30 +88,41 @@ public class HSSource {
 	
 	public void requestAllTickets(OnFetchedArraySuccessListener success, ErrorListener error ) {
 		
-		gear.fetchAllTicket(null, mRequestQueue, new SuccessWrapper(success) {
-			@Override
-			public void onSuccess(Object[] successObject) {
-				
-				assert successObject != null  : "It seems requestAllTickets was not implemented in gear" ;
-
-				// Do your work here, may be caching, data validation etc.
-				super.onSuccess(successObject);
-				
-			}
-		}, error);
+		if (cachedTickets == null) {
+			success.onSuccess(new HSTicket[0]);
+		}
+		else {
+			success.onSuccess(cachedTickets.getTickets());
+		}
 		
 	}
 	
 	public void checkForUserDetailsValidity(String firstName, String lastName, String email,OnFetchedSuccessListener success, ErrorListener errorListener) {
-		gear.registerNewUser(firstName, lastName, email, mRequestQueue, success, errorListener);
+		gear.registerNewUser(firstName, lastName, email, mRequestQueue, success, new ErrorWrapper("Registering New User", errorListener));
 	}
 	
 	public void createNewTicket(HSUser user, String subject, String message, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
-		gear.createNewTicket(user, subject, message, mRequestQueue, successListener, errorListener);
+		gear.createNewTicket(user, subject, message, mRequestQueue, new NewTicketSuccessWrapper(successListener) {
+			
+			@Override
+			public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
+				
+				// Save ticket and user details in cache
+				// Save properties also later.
+				doSaveNewTicketPropertiesForGearInCache(ticket);
+				doSaveNewUserPropertiesForGearInCache(udpatedUserDetail);
+				super.onSuccess(udpatedUserDetail, ticket);
+				
+			}
+		}, new ErrorWrapper("Creating New Ticket", errorListener));
 	}
 	
-	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener error ) {
-		gear.fetchAllUpdateOnTicket(ticket, mRequestQueue, success, error);
+	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
+		gear.fetchAllUpdateOnTicket(ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
+	}
+	
+	public void addReplyOnATicket(String message, HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
+		gear.addReplyOnATicket(message, ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
 	}
 
 	public HSGear getGear() {
@@ -99,28 +134,11 @@ public class HSSource {
 	}
 	
 	public boolean isNewUser() {
-		return true;
+		return cachedUser.getUser() == null;
 	}
 	
 	public HSUser getUser() {
-		return null;
-	}
-	
-	private class SuccessWrapper implements OnFetchedArraySuccessListener
-	{
-
-		private OnFetchedArraySuccessListener lastListner;
-
-		public SuccessWrapper(OnFetchedArraySuccessListener lastListner) {
-			this.lastListner = lastListner;
-		}
-		
-		@Override
-		public void onSuccess(Object[] successObject) {
-			if (lastListner != null)
-				lastListner.onSuccess(successObject);
-		}
-		
+		return cachedUser.getUser();
 	}
 
 	public boolean haveImplementedTicketFetching() {
@@ -165,4 +183,209 @@ public class HSSource {
 		return builder.toString();
 	}
 	
+	
+	
+	
+	
+	
+	/////////////////////////////////////////////////
+	////////     Utility Functions  /////////////////
+	/////////////////////////////////////////////////
+	
+	/**
+	 * Opens a file and read its content. Return null if any error occured or file not found
+	 * @param file
+	 * @return
+	 */
+	private String readJsonFromFile(File file) {
+		
+		if (!file.exists()) {
+			return null;
+		}
+		
+		String json = null;
+		FileInputStream inputStream;
+		
+		try {
+			StringBuilder datax = new StringBuilder();
+			inputStream = new FileInputStream(file);
+			InputStreamReader isr = new InputStreamReader ( inputStream ) ;
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+
+            String readString = buffreader.readLine ( ) ;
+            while ( readString != null ) {
+                datax.append(readString);
+                readString = buffreader.readLine ( ) ;
+            }
+
+            isr.close ( ) ;
+            
+            json = datax.toString();
+            return json;
+            
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private void writeJsonIntoFile (File file, String json) {
+		FileOutputStream outputStream;
+
+		try {
+		  outputStream = new FileOutputStream(file);
+		  outputStream.write(json.getBytes());
+		  outputStream.close();
+		} catch (Exception e) {
+		  e.printStackTrace();
+		}
+	}
+	
+	protected void doSaveNewTicketPropertiesForGearInCache(HSTicket ticket) {
+		
+		cachedTickets.addTicketAtStart(ticket);
+		
+		Gson gson = new Gson();
+		String ticketsgson = gson.toJson(cachedTickets);
+		
+		
+		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
+		
+		writeJsonIntoFile(ticketFile, ticketsgson);
+		
+	}
+	
+	protected void doSaveNewUserPropertiesForGearInCache(HSUser user) {
+		
+		cachedUser.setUser(user);
+		
+		Gson gson = new Gson();
+		String userjson = gson.toJson(cachedUser);
+		
+		
+		File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
+		
+		writeJsonIntoFile(userFile, userjson);
+		
+	}
+	
+	protected void doReadTicketsFromCache() {
+		
+		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
+		
+		String json = readJsonFromFile(ticketFile);
+		
+		if (json != null) {
+			Gson gson = new Gson();
+			cachedTickets = gson.fromJson(json, HSCachedTicket.class);
+		}
+	}
+	
+	
+	
+	protected void doReadUserFromCache() {
+		
+		File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
+		
+		String json = readJsonFromFile(userFile);
+		
+		if (json != null) {
+			Gson gson = new Gson();
+			cachedUser = gson.fromJson(json, HSCachedUser.class);
+		}
+	}
+	
+	protected File getProjectDirectory() {
+		
+		File projDir = new File(mContext.getFilesDir(), HELPSTACK_DIRECTORY);
+		if (!projDir.exists())
+		    projDir.mkdirs();
+		
+		return projDir;
+	}
+	
+	private class NewTicketSuccessWrapper implements OnNewTicketFetchedSuccessListener
+	{
+
+		private OnNewTicketFetchedSuccessListener lastListner;
+
+		public NewTicketSuccessWrapper(OnNewTicketFetchedSuccessListener lastListner) {
+			this.lastListner = lastListner;
+		}
+		
+		@Override
+		public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
+			if (lastListner != null)
+				lastListner.onSuccess(udpatedUserDetail, ticket);
+		}
+		
+	}
+	
+	private class SuccessWrapper implements OnFetchedArraySuccessListener
+	{
+
+		private OnFetchedArraySuccessListener lastListner;
+
+		public SuccessWrapper(OnFetchedArraySuccessListener lastListner) {
+			this.lastListner = lastListner;
+		}
+		
+		@Override
+		public void onSuccess(Object[] successObject) {
+			if (lastListner != null)
+				lastListner.onSuccess(successObject);
+		}
+		
+	}
+	
+	private class ErrorWrapper implements ErrorListener {
+
+		private ErrorListener errorListener;
+		private String methodName;
+
+		public ErrorWrapper(String methodName, ErrorListener errorListener) {
+			this.errorListener = errorListener;
+			this.methodName = methodName;
+		}
+		
+		@Override
+		public void onErrorResponse(VolleyError error) {
+			printErrorDescription(methodName, error);
+			this.errorListener.onErrorResponse(error);
+		}
+	}
+	
+	public static void throwError(ErrorListener errorListener, String error) {
+		VolleyError volleyError = new VolleyError(error);
+		printErrorDescription(null, volleyError);
+		errorListener.onErrorResponse(volleyError);
+	}
+	
+	private static void printErrorDescription (String methodName, VolleyError error)
+	{
+		if (methodName == null) {
+			Log.e(HSHelpStack.LOG_TAG, "Error occurred in HelpStack");
+		}
+		else {
+			Log.e(HSHelpStack.LOG_TAG, "Error occurred when executing " + methodName);
+		}
+		
+		Log.e(HSHelpStack.LOG_TAG, error.toString());
+		if (error.getMessage() != null) {
+			Log.e(HSHelpStack.LOG_TAG, error.getMessage());
+		}
+		
+		if (error.networkResponse != null && error.networkResponse.data != null) {
+			try {
+				Log.e(HSHelpStack.LOG_TAG, new String(error.networkResponse.data, "utf-8"));
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		error.printStackTrace();
+	}
 }

@@ -82,11 +82,24 @@ public abstract class HSGear {
 	 * @param success, return HFTicket object
 	 * @param error
 	 */
-	public void fetchAllUpdateOnTicket(HSTicket ticket,RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
+	public void fetchAllUpdateOnTicket(HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
 	{
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
-		
+	
+	/***
+	 * 
+	 * @param message
+	 * @param ticket
+	 * @param user
+	 * @param queue
+	 * @param success
+	 * @param errorListener
+	 */
+	public void addReplyOnATicket(String message, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener) {
+		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
+	}
+	
 	public void setNotImplementingTicketsFetching(String companySupportEmailAddress) {
 		implementsTicketFetching = false;
 		this.companySupportEmailAddress = companySupportEmailAddress;

@@ -1,11 +1,15 @@
 package com.tenmiles.helpstack.fragments;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -15,6 +19,7 @@ import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
+import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
 
@@ -32,11 +37,18 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private HSTicketUpdate[] fetchedUpdates;
 	
+	private EditText replyEditTextView;
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
 		View rootView = inflater.inflate(R.layout.fragment_issue_detail, null);
+		
+		
+		replyEditTextView = (EditText) rootView.findViewById(R.id.replyEditText);
+		rootView.findViewById(R.id.button1).setOnClickListener(sendReplyListener);
 		
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
         mAdapter = new LocalAdapter(getActivity());
@@ -61,7 +73,13 @@ public class IssueDetailFragment extends HSFragmentParent
 		
 		refreshList();
 	}
-	
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("updates", fetchedUpdates);
+	}
+
 	private void refreshList() {
 		
 		mAdapter.clearAll();
@@ -77,13 +95,6 @@ public class IssueDetailFragment extends HSFragmentParent
 		
 		expandAll();
 	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putSerializable("updates", fetchedUpdates);
-	}
-
 	
 	private void refreshUpdateFromServer() {
 		
@@ -109,6 +120,44 @@ public class IssueDetailFragment extends HSFragmentParent
 			}
 		});
 	}
+	
+	private OnClickListener sendReplyListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+			String message = replyEditTextView.getText().toString();
+			
+			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
+			
+			gearSource.addReplyOnATicket(message, ticket, new OnFetchedSuccessListener() {
+				
+				@Override
+				public void onSuccess(Object successObject) {
+					
+					HSTicketUpdate update = (HSTicketUpdate) successObject;
+					
+					ArrayList<HSTicketUpdate> updateList = new ArrayList<HSTicketUpdate>();
+					updateList.addAll(Arrays.asList(fetchedUpdates));
+					updateList.add(update);
+					
+					HSTicketUpdate[] updateArray = new HSTicketUpdate[0];
+					fetchedUpdates = updateList.toArray(updateArray);
+					
+					refreshList();
+					
+					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+				}
+			}, new ErrorListener() {
+
+				@Override
+				public void onErrorResponse(VolleyError error) {
+					
+					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+				}
+			});
+		}
+	};
 	
 	private void expandAll() {
 		int count = mAdapter.getGroupCount();
@@ -157,7 +206,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				holder.nameField.setText("Staff");
 			}
 			
-			holder.timeField.setText(update.getUpdateAt());
+		//	holder.timeField.setText(update.getUpdateAt());
 			
 			return convertView;
 		}
@@ -182,8 +231,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					
+					// Empty to avoid expand/collapse
 				}
 			});
 			

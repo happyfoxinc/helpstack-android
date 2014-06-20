@@ -1,6 +1,7 @@
 package com.tenmiles.helpstack.logic;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -58,25 +59,34 @@ public class HSTestDataGear extends HSGear
 		successListener.onSuccess(HSUser.appendCredentialOnUserDetail(user, "3", null), HSTicket.createATicket("4", message));
 	}
 	
+	@Override
+	public void addReplyOnATicket(String message, HSTicket ticket, HSUser user,
+			RequestQueue queue, OnFetchedSuccessListener success,
+			ErrorListener errorListener) {
+		
+		success.onSuccess(HSTicketUpdate.createUpdateByUser(null, user.getFullName(), message, Calendar.getInstance().getTime()));
+	}
 	
 	@Override
-	public void fetchAllUpdateOnTicket(HSTicket ticket, RequestQueue queue,
+	public void fetchAllUpdateOnTicket(HSTicket ticket,HSUser user,  RequestQueue queue,
 			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 		
 		if (ticket.getTicketId().equals("1")) {
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[2];
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", "I have not received my order yet. Order id is 23405");
-			updateArray[1] = HSTicketUpdate.createUpdateByStaff("2", "We have confirmed, it is on the way and you will receive it in 2 days");
+			Calendar delayTime = Calendar.getInstance();
+			delayTime.add(Calendar.MINUTE, -30);
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "I have not received my order yet. Order id is 23405", delayTime.getTime());
+			updateArray[1] = HSTicketUpdate.createUpdateByStaff("2", "Staff", "We have confirmed, it is on the way and you will receive it in 2 days", Calendar.getInstance().getTime());
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("2")) {
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[1];
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", "Where are you located.");
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "Where are you located.", Calendar.getInstance().getTime());
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("4")) {
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[1];
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", this.newTicketBody);
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", user.getFullName(), this.newTicketBody, Calendar.getInstance().getTime());
 			success.onSuccess(updateArray);
 		}
 		else {
