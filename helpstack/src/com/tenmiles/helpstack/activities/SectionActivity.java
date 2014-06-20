@@ -1,22 +1,13 @@
 package com.tenmiles.helpstack.activities;
 
-import com.tenmiles.helpstack.R;
-import com.tenmiles.helpstack.R.id;
-import com.tenmiles.helpstack.R.layout;
-import com.tenmiles.helpstack.R.menu;
-import com.tenmiles.helpstack.fragments.SectionFragment;
-import com.tenmiles.helpstack.model.HSKBItem;
-
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+
+import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.fragments.SectionFragment;
+import com.tenmiles.helpstack.model.HSKBItem;
 
 public class SectionActivity extends HSActivityParent {
 

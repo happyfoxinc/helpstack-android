@@ -141,17 +141,17 @@ public class HSSource {
 	    activity.startActivity(Intent.createChooser(emailIntent, "Email"));
 	}
 	
-	public String getDeviceInformation(Activity activity) {
+	public static String getDeviceInformation(Activity activity) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n\n\n");
 		builder.append("==========================");
 		builder.append("\nDevice Android version : ");
-		builder.append(Build.VERSION.CODENAME);
+		builder.append(Build.VERSION.SDK_INT);
 		builder.append("\nDevice brand : ");
-		builder.append(Build.BRAND);
+		builder.append(Build.MODEL);
 		builder.append("\nApplication package :");
 		try {
-			builder.append(activity.getPackageManager().getPackageInfo(activity.getPackageName(),0));
+			builder.append(activity.getPackageManager().getPackageInfo(activity.getPackageName(),0).packageName);
 		} catch (NameNotFoundException e) {
 			builder.append("NA");
 		}

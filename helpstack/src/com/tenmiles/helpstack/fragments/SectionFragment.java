@@ -3,6 +3,9 @@ package com.tenmiles.helpstack.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,18 +19,19 @@ import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.ArticleActivity;
 import com.tenmiles.helpstack.activities.SectionActivity;
-import com.tenmiles.helpstack.logic.HSHelpStack;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 
-public class SectionFragment extends HSFragmentParent{
+public class SectionFragment extends HSFragmentParent {
 
 	public HSKBItem kbItem;
 	
 	private ListView mListView;
 	private HSSource gearSource;
 	private HSKBItem[] fetchedKbItems;
+	
+	private SearchFragment mSearchFragment;
 	
 	public SectionFragment() {
 		
@@ -40,9 +44,26 @@ public class SectionFragment extends HSFragmentParent{
 		
 		mListView = (ListView)rootView.findViewById(R.id.sectionlistview);
 		gearSource = new HSSource (getActivity());
+		
+		mSearchFragment = new SearchFragment();
+        HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
+        
+        setHasOptionsMenu(true);
+        
 		initializeView();
 		
 		return rootView;
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		
+		// Inflate the menu; this adds items to the action bar if it is present.
+		inflater.inflate(R.menu.search, menu);
+        
+        MenuItem searchItem = menu.findItem(R.id.search);
+        mSearchFragment.addSearchViewInMenuItem(getActivity(), searchItem);
 	}
 	
 	private void initializeView() {
@@ -54,6 +75,7 @@ public class SectionFragment extends HSFragmentParent{
 			@Override
 			public void onSuccess(Object[] successObject) {
 				fetchedKbItems = (HSKBItem[])successObject;
+				mSearchFragment.setKBArticleList(fetchedKbItems);
 				refreshList();
 				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				
