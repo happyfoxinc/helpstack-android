@@ -1,4 +1,4 @@
-package com.tenmiles.helpstack.logic;
+package com.tenmiles.helpstack.model;
 
 import java.io.Serializable;
 

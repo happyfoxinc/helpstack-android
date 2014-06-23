@@ -30,9 +30,9 @@ import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
-import com.tenmiles.helpstack.logic.HSAttachment;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnNewTicketFetchedSuccessListener;
+import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSUser;
 
