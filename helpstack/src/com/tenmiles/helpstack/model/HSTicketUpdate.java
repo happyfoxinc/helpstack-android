@@ -25,7 +25,6 @@ public class HSTicketUpdate implements Serializable {
 	@SerializedName("name")
 	public String name;
 	
-	
 	// Date, Attachments etc will come here
 	
 	public static HSTicketUpdate createUpdateByStaff(String updateId, String name, String text, Date update_time) {
@@ -59,4 +58,7 @@ public class HSTicketUpdate implements Serializable {
 	public String getText() {
 		return text;
 	}
-}
+	
+	
+	
+ }

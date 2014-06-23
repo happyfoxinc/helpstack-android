@@ -187,7 +187,8 @@ public class IssueDetailFragment extends HSFragmentParent
 				}
 				
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
-				
+				holder.nameField = (TextView) convertView.findViewById(R.id.name);
+				holder.timeField = (TextView) convertView.findViewById(R.id.time);
 				
 				convertView.setTag(holder);
 			}
@@ -199,6 +200,13 @@ public class IssueDetailFragment extends HSFragmentParent
 			HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
 			
 			holder.textView1.setText(update.getText());
+			if(update.isUserUpdate()) {
+				holder.nameField.setText("Me");
+			}else {
+				holder.nameField.setText("Staff");
+			}
+			
+		//	holder.timeField.setText(update.getUpdateAt());
 			
 			return convertView;
 		}
@@ -247,6 +255,8 @@ public class IssueDetailFragment extends HSFragmentParent
 		
 		private class ChildViewHolder {
 			public TextView textView1;
+			public TextView nameField;
+			public TextView timeField;
 		}
 	}
 

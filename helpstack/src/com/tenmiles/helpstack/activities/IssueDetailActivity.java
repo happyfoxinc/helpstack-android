@@ -1,6 +1,7 @@
 package com.tenmiles.helpstack.activities;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,6 +28,12 @@ public class IssueDetailActivity extends HSActivityParent {
 	}
 
 	@Override
+	public void configureActionBar(ActionBar actionBar) {
+		super.configureActionBar(actionBar);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -43,9 +50,10 @@ public class IssueDetailActivity extends HSActivityParent {
 		if (id == R.id.action_settings) {
 			return true;
 		}
+		if(id == android.R.id.home) {
+			finish();
+		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	
 
 }

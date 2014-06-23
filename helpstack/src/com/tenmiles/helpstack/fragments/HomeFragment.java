@@ -64,7 +64,6 @@ public class HomeFragment extends HSFragmentParent {
          mAdapter = new LocalAdapter(getActivity());
          
          View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
-
          report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
 
          mExpandableListView.addFooterView(report_an_issue_view);

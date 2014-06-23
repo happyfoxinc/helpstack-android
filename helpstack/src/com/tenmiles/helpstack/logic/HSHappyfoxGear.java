@@ -509,5 +509,4 @@ public class HSHappyfoxGear extends HSGear {
 //		
 //	}
 	
-	
 }

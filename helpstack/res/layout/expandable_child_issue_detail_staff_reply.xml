@@ -2,14 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+    
+    <TextView
+        android:id="@+id/name"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="Staff"
+        android:layout_alignParentTop="true"
+        android:maxWidth="100dp"/>
+    
+    <RelativeLayout
+        android:id="@+id/textlayout"
+        android:layout_below="@id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:layout_alignParentLeft="true"
+      	android:layout_marginRight="80dp"
+        android:background="@drawable/staff_chat_bubble">
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="80dp"
         android:text="Test" />
+    
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/time"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="05:55"
+        android:layout_below="@id/textlayout"
+        android:layout_alignParentBottom="true"
+        android:maxWidth="100dp"/>
 			   
 </RelativeLayout>
