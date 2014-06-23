@@ -66,12 +66,12 @@ public abstract class HSGear {
 	 * 
 	 * 
 	 * @param user
-	 * @param message
+	 * @param subject
 	 * @param body
 	 * @param successListener
 	 * @param errorListener
 	 */
-	public void createNewTicket(HSUser user, String message, String body, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
+	public void createNewTicket(HSUser user, String subject, String body, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	

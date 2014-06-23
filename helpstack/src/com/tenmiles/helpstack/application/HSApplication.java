@@ -2,7 +2,6 @@ package com.tenmiles.helpstack.application;
 
 import android.app.Application;
 
-import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.logic.HSHappyfoxGear;
 import com.tenmiles.helpstack.logic.HSHelpStack;
 
