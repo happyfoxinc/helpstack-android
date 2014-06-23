@@ -1,12 +1,12 @@
 package com.tenmiles.helpstack.activities;
 
-import com.tenmiles.helpstack.fragments.HSFragmentParent;
-import com.tenmiles.helpstack.model.HSTicket;
-import com.tenmiles.helpstack.model.HSUser;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
+import com.tenmiles.helpstack.fragments.HSFragmentParent;
+import com.tenmiles.helpstack.model.HSTicket;
+import com.tenmiles.helpstack.model.HSUser;
 
 /**
  * 
@@ -48,5 +48,15 @@ public class HSActivityManager {
 		context.startActivity(intent);
 	}
 	
+	public static void finishSafe(Activity context) {
+		Intent intent = new Intent();
+		context.setResult(HSActivityManager.resultCode_cancelled,intent);
+		context.finish();
+	}
+	
+	public static void sendSuccessSignal(Activity context, Intent result) {
+		context.setResult(HSActivityManager.resultCode_sucess,result);
+		context.finish();
+	}
 	
 }

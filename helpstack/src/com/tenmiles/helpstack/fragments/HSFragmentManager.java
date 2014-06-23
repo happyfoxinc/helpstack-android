@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.tenmiles.helpstack.activities.HSActivityParent;
+import com.tenmiles.helpstack.model.HSUser;
 
 /**
  * 
@@ -20,6 +21,9 @@ public class HSFragmentManager {
 	}
 	
 
+	public static NewIssueFragment getNewIssueFragment(HSUser user) {
+		return NewIssueFragment.createNewIssueFragment(user);
+	}
 
 	public static IssueDetailFragment getIssueDetailFragment() {
 		return new IssueDetailFragment();
