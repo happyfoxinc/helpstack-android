@@ -40,14 +40,17 @@
             android:label="@string/title_activity_issue_detail"
             android:windowSoftInputMode="adjustResize" >
         </activity>
-		<activity
+        <activity
             android:name="com.tenmiles.helpstack.activities.ArticleActivity"
             android:label="@string/title_activity_article" >
         </activity>
         <activity
             android:name="com.tenmiles.helpstack.activities.SectionActivity"
             android:label="@string/title_activity_section" >
-
+        </activity>
+        <activity
+            android:name="com.tenmiles.helpstack.activities.AttachmentActivity"
+            android:label="@string/title_activity_attachment" >
         </activity>
     </application>
 

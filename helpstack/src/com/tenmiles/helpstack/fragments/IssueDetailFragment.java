@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
@@ -31,12 +34,15 @@ import com.tenmiles.helpstack.model.HSTicketUpdate;
 public class IssueDetailFragment extends HSFragmentParent 
 {
 
+	private static final int SELECT_PICTURE = 1;
+	
 	public IssueDetailFragment() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	private HSTicket ticket;
 	private ExpandableListView mExpandableListView;
+	private ImageButton mAttachmentButton;
 	private LocalAdapter mAdapter;
 	private HSSource gearSource;
 	
@@ -56,6 +62,16 @@ public class IssueDetailFragment extends HSFragmentParent
 		rootView.findViewById(R.id.button1).setOnClickListener(sendReplyListener);
 		
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
+		mAttachmentButton = (ImageButton) rootView.findViewById(R.id.attachmentbutton);
+		
+		mAttachmentButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showGallery();
+			}
+		});
+		
         mAdapter = new LocalAdapter(getActivity());
         
         mExpandableListView.setAdapter(mAdapter);
@@ -84,6 +100,20 @@ public class IssueDetailFragment extends HSFragmentParent
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("updates", fetchedUpdates);
 	}
+	
+	private void showGallery() {
+		Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == Activity.RESULT_OK){
+			
+		}
+	};
 
 	private void refreshList() {
 		
