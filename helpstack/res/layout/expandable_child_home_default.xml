@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    style="@style/MainListView_ChildViewTheme">
 
     <TextView
         android:id="@+id/textView1"
-        style="@style/sectionListTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/MainListView_ChildView_TextTheme"
         android:layout_alignParentLeft="true"
         android:paddingRight="25dp"
-        android:padding="8dp"
         android:text="" />
 	
     <ImageView

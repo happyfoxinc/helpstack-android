@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    
+    <style name="BackgroundBaseTheme">
+        <item name="android:background">@color/background_color</item>
+    </style>
+    
+    <style name="ListViewBaseTheme">
+        <item name="android:cacheColorHint">@color/transparent_color</item>
+        <item name="android:divider">@color/listView_divider_color</item>
+        <item name="android:dividerHeight">@dimen/listView_divider_height</item>
+        <item name="android:listSelector">@color/listView_selector_color</item>
+    </style>
+    
+    <style name="ListViewGroupViewBaseTheme">
+        <item name="android:background">@color/groupView_background_color</item>
+    </style>
+    
+    <style name="ListViewChildViewBaseTheme">
+        <item name="android:background">@color/childView_background_color</item>
+    </style>
+    
+    <style name="ListViewGroupView_TextBaseTheme">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">@dimen/listView_GroupView_TextSize</item>
+    </style>
+    
+    <style name="ListViewChildView_TextBaseTheme">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">@dimen/listView_ChildView_TextSize</item>
+    </style>
+    
+    <style name="UserChatBubbleBaseTheme">
+        <item name="android:background">@drawable/user_chat_bubble</item> 
+    </style>
+    
+    <style name="StaffChatBubbleBaseTheme">
+        <item name="android:background">@drawable/staff_chat_bubble</item> 
+    </style>
+    
+    <style name="MessageTextBaseTheme">
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">@dimen/message_TextSize</item>
+    </style>
+    
+</resources>

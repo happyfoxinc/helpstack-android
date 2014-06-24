@@ -2,15 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/BackgroundBaseTheme"
     tools:context="com.tenmiles.helpstack.HomeActivity$PlaceholderFragment" >
 
     <com.tenmiles.helpstack.theme.widget.HSExpandableListView
         android:id="@+id/expandableList"
-        android:layout_above="@+id/replyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="#0000"
-        android:groupIndicator="@null" />
+        android:groupIndicator="@null"
+        style="@style/MainListViewTheme" />
 
     <FrameLayout
         android:id="@+id/search_container"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_color">#e1e1e1</color>
+    <color name="groupView_background_color">#81c57b</color>
+    <color name="childView_background_color">#ffffff</color>
+    <color name="listView_divider_color">#e2e2e2</color>
+    <color name="listView_selector_color">#d3d3d3</color>
+    <color name="transparent_color">#0000</color>
+    <color name="lightGreycolor">#ececec</color>
+    <color name="rightchatbubblecolor">#CADD9C</color>
+</resources>

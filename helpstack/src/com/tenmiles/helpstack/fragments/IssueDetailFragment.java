@@ -53,7 +53,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private HSTicket ticket;
 	private ExpandableListView mExpandableListView;
-	private ImageButton mAttachmentButton;
+	private ImageView mAttachmentButton;
 	private LocalAdapter mAdapter;
 	private HSSource gearSource;
 	
@@ -73,7 +73,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		rootView.findViewById(R.id.button1).setOnClickListener(sendReplyListener);
 		
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
-		mAttachmentButton = (ImageButton) rootView.findViewById(R.id.attachmentbutton);
+		mAttachmentButton = (ImageView) rootView.findViewById(R.id.attachmentbutton);
 		
 		mAttachmentButton.setOnClickListener(new OnClickListener() {
 			

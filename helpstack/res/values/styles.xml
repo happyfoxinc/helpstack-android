@@ -1,26 +1,38 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
-        
-	<style name="sectionListTextView">
-	    <item name="android:lines">1</item>
-	    <item name="android:textSize">@dimen/default_text_size</item>
-	</style>
+    <!-- Backgrond theme. -->
+    <style name="BackgroundTheme" parent="BackgroundBaseTheme"></style>
     
+    <!-- Main ListView theme - applied to the kbarticles and issues list -->
+    <style name="MainListViewTheme" parent="ListViewBaseTheme">
+        
+    </style>
+    
+    <style name="MainListView_GroupViewTheme" parent="ListViewGroupViewBaseTheme">
+        
+    </style>
+    
+    <style name="MainListView_ChildViewTheme" parent="ListViewChildViewBaseTheme">
+        
+    </style>
+    
+    <style name="MainListView_ChildView_TextTheme" parent="ListViewChildView_TextBaseTheme">
+        
+    </style>
+    
+    <style name="MainListView_GroupView_TextTheme" parent="ListViewGroupView_TextBaseTheme">
+        
+    </style>
+    
+    <style name="staffChatBubbleTheme" parent="StaffChatBubbleBaseTheme"></style>
+    <style name="userChatBubbleTheme" parent="UserChatBubbleBaseTheme"></style>
+    <style name="messageTextTheme" parent="MessageTextBaseTheme"></style>
+	    
+    
+        
 </resources>

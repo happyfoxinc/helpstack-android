@@ -23,14 +23,14 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/name"
         android:layout_marginLeft="80dp"
-        android:background="@drawable/user_chat_bubble"
+        style="@style/userChatBubbleTheme"
         android:paddingRight="5dp" >
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/default_text_size"
+            style="@style/messageTextTheme"
             android:gravity="left"
             android:text="Text" />
         

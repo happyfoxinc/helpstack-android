@@ -18,21 +18,21 @@
     
     <RelativeLayout
         android:id="@+id/textlayout"
+        style="@style/staffChatBubbleTheme"
         android:layout_below="@id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="5dp"
         android:layout_alignParentLeft="true"
-      	android:layout_marginRight="80dp"
-        android:background="@drawable/staff_chat_bubble">
+      	android:layout_marginRight="80dp">
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textSize="@dimen/default_text_size"
         android:layout_alignParentLeft="true"
+      	style="@style/messageTextTheme"
         android:text="Test" />
     
     <ImageButton 

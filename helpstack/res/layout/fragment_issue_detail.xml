@@ -6,6 +6,8 @@
 
     <com.tenmiles.helpstack.theme.widget.HSExpandableListView
         android:id="@+id/expandableList"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:groupIndicator="@null"
@@ -14,12 +16,13 @@
 
     <RelativeLayout
         android:id="@+id/replyLayout"
+        android:background="@color/lightGreycolor"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:gravity="bottom"
         android:layout_height="wrap_content" >
         
-        <ImageButton 
+        <ImageView 
             android:id="@+id/attachmentbutton"
             android:layout_alignParentLeft="true"
             android:layout_alignBottom="@+id/replyEditText"

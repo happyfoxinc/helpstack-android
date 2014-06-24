@@ -6,10 +6,9 @@
     
     <TextView
         android:id="@+id/sectionlisttextview"
-        style="@style/sectionListTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        style="@style/MainListView_ChildView_TextTheme"
         android:text="" />
     
 

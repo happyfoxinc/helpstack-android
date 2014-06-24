@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/MainListView_GroupViewTheme"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+		style="@style/MainListView_GroupView_TextTheme"
         android:text="TextView" />
 
 </LinearLayout>
