@@ -7,27 +7,38 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.activities.AttachmentActivity;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
+import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
+import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
 
@@ -78,6 +89,29 @@ public class IssueDetailFragment extends HSFragmentParent
         
         gearSource = new HSSource(getActivity());
 		
+        mAdapter.setOnChildItemClickListener(new OnChildItemClickListener() {
+			
+			@Override
+			public boolean onChildListItemLongClick(int groupPosition,
+					int childPosition, String type, Object map) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			@Override
+			public void onChildListItemClick(int groupPosition, int childPosition,
+					String type, Object map) {
+				showAttachments(((HSTicketUpdate)map).getAttachments());
+			}
+			
+			@Override
+			public void onChildCheckedListner(int groupPosition, int childPosition,
+					String type, Object map, boolean checked) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
 		return rootView;
 	}
 	
@@ -99,6 +133,36 @@ public class IssueDetailFragment extends HSFragmentParent
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("updates", fetchedUpdates);
+	}
+	
+	private void showAttachments(final HSAttachment[] attachmentsArray) {
+		ArrayList<String> attachments = new ArrayList<String>();
+		for(HSAttachment attachment : attachmentsArray) {
+			attachments.add(attachment.getFileName());
+		}
+		String[] attachmentNames = attachments.toArray(new String[attachments.size()]);
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.attachment_dialog, null);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("List");
+        ListView lv = (ListView) convertView.findViewById(R.id.listView1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,attachmentNames);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				HSAttachment attachmentToShow = attachmentsArray[position];
+				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
+				intent.putExtra("attachment", attachmentToShow);
+				intent.putExtra("isLocalAttachment", false);
+				startActivity(intent);
+			}
+		});
+        
+        alertDialog.show();
 	}
 	
 	private void showGallery() {
@@ -209,7 +273,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		}
 
 		@Override
-		public View getChildView(int groupPosition, int childPosition,
+		public View getChildView(final int groupPosition, final int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
 			ChildViewHolder holder;
 			if (convertView == null) {
@@ -224,6 +288,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
 				holder.nameField = (TextView) convertView.findViewById(R.id.name);
 				holder.timeField = (TextView) convertView.findViewById(R.id.time);
+				holder.attachmentButton = (ImageView) convertView.findViewById(R.id.attachment_icon);
 				
 				convertView.setTag(holder);
 			}
@@ -232,13 +297,27 @@ public class IssueDetailFragment extends HSFragmentParent
 			}
 			
 			// This is a dummy view as only 1 group is gonna be used.
-			HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
+			final HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
 			
 			holder.textView1.setText(update.getText());
 			if(update.isUserUpdate()) {
 				holder.nameField.setText("Me");
 			}else {
 				holder.nameField.setText("Staff");
+			}
+			
+			if(update.isAttachmentEmtpy()) {
+				holder.attachmentButton.setVisibility(View.INVISIBLE);
+			}else {
+				holder.attachmentButton.setVisibility(View.VISIBLE);
+				holder.attachmentButton.setFocusable(true);
+				holder.attachmentButton.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						sendChildClickEvent(groupPosition, childPosition, "attachment", update);
+					}
+				});
 			}
 			
 			Date updatedTime = update.getUpdatedTime();
@@ -296,6 +375,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			public TextView textView1;
 			public TextView nameField;
 			public TextView timeField;
+			public ImageView attachmentButton;
 		}
 	}
 

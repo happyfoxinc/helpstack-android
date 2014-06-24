@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -18,6 +19,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.ArticleActivity;
+import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.SectionActivity;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
@@ -44,6 +46,11 @@ public class SectionFragment extends HSFragmentParent {
 		
 		mListView = (ListView)rootView.findViewById(R.id.sectionlistview);
 		gearSource = new HSSource (getActivity());
+		
+		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
+        report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
+
+        mListView.addFooterView(report_an_issue_view);
 		
 		mSearchFragment = new SearchFragment();
         HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
@@ -89,6 +96,24 @@ public class SectionFragment extends HSFragmentParent {
 			}
 		});
 	}
+	
+	private OnClickListener reportIssueClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+			if (gearSource.haveImplementedTicketFetching()) {
+				if(gearSource.isNewUser()) {
+					HSActivityManager.startNewUserActivity(SectionFragment.this, 1003);
+				}else {
+					HSActivityManager.startNewIssueActivity(SectionFragment.this, gearSource.getUser(), 1003);
+				}
+			}
+			else {
+				gearSource.launchEmailAppWithEmailAddress(getActivity());
+			}
+		}
+	};
 	
 	private void refreshList() {
 		SectionAdapter sectionAdapter = new SectionAdapter(this.fetchedKbItems);
@@ -163,6 +188,5 @@ public class SectionFragment extends HSFragmentParent {
 		private class ViewHolder {
 			TextView title;
 		}
-		
 	}
 }

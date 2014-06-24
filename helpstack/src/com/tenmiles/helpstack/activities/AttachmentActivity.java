@@ -4,6 +4,11 @@ import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.R.id;
 import com.tenmiles.helpstack.R.layout;
 import com.tenmiles.helpstack.R.menu;
+import com.tenmiles.helpstack.fragments.AttachmentFragment;
+import com.tenmiles.helpstack.fragments.HSFragmentManager;
+import com.tenmiles.helpstack.fragments.LocalAttachmentFragment;
+import com.tenmiles.helpstack.fragments.NewUserFragment;
+import com.tenmiles.helpstack.model.HSAttachment;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -16,15 +21,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-public class AttachmentActivity extends ActionBarActivity {
+public class AttachmentActivity extends HSActivityParent {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_attachment);
 
+		boolean isLocalAttachment = getIntent().getExtras().getBoolean("isLocalAttachment");
+		
 		if (savedInstanceState == null) {
-			
+			if(!isLocalAttachment) {
+				AttachmentFragment attachmentFragment = new AttachmentFragment();
+				HSFragmentManager.putFragmentInActivity(this, R.id.container, attachmentFragment, "attachment");
+			} else {
+				LocalAttachmentFragment attachmentFragment = new LocalAttachmentFragment();
+				HSFragmentManager.putFragmentInActivity(this, R.id.container, attachmentFragment, "attachment");
+			}
 		}
 	}
 

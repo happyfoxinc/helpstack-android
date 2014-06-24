@@ -33,6 +33,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/subjectField"
         android:ems="10"
+        android:textSize="@dimen/default_text_size"
         android:gravity="left|bottom"
         android:hint="@string/messagehint"
         android:minLines="4"

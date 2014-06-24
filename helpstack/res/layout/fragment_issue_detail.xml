@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.tenmiles.helpstack.IssueDetailActivity$PlaceholderFragment" >
 
     <com.tenmiles.helpstack.theme.widget.HSExpandableListView
@@ -13,21 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:groupIndicator="@null"
+        android:layout_above="@+id/replyLayout"
         android:cacheColorHint="#0000" />
 
     <RelativeLayout
         android:id="@+id/replyLayout"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
+        android:gravity="bottom"
         android:layout_height="wrap_content" >
         
         <ImageButton 
             android:id="@+id/attachmentbutton"
             android:layout_alignParentLeft="true"
-            android:layout_height="20dp"
-            android:layout_width="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
+            android:layout_alignBottom="@+id/replyEditText"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
             android:src="@drawable/attachment_add_icon"/>
 
         <EditText
@@ -37,10 +34,9 @@
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/attachmentbutton"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:gravity="bottom"
             android:hint="Add reply"
             android:layout_toLeftOf="@+id/button1"
-            android:layout_alignParentBottom="true"
             android:maxLines="4" />
 
         <Button

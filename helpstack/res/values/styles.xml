@@ -20,7 +20,7 @@
         
 	<style name="sectionListTextView">
 	    <item name="android:lines">1</item>
-	    <item name="android:textSize">15sp</item>
+	    <item name="android:textSize">@dimen/default_text_size</item>
 	</style>
     
 </resources>

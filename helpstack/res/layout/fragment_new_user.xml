@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nalin"
+        android:textSize="@dimen/default_text_size"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
@@ -31,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Chhajer"
+        android:textSize="@dimen/default_text_size"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
@@ -42,12 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="nalin@tenmiles.com"
+        android:textSize="@dimen/default_text_size"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
-    
-    
-        
-    
 
 </LinearLayout>

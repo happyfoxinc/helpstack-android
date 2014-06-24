@@ -35,6 +35,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.tenmiles.helpstack.logic.MultiPart.MultipartEntity;
 import com.tenmiles.helpstack.logic.MultiPart.StringPart;
+import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
@@ -67,7 +68,6 @@ public class HSHappyfoxGear extends HSGear {
 		this.category_id = category_id;
 		
 	}
-	
 	
 	// This are cached here so server call can be minimized and improve the speed of UI
 	JSONArray allSectionsArray;
@@ -259,8 +259,6 @@ public class HSHappyfoxGear extends HSGear {
 					assert updateLen>0 : "No updates were returned by server";
 					for (int i = updateLen - 1; i >= 0 ; i--) {
 						JSONObject updateObject = updateArray.getJSONObject(i);
-						
-						
 						JSONObject byObject = updateObject.getJSONObject("by");
 						
 						if (!byObject.getString("type").equals("user") && updateObject.isNull("message")) {
@@ -311,11 +309,25 @@ public class HSHappyfoxGear extends HSGear {
 			update_time = parseTime(updateObject.getString("timestamp"));
 		}
 		
+		JSONArray attachmentObjects = updateObject.getJSONObject("message").getJSONArray("attachments");
+		HSAttachment[] attachments = null;
+		if(attachmentObjects != null) {
+			int length = attachmentObjects.length();
+			ArrayList<HSAttachment> attachmentArray = new ArrayList<HSAttachment>();
+			for(int i = 0; i < length; i++) {
+				JSONObject attachmentData = attachmentObjects.getJSONObject(i);
+				HSAttachment attachData = HSAttachment.createAttachment(attachmentData.getString("url"), 
+						attachmentData.getString("filename"), null);
+				attachmentArray.add(attachData);
+			}
+			attachments = attachmentArray.toArray(new HSAttachment[length]);
+		}
+		
 		if (byObject.getString("type").equals("user")) {
-			return HSTicketUpdate.createUpdateByUser(updateId, userName, message, update_time);
+			return HSTicketUpdate.createUpdateByUser(updateId, userName, message, update_time, attachments);
 		}
 		else {
-			return HSTicketUpdate.createUpdateByStaff(updateId, userName, message, update_time);
+			return HSTicketUpdate.createUpdateByStaff(updateId, userName, message, update_time, attachments);
 		}
 	}
 	

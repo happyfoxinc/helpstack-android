@@ -64,7 +64,7 @@ public class HSTestDataGear extends HSGear
 			RequestQueue queue, OnFetchedSuccessListener success,
 			ErrorListener errorListener) {
 		
-		success.onSuccess(HSTicketUpdate.createUpdateByUser(null, user.getFullName(), message, Calendar.getInstance().getTime()));
+		success.onSuccess(HSTicketUpdate.createUpdateByUser(null, user.getFullName(), message, Calendar.getInstance().getTime(), null));
 	}
 	
 	@Override
@@ -75,18 +75,18 @@ public class HSTestDataGear extends HSGear
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[2];
 			Calendar delayTime = Calendar.getInstance();
 			delayTime.add(Calendar.MINUTE, -30);
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "I have not received my order yet. Order id is 23405", delayTime.getTime());
-			updateArray[1] = HSTicketUpdate.createUpdateByStaff("2", "Staff", "We have confirmed, it is on the way and you will receive it in 2 days", Calendar.getInstance().getTime());
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "I have not received my order yet. Order id is 23405", delayTime.getTime(), null);
+			updateArray[1] = HSTicketUpdate.createUpdateByStaff("2", "Staff", "We have confirmed, it is on the way and you will receive it in 2 days", Calendar.getInstance().getTime(), null);
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("2")) {
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[1];
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "Where are you located.", Calendar.getInstance().getTime());
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "Where are you located.", Calendar.getInstance().getTime(), null);
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("4")) {
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[1];
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", user.getFullName(), this.newTicketBody, Calendar.getInstance().getTime());
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", user.getFullName(), this.newTicketBody, Calendar.getInstance().getTime(), null);
 			success.onSuccess(updateArray);
 		}
 		else {

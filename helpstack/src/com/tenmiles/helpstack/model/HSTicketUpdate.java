@@ -25,25 +25,30 @@ public class HSTicketUpdate implements Serializable {
 	@SerializedName("name")
 	public String name;
 	
+	@SerializedName("attachments")
+	private HSAttachment[] attachments;
+	
 	// Date, Attachments etc will come here
 	
-	public static HSTicketUpdate createUpdateByStaff(String updateId, String name, String text, Date update_time) {
+	public static HSTicketUpdate createUpdateByStaff(String updateId, String name, String text, Date update_time, HSAttachment[] attachments) {
 		HSTicketUpdate update = new HSTicketUpdate();
 		update.updateBy = TYPE_STAFF;
 		update.text = text;
 		update.updateId = updateId;
 		update.name = name;
 		update.updateTime = update_time;
+		update.attachments = attachments;
 		return update;
 	}
 	
-	public static HSTicketUpdate createUpdateByUser(String updateId, String name, String text, Date update_time) {
+	public static HSTicketUpdate createUpdateByUser(String updateId, String name, String text, Date update_time, HSAttachment[] attachments) {
 		HSTicketUpdate update = new HSTicketUpdate();
 		update.updateBy = TYPE_USER;
 		update.text = text;
 		update.updateId = updateId;
 		update.name = name;
 		update.updateTime = update_time;
+		update.attachments = attachments;
 		return update;
 	}
 	
@@ -61,6 +66,21 @@ public class HSTicketUpdate implements Serializable {
 	
 	public Date getUpdatedTime() {
 		return updateTime;
+	}
+	
+	public HSAttachment[] getAttachments() {
+		return attachments;
+	}
+	
+	public boolean isAttachmentEmtpy() {
+		if(attachments == null) {
+			return true;
+		} else {
+			if(attachments.length == 0) {
+				return true;
+			}
+		}
+		return false;	
 	}
 	
  }

@@ -28,7 +28,9 @@ import android.widget.TextView;
 
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.ArticleActivity;
+import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.SectionActivity;
+import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.android.internal.util.*;
 
@@ -42,6 +44,7 @@ public class SearchFragment extends HSFragmentParent {
 	private SearchAdapter searchAdapter;
 	private HSKBItem[] allKbArticles;
 	private ListView listView;
+	private HSSource gearSource;
 	
 	public SearchFragment() {
 		// Required empty public constructor
@@ -55,6 +58,14 @@ public class SearchFragment extends HSFragmentParent {
 		setVisibility(false);
 		listView = (ListView)rootView.findViewById(R.id.searchList);
 		searchAdapter = new SearchAdapter(this.allKbArticles);
+		
+		gearSource = new HSSource (getActivity());
+		
+		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
+        report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
+
+        listView.addFooterView(report_an_issue_view);
+		
 		listView.setAdapter(searchAdapter);
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -152,6 +163,24 @@ public class SearchFragment extends HSFragmentParent {
 			}
 		});
 	}
+	
+	private OnClickListener reportIssueClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+			if (gearSource.haveImplementedTicketFetching()) {
+				if(gearSource.isNewUser()) {
+					HSActivityManager.startNewUserActivity(SearchFragment.this, 1003);
+				}else {
+					HSActivityManager.startNewIssueActivity(SearchFragment.this, gearSource.getUser(), 1003);
+				}
+			}
+			else {
+				gearSource.launchEmailAppWithEmailAddress(getActivity());
+			}
+		}
+	};
 	
 	private class SearchAdapter extends BaseAdapter implements Filterable{
 

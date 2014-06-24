@@ -31,8 +31,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
+        android:textSize="@dimen/default_text_size"
         android:layout_alignParentLeft="true"
         android:text="Test" />
+    
+    <ImageButton 
+        android:id="@+id/attachment_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/attachment_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textView1"/>
     
     </RelativeLayout>
     
@@ -41,7 +50,7 @@
         android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="@dimen/default_text_size"
         android:text="05:55"
         android:layout_below="@id/textlayout"
         android:layout_alignParentBottom="true"
