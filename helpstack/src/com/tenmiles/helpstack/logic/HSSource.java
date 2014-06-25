@@ -22,10 +22,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSCachedTicket;
 import com.tenmiles.helpstack.model.HSCachedUser;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
+import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
 
 public class HSSource {
@@ -101,8 +103,11 @@ public class HSSource {
 		gear.registerNewUser(firstName, lastName, email, mRequestQueue, success, new ErrorWrapper("Registering New User", errorListener));
 	}
 	
-	public void createNewTicket(HSUser user, String subject, String message, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
-		gear.createNewTicket(user, subject, message, mRequestQueue, new NewTicketSuccessWrapper(successListener) {
+	public void createNewTicket(HSUser user, String subject, String message, HSAttachment[] attachment,  OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
+		
+		HSUploadAttachment[] upload_attachments = convertAttachmentArrayToUploadAttachment(attachment);
+		
+		gear.createNewTicket(user, subject, message, upload_attachments, mRequestQueue, new NewTicketSuccessWrapper(successListener) {
 			
 			@Override
 			public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
@@ -115,14 +120,15 @@ public class HSSource {
 				
 			}
 		}, new ErrorWrapper("Creating New Ticket", errorListener));
+		
 	}
 	
 	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
 		gear.fetchAllUpdateOnTicket(ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
 	
-	public void addReplyOnATicket(String message, HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
-		gear.addReplyOnATicket(message, ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
+	public void addReplyOnATicket(String message,HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
+		gear.addReplyOnATicket(message, convertAttachmentArrayToUploadAttachment(attachments),  ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
 	}
 
 	public HSGear getGear() {
@@ -182,9 +188,6 @@ public class HSSource {
 		
 		return builder.toString();
 	}
-	
-	
-	
 	
 	
 	
@@ -321,6 +324,22 @@ public class HSSource {
 				lastListner.onSuccess(udpatedUserDetail, ticket);
 		}
 		
+	}
+	
+	protected HSUploadAttachment[] convertAttachmentArrayToUploadAttachment(HSAttachment[] attachment) {
+		
+		HSUploadAttachment[] upload_attachments = new HSUploadAttachment[0];
+		
+		if (attachment != null && attachment.length > 0) {
+			int attachmentCount = gear.getNumberOfAttachmentGearCanHandle();
+			assert attachmentCount >=  attachment.length : "Gear cannot handle more than "+attachmentCount+" attachmnets";
+			upload_attachments = new HSUploadAttachment[attachment.length];
+			for (int i = 0; i < upload_attachments.length; i++) {
+				upload_attachments[i] = new HSUploadAttachment(mContext, attachment[i]);
+			}	
+		}
+		
+		return upload_attachments;
 	}
 	
 	private class SuccessWrapper implements OnFetchedArraySuccessListener

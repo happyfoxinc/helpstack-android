@@ -130,7 +130,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			
 			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 			
-			gearSource.addReplyOnATicket(message, ticket, new OnFetchedSuccessListener() {
+			gearSource.addReplyOnATicket(message, null, ticket, new OnFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(Object successObject) {

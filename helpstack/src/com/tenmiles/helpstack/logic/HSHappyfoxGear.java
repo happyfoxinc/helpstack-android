@@ -2,6 +2,7 @@ package com.tenmiles.helpstack.logic;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
@@ -15,13 +16,17 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
 
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.StringBody;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -33,15 +38,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.tenmiles.helpstack.logic.MultiPart.MultipartEntity;
-import com.tenmiles.helpstack.logic.MultiPart.StringPart;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
+import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
 
 
 public class HSHappyfoxGear extends HSGear {
+	private static final String TAG = HSHappyfoxGear.class.getSimpleName();
 
 	private String instanceUrl;
 	private String api_key;
@@ -108,6 +113,10 @@ public class HSHappyfoxGear extends HSGear {
 				}
 			}, errorListener);
 			
+			// to avoid server overload call
+			request.setRetryPolicy(new DefaultRetryPolicy(TickeFormRequest.TIMEOUT_MS, 
+					TickeFormRequest.MAX_RETRIES, TickeFormRequest.BACKOFF_MULT));
+			
 			queue.add(request);
 			queue.start();
 		}
@@ -157,7 +166,7 @@ public class HSHappyfoxGear extends HSGear {
 	}
 	
 	@Override
-	public void createNewTicket(HSUser user, String message, String body,RequestQueue queue,
+	public void createNewTicket(HSUser user, String message, String body, HSUploadAttachment[] attachments,  RequestQueue queue,
 			OnNewTicketFetchedSuccessListener successListener,
 			ErrorListener errorListener) {
 		
@@ -172,7 +181,7 @@ public class HSHappyfoxGear extends HSGear {
 		
 		
 		
-		TickeFormRequest request = new TickeFormRequest(getApiUrl()+"new_ticket/", prop, new CreateNewTicketSuccessListener(user, successListener, errorListener) {
+		TickeFormRequest request = new TickeFormRequest(getApiUrl()+"new_ticket/", prop, attachments,  new CreateNewTicketSuccessListener(user, successListener, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -236,7 +245,7 @@ public class HSHappyfoxGear extends HSGear {
 	}
 	
 	@Override
-	public void addReplyOnATicket(String message, HSTicket ticket, HSUser user,
+	public void addReplyOnATicket(String message, HSUploadAttachment[] attachments,  HSTicket ticket, HSUser user,
 			RequestQueue queue, OnFetchedSuccessListener success,
 			ErrorListener errorListener) {
 		
@@ -244,7 +253,11 @@ public class HSHappyfoxGear extends HSGear {
 		prop.put("user", user.getUserId());
 		prop.put("text", message);
 		
-		TickeFormRequest request = new TickeFormRequest(getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", prop, new HappyfoxBaseListner<JSONObject>(success, errorListener) {
+		TickeFormRequest request = new TickeFormRequest(
+				getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", 
+				prop, 
+				attachments,  
+				new HappyfoxBaseListner<JSONObject>(success, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -386,11 +399,20 @@ public class HSHappyfoxGear extends HSGear {
 			this.successListener = successListener;
 			this.errorListener = errorListener;
 		}
-		
-		
 	}
 	
+	
+	
 	private class TickeFormRequest extends Request<JSONObject> {
+		
+		/** Socket timeout in milliseconds for image requests */
+	    protected static final int TIMEOUT_MS = 0;
+
+	    /** Default number of retries for image requests */
+	    protected static final int MAX_RETRIES = 0;
+
+	    /** Default backoff multiplier for image requests */
+	    protected static final float BACKOFF_MULT = 1f;
 		
 		private Listener<JSONObject> mListener;
 		
@@ -398,28 +420,48 @@ public class HSHappyfoxGear extends HSGear {
 		
 		HashMap<String, String> headers = new HashMap<String, String>();
 		
-		public TickeFormRequest(String url, Properties requestProperties, Listener<JSONObject> listener,
+		public TickeFormRequest(String url, Properties requestProperties, HSUploadAttachment[] attachments_to_upload, Listener<JSONObject> listener,
 		            ErrorListener errorListener) {
 	        super(Method.POST, url, errorListener);
 	        mListener = listener;
-	        StringPart[] parts = new StringPart[requestProperties.size()];
-	        int i = 0;
+	        
+	        setRetryPolicy(
+	                new DefaultRetryPolicy(TIMEOUT_MS, MAX_RETRIES, BACKOFF_MULT));
+	        
+	        entity = new MultipartEntity();
+	        
 	        // iter properties
 	        Enumeration<Object> enumKey = requestProperties.keys();
 	        while(enumKey.hasMoreElements()) {
 	            String key = (String) enumKey.nextElement();
 	            String val = requestProperties.getProperty(key);
-	            parts[i] = new StringPart(key, val);
-	            i++;
+	            try {
+					entity.addPart(key, new StringBody(val));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 	        }
 	        
-	        entity = new MultipartEntity(parts);
+	        // Adding attachments if any
+	        if (attachments_to_upload != null) {
+	        	for (int i = 0; i < attachments_to_upload.length; i++) {
+	        		try {
+						entity.addPart("attachments", attachments_to_upload[i].generateStreamToUpload());
+					} catch (FileNotFoundException e) {
+						Log.e(TAG, "Attachment upload failed");
+						e.printStackTrace();
+					}
+				}
+	        }
+	        
 		}
 		
 		public TickeFormRequest(String url, Listener<JSONObject> listener,
 	            ErrorListener errorListener) {
 			super(Method.GET, url, errorListener);
         	mListener = listener;
+        	setRetryPolicy(
+                    new DefaultRetryPolicy(TIMEOUT_MS, MAX_RETRIES, BACKOFF_MULT));
 		}
 		
 		@Override
@@ -479,34 +521,5 @@ public class HSHappyfoxGear extends HSGear {
 	    	headers.put("Authorization", "Basic "+base64EncodedCredentials);
 		}
 	}
-	
-//	private class TicketJSONRequest extends JsonObjectRequest {
-//
-//		
-//		HashMap<String, String> headers = new HashMap<String, String>();
-//		
-//		public TicketJSONRequest(int method, String url,
-//				JSONObject jsonRequest, Listener<JSONObject> listener,
-//				ErrorListener errorListener) {
-//			super(method, url, jsonRequest, listener, errorListener);
-//		}
-//
-//		public TicketJSONRequest(String url, JSONObject jsonRequest,
-//				Listener<JSONObject> listener, ErrorListener errorListener) {
-//			super(url, jsonRequest, listener, errorListener);
-//		}
-//		
-//		@Override
-//		public Map<String, String> getHeaders() throws AuthFailureError {
-//			return headers;
-//		}
-//		
-//		public void addCredential(String name, String password) {
-//			String credentials = name + ":" + password;
-//	    	String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-//	    	headers.put("Authorization", "Basic "+base64EncodedCredentials);
-//		}
-//		
-//	}
 	
 }
