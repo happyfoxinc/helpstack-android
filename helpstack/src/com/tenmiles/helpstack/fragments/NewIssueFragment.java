@@ -137,8 +137,17 @@ public class NewIssueFragment extends HSFragmentParent {
 			
 			HSSource source = new HSSource(getActivity());
 			
-			source.createNewTicket(userDetails, getSubject(), getMessage() + HSSource.getDeviceInformation(getActivity())
-					, new OnNewTicketFetchedSuccessListener() {
+			HSAttachment[] attachmentArray = null;
+			
+			if (selectedAttachment != null) {
+				attachmentArray = new HSAttachment[1];
+				attachmentArray[0] = selectedAttachment;
+			}
+			
+			String formattedBody =  getMessage() + HSSource.getDeviceInformation(getActivity());
+			
+			source.createNewTicket(userDetails, getSubject(), formattedBody, attachmentArray, 
+			new OnNewTicketFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {

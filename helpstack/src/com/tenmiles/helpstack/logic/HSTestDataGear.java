@@ -6,14 +6,17 @@ import java.util.Calendar;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
+import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
 
 public class HSTestDataGear extends HSGear 
 {
 	
 	private String newTicketBody;
+	private HSUploadAttachment[] newTicketattachment;
 
 	public HSTestDataGear(int articleResId) {
 		setNotImplementingKBFetching(articleResId);
@@ -50,17 +53,18 @@ public class HSTestDataGear extends HSGear
 	}
 	
 	@Override
-	public void createNewTicket(HSUser user, String message, String body,
+	public void createNewTicket(HSUser user, String message, String body, HSUploadAttachment[] attachment, 
 			RequestQueue queue,
 			OnNewTicketFetchedSuccessListener successListener,
 			ErrorListener errorListener) {
 		
 		this.newTicketBody = body;
+		this.newTicketattachment = attachment;
 		successListener.onSuccess(HSUser.appendCredentialOnUserDetail(user, "3", null), HSTicket.createATicket("4", message));
 	}
 	
 	@Override
-	public void addReplyOnATicket(String message, HSTicket ticket, HSUser user,
+	public void addReplyOnATicket(String message, HSUploadAttachment[] attachments, HSTicket ticket, HSUser user,  
 			RequestQueue queue, OnFetchedSuccessListener success,
 			ErrorListener errorListener) {
 		

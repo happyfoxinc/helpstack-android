@@ -8,6 +8,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
+import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
 
 
@@ -71,7 +72,7 @@ public abstract class HSGear {
 	 * @param successListener
 	 * @param errorListener
 	 */
-	public void createNewTicket(HSUser user, String subject, String body, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
+	public void createNewTicket(HSUser user, String subject, String body, HSUploadAttachment[] attachments, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	
@@ -96,7 +97,7 @@ public abstract class HSGear {
 	 * @param success
 	 * @param errorListener
 	 */
-	public void addReplyOnATicket(String message, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener) {
+	public void addReplyOnATicket(String message, HSUploadAttachment[] attachments, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener) {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	
@@ -105,7 +106,7 @@ public abstract class HSGear {
 		this.companySupportEmailAddress = companySupportEmailAddress;
 	}
 	
-	public void setNotImplementingKBFetching(int articleResid) {
+	public void setNotImplementingKBFetching (int articleResid) {
 		implementsKBFetching = false;
 		this.articleResid = articleResid;
 	}
@@ -125,6 +126,16 @@ public abstract class HSGear {
 	public String getCompanySupportEmailAddress() {
 		return companySupportEmailAddress;
 	}
+	
+	public void setNumberOfAttachmentGearCanHandle (int numberOfAttachmentGearCanHandle) {
+		this.numberOfAttachmentGearCanHandle = numberOfAttachmentGearCanHandle;
+	}
+	
+	public int getNumberOfAttachmentGearCanHandle() {
+		return numberOfAttachmentGearCanHandle;
+	}
+	
+	private int numberOfAttachmentGearCanHandle = 1;
 	
 	// If this is true, we don't call kb article functions, will open email app is required.
 	private boolean implementsTicketFetching = true;
