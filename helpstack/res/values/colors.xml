@@ -6,6 +6,8 @@
     <color name="listView_divider_color">#e2e2e2</color>
     <color name="listView_selector_color">#d3d3d3</color>
     <color name="transparent_color">#0000</color>
+    <color name="black_color">#000000</color>
     <color name="lightGreycolor">#ececec</color>
     <color name="rightchatbubblecolor">#CADD9C</color>
+    <color name="redColor">#DE2527</color>
 </resources>

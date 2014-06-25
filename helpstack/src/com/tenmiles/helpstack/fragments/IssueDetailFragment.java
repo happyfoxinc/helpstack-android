@@ -323,8 +323,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			Date updatedTime = update.getUpdatedTime();
 			
 			String dateString = HSUtils.convertToHumanReadableTime(updatedTime, Calendar.getInstance().getTimeInMillis());
-			
-			holder.timeField.setText(dateString);
+			holder.timeField.setText(dateString.trim());
 			
 			return convertView;
 		}

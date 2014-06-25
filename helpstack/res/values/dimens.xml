@@ -9,5 +9,8 @@
 	<dimen name="listView_GroupView_TextSize">22sp</dimen>
 	<dimen name="listView_ChildView_TextSize">18sp</dimen>
 	<dimen name="message_TextSize">18sp</dimen>
-	
+	<dimen name="small_TextSize">13sp</dimen>
+	<dimen name="button_textSize">20sp</dimen>
+	<dimen name="smallTextMaxWidth">100dp</dimen>
+	<dimen name="chatbubbleMarginWidth">10dp</dimen>
 </resources>

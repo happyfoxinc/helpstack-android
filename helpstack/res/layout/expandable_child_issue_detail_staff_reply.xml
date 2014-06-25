@@ -12,9 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:maxWidth="100dp"
         android:text="Staff"
-        android:textSize="12sp" />
+        style="@style/smallTextTheme"/>
 
     <RelativeLayout
         android:id="@+id/textlayout"
@@ -22,9 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/name"
         android:layout_marginRight="80dp"
-        android:paddingRight="5dp" >
+        android:layout_below="@id/name" >
 
         <TextView
             android:id="@+id/textView1"
@@ -32,28 +30,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:gravity="left"
-            android:minWidth="70dp"
             android:text="Test" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/time"
+        style="@style/smallTextTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/textlayout"
-        android:maxWidth="100dp"
         android:text="05:55"
-        android:textSize="@dimen/default_text_size" />
+         />
 
     <ImageView
         android:id="@+id/attachment_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignRight="@id/textlayout"
-        android:paddingBottom="10dp"
+        android:paddingBottom="20dp"
         android:paddingLeft="10dp"
         android:layout_below="@id/textlayout"
         android:src="@drawable/attachment_icon" />

@@ -29,9 +29,11 @@
         
     </style>
     
-    <style name="staffChatBubbleTheme" parent="StaffChatBubbleBaseTheme"></style>
-    <style name="userChatBubbleTheme" parent="UserChatBubbleBaseTheme"></style>
+    <style name="staffChatBubbleTheme" parent="LeftChatBubbleBaseTheme"></style>
+    <style name="userChatBubbleTheme" parent="RightChatBubbleBaseTheme"></style>
     <style name="messageTextTheme" parent="MessageTextBaseTheme"></style>
+    <style name="smallTextTheme" parent="SmallTextBaseTheme"></style>
+    <style name="buttonTheme" parent="ButtonBaseTheme"></style>
 	    
     
         
