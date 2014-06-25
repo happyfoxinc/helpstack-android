@@ -64,6 +64,7 @@
         <item name="android:typeface">sans</item>
         <item name="android:textSize">@dimen/message_TextSize</item>
         <item name="android:gravity">left</item>
+        <item name="android:minWidth">100dp</item>
     </style>
     
     <style name="SmallTextBaseTheme">

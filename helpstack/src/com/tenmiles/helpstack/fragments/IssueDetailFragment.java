@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
@@ -56,7 +57,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	private ImageView mAttachmentButton;
 	private LocalAdapter mAdapter;
 	private HSSource gearSource;
-	
+	private Button sendButton;
 	private HSTicketUpdate[] fetchedUpdates;
 	
 	private EditText replyEditTextView;
@@ -70,7 +71,8 @@ public class IssueDetailFragment extends HSFragmentParent
 		
 		
 		replyEditTextView = (EditText) rootView.findViewById(R.id.replyEditText);
-		rootView.findViewById(R.id.button1).setOnClickListener(sendReplyListener);
+		sendButton = (Button)rootView.findViewById(R.id.button1);
+		sendButton.setOnClickListener(sendReplyListener);
 		
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
 		mAttachmentButton = (ImageView) rootView.findViewById(R.id.attachmentbutton);
@@ -145,7 +147,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		LayoutInflater inflater = getActivity().getLayoutInflater();
         View convertView = (View) inflater.inflate(R.layout.attachment_dialog, null);
         alertDialog.setView(convertView);
-        alertDialog.setTitle("List");
+        alertDialog.setTitle("Attachments");
         ListView lv = (ListView) convertView.findViewById(R.id.listView1);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,attachmentNames);
         lv.setAdapter(adapter);
@@ -228,12 +230,12 @@ public class IssueDetailFragment extends HSFragmentParent
 			String message = replyEditTextView.getText().toString();
 			
 			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
-			
+			sendButton.setEnabled(false);
 			gearSource.addReplyOnATicket(message, null, ticket, new OnFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(Object successObject) {
-					
+					sendButton.setEnabled(true);
 					HSTicketUpdate update = (HSTicketUpdate) successObject;
 					
 					ArrayList<HSTicketUpdate> updateList = new ArrayList<HSTicketUpdate>();
@@ -251,7 +253,7 @@ public class IssueDetailFragment extends HSFragmentParent
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
-					
+					sendButton.setEnabled(true);
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				}
 			});

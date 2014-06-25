@@ -31,6 +31,10 @@ public class IssueDetailActivity extends HSActivityParent {
 	public void configureActionBar(ActionBar actionBar) {
 		super.configureActionBar(actionBar);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		HSTicket ticket = (HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET);
+		if(ticket != null){
+			actionBar.setTitle(ticket.getSubject());
+		}
 	}
 	
 	@Override

@@ -33,7 +33,7 @@ public class NewIssueActivity extends HSActivityParent {
     public void configureActionBar(ActionBar actionBar) {
     	super.configureActionBar(actionBar);
     	
-    	actionBar.setTitle("New User");
+    	actionBar.setTitle("New Issue");
     	actionBar.setDisplayHomeAsUpEnabled(true);
     }
 

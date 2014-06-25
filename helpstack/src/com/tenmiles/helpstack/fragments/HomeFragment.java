@@ -72,7 +72,6 @@ public class HomeFragment extends HSFragmentParent {
          
          gearSource = new HSSource (getActivity());
          
-         
          mSearchFragment = new SearchFragment();
          HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
          
