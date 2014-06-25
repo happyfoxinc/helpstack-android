@@ -1,6 +1,6 @@
 package com.tenmiles.helpstack.fragments;
 
-import java.text.SimpleDateFormat;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -11,20 +11,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
+import android.provider.MediaStore.Images.ImageColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,7 +48,7 @@ import com.tenmiles.helpstack.model.HSTicketUpdate;
 public class IssueDetailFragment extends HSFragmentParent 
 {
 
-	private static final int SELECT_PICTURE = 1;
+	private final int REQUEST_CODE_PHOTO_PICKER = 100;
 	
 	public IssueDetailFragment() {
 		// TODO Auto-generated constructor stub
@@ -54,13 +56,14 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private HSTicket ticket;
 	private ExpandableListView mExpandableListView;
-	private ImageView mAttachmentButton;
 	private LocalAdapter mAdapter;
 	private HSSource gearSource;
 	private Button sendButton;
 	private HSTicketUpdate[] fetchedUpdates;
 	
 	private EditText replyEditTextView;
+	private HSAttachment selectedAttachment;
+	private ImageView mAttachmentButton;
 	
 	
 	@Override
@@ -77,13 +80,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
 		mAttachmentButton = (ImageView) rootView.findViewById(R.id.attachmentbutton);
 		
-		mAttachmentButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showGallery();
-			}
-		});
+		mAttachmentButton.setOnClickListener(attachmentClickListener);
 		
         mAdapter = new LocalAdapter(getActivity());
         
@@ -167,18 +164,33 @@ public class IssueDetailFragment extends HSFragmentParent
         alertDialog.show();
 	}
 	
-	private void showGallery() {
-		Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
-	}
+	
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode == Activity.RESULT_OK){
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		
+		if(requestCode == REQUEST_CODE_PHOTO_PICKER && resultCode == Activity.RESULT_OK)
+		{      
 			
-		}
+			Uri selectedImage = intent.getData();
+			
+			//User had pick an image.
+	        Cursor cursor = getActivity().getContentResolver().query(selectedImage, new String[] { 
+	        		ImageColumns.DATA,
+	        		ImageColumns.DISPLAY_NAME, 
+	        		ImageColumns.MIME_TYPE }, null, null, null);
+	        cursor.moveToFirst();
+			
+	        String display_name = cursor.getString(cursor.getColumnIndex(ImageColumns.DISPLAY_NAME));
+	        String mime_type = cursor.getString(cursor.getColumnIndex(ImageColumns.MIME_TYPE));
+	        
+	        cursor.close();
+	        
+	        selectedAttachment = HSAttachment.createAttachment(selectedImage.toString(), display_name, mime_type);
+			
+			resetAttachmentImage();
+            
+        }
 	};
 
 	private void refreshList() {
@@ -211,6 +223,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				refreshList();
 				
 				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+				scrollListToBottom();
 			}
 		}, new ErrorListener() {
 
@@ -231,7 +244,19 @@ public class IssueDetailFragment extends HSFragmentParent
 			
 			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 			sendButton.setEnabled(false);
-			gearSource.addReplyOnATicket(message, null, ticket, new OnFetchedSuccessListener() {
+			
+			HSAttachment[] attachmentArray = null;
+			
+			if (selectedAttachment != null) {
+				attachmentArray = new HSAttachment[1];
+				attachmentArray[0] = selectedAttachment;
+			}
+			
+			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+				      Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(replyEditTextView.getWindowToken(), 0);
+				
+			gearSource.addReplyOnATicket(message, attachmentArray, ticket, new OnFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(Object successObject) {
@@ -247,7 +272,14 @@ public class IssueDetailFragment extends HSFragmentParent
 					
 					refreshList();
 					
+					selectedAttachment = null;
+					replyEditTextView.setText("");
+					// hide keyboard
+					
+					
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+					
+					scrollListToBottom();
 				}
 			}, new ErrorListener() {
 
@@ -379,6 +411,71 @@ public class IssueDetailFragment extends HSFragmentParent
 			public ImageView attachmentButton;
 		}
 	}
+	
+	private void resetAttachmentImage() {
+		if (selectedAttachment == null) {
+			this.mAttachmentButton.setImageResource(R.drawable.ic_action_attachment);
+		}
+		else {
+			
+			try {
+				Uri uri = Uri.parse(selectedAttachment.getUrl());
+				Bitmap selectedBitmap;
+				selectedBitmap = NewIssueFragment.downscaleAndReadBitmap(getActivity(), uri);
+				this.mAttachmentButton.setImageBitmap(selectedBitmap);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
+	}
+	
+	private OnClickListener attachmentClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+			if (selectedAttachment == null) {
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+			}
+			else {
+				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+				alertBuilder.setTitle("Attachment");
+				alertBuilder.setIcon(R.drawable.ic_action_attachment);
+				String[] attachmentOptions = {"Change","Remove"};
+				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (which == 0) {
+							Intent intent = new Intent();
+							intent.setType("image/*");
+							intent.setAction(Intent.ACTION_GET_CONTENT);
+							startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+						}
+						
+						else if (which == 1) {
+							selectedAttachment = null;
+							resetAttachmentImage();
+						}
+					}
+				});
+				alertBuilder.create().show();
+			}
+			
+		}
+	};
+	
+	private void scrollListToBottom() {
+		mExpandableListView.setSelectedChild(0, mAdapter.getChildrenCount(0) - 1, true);
+	}
+	
 
 	/**
 	 * @return the ticket

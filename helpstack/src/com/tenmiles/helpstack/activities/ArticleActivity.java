@@ -12,7 +12,6 @@ import com.tenmiles.helpstack.model.HSKBItem;
 public class ArticleActivity extends HSActivityParent {
 
 	HSKBItem kbItem;
-	ActionBar actionBar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,7 @@ public class ArticleActivity extends HSActivityParent {
 			ArticleFragment articleFragment = new ArticleFragment();
 			this.kbItem = (HSKBItem)getIntent().getSerializableExtra("item");
 			articleFragment.kbItem = this.kbItem;
-			this.actionBar.setTitle(this.kbItem.getSubject());
+			getSupportActionBar().setTitle(this.kbItem.getSubject());
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, articleFragment).commit();
 		}
@@ -44,16 +43,17 @@ public class ArticleActivity extends HSActivityParent {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == android.R.id.home) {
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
-	 @Override
-	    public void configureActionBar(ActionBar actionBar) {
-	    	super.configureActionBar(actionBar);
-	    	this.actionBar = actionBar;
-	    }
+	@Override
+    public void configureActionBar(ActionBar actionBar) {
+    	super.configureActionBar(actionBar);
+    	actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
 }

@@ -168,7 +168,7 @@ public class HSSource {
 	public static String getDeviceInformation(Activity activity) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n\n\n");
-		builder.append("==========================");
+		builder.append("=====");
 		builder.append("\nDevice Android version : ");
 		builder.append(Build.VERSION.SDK_INT);
 		builder.append("\nDevice brand : ");

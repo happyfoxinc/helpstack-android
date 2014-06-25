@@ -29,14 +29,13 @@
     <EditText
         android:id="@+id/messageField"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/subjectField"
         android:ems="10"
         android:textSize="@dimen/default_text_size"
         android:gravity="left|bottom"
         android:hint="@string/messagehint"
-        android:minLines="4"
         android:text="This is a test ticket" >
 
         <requestFocus />

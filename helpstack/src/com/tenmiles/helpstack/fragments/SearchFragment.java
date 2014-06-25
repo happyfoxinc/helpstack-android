@@ -96,6 +96,7 @@ public class SearchFragment extends HSFragmentParent {
 	public void searchStarted() {
 		searchAdapter.refreshList(allKbArticles);
 		searchAdapter.notifyDataSetChanged();
+		searchAdapter.getFilter().filter("");
 	}
 
 	public void doSearchForQuery(String q) {
@@ -253,7 +254,8 @@ public class SearchFragment extends HSFragmentParent {
 					
 					results.values = (HSKBItem[])allKBItems;
 					results.count = allKBItems.length;
-				}else {
+					
+				} else {
 					// We perform filtering operation
 			        List<HSKBItem> filterList = new ArrayList<HSKBItem>();
 			         
