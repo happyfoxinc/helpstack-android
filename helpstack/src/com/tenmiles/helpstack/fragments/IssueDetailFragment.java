@@ -299,7 +299,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			// This is a dummy view as only 1 group is gonna be used.
 			final HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
 			
-			holder.textView1.setText(update.getText());
+			holder.textView1.setText(update.getText().trim());
 			if(update.isUserUpdate()) {
 				holder.nameField.setText("Me");
 			}else {

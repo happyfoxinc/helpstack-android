@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:groupIndicator="@null"
         android:layout_above="@+id/replyLayout"
+        android:dividerHeight="0dip"
         android:cacheColorHint="#0000" />
 
     <RelativeLayout
