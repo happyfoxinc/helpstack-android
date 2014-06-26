@@ -5,7 +5,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -79,6 +79,12 @@
         <item name="android:textColor">@color/redColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/button_textSize</item>
+    </style>
+    
+    <style name="EditTextBaseTheme">
+        <item name="android:background">@color/transparent_color</item>
+        <item name="android:textColor">@color/black_color</item>
+        <item name="android:textSize">@dimen/default_text_size</item>
     </style>
     
     

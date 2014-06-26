@@ -228,6 +228,9 @@ public class IssueDetailFragment extends HSFragmentParent
 		public void onClick(View v) {
 			
 			String message = replyEditTextView.getText().toString();
+			if(message.trim().length() == 0) {
+				return;
+			}
 			
 			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 			sendButton.setEnabled(false);
