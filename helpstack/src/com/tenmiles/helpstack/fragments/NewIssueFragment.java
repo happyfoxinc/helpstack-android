@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -130,6 +131,7 @@ public class NewIssueFragment extends HSFragmentParent {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		int id = item.getItemId();
 		if (id == R.id.doneItem) {
 			
@@ -161,19 +163,7 @@ public class NewIssueFragment extends HSFragmentParent {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 				
-					Log.e("CreateTicket", error.toString());
-					error.printStackTrace();
-					if (error.networkResponse != null && error.networkResponse.data != null) {
-						Log.e("CreateTicket", "reason");
-						
-						try {
-							Log.e("CreateTicket", new String(error.networkResponse.data, "utf-8"));
-							
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+					
 					
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 				}
@@ -266,7 +256,7 @@ public class NewIssueFragment extends HSFragmentParent {
 			try {
 				Uri uri = Uri.parse(selectedAttachment.getUrl());
 				Bitmap selectedBitmap;
-				selectedBitmap = downscaleAndReadBitmap(uri);
+				selectedBitmap = downscaleAndReadBitmap(getActivity(), uri);
 				this.imageView1.setImageBitmap(selectedBitmap);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -286,12 +276,12 @@ public class NewIssueFragment extends HSFragmentParent {
 		return messageField.getText().toString();
 	}
 	
-	private Bitmap downscaleAndReadBitmap(Uri selectedImage) throws FileNotFoundException {
+	public static Bitmap downscaleAndReadBitmap(Context context, Uri selectedImage) throws FileNotFoundException {
 
         // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(selectedImage), null, o);
+        BitmapFactory.decodeStream(context.getContentResolver().openInputStream(selectedImage), null, o);
 
         // The new size we want to scale to
         final int REQUIRED_SIZE = 140;
@@ -312,7 +302,7 @@ public class NewIssueFragment extends HSFragmentParent {
         // Decode with inSampleSize
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;
-        return BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(selectedImage), null, o2);
+        return BitmapFactory.decodeStream(context.getContentResolver().openInputStream(selectedImage), null, o2);
 
     }
 	

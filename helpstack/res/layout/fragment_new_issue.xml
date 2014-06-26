@@ -39,7 +39,7 @@
         android:id="@+id/messageField"
         style="@style/messageEditTextTheme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/subjectField"
         android:layout_marginTop="3dp"

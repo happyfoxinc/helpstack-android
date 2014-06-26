@@ -3,7 +3,6 @@ package com.tenmiles.helpstack.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tenmiles.helpstack.R;
@@ -12,7 +11,7 @@ import com.tenmiles.helpstack.fragments.HomeFragment;
 
 /**
  * 
- * Initial Activity that starts HomeActivity
+ * Initial Activity of HelpStack. It displays Tickets and FAQ. Handles search also.
  * 
  * @author Nalin Chhajer
  *
@@ -23,13 +22,12 @@ public class HomeActivity extends HSActivityParent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+		setContentView(R.layout.activity_home);
 
         if (savedInstanceState == null) { // Activity started first time
         	HomeFragment homeFrag = HSFragmentManager.getHomeFragment();
         	HSFragmentManager.putFragmentInActivity(this, R.id.container, homeFrag, "Home");
         }
-        
        
     }
     
@@ -37,16 +35,7 @@ public class HomeActivity extends HSActivityParent {
     public void configureActionBar(ActionBar actionBar) {
     	super.configureActionBar(actionBar);
     	
-    	actionBar.setTitle("Help");
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        
-		
-        return true;
+    	actionBar.setTitle("Help"); // TODO: Move to string.xml
     }
 
     @Override

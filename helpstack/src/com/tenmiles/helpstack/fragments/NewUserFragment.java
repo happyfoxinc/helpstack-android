@@ -114,13 +114,13 @@ public class NewUserFragment extends HSFragmentParent {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		
 		if (requestCode == NEW_TICKET_REQUEST_CODE) {
+			
 			if (resultCode == HSActivityManager.resultCode_sucess) {
 				HSActivityManager.sendSuccessSignal(getActivity(), data);
 			}
-			else if (resultCode == HSActivityManager.resultCode_sucess) {
-				HSActivityManager.finishSafe(getActivity());
-			}
+			
 		}
 		
 	}

@@ -13,28 +13,27 @@ import com.tenmiles.helpstack.model.HSTicket;
 public class IssueDetailActivity extends HSActivityParent {
 	
 	public static final String EXTRAS_TICKET = "ticket";
-	private IssueDetailFragment mIssueDetailFragment;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_issue_detail);
 
-		mIssueDetailFragment = HSFragmentManager.getIssueDetailFragment();
+		if (savedInstanceState == null) {
+			IssueDetailFragment mIssueDetailFragment = HSFragmentManager.getIssueDetailFragment();
+			HSFragmentManager.putFragmentInActivity(this, R.id.container, mIssueDetailFragment, "IssueDetail");
+			HSTicket ticket = (HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET);
+			mIssueDetailFragment.setTicket(ticket);
+			getHelpStackActionBar().setTitle(ticket.getSubject());
+		}
 		
-		HSFragmentManager.putFragmentInActivity(this, R.id.container, mIssueDetailFragment, "IssueDetail");
 		
-		mIssueDetailFragment.setTicket((HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET));
 	}
 
 	@Override
 	public void configureActionBar(ActionBar actionBar) {
 		super.configureActionBar(actionBar);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		HSTicket ticket = (HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET);
-		if(ticket != null){
-			actionBar.setTitle(ticket.getSubject());
-		}
 	}
 	
 	@Override
@@ -51,7 +50,8 @@ public class IssueDetailActivity extends HSActivityParent {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == android.R.id.home) {
+			finish();
 			return true;
 		}
 		if(id == android.R.id.home) {

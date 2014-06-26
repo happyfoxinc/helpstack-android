@@ -6,27 +6,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.fragments.HSFragmentManager;
 import com.tenmiles.helpstack.fragments.SectionFragment;
 import com.tenmiles.helpstack.model.HSKBItem;
 
+/**
+ * 
+ * Displays SectionFragment
+ * 
+ * @author Nalin Chhajer
+ *
+ */
 public class SectionActivity extends HSActivityParent {
 
-	ActionBar actionBar;
+	public static final String EXTRAS_SECTION_ITEM = "section_item";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_section);
-		
-		HSKBItem kbSectionItem = (HSKBItem)getIntent().getSerializableExtra("section_item");
 
 		if (savedInstanceState == null) {
 			
-			SectionFragment sectionFragment = new SectionFragment();
-			sectionFragment.kbItem = kbSectionItem;
-			this.actionBar.setTitle(kbSectionItem.getSubject());
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, sectionFragment).commit();
+			HSKBItem kbSectionItem = (HSKBItem)getIntent().getSerializableExtra(EXTRAS_SECTION_ITEM);
+			SectionFragment sectionFragment = HSFragmentManager.getSectionFragment(this, kbSectionItem);
+			HSFragmentManager.putFragmentInActivity(this, R.id.container, sectionFragment, "Section");
+			getHelpStackActionBar().setTitle(kbSectionItem.getSubject());
+			
 		}
 	}
 
@@ -44,7 +50,8 @@ public class SectionActivity extends HSActivityParent {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == android.R.id.home) {
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -52,9 +59,8 @@ public class SectionActivity extends HSActivityParent {
 	
 	@Override
 	public void configureActionBar(ActionBar actionBar) {
-		// TODO Auto-generated method stub
 		super.configureActionBar(actionBar);
-		this.actionBar = actionBar;
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 }
