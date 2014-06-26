@@ -111,6 +111,14 @@ public abstract class HSGear {
 		this.articleResid = articleResid;
 	}
 	
+	public void uploadMessageAsHtmlString(boolean htmlEnabled) {
+		this.supportHtmlMessage = htmlEnabled;
+	}
+	
+	public boolean canUplaodMessageAsHtmlString() {
+		return supportHtmlMessage;
+	}
+	
 	public boolean haveImplementedTicketFetching() {
 		return implementsTicketFetching;
 	}
@@ -145,6 +153,8 @@ public abstract class HSGear {
 	private int articleResid;
 	
 	private String companySupportEmailAddress;
+	
+	private boolean supportHtmlMessage = false;
 
 }
 

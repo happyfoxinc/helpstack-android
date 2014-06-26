@@ -146,7 +146,7 @@ public class NewIssueFragment extends HSFragmentParent {
 				attachmentArray[0] = selectedAttachment;
 			}
 			
-			String formattedBody =  getMessage() + HSSource.getDeviceInformation(getActivity());
+			String formattedBody =  getMessage();
 			
 			source.createNewTicket(userDetails, getSubject(), formattedBody, attachmentArray, 
 			new OnNewTicketFetchedSuccessListener() {
