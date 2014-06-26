@@ -34,6 +34,8 @@
     <style name="messageTextTheme" parent="MessageTextBaseTheme"></style>
     <style name="smallTextTheme" parent="SmallTextBaseTheme"></style>
     <style name="buttonTheme" parent="ButtonBaseTheme"></style>
+    <style name="editTextTheme" parent="EditTextBaseTheme"></style>
+    <style name="messageEditTextTheme" parent="EditTextBaseTheme"></style>
 	    
     
         

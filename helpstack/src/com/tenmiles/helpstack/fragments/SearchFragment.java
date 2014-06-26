@@ -110,7 +110,8 @@ public class SearchFragment extends HSFragmentParent {
 	public void addSearchViewInMenuItem(Context context, MenuItem searchItem) {
 		MenuItemCompat.setShowAsAction(searchItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS|MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 		SearchView searchView = new SearchView(context);
-		MenuItemCompat.setActionView(searchItem, searchView);
+		MenuItemCompat.setActionView(searchItem, R.layout.custom_searchview);
+		
 		searchView.setQueryHint("Search");
 		searchView.setSubmitButtonEnabled(true);
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">HelpStack</string>
+    
+    <!-- Strings used in the main list view screen -->
+    <string name="help_title">Help</string>
+    <string name="articles_title">FAQ</string>
+    <string name="issues_title">Issues</string>
+    <string name="issuebutton_title">Report An Issue</string>
+    
+    <!-- Strings used in search view -->
+    <string name="search_hint">Search Articles</string>
+    
+    <!-- Strings used in new User screen -->
+    <string name="new_user_title">Register New User</string>
+    <string name="firstname_hint">First Name</string>
+    <string name="lastname_hint">Last Name</string>
+    <string name="email_hint">Email Address</string>
+    <string name="new_user_message">Please enter your name and email to register</string>
+    
+    <!-- Strings used in new Issue screen -->
+    <string name="new_issue_title">Report Issue</string>
+    <string name="subject_hint">Subject</string>
+    <string name="message_hint">Message</string>
+    
+    <!-- Strings used in issue detail screen -->
+    <string name="addreply_hint">Add Reply</string>
+    <string name="sendbutton_title">Send</string>
+    
+    <!-- Strings used in attachment screen -->
+    <string name="attachment_title">Attachment</string>
+    
+</resources>

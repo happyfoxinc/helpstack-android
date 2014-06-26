@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@id/textlayout"
-        android:text="Me"/>
+        android:text=""/>
 
     <RelativeLayout
         android:id="@+id/textlayout"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Test" />
+            android:text="" />
         
     </RelativeLayout>
 
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/textlayout"
         android:layout_below="@id/textlayout"
-        android:text="05:55"/>
+        android:text=""/>
     
     <ImageView
         android:id="@+id/attachment_icon"

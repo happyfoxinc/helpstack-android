@@ -259,6 +259,9 @@ public class IssueDetailFragment extends HSFragmentParent
 		public void onClick(View v) {
 			
 			String message = replyEditTextView.getText().toString();
+			if(message.trim().length() == 0) {
+				return;
+			}
 			
 			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 			sendButton.setEnabled(false);
@@ -386,7 +389,11 @@ public class IssueDetailFragment extends HSFragmentParent
 			if(update.isUserUpdate()) {
 				holder.nameField.setText("Me");
 			}else {
-				holder.nameField.setText("Staff");
+				if(update.name != null) {
+					holder.nameField.setText(update.name);
+				} else {
+					holder.nameField.setText("Staff");
+				}
 			}
 			
 			if(update.isAttachmentEmtpy()) {

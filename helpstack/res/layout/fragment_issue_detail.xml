@@ -11,7 +11,7 @@
         android:groupIndicator="@null"
         android:layout_above="@+id/replyLayout"
         android:dividerHeight="1dip"
-        android:cacheColorHint="#0000" />
+        android:cacheColorHint="@color/transparent_color" />
 
     <RelativeLayout
         android:id="@+id/replyLayout"
@@ -37,7 +37,7 @@
             android:layout_toRightOf="@id/attachmentbutton"
             android:layout_marginRight="10dp"
             android:gravity="bottom"
-            android:hint="Add reply"
+            android:hint="@string/addreply_hint"
             android:layout_toLeftOf="@+id/button1"
             android:maxLines="4" />
 
@@ -49,7 +49,7 @@
             android:layout_alignParentRight="true"
             android:background="@color/transparent_color"
             android:textStyle="bold"
-            android:text="Send" />
+            android:text="@string/sendbutton_title" />
 
     </RelativeLayout>
 </RelativeLayout>
