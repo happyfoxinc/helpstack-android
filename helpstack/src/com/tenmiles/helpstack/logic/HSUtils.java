@@ -6,6 +6,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Date;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ParseException;
 
 public class HSUtils {
@@ -62,5 +65,19 @@ public class HSUtils {
 		
 		
 		return humanString;
+	}
+	
+	public static void showAlertDialog (Context context, String title, String message) {
+		AlertDialog dialog = new AlertDialog.Builder(context).create();  
+		dialog.setCancelable(true); 
+		dialog.setMessage(message);
+		dialog.setTitle(title);
+		dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		dialog.show();  
 	}
 }

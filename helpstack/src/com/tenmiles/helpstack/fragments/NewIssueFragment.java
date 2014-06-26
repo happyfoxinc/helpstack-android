@@ -32,6 +32,7 @@ import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
 import com.tenmiles.helpstack.logic.HSSource;
+import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnNewTicketFetchedSuccessListener;
 import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSTicket;
@@ -135,6 +136,11 @@ public class NewIssueFragment extends HSFragmentParent {
 		int id = item.getItemId();
 		if (id == R.id.doneItem) {
 			
+			if(getMessage().trim().length() == 0 || getSubject().trim().length() == 0) {
+				HSUtils.showAlertDialog(getActivity(), "Error", "Subject and message cannot be empty");
+				return false;
+			}
+			
 			getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 			
 			HSSource source = new HSSource(getActivity());
@@ -162,9 +168,7 @@ public class NewIssueFragment extends HSFragmentParent {
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
-				
-					
-					
+					HSUtils.showAlertDialog(getActivity(), "Error in reporting issue", "Please check your network connection");
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 				}
 			});
@@ -273,7 +277,7 @@ public class NewIssueFragment extends HSFragmentParent {
 	}
 	
 	public String getMessage() {
-		return messageField.getText().toString();
+		return subjectField.getText().toString();
 	}
 	
 	public static Bitmap downscaleAndReadBitmap(Context context, Uri selectedImage) throws FileNotFoundException {

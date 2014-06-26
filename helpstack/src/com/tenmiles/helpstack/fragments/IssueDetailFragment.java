@@ -305,6 +305,7 @@ private void refreshList() {
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
+					HSUtils.showAlertDialog(getActivity(), "Error", "Error in posting your reply, please check your network connection");
 					sendButton.setEnabled(true);
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				}

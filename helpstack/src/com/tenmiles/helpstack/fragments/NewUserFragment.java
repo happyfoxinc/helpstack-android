@@ -16,6 +16,7 @@ import com.android.volley.Response.ErrorListener;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.logic.HSSource;
+import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
 import com.tenmiles.helpstack.model.HSUser;
 
@@ -83,7 +84,17 @@ public class NewUserFragment extends HSFragmentParent {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.nextbutton) {
-			// 
+			
+			if(getFirstName().trim().length() == 0 || getLastName().trim().length() == 0 || getEmailAdddress().trim().length() == 0) {
+				HSUtils.showAlertDialog(getActivity(), "Error", "Please enter all the fields to register successfully");
+				return false;
+			}
+			
+			if(!android.util.Patterns.EMAIL_ADDRESS.matcher(getEmailAdddress()).matches()) {
+				HSUtils.showAlertDialog(getActivity(), "Invalid Email", "Please enter a valid email address");
+				return false;
+			}
+			
 			getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 			HSSource source = new HSSource(getActivity());
 			source.checkForUserDetailsValidity(getFirstName(), getLastName(), 
@@ -116,13 +127,10 @@ public class NewUserFragment extends HSFragmentParent {
 		super.onActivityResult(requestCode, resultCode, data);
 		
 		if (requestCode == NEW_TICKET_REQUEST_CODE) {
-			
 			if (resultCode == HSActivityManager.resultCode_sucess) {
 				HSActivityManager.sendSuccessSignal(getActivity(), data);
-			}
-			
+			}	
 		}
-		
 	}
 	
 	public void startNewIssueActivity(HSUser user) {
