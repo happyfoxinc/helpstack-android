@@ -24,6 +24,7 @@ import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.logic.HSSource;
+import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
@@ -168,6 +169,9 @@ public class HomeFragment extends HSFragmentParent {
 			public void onErrorResponse(VolleyError arg0) {
 				// Stop Loading
 				startHomeScreenLoadingDisplay(false);
+				if(numberOfServerCallWaiting == 0) {
+					HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching articles and issues");
+				}
 			}
 
 		});
@@ -186,6 +190,9 @@ public class HomeFragment extends HSFragmentParent {
 			public void onErrorResponse(VolleyError error) {
 				// Stop Loading
 				startHomeScreenLoadingDisplay(false);
+				if(numberOfServerCallWaiting == 0) {
+					HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching articles and Issues");
+				}
 
 			}
 		});

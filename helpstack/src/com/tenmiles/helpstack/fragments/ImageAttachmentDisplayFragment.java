@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.polites.android.GestureImageView;
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.service.DownloadAttachmentUtility;
 
 public class ImageAttachmentDisplayFragment extends HSFragmentParent {
@@ -113,7 +114,7 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 				imageView.setImageDrawable(new BitmapDrawable(getResources(), result));
 			}
 			else {
-				// TODO: Show failure dialog
+				HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching Attachment");
 			}
 		}
 	}

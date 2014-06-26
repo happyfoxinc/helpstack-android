@@ -185,7 +185,7 @@ private void refreshList() {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				
+				HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching ticket updates");
 				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 			}
 		});

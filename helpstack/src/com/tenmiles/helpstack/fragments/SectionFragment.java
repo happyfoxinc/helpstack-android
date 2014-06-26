@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.logic.HSSource;
+import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 
@@ -131,8 +132,7 @@ public class SectionFragment extends HSFragmentParent {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				// TODO Handle Error
-				
+				HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching articles");
 			}
 		});
 	}
