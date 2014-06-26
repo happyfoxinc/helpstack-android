@@ -329,8 +329,11 @@ public class HSHappyfoxGear extends HSGear {
 			ArrayList<HSAttachment> attachmentArray = new ArrayList<HSAttachment>();
 			for(int i = 0; i < length; i++) {
 				JSONObject attachmentData = attachmentObjects.getJSONObject(i);
-				HSAttachment attachData = HSAttachment.createAttachment(attachmentData.getString("url"), 
-						attachmentData.getString("filename"), null);
+				String attachment_url = attachmentData.getString("url");
+				if (attachment_url.startsWith("/")) {
+					attachment_url = instanceUrl.concat(attachment_url.substring(1));
+				}
+				HSAttachment attachData = HSAttachment.createAttachment(attachment_url, attachmentData.getString("filename"), null);
 				attachmentArray.add(attachData);
 			}
 			attachments = attachmentArray.toArray(new HSAttachment[length]);

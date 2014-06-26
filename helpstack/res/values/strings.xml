@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+
     <string name="app_name">HelpStack</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -16,4 +17,6 @@
     <string name="title_activity_section">SectionActivity</string>
     <string name="title_activity_issue_detail">IssueDetailActivity</string>
     <string name="title_activity_attachment">AttachmentActivity</string>
+    <string name="title_activity_image_attachment_display">Attachment</string>
+
 </resources>

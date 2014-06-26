@@ -52,6 +52,10 @@
             android:name="com.tenmiles.helpstack.activities.AttachmentActivity"
             android:label="@string/title_activity_attachment" >
         </activity>
+        <activity
+            android:name="com.tenmiles.helpstack.activities.ImageAttachmentDisplayActivity"
+            android:label="@string/title_activity_image_attachment_display" >
+        </activity>
     </application>
 
 </manifest>
