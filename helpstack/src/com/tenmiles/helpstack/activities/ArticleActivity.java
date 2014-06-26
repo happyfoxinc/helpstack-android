@@ -7,11 +7,14 @@ import android.view.MenuItem;
 
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.fragments.ArticleFragment;
+import com.tenmiles.helpstack.fragments.HSFragmentManager;
 import com.tenmiles.helpstack.model.HSKBItem;
 
 public class ArticleActivity extends HSActivityParent {
 
-	HSKBItem kbItem;
+	public static final String EXTRAS_ARTICLE_ITEM = "item";
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +23,11 @@ public class ArticleActivity extends HSActivityParent {
 
 		if (savedInstanceState == null) {
 			
-			ArticleFragment articleFragment = new ArticleFragment();
-			this.kbItem = (HSKBItem)getIntent().getSerializableExtra("item");
-			articleFragment.kbItem = this.kbItem;
-			getSupportActionBar().setTitle(this.kbItem.getSubject());
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, articleFragment).commit();
+			HSKBItem kbItem = (HSKBItem)getIntent().getSerializableExtra("item");
+			ArticleFragment sectionFragment = HSFragmentManager.getArticleFragment(this, kbItem);
+			HSFragmentManager.putFragmentInActivity(this, R.id.container, sectionFragment, "Article");
+			getHelpStackActionBar().setTitle(kbItem.getSubject());
+			
 		}
 	}
 

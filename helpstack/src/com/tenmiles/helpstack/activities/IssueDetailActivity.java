@@ -13,28 +13,27 @@ import com.tenmiles.helpstack.model.HSTicket;
 public class IssueDetailActivity extends HSActivityParent {
 	
 	public static final String EXTRAS_TICKET = "ticket";
-	private IssueDetailFragment mIssueDetailFragment;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_issue_detail);
 
-		mIssueDetailFragment = HSFragmentManager.getIssueDetailFragment();
+		if (savedInstanceState == null) {
+			IssueDetailFragment mIssueDetailFragment = HSFragmentManager.getIssueDetailFragment();
+			HSFragmentManager.putFragmentInActivity(this, R.id.container, mIssueDetailFragment, "IssueDetail");
+			HSTicket ticket = (HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET);
+			mIssueDetailFragment.setTicket(ticket);
+			getHelpStackActionBar().setTitle(ticket.getSubject());
+		}
 		
-		HSFragmentManager.putFragmentInActivity(this, R.id.container, mIssueDetailFragment, "IssueDetail");
 		
-		mIssueDetailFragment.setTicket((HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET));
 	}
 
 	@Override
 	public void configureActionBar(ActionBar actionBar) {
 		super.configureActionBar(actionBar);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		HSTicket ticket = (HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET);
-		if(ticket != null){
-			actionBar.setTitle(ticket.getSubject());
-		}
 	}
 	
 	@Override

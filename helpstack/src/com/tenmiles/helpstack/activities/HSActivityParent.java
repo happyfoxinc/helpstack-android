@@ -24,4 +24,8 @@ public class HSActivityParent extends ActionBarActivity {
 	public void configureActionBar(ActionBar actionBar) {
 		
 	}
+	
+	public ActionBar getHelpStackActionBar() {
+		return getSupportActionBar();
+	}
 }

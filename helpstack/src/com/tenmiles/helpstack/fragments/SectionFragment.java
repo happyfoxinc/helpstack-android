@@ -7,8 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -18,22 +18,33 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
-import com.tenmiles.helpstack.activities.ArticleActivity;
 import com.tenmiles.helpstack.activities.HSActivityManager;
-import com.tenmiles.helpstack.activities.SectionActivity;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 
+/**
+ * 
+ * Display all the articles in a section. 
+ * 
+ * @author Nalin Chhajer
+ *
+ */
 public class SectionFragment extends HSFragmentParent {
 
-	public HSKBItem kbItem;
+	private static final int REQUEST_CODE_NEW_TICKET = HomeFragment.REQUEST_CODE_NEW_TICKET;
 	
 	private ListView mListView;
+	private SectionAdapter mAdapter;
+	private SearchFragment mSearchFragment;
+	
+	public HSKBItem sectionItemToDisplay;
+	
 	private HSSource gearSource;
 	private HSKBItem[] fetchedKbItems;
+
 	
-	private SearchFragment mSearchFragment;
+	
 	
 	public SectionFragment() {
 		
@@ -42,25 +53,45 @@ public class SectionFragment extends HSFragmentParent {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle savedInstanceState) {
+		
 		View rootView = inflater.inflate(R.layout.fragment_section, container, false);
 		
+		// List View
 		mListView = (ListView)rootView.findViewById(R.id.sectionlistview);
-		gearSource = new HSSource (getActivity());
 		
+		// Report an issue
 		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
-
         mListView.addFooterView(report_an_issue_view);
 		
+        mAdapter = new SectionAdapter(this.fetchedKbItems);
+		mListView.setAdapter(mAdapter);
+		mListView.setOnItemClickListener(listItemClickListener);
+		
+        // Display Search
 		mSearchFragment = new SearchFragment();
         HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
-        
         setHasOptionsMenu(true);
         
-		initializeView();
+        gearSource = new HSSource (getActivity());
+		
+        if (savedInstanceState == null) {
+        	initializeView();
+        }
+        else {
+        	fetchedKbItems = (HSKBItem[]) savedInstanceState.getSerializable("section_array");
+        	mSearchFragment.setKBArticleList(fetchedKbItems);
+        	refreshList();
+        }
+		
 		
 		return rootView;
 	}
+	
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("section_array", fetchedKbItems);
+	};
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -73,14 +104,26 @@ public class SectionFragment extends HSFragmentParent {
         mSearchFragment.addSearchViewInMenuItem(getActivity(), searchItem);
 	}
 	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		// This is done to refresh the screen
+		if (requestCode == REQUEST_CODE_NEW_TICKET) {
+			if (resultCode == HSActivityManager.resultCode_sucess) {
+				HSActivityManager.sendSuccessSignal(getActivity(), data);
+			}
+		}
+	}
+	
 	private void initializeView() {
 		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 		
-		gearSource.requestKBArticle(this.kbItem, new OnFetchedArraySuccessListener() {
+		gearSource.requestKBArticle(this.sectionItemToDisplay, new OnFetchedArraySuccessListener() {
 			
 			@Override
 			public void onSuccess(Object[] successObject) {
+				
 				fetchedKbItems = (HSKBItem[])successObject;
 				mSearchFragment.setKBArticleList(fetchedKbItems);
 				refreshList();
@@ -91,55 +134,43 @@ public class SectionFragment extends HSFragmentParent {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				// TODO Auto-generated method stub
+				// TODO Handle Error
 				
 			}
 		});
 	}
 	
-	private OnClickListener reportIssueClickListener = new OnClickListener() {
+	protected OnClickListener reportIssueClickListener = new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
 			
-			if (gearSource.haveImplementedTicketFetching()) {
-				if(gearSource.isNewUser()) {
-					HSActivityManager.startNewUserActivity(SectionFragment.this, 1003);
-				}else {
-					HSActivityManager.startNewIssueActivity(SectionFragment.this, gearSource.getUser(), 1003);
-				}
-			}
-			else {
-				gearSource.launchEmailAppWithEmailAddress(getActivity());
-			}
+			gearSource.launchCreateNewTicketScreen(SectionFragment.this, REQUEST_CODE_NEW_TICKET);
+			
+		}
+	};
+	
+	protected OnItemClickListener listItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view,
+				int position, long id) {
+			HSKBItem kbItemClicked = (HSKBItem) fetchedKbItems[position];
+			articleClickedOnPosition(kbItemClicked);
 		}
 	};
 	
 	private void refreshList() {
-		SectionAdapter sectionAdapter = new SectionAdapter(this.fetchedKbItems);
-		mListView.setAdapter(sectionAdapter);
-		mListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				HSKBItem kbItemClicked = (HSKBItem) fetchedKbItems[position];
-				if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
-					//Type article
-					Intent intent = new Intent(getActivity(), ArticleActivity.class);
-					intent.putExtra("item", kbItemClicked);
-					startActivity(intent);
-					
-				} else {
-					//Type section
-					Intent intent = new Intent(getActivity(), SectionActivity.class);
-					intent.putExtra("section_item", kbItemClicked);
-					startActivity(intent);
-					
-				}
-			}
-		});
+		mAdapter.setKbArticles(fetchedKbItems);
+	}
+	
+	protected void articleClickedOnPosition(HSKBItem kbItemClicked) {
+		if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
+			HSActivityManager.startArticleActivity(this, kbItemClicked, REQUEST_CODE_NEW_TICKET);
+			
+		} else {
+			HSActivityManager.startSectionActivity(this, kbItemClicked, REQUEST_CODE_NEW_TICKET);
+		}
 	}
 	
 	private class SectionAdapter extends BaseAdapter {
@@ -150,8 +181,18 @@ public class SectionFragment extends HSFragmentParent {
 			this.kbItems = kbItems;
 		}
 		
+		public void setKbArticles(HSKBItem[] fetchedKbItems) {
+			this.kbItems = fetchedKbItems;
+			notifyDataSetChanged();
+		}
+
 		@Override
 		public int getCount() {
+			
+			if (kbItems == null) {
+				return 0;
+			}
+			
 			return this.kbItems.length;
 		}
 

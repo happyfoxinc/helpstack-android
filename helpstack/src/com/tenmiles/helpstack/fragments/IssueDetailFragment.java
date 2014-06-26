@@ -51,19 +51,20 @@ public class IssueDetailFragment extends HSFragmentParent
 	private final int REQUEST_CODE_PHOTO_PICKER = 100;
 	
 	public IssueDetailFragment() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	private HSTicket ticket;
 	private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
-	private HSSource gearSource;
 	private Button sendButton;
-	private HSTicketUpdate[] fetchedUpdates;
-	
 	private EditText replyEditTextView;
-	private HSAttachment selectedAttachment;
 	private ImageView mAttachmentButton;
+	
+	private HSSource gearSource;
+	private HSTicket ticket;
+	private HSTicketUpdate[] fetchedUpdates;
+	private HSAttachment selectedAttachment;
+	
+	
 	
 	
 	@Override
@@ -88,28 +89,7 @@ public class IssueDetailFragment extends HSFragmentParent
         
         gearSource = new HSSource(getActivity());
 		
-        mAdapter.setOnChildItemClickListener(new OnChildItemClickListener() {
-			
-			@Override
-			public boolean onChildListItemLongClick(int groupPosition,
-					int childPosition, String type, Object map) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-			
-			@Override
-			public void onChildListItemClick(int groupPosition, int childPosition,
-					String type, Object map) {
-				showAttachments(((HSTicketUpdate)map).getAttachments());
-			}
-			
-			@Override
-			public void onChildCheckedListner(int groupPosition, int childPosition,
-					String type, Object map, boolean checked) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+        mAdapter.setOnChildItemClickListener(listChildClickListener);
         
 		return rootView;
 	}
@@ -123,6 +103,9 @@ public class IssueDetailFragment extends HSFragmentParent
 		}
 		else {
 			fetchedUpdates = (HSTicketUpdate[]) savedInstanceState.getSerializable("updates");
+			ticket = (HSTicket) savedInstanceState.getSerializable("ticket");
+			if (savedInstanceState.containsKey("selectedAttachment"))
+				selectedAttachment = (HSAttachment) savedInstanceState.getSerializable("selectedAttachment");
 		}
 		
 		refreshList();
@@ -132,39 +115,10 @@ public class IssueDetailFragment extends HSFragmentParent
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("updates", fetchedUpdates);
+		outState.putSerializable("ticket", ticket);
+		if (selectedAttachment != null)
+			outState.putSerializable("selectedAttachment", selectedAttachment);
 	}
-	
-	private void showAttachments(final HSAttachment[] attachmentsArray) {
-		ArrayList<String> attachments = new ArrayList<String>();
-		for(HSAttachment attachment : attachmentsArray) {
-			attachments.add(attachment.getFileName());
-		}
-		String[] attachmentNames = attachments.toArray(new String[attachments.size()]);
-		AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.attachment_dialog, null);
-        alertDialog.setView(convertView);
-        alertDialog.setTitle("Attachments");
-        ListView lv = (ListView) convertView.findViewById(R.id.listView1);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,attachmentNames);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				HSAttachment attachmentToShow = attachmentsArray[position];
-				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
-				intent.putExtra("attachment", attachmentToShow);
-				intent.putExtra("isLocalAttachment", false);
-				startActivity(intent);
-			}
-		});
-        
-        alertDialog.show();
-	}
-	
-	
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -192,8 +146,8 @@ public class IssueDetailFragment extends HSFragmentParent
             
         }
 	};
-
-	private void refreshList() {
+	
+private void refreshList() {
 		
 		mAdapter.clearAll();
 		
@@ -234,6 +188,67 @@ public class IssueDetailFragment extends HSFragmentParent
 			}
 		});
 	}
+	
+	private OnChildItemClickListener listChildClickListener = new OnChildItemClickListener() {
+		
+		@Override
+		public boolean onChildListItemLongClick(int groupPosition,
+				int childPosition, String type, Object map) {
+			return false;
+		}
+		
+		@Override
+		public void onChildListItemClick(int groupPosition, int childPosition,
+				String type, Object map) {
+			showAttachments(((HSTicketUpdate)map).getAttachments());
+		}
+		
+		@Override
+		public void onChildCheckedListner(int groupPosition, int childPosition,
+				String type, Object map, boolean checked) {
+			
+		}
+	};
+	
+
+	private OnClickListener attachmentClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+			if (selectedAttachment == null) {
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+			}
+			else {
+				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+				alertBuilder.setTitle("Attachment");
+				alertBuilder.setIcon(R.drawable.ic_action_attachment);
+				String[] attachmentOptions = {"Change","Remove"};
+				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (which == 0) {
+							Intent intent = new Intent();
+							intent.setType("image/*");
+							intent.setAction(Intent.ACTION_GET_CONTENT);
+							startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+						}
+						
+						else if (which == 1) {
+							selectedAttachment = null;
+							resetAttachmentImage();
+						}
+					}
+				});
+				alertBuilder.create().show();
+			}
+			
+		}
+	};
 	
 	private OnClickListener sendReplyListener = new OnClickListener() {
 		
@@ -297,6 +312,37 @@ public class IssueDetailFragment extends HSFragmentParent
 		for (int i = 0; i < count; i++) {
 			mExpandableListView.expandGroup(i);
 		}
+	}
+
+	private void showAttachments(final HSAttachment[] attachmentsArray) {
+		
+		ArrayList<String> attachments = new ArrayList<String>();
+		for(HSAttachment attachment : attachmentsArray) {
+			attachments.add(attachment.getFileName());
+		}
+		String[] attachmentNames = attachments.toArray(new String[attachments.size()]);
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.attachment_dialog, null);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("Attachments");
+        ListView lv = (ListView) convertView.findViewById(R.id.listView1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,attachmentNames);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				HSAttachment attachmentToShow = attachmentsArray[position];
+				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
+				intent.putExtra("attachment", attachmentToShow);
+				intent.putExtra("isLocalAttachment", false);
+				startActivity(intent);
+			}
+		});
+        
+        alertDialog.show();
 	}
 
 
@@ -424,7 +470,6 @@ public class IssueDetailFragment extends HSFragmentParent
 				selectedBitmap = NewIssueFragment.downscaleAndReadBitmap(getActivity(), uri);
 				this.mAttachmentButton.setImageBitmap(selectedBitmap);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -432,45 +477,6 @@ public class IssueDetailFragment extends HSFragmentParent
 		}
 		
 	}
-	
-	private OnClickListener attachmentClickListener = new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			
-			if (selectedAttachment == null) {
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
-			}
-			else {
-				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-				alertBuilder.setTitle("Attachment");
-				alertBuilder.setIcon(R.drawable.ic_action_attachment);
-				String[] attachmentOptions = {"Change","Remove"};
-				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						if (which == 0) {
-							Intent intent = new Intent();
-							intent.setType("image/*");
-							intent.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
-						}
-						
-						else if (which == 1) {
-							selectedAttachment = null;
-							resetAttachmentImage();
-						}
-					}
-				});
-				alertBuilder.create().show();
-			}
-			
-		}
-	};
 	
 	private void scrollListToBottom() {
 		mExpandableListView.setSelectedChild(0, mAdapter.getChildrenCount(0) - 1, true);

@@ -131,6 +131,7 @@ public class NewIssueFragment extends HSFragmentParent {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		int id = item.getItemId();
 		if (id == R.id.doneItem) {
 			
@@ -162,19 +163,7 @@ public class NewIssueFragment extends HSFragmentParent {
 				@Override
 				public void onErrorResponse(VolleyError error) {
 				
-					Log.e("CreateTicket", error.toString());
-					error.printStackTrace();
-					if (error.networkResponse != null && error.networkResponse.data != null) {
-						Log.e("CreateTicket", "reason");
-						
-						try {
-							Log.e("CreateTicket", new String(error.networkResponse.data, "utf-8"));
-							
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+					
 					
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 				}

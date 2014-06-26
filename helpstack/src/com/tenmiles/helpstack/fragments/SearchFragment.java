@@ -1,18 +1,13 @@
 package com.tenmiles.helpstack.fragments;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,12 +22,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tenmiles.helpstack.R;
-import com.tenmiles.helpstack.activities.ArticleActivity;
 import com.tenmiles.helpstack.activities.HSActivityManager;
-import com.tenmiles.helpstack.activities.SectionActivity;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.model.HSKBItem;
-import com.android.internal.util.*;
 
 /**
  * Search Fragment
@@ -68,27 +60,7 @@ public class SearchFragment extends HSFragmentParent {
 		
 		listView.setAdapter(searchAdapter);
 		
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				HSKBItem kbItemClicked = (HSKBItem) searchAdapter.getItem(position);
-				if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
-					//Type article
-					Intent intent = new Intent(getActivity(), ArticleActivity.class);
-					intent.putExtra("item", kbItemClicked);
-					startActivity(intent);
-					
-				} else {
-					//Type section
-					Intent intent = new Intent(getActivity(), SectionActivity.class);
-					intent.putExtra("section_item", kbItemClicked);
-					startActivity(intent);
-				}
-				
-			}
-		});
+		listView.setOnItemClickListener(listItemClickListener);
 		
 		return rootView;
 	}
@@ -114,6 +86,25 @@ public class SearchFragment extends HSFragmentParent {
 	
 	public void setKBArticleList(HSKBItem[] fetchedKbArticles) {
 		this.allKbArticles = fetchedKbArticles;
+	}
+	
+	protected OnItemClickListener listItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view,
+				int position, long id) {
+			HSKBItem kbItemClicked = (HSKBItem) searchAdapter.getItem(position);
+			articleClickedOnPosition(kbItemClicked);
+		}
+	};
+	
+	protected void articleClickedOnPosition(HSKBItem kbItemClicked) {
+		if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
+			HSActivityManager.startArticleActivity(this, kbItemClicked, HomeFragment.REQUEST_CODE_NEW_TICKET);
+			
+		} else {
+			HSActivityManager.startSectionActivity(this, kbItemClicked, HomeFragment.REQUEST_CODE_NEW_TICKET);
+		}
 	}
 	
 	public void addSearchViewInMenuItem(Context context, MenuItem searchItem) {
@@ -170,16 +161,7 @@ public class SearchFragment extends HSFragmentParent {
 		@Override
 		public void onClick(View v) {
 			
-			if (gearSource.haveImplementedTicketFetching()) {
-				if(gearSource.isNewUser()) {
-					HSActivityManager.startNewUserActivity(SearchFragment.this, 1003);
-				}else {
-					HSActivityManager.startNewIssueActivity(SearchFragment.this, gearSource.getUser(), 1003);
-				}
-			}
-			else {
-				gearSource.launchEmailAppWithEmailAddress(getActivity());
-			}
+			gearSource.launchCreateNewTicketScreen(SearchFragment.this, 1003);
 		}
 	};
 	

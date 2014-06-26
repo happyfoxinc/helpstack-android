@@ -22,6 +22,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.tenmiles.helpstack.activities.HSActivityManager;
+import com.tenmiles.helpstack.fragments.HSFragmentParent;
 import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSCachedTicket;
 import com.tenmiles.helpstack.model.HSCachedUser;
@@ -153,6 +155,33 @@ public class HSSource {
 	
 	public String getSupportEmailAddress() {
 		return gear.getCompanySupportEmailAddress();
+	}
+	
+	/***
+	 * 
+	 * Depending on the setting set on gear, it launches new ticket activity.
+	 * 
+	 * if email : launches email [Done]
+	 * else: 
+	 * if user logged in : launches user details [Done] 
+	 * else: launches new ticket [Done]
+	 * 
+	 * @param fragment
+	 * @param requestCode
+	 */
+	public void launchCreateNewTicketScreen(HSFragmentParent fragment, int requestCode) {
+		
+		if (haveImplementedTicketFetching()) {
+			if(isNewUser()) {
+				HSActivityManager.startNewUserActivity(fragment, requestCode);
+			}else {
+				HSActivityManager.startNewIssueActivity(fragment, getUser(), requestCode);
+			}
+		}
+		else {
+			launchEmailAppWithEmailAddress(fragment.getActivity());
+		}
+		
 	}
 
 	public void launchEmailAppWithEmailAddress(Activity activity) {

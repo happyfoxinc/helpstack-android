@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.tenmiles.helpstack.activities.HSActivityParent;
+import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSUser;
 
 /**
@@ -37,6 +38,20 @@ public class HSFragmentManager {
 	public static HSFragmentParent getFragmentInActivity(HSActivityParent activity,String tag) {
 		FragmentManager fragMgr = activity.getSupportFragmentManager();
 		return (HSFragmentParent) fragMgr.findFragmentByTag(tag);
+	}
+	
+	public static SectionFragment getSectionFragment(HSActivityParent activity, HSKBItem kbItem)
+	{
+		SectionFragment sectionFragment = new SectionFragment();
+		sectionFragment.sectionItemToDisplay = kbItem;
+		return sectionFragment;
+	}
+	
+	public static ArticleFragment getArticleFragment(HSActivityParent activity, HSKBItem kbItem)
+	{
+		ArticleFragment sectionFragment = new ArticleFragment();
+		sectionFragment.kbItem = kbItem;
+		return sectionFragment;
 	}
 	
 	
