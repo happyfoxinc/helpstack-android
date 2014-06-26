@@ -295,7 +295,7 @@ public class IssueDetailFragment extends HSFragmentParent
 					
 					selectedAttachment = null;
 					replyEditTextView.setText("");
-					// hide keyboard
+					resetAttachmentImage();
 					
 					
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
