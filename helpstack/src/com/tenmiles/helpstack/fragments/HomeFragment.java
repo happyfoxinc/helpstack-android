@@ -260,7 +260,7 @@ public class HomeFragment extends HSFragmentParent {
 
 		mAdapter.clearAll();
 
-		mAdapter.addParent(0, "FAQ");
+		mAdapter.addParent(0, getString(R.string.articles_title));
 
 		if (fetchedKbArticles != null) {
 			for (int i = 0; i < fetchedKbArticles.length ; i++) {
@@ -272,7 +272,7 @@ public class HomeFragment extends HSFragmentParent {
 
 
 		if (fetchedTickets != null && fetchedTickets.length > 0) {
-			mAdapter.addParent(1, "ISSUES");
+			mAdapter.addParent(1, getString(R.string.issues_title));
 
 			for (int i = 0; i < fetchedTickets.length ; i++) {
 

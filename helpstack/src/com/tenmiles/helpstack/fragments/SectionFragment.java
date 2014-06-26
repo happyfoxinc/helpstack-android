@@ -43,9 +43,6 @@ public class SectionFragment extends HSFragmentParent {
 	private HSSource gearSource;
 	private HSKBItem[] fetchedKbItems;
 
-	
-	
-	
 	public SectionFragment() {
 		
 	}

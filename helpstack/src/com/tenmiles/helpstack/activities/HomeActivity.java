@@ -34,8 +34,7 @@ public class HomeActivity extends HSActivityParent {
     @Override
     public void configureActionBar(ActionBar actionBar) {
     	super.configureActionBar(actionBar);
-    	
-    	actionBar.setTitle("Help"); // TODO: Move to string.xml
+    	actionBar.setTitle(getString(R.string.help_title)); 
     }
 
     @Override

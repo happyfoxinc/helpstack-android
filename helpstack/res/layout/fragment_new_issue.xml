@@ -10,7 +10,7 @@
 
     <EditText 
         android:id="@+id/subjectField"
-        style="@style/subjectEditTextTheme"
+        style="@style/editTextTheme"
         android:layout_alignParentTop="true"
         android:inputType="textEmailSubject"
         android:layout_width="match_parent"
@@ -42,15 +42,14 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/subjectField"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:textSize="@dimen/default_text_size"
-        android:gravity="left|bottom"
+        android:gravity="left|top"
         android:hint="@string/messagehint"
         android:minLines="4"
         android:text="" >
 
-        <requestFocus />
     </EditText>
 
 </RelativeLayout>

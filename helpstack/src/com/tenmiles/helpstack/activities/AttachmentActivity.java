@@ -26,7 +26,7 @@ public class AttachmentActivity extends HSActivityParent {
 	public void configureActionBar(ActionBar actionBar) {
 		super.configureActionBar(actionBar);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle("Attachment");
+		actionBar.setTitle(getString(R.string.attachment_title));
 		
 	}
 	

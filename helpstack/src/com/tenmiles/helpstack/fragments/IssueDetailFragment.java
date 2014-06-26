@@ -386,7 +386,11 @@ private void refreshList() {
 			if(update.isUserUpdate()) {
 				holder.nameField.setText("Me");
 			}else {
-				holder.nameField.setText("Staff");
+				if(update.name != null) {
+					holder.nameField.setText(update.name);
+				} else {
+					holder.nameField.setText("Staff");
+				}
 			}
 			
 			if(update.isAttachmentEmtpy()) {

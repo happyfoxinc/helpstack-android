@@ -26,8 +26,6 @@ public class IssueDetailActivity extends HSActivityParent {
 			mIssueDetailFragment.setTicket(ticket);
 			getHelpStackActionBar().setTitle(ticket.getSubject());
 		}
-		
-		
 	}
 
 	@Override
