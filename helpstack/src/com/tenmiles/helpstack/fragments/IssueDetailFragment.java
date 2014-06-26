@@ -80,7 +80,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		sendButton = (Button)rootView.findViewById(R.id.button1);
 		sendButton.setOnClickListener(sendReplyListener);
 		
-		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
+		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList);
 		mAttachmentButton = (ImageView) rootView.findViewById(R.id.attachmentbutton);
 		
 		mAttachmentButton.setOnClickListener(attachmentClickListener);
@@ -88,6 +88,7 @@ public class IssueDetailFragment extends HSFragmentParent
         mAdapter = new LocalAdapter(getActivity());
         
         mExpandableListView.setAdapter(mAdapter);
+        mExpandableListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         
         gearSource = new HSSource(getActivity());
 		
@@ -149,7 +150,7 @@ public class IssueDetailFragment extends HSFragmentParent
         }
 	};
 	
-private void refreshList() {
+	private void refreshList() {
 		
 		mAdapter.clearAll();
 		
@@ -294,7 +295,7 @@ private void refreshList() {
 					
 					selectedAttachment = null;
 					replyEditTextView.setText("");
-					// hide keyboard
+					resetAttachmentImage();
 					
 					
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
@@ -332,6 +333,8 @@ private void refreshList() {
         View convertView = (View) inflater.inflate(R.layout.attachment_dialog, null);
         alertDialog.setView(convertView);
         alertDialog.setTitle("Attachments");
+        final AlertDialog dialog = alertDialog.create();
+        
         ListView lv = (ListView) convertView.findViewById(R.id.listView1);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,attachmentNames);
         lv.setAdapter(adapter);
@@ -342,10 +345,11 @@ private void refreshList() {
 					int position, long id) {
 				HSAttachment attachmentToShow = attachmentsArray[position];
 				openAttachment(attachmentToShow);
+				dialog.dismiss();
 			}
 		});
         
-        alertDialog.show();
+        dialog.show();
 	}
 
 

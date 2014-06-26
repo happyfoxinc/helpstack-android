@@ -16,6 +16,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
+import android.text.Html;
+import android.text.SpannableString;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -109,6 +111,12 @@ public class HSSource {
 		
 		HSUploadAttachment[] upload_attachments = convertAttachmentArrayToUploadAttachment(attachment);
 		
+		message = message + getDeviceInformation(mContext);
+		
+		if (gear.canUplaodMessageAsHtmlString()) {
+			message = Html.toHtml(new SpannableString(message));
+		}
+		
 		gear.createNewTicket(user, subject, message, upload_attachments, mRequestQueue, new NewTicketSuccessWrapper(successListener) {
 			
 			@Override
@@ -130,6 +138,11 @@ public class HSSource {
 	}
 	
 	public void addReplyOnATicket(String message,HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
+		
+		if (gear.canUplaodMessageAsHtmlString()) {
+			message = Html.toHtml(new SpannableString(message));
+		}
+		
 		gear.addReplyOnATicket(message, convertAttachmentArrayToUploadAttachment(attachments),  ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
 	}
 
@@ -194,10 +207,10 @@ public class HSSource {
 	    activity.startActivity(Intent.createChooser(emailIntent, "Email"));
 	}
 	
-	public static String getDeviceInformation(Activity activity) {
+	private static String getDeviceInformation(Context activity) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n\n\n");
-		builder.append("=====");
+		builder.append("========");
 		builder.append("\nDevice Android version : ");
 		builder.append(Build.VERSION.SDK_INT);
 		builder.append("\nDevice brand : ");
