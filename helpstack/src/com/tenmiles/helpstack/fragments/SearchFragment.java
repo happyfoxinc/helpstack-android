@@ -67,8 +67,8 @@ public class SearchFragment extends HSFragmentParent {
 
 	public void searchStarted() {
 		searchAdapter.refreshList(allKbArticles);
-		searchAdapter.notifyDataSetChanged();
 		searchAdapter.getFilter().filter("");
+		searchAdapter.notifyDataSetChanged();
 	}
 
 	public void doSearchForQuery(String q) {
@@ -109,10 +109,11 @@ public class SearchFragment extends HSFragmentParent {
 	
 	public void addSearchViewInMenuItem(Context context, MenuItem searchItem) {
 		MenuItemCompat.setShowAsAction(searchItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS|MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-		SearchView searchView = new SearchView(context);
-		MenuItemCompat.setActionView(searchItem, R.layout.custom_searchview);
 		
-		searchView.setQueryHint("Search");
+		SearchView searchView = new SearchView(context);
+		MenuItemCompat.setActionView(searchItem, searchView);
+		
+		searchView.setQueryHint(getString(R.string.search_hint));
 		searchView.setSubmitButtonEnabled(true);
 
 		searchView.setOnSearchClickListener(new OnClickListener() {
