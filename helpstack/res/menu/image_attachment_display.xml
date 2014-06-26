@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.tenmiles.helpstack.activities.ImageAttachmentDisplayActivity" >
+
+    <item
+        android:id="@+id/menu_download"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Download"/>
+
+</menu>

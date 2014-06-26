@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,7 +35,7 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
-import com.tenmiles.helpstack.activities.AttachmentActivity;
+import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
 import com.tenmiles.helpstack.logic.HSSource;
@@ -44,6 +45,7 @@ import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
 import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
+import com.tenmiles.helpstack.service.DownloadAttachmentUtility;
 
 public class IssueDetailFragment extends HSFragmentParent 
 {
@@ -338,10 +340,7 @@ private void refreshList() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				HSAttachment attachmentToShow = attachmentsArray[position];
-				Intent intent = new Intent(getActivity(), AttachmentActivity.class);
-				intent.putExtra("attachment", attachmentToShow);
-				intent.putExtra("isLocalAttachment", false);
-				startActivity(intent);
+				openAttachment(attachmentToShow);
 			}
 		});
         
@@ -503,6 +502,62 @@ private void refreshList() {
 	 */
 	public void setTicket(HSTicket ticket) {
 		this.ticket = ticket;
+	}
+	
+	
+	
+	/// Attachments
+	private void openAttachment(HSAttachment attachment) {
+		if(knownAttachmentType(attachment)) {
+			HSActivityManager.startImageAttachmentDisplayActivity(getActivity(), attachment.getUrl(), attachment.getFileName());
+		}
+		else {
+			downloadAttachment(attachment);
+		}
+
+	}
+	
+	private boolean knownAttachmentType(HSAttachment attachment) 
+	{
+		String mime_type = attachment.getMime_type();
+		if (mime_type != null  && mime_type.startsWith("image")) {
+			return true;
+		}
+		String file_name = attachment.getFileName();
+		if (file_name != null && isKnowFileNameType(file_name)) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isKnowFileNameType(String file_name) {
+		// get the type of file
+		StringTokenizer strtok = new StringTokenizer(file_name, ".");
+
+		// getting the last token
+		String fileType = null;
+		while (strtok.hasMoreTokens()) {
+			// parsing to get last token
+			fileType = strtok.nextToken();
+		}
+		String[] knownFileType = {"png", "jpg", "jpeg"};
+		if(containString(knownFileType,fileType.toLowerCase())) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean containString(String[] array, String data) {
+		for (int i = 0; i < array.length; i++) {
+			if(array[i].contains(data)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void downloadAttachment(HSAttachment attachment) {
+		DownloadAttachmentUtility.downloadAttachment(getActivity(), attachment.getUrl(), attachment.getFileName());
 	}
 	
 }

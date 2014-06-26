@@ -54,6 +54,13 @@ public class HSFragmentManager {
 		return sectionFragment;
 	}
 	
+	public static ImageAttachmentDisplayFragment getImageAttachmentDisplayFragment(HSActivityParent activity, String url)
+	{
+		ImageAttachmentDisplayFragment fragment = new ImageAttachmentDisplayFragment();
+		fragment.image_url = url;
+		return fragment;
+	}
+	
 	
 	
 	public static void putFragmentInActivity(HSActivityParent activity, int resid, HSFragmentParent frag, String tag) {

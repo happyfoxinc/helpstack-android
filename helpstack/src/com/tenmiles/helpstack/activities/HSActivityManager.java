@@ -55,6 +55,13 @@ public class HSActivityManager {
 		context.startActivity(intent);
 	}
 	
+	public static void startImageAttachmentDisplayActivity(Activity context, String url, String title) {
+		Intent intent = new Intent(context, ImageAttachmentDisplayActivity.class);
+		intent.putExtra(ImageAttachmentDisplayActivity.EXTRAS_STRING_URL, url);
+		intent.putExtra(ImageAttachmentDisplayActivity.EXTRAS_TITLE, title);
+		context.startActivity(intent);
+	}
+	
 	public static void finishSafe(Activity context) {
 		Intent intent = new Intent();
 		context.setResult(HSActivityManager.resultCode_cancelled,intent);
