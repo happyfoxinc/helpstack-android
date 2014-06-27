@@ -127,6 +127,7 @@ public class HomeFragment extends HSFragmentParent {
 				array = temp.toArray(array);
 				fetchedTickets = array;
 				refreshList();
+				mExpandableListView.setSelectedGroup(1);
 			}
 		}
 	}
