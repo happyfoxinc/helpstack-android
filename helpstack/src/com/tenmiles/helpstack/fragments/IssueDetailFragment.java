@@ -150,27 +150,18 @@ public class IssueDetailFragment extends HSFragmentParent
         }
 	};
 	
-	private void refreshList() {
-		
-		mAdapter.clearAll();
-		
-		if (fetchedUpdates != null) {
-			mAdapter.addParent(1, "");
-			for (int i = 0; i < fetchedUpdates.length; i++) {
-				mAdapter.addChild(1, fetchedUpdates[i]);
-			}
-		}
-		
-		mAdapter.notifyDataSetChanged();
-		
-		expandAll();
+	@Override
+	public void onDetach() {
+		gearSource.cancelOperation("REPLY_TO_A_TICKET");
+		gearSource.cancelOperation("ALL_UPDATES");
+		super.onDetach();
 	}
 	
 	private void refreshUpdateFromServer() {
 		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 		
-		gearSource.requestAllUpdatesOnTicket(ticket, new OnFetchedArraySuccessListener() {
+		gearSource.requestAllUpdatesOnTicket("ALL_UPDATES", ticket, new OnFetchedArraySuccessListener() {
 			
 			@Override
 			public void onSuccess(Object[] successObject) {
@@ -277,7 +268,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				      Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(replyEditTextView.getWindowToken(), 0);
 				
-			gearSource.addReplyOnATicket(message, attachmentArray, ticket, new OnFetchedSuccessListener() {
+			gearSource.addReplyOnATicket("REPLY_TO_A_TICKET", message, attachmentArray, ticket, new OnFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(Object successObject) {
@@ -319,6 +310,22 @@ public class IssueDetailFragment extends HSFragmentParent
 		for (int i = 0; i < count; i++) {
 			mExpandableListView.expandGroup(i);
 		}
+	}
+	
+	private void refreshList() {
+		
+		mAdapter.clearAll();
+		
+		if (fetchedUpdates != null) {
+			mAdapter.addParent(1, "");
+			for (int i = 0; i < fetchedUpdates.length; i++) {
+				mAdapter.addChild(1, fetchedUpdates[i]);
+			}
+		}
+		
+		mAdapter.notifyDataSetChanged();
+		
+		expandAll();
 	}
 
 	private void showAttachments(final HSAttachment[] attachmentsArray) {
@@ -514,7 +521,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	/// Attachments
 	private void openAttachment(HSAttachment attachment) {
 		if(knownAttachmentType(attachment)) {
-			HSActivityManager.startImageAttachmentDisplayActivity(getActivity(), attachment.getUrl(), attachment.getFileName());
+			HSActivityManager.startImageAttachmentDisplayActivity(getHelpStackActivity(), attachment.getUrl(), attachment.getFileName());
 		}
 		else {
 			downloadAttachment(attachment);

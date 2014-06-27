@@ -1,7 +1,6 @@
 package com.tenmiles.helpstack.fragments;
 
 import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.support.v4.view.MenuItemCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,6 +65,8 @@ public class NewIssueFragment extends HSFragmentParent {
 
 	HSAttachment selectedAttachment;
 	
+	HSSource gearSource;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -90,6 +90,8 @@ public class NewIssueFragment extends HSFragmentParent {
 		}
 		
 		userDetails = (HSUser) args.getSerializable(EXTRAS_USER);
+		
+		gearSource = new HSSource(getActivity());
 		
 		return rootView;
 	}
@@ -143,8 +145,6 @@ public class NewIssueFragment extends HSFragmentParent {
 			
 			getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 			
-			HSSource source = new HSSource(getActivity());
-			
 			HSAttachment[] attachmentArray = null;
 			
 			if (selectedAttachment != null) {
@@ -154,7 +154,7 @@ public class NewIssueFragment extends HSFragmentParent {
 			
 			String formattedBody =  getMessage();
 			
-			source.createNewTicket(userDetails, getSubject(), formattedBody, attachmentArray, 
+			gearSource.createNewTicket("NEW_TICKET", userDetails, getSubject(), formattedBody, attachmentArray, 
 			new OnNewTicketFetchedSuccessListener() {
 				
 				@Override
@@ -208,6 +208,12 @@ public class NewIssueFragment extends HSFragmentParent {
 	            
 	        }
 	    }
+	}
+	
+	@Override
+	public void onDetach() {
+		gearSource.cancelOperation("NEW_TICKET");
+		super.onDetach();
 	}
 	
 	private OnClickListener attachmentClickListener = new OnClickListener() {

@@ -86,6 +86,16 @@ public class SectionFragment extends HSFragmentParent {
 		return rootView;
 	}
 	
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		// This is done to refresh the screen
+		if (requestCode == REQUEST_CODE_NEW_TICKET) {
+			if (resultCode == HSActivityManager.resultCode_sucess) {
+				HSActivityManager.sendSuccessSignal(getActivity(), data);
+			}
+		}
+	}
+	
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("section_array", fetchedKbItems);
@@ -103,21 +113,16 @@ public class SectionFragment extends HSFragmentParent {
 	}
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		// This is done to refresh the screen
-		if (requestCode == REQUEST_CODE_NEW_TICKET) {
-			if (resultCode == HSActivityManager.resultCode_sucess) {
-				HSActivityManager.sendSuccessSignal(getActivity(), data);
-			}
-		}
+	public void onDetach() {
+		super.onDetach();
+		gearSource.cancelOperation("SECTION_FAQ");
 	}
 	
 	private void initializeView() {
 		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 		
-		gearSource.requestKBArticle(this.sectionItemToDisplay, new OnFetchedArraySuccessListener() {
+		gearSource.requestKBArticle("SECTION_FAQ", this.sectionItemToDisplay, new OnFetchedArraySuccessListener() {
 			
 			@Override
 			public void onSuccess(Object[] successObject) {

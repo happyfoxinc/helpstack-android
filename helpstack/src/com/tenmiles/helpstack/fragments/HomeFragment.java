@@ -105,6 +105,12 @@ public class HomeFragment extends HSFragmentParent {
 
 		return rootView;
 	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -143,12 +149,40 @@ public class HomeFragment extends HSFragmentParent {
 		mSearchFragment.addSearchViewInMenuItem(getActivity(), searchItem);
 	}
 	
+	@Override
+	public void onDetach() {
+		gearSource.cancelOperation("FAQ");
+		super.onDetach();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		// It Refreshes new tickets from cache
+		gearSource.requestAllTickets(new OnFetchedArraySuccessListener() {
+
+			@Override
+			public void onSuccess(Object[] tickets) {
+				fetchedTickets = (HSTicket[]) tickets;
+				refreshList();
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				
+
+			}
+		});
+	}
+	
 	private void initializeView() {
 
 		startHomeScreenLoadingDisplay(true);
 		
 		// Show Loading
-		gearSource.requestKBArticle(null, new OnFetchedArraySuccessListener() {
+		gearSource.requestKBArticle("FAQ", null, new OnFetchedArraySuccessListener() {
 
 
 
@@ -230,7 +264,7 @@ public class HomeFragment extends HSFragmentParent {
 			}
 			if (groupPosition == 1) {
 				HSTicket ticket = (HSTicket) mAdapter.getChild(groupPosition, childPosition);
-				HSActivityManager.startIssueDetailActivity(getActivity(), ticket);
+				HSActivityManager.startIssueDetailActivity(getHelpStackActivity(), ticket);
 				return true;
 
 			}
@@ -243,16 +277,7 @@ public class HomeFragment extends HSFragmentParent {
 		@Override
 		public void onClick(View v) {
 
-			if (gearSource.haveImplementedTicketFetching()) {
-				if(gearSource.isNewUser()) {
-					HSActivityManager.startNewUserActivity(HomeFragment.this, REQUEST_CODE_NEW_TICKET);
-				}else {
-					HSActivityManager.startNewIssueActivity(HomeFragment.this, gearSource.getUser(), REQUEST_CODE_NEW_TICKET);
-				}
-			}
-			else {
-				gearSource.launchEmailAppWithEmailAddress(getActivity());
-			}
+			gearSource.launchCreateNewTicketScreen(HomeFragment.this, REQUEST_CODE_NEW_TICKET);
 		}
 	};
 	
