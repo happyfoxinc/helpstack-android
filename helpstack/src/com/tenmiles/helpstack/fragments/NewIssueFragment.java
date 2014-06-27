@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
@@ -162,6 +163,7 @@ public class NewIssueFragment extends HSFragmentParent {
 					
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 					sendSuccessSignal(ticket);
+					Toast.makeText(getActivity(), "Your issue is created and raised.", Toast.LENGTH_LONG).show();
 				}
 				
 			}, new ErrorListener() {

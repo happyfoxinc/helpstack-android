@@ -19,6 +19,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
+import com.tenmiles.helpstack.fragments.SearchFragment.OnReportAnIssueClickListener;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
@@ -69,6 +70,7 @@ public class SectionFragment extends HSFragmentParent {
         // Display Search
 		mSearchFragment = new SearchFragment();
         HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
+        mSearchFragment.setOnReportAnIssueClickListener(reportAnIssueLisener);
         setHasOptionsMenu(true);
         
         gearSource = new HSSource (getActivity());
@@ -150,6 +152,18 @@ public class SectionFragment extends HSFragmentParent {
 			gearSource.launchCreateNewTicketScreen(SectionFragment.this, REQUEST_CODE_NEW_TICKET);
 			
 		}
+	};
+	
+	private OnReportAnIssueClickListener reportAnIssueLisener = new OnReportAnIssueClickListener() {
+
+		@Override
+		public void startReportAnIssue() {
+			
+			mSearchFragment.setVisibility(false);
+			gearSource.launchCreateNewTicketScreen(SectionFragment.this, REQUEST_CODE_NEW_TICKET);
+		}
+		
+		
 	};
 	
 	protected OnItemClickListener listItemClickListener = new OnItemClickListener() {

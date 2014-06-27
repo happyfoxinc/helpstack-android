@@ -39,6 +39,8 @@ public class SearchFragment extends HSFragmentParent {
 	private ListView listView;
 	private HSSource gearSource;
 	
+	private OnReportAnIssueClickListener articleSelecetedListener;
+
 	public SearchFragment() {
 		// Required empty public constructor
 	}
@@ -163,9 +165,19 @@ public class SearchFragment extends HSFragmentParent {
 		@Override
 		public void onClick(View v) {
 			
-			gearSource.launchCreateNewTicketScreen(SearchFragment.this, 1003);
+			if (articleSelecetedListener != null) {
+				articleSelecetedListener.startReportAnIssue();
+			}
 		}
 	};
+	
+	public void setOnReportAnIssueClickListener(OnReportAnIssueClickListener listener) {
+		this.articleSelecetedListener = listener;
+	}
+	
+	public interface OnReportAnIssueClickListener {
+		public void startReportAnIssue();
+	}
 	
 	private class SearchAdapter extends BaseAdapter implements Filterable{
 

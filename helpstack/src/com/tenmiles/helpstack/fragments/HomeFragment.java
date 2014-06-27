@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
+import com.tenmiles.helpstack.fragments.SearchFragment.OnReportAnIssueClickListener;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.HSUtils;
@@ -79,6 +80,7 @@ public class HomeFragment extends HSFragmentParent {
 		// Search fragment
 		mSearchFragment = new SearchFragment();
 		HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
+		mSearchFragment.setOnReportAnIssueClickListener(reportAnIssueLisener);
 		// Add search Menu
 		setHasOptionsMenu(true);
 
@@ -153,28 +155,6 @@ public class HomeFragment extends HSFragmentParent {
 	public void onDetach() {
 		gearSource.cancelOperation("FAQ");
 		super.onDetach();
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		// It Refreshes new tickets from cache
-		gearSource.requestAllTickets(new OnFetchedArraySuccessListener() {
-
-			@Override
-			public void onSuccess(Object[] tickets) {
-				fetchedTickets = (HSTicket[]) tickets;
-				refreshList();
-			}
-		}, new ErrorListener() {
-
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				
-
-			}
-		});
 	}
 	
 	private void initializeView() {
@@ -279,6 +259,19 @@ public class HomeFragment extends HSFragmentParent {
 
 			gearSource.launchCreateNewTicketScreen(HomeFragment.this, REQUEST_CODE_NEW_TICKET);
 		}
+	};
+	
+
+	private OnReportAnIssueClickListener reportAnIssueLisener = new OnReportAnIssueClickListener() {
+
+		@Override
+		public void startReportAnIssue() {
+			
+			mSearchFragment.setVisibility(false);
+			gearSource.launchCreateNewTicketScreen(HomeFragment.this, REQUEST_CODE_NEW_TICKET);
+		}
+		
+		
 	};
 	
 	
