@@ -34,6 +34,7 @@ public class HomeActivity extends HSActivityParent {
     @Override
     public void configureActionBar(ActionBar actionBar) {
     	super.configureActionBar(actionBar);
+    	actionBar.setDisplayHomeAsUpEnabled(true);
     	actionBar.setTitle(getString(R.string.help_title)); 
     }
 
@@ -44,6 +45,10 @@ public class HomeActivity extends HSActivityParent {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.search) {
+            return true;
+        }
+        else if (id == android.R.id.home) {
+        	finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

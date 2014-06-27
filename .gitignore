@@ -5,3 +5,4 @@
 .project
 local.properties
 .DS_Store
+lint.xml
