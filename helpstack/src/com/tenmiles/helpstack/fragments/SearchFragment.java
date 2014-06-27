@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
@@ -78,6 +77,10 @@ public class SearchFragment extends HSFragmentParent {
 		searchAdapter.getFilter().filter(q);
 	}
 
+	public boolean isSearchVisible() {
+		return rootView.getVisibility() == View.VISIBLE;
+	}
+	
 	public void setVisibility(boolean visible) {
 		if (visible) {
 			rootView.setVisibility(View.VISIBLE);
@@ -89,6 +92,11 @@ public class SearchFragment extends HSFragmentParent {
 	
 	public void setKBArticleList(HSKBItem[] fetchedKbArticles) {
 		this.allKbArticles = fetchedKbArticles;
+		if (isSearchVisible()) {
+			searchAdapter.refreshList(allKbArticles);
+			searchAdapter.getFilter().filter("");
+			searchAdapter.notifyDataSetChanged();
+		}
 	}
 	
 	protected OnItemClickListener listItemClickListener = new OnItemClickListener() {
@@ -116,7 +124,7 @@ public class SearchFragment extends HSFragmentParent {
 		SearchView searchView = new SearchView(context);
 		MenuItemCompat.setActionView(searchItem, searchView);
 		searchView.setQueryHint(getString(R.string.search_hint));
-		searchView.setSubmitButtonEnabled(true);
+		searchView.setSubmitButtonEnabled(false);
 
 		searchView.setOnSearchClickListener(new OnClickListener() {
 
