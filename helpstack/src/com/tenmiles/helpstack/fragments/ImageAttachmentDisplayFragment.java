@@ -53,6 +53,12 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 		return rootView;
 	}
 	
+	@Override
+	public void onDestroy() {
+		closeAsync();
+		super.onDestroy();
+	}
+	
 	public void showLoading(boolean visible) {
 		progressView.setVisibility(visible?View.VISIBLE:View.GONE);
 	}

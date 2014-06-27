@@ -1,4 +1,4 @@
-package com.tenmiles.helpstack.application;
+package com.example.helpstackexample;
 
 import android.app.Application;
 

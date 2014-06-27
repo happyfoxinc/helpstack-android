@@ -1,10 +1,13 @@
 package com.tenmiles.helpstack.logic;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-
-import android.content.Context;
-import android.util.Log;
+import com.tenmiles.helpstack.activities.HomeActivity;
 
 /**
  * 
@@ -53,6 +56,10 @@ public class HSHelpStack {
 	
 	public HSGear getGear() {
 		return this.gear;
+	}
+	
+	public void showGear(Activity activity) {
+		activity.startActivity(new Intent("com.tenmiles.helpstack.ShowHelp"));
 	}
 	
 	public RequestQueue getRequestQueue() {
