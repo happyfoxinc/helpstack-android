@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/chatbubbleMarginWidth"
-    android:paddingRight="@dimen/chatbubbleMarginWidth"
+    android:paddingLeft="@dimen/hs_chatbubbleMarginWidth"
+    android:paddingRight="@dimen/hs_chatbubbleMarginWidth"
     android:paddingBottom="10dp"
     android:paddingTop="10dp" >
 
@@ -15,11 +15,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text=""
-        style="@style/smallTextTheme"/>
+        style="@style/hs_smallTextTheme"/>
 
     <RelativeLayout
         android:id="@+id/textlayout"
-        style="@style/staffChatBubbleTheme"
+        style="@style/hs_staffChatBubbleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/textView1"
-            style="@style/messageTextTheme"
+            style="@style/hs_messageTextTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/time"
-        style="@style/smallTextTheme"
+        style="@style/hs_smallTextTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

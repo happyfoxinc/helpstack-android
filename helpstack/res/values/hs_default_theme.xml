@@ -1,0 +1,42 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Application theme. -->
+   <style name="AppTheme" parent="AppBaseTheme">
+        All customizations that are NOT specific to a particular API-level can go here.
+    </style>
+    
+    <!-- Backgrond theme. -->
+    <style name="hs_BackgroundTheme" parent="hs_BackgroundBaseTheme"></style>
+    
+    <!-- Main ListView theme - applied to the kbarticles and issues list -->
+    <style name="hs_MainListViewTheme" parent="hs_ListViewBaseTheme">
+        
+    </style>
+    
+    <style name="hs_MainListView_GroupViewTheme" parent="hs_ListViewGroupViewBaseTheme">
+        
+    </style>
+    
+    <style name="hs_MainListView_ChildViewTheme" parent="hs_ListViewChildViewBaseTheme">
+        
+    </style>
+    
+    <style name="hs_MainListView_ChildView_TextTheme" parent="hs_ListViewChildView_TextBaseTheme">
+        
+    </style>
+    
+    <style name="hs_MainListView_GroupView_TextTheme" parent="hs_ListViewGroupView_TextBaseTheme">
+        
+    </style>
+    
+    <style name="hs_staffChatBubbleTheme" parent="hs_LeftChatBubbleBaseTheme"></style>
+    <style name="hs_userChatBubbleTheme" parent="hs_RightChatBubbleBaseTheme"></style>
+    <style name="hs_messageTextTheme" parent="hs_MessageTextBaseTheme"></style>
+    <style name="hs_smallTextTheme" parent="hs_SmallTextBaseTheme"></style>
+    <style name="hs_buttonTheme" parent="hs_ButtonBaseTheme"></style>
+    <style name="hs_editTextTheme" parent="hs_EditTextBaseTheme"></style>
+    <style name="hs_messageEditTextTheme" parent="hs_EditTextBaseTheme"></style> 
+	    
+    
+        
+</resources>

@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/MainListView_GroupViewTheme"
+    style="@style/hs_MainListView_GroupViewTheme"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		style="@style/MainListView_GroupView_TextTheme"
+		style="@style/hs_MainListView_ChildView_TextTheme"
         android:text="" />
 
 </LinearLayout>

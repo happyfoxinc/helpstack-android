@@ -2,15 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/hs_activity_vertical_margin"
+    android:paddingLeft="@dimen/hs_activity_horizontal_margin"
+    android:paddingRight="@dimen/hs_activity_horizontal_margin"
+    android:paddingTop="@dimen/hs_activity_vertical_margin"
     tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment" >
 
     <EditText 
         android:id="@+id/subjectField"
-        style="@style/editTextTheme"
+        style="@style/hs_editTextTheme"
         android:layout_alignParentTop="true"
         android:inputType="textEmailSubject"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text=""
         android:layout_toLeftOf="@+id/imageView1"
-        android:hint="@string/subjecthint"/>
+        android:hint="@string/hs_subject_hint"/>
 
     <ImageView
         android:id="@+id/imageView1"
@@ -37,16 +37,16 @@
     
     <EditText
         android:id="@+id/messageField"
-        style="@style/messageEditTextTheme"
+        style="@style/hs_messageEditTextTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/subjectField"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:textSize="@dimen/default_text_size"
+        android:textSize="@dimen/hs_default_text_size"
         android:gravity="left|top"
-        android:hint="@string/messagehint"
+        android:hint="@string/hs_message_hint"
         android:minLines="4"
         android:text="" >
 

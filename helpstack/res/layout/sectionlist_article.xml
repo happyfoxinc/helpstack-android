@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    style="@style/MainListView_ChildViewTheme">
+    style="@style/hs_MainListView_ChildViewTheme">
     
     <TextView
         android:id="@+id/sectionlisttextview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/MainListView_ChildView_TextTheme"
+        style="@style/hs_MainListView_ChildView_TextTheme"
         android:text="" />
     
 

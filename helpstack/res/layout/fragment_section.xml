@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/BackgroundBaseTheme"
+    style="@style/hs_BackgroundTheme"
     tools:context="com.tenmiles.helpstack.SectionActivity$PlaceholderFragment" >
 
     <ListView
@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/MainListViewTheme"
+        style="@style/hs_MainListViewTheme"
         />
     
     <FrameLayout

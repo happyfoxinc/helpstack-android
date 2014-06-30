@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/hs_BackgroundTheme"
     tools:context="com.tenmiles.helpstack.IssueDetailActivity$PlaceholderFragment" >
 
     <com.tenmiles.helpstack.theme.widget.HSExpandableListView
@@ -11,11 +12,11 @@
         android:groupIndicator="@null"
         android:layout_above="@+id/replyLayout"
         android:dividerHeight="1dip"
-        android:cacheColorHint="@color/transparent_color" />
+        android:cacheColorHint="@color/hs_transparent_color" />
 
     <RelativeLayout
         android:id="@+id/replyLayout"
-        android:background="@color/lightGreycolor"
+        android:background="@color/hs_lightGreycolor"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:gravity="bottom"
@@ -37,7 +38,7 @@
             android:layout_toRightOf="@id/attachmentbutton"
             android:layout_marginRight="10dp"
             android:gravity="bottom"
-            android:hint="@string/addreply_hint"
+            android:hint="@string/hs_addreply_hint"
             android:layout_toLeftOf="@+id/button1"
             android:maxLines="4" />
 
@@ -47,9 +48,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@color/transparent_color"
+            android:background="@color/hs_transparent_color"
             android:textStyle="bold"
-            android:text="@string/sendbutton_title" />
+            android:text="@string/hs_sendbutton_title" />
 
     </RelativeLayout>
 </RelativeLayout>

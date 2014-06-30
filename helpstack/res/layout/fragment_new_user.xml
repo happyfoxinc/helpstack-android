@@ -11,13 +11,13 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="@string/new_user_message"/>
+        android:text="@string/hs_new_user_message"/>
     
     <EditText
         android:id="@+id/firstname"
-        style="@style/editTextTheme"
+        style="@style/hs_editTextTheme"
         android:inputType="textPersonName"
-        android:hint="@string/firstname_hint"
+        android:hint="@string/hs_firstname_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -34,9 +34,9 @@
     
     <EditText
         android:id="@+id/lastname"
-        style="@style/editTextTheme"
+        style="@style/hs_editTextTheme"
         android:inputType="textPersonName"
-        android:hint="@string/lastname_hint"
+        android:hint="@string/hs_lastname_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -53,9 +53,9 @@
     
     <EditText
         android:id="@+id/email"
-        style="@style/editTextTheme"
+        style="@style/hs_editTextTheme"
         android:inputType="textEmailAddress"
-        android:hint="@string/email_hint"
+        android:hint="@string/hs_email_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
