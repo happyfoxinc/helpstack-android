@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/hs_BackgroundTheme"
     tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment" >
 
     <EditText 

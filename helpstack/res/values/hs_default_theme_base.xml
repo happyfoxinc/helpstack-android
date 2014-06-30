@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
+    <!-- Default/Base Themes -->
+    <!-- The base characteristics are defined in the default themes -->
+   
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
     </style>
     
-    <style name="hs_BackgroundBaseTheme">
+    <!-- Background default theme -->
+    <style name="hs_background_defaultTheme">
         <item name="android:background">@color/hs_background_color</item>
     </style>
     
-    <style name="hs_ListViewBaseTheme">
+    <!-- Main ListView default theme -->
+    <style name="hs_listView_defaultTheme">
         <item name="android:cacheColorHint">@color/hs_transparent_color</item>
         <item name="android:divider">@color/hs_listView_divider_color</item>
         <item name="android:dividerHeight">@dimen/hs_listView_divider_height</item>
         <item name="android:listSelector">@color/hs_listView_selector_color</item>
     </style>
     
-    <style name="hs_ListViewGroupViewBaseTheme">
+    <!-- Main ListView header background default Theme -->
+    <style name="hs_listView_headerBackground_defaultTheme">
         <item name="android:background">@color/hs_groupView_background_color</item>
     </style>
     
-    <style name="hs_ListViewChildViewBaseTheme">
+    <!-- Main ListView child view background default Theme -->
+    <style name="hs_listView_childBackground_defaultTheme">
         <item name="android:background">@color/hs_childView_background_color</item>
     </style>
     
-    <style name="hs_ListViewGroupView_TextBaseTheme">
+    <!-- Main ListView header text default theme -->
+    <style name="hs_listView_headerText_defaultTheme">
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
         <item name="android:textColor">#000000</item>
@@ -40,7 +39,8 @@
         <item name="android:textSize">@dimen/hs_listView_GroupView_TextSize</item>
     </style>
     
-    <style name="hs_ListViewChildView_TextBaseTheme">
+    <!-- Main ListView child text default theme -->
+    <style name="hs_listView_childText_defaultTheme">
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
         <item name="android:padding">10dp</item>
@@ -49,15 +49,18 @@
         <item name="android:textSize">@dimen/hs_listView_ChildView_TextSize</item>
     </style>
     
-    <style name="hs_RightChatBubbleBaseTheme">
+    <!-- Chat screen - right chat bubble default theme -->
+    <style name="hs_rightChatBubble_defaultTheme">
         <item name="android:background">@drawable/right_chat_bubble</item> 
     </style>
     
-    <style name="hs_LeftChatBubbleBaseTheme">
+    <!-- Chat screen - left chat bubble default theme -->
+    <style name="hs_leftChatBubble_defaultTheme">
         <item name="android:background">@drawable/left_chat_bubble</item> 
     </style>
     
-    <style name="hs_MessageTextBaseTheme">
+    <!-- Chat screen - message text default theme -->
+    <style name="hs_messageText_defaultTheme">
         <item name="android:paddingTop">3dp</item>
         <item name="android:textColor">@color/hs_black_color</item>
         <item name="android:typeface">sans</item>
@@ -66,21 +69,24 @@
         <item name="android:minWidth">100dp</item>
     </style>
     
-    <style name="hs_SmallTextBaseTheme">
+    <!-- Chat screen - more info text(Sender name and message time) default theme -->
+    <style name="hs_smallText_defaultTheme">
         <item name="android:textColor">@color/hs_black_color</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">@dimen/hs_small_TextSize</item>
         <item name="android:maxWidth">@dimen/hs_smallTextMaxWidth</item>
     </style>
     
-    <style name="hs_ButtonBaseTheme">
+    <!-- Button default theme -->
+    <style name="hs_button_defaultTheme">
         <item name="android:background">@color/hs_transparent_color</item>
         <item name="android:textColor">@color/hs_redColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/hs_button_textSize</item>
     </style>
     
-    <style name="hs_EditTextBaseTheme">
+    <!-- Edit text default theme -->
+    <style name="hs_editText_defaultTheme">
         <item name="android:background">@color/hs_transparent_color</item>
         <item name="android:textColor">@color/hs_black_color</item>
         <item name="android:textSize">@dimen/hs_default_text_size</item>
