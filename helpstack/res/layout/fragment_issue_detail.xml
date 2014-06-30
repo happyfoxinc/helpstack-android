@@ -28,7 +28,7 @@
             android:layout_alignBottom="@+id/replyEditText"
             android:layout_height="30dp"
             android:layout_width="30dp"
-            android:src="@drawable/attachment_add_icon"/>
+            android:src="@drawable/hs_add_attachment"/>
 
         <EditText
             android:id="@+id/replyEditText"

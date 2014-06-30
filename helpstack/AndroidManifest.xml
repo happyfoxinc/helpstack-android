@@ -13,7 +13,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/hs_launcher"
         android:label="@string/hs_app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -29,7 +29,8 @@
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
-            android:name="com.tenmiles.helpstack.activities.NewUserActivity">
+            android:name="com.tenmiles.helpstack.activities.NewUserActivity"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
             android:name="com.tenmiles.helpstack.activities.IssueDetailActivity"
@@ -54,7 +55,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
                 <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>

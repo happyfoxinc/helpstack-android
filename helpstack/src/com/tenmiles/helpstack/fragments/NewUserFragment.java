@@ -30,6 +30,8 @@ public class NewUserFragment extends HSFragmentParent {
 	
 	EditText firstNameField, lastNameField, emailField;
 	
+	HSSource gearSource;
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class NewUserFragment extends HSFragmentParent {
 		this.firstNameField = (EditText) rootView.findViewById(R.id.firstname);
 		this.lastNameField = (EditText) rootView.findViewById(R.id.lastname);
 		this.emailField = (EditText) rootView.findViewById(R.id.email);
+		
+		gearSource = new HSSource(getActivity());
 		
 		return rootView;
 	}
@@ -96,8 +100,7 @@ public class NewUserFragment extends HSFragmentParent {
 			}
 			
 			getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
-			HSSource source = new HSSource(getActivity());
-			source.checkForUserDetailsValidity(getFirstName(), getLastName(), 
+			gearSource.checkForUserDetailsValidity("NEW_USER", getFirstName(), getLastName(), 
 					getEmailAdddress(), new OnFetchedSuccessListener() {
 				
 				@Override
@@ -131,6 +134,12 @@ public class NewUserFragment extends HSFragmentParent {
 				HSActivityManager.sendSuccessSignal(getActivity(), data);
 			}	
 		}
+	}
+	
+	@Override
+	public void onDetach() {
+		gearSource.cancelOperation("NEW_USER");
+		super.onDetach();
 	}
 	
 	public void startNewIssueActivity(HSUser user) {

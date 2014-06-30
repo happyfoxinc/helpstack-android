@@ -10,4 +10,5 @@
     <color name="hs_lightGreycolor">#ececec</color>
     <color name="hs_rightchatbubblecolor">#CADD9C</color>
     <color name="hs_redColor">#DE2527</color>
+    <color name="hs_leftchatbubblecolor">#444444</color>
 </resources>

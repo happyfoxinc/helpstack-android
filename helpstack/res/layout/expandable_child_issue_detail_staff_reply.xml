@@ -54,6 +54,6 @@
         android:paddingBottom="20dp"
         android:paddingLeft="10dp"
         android:layout_below="@id/textlayout"
-        android:src="@drawable/attachment_icon" />
+        android:src="@drawable/hs_attachment_icon" />
 
 </RelativeLayout>

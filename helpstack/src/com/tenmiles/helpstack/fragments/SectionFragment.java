@@ -19,6 +19,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
+import com.tenmiles.helpstack.fragments.SearchFragment.OnReportAnIssueClickListener;
 import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
@@ -69,6 +70,7 @@ public class SectionFragment extends HSFragmentParent {
         // Display Search
 		mSearchFragment = new SearchFragment();
         HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
+        mSearchFragment.setOnReportAnIssueClickListener(reportAnIssueLisener);
         setHasOptionsMenu(true);
         
         gearSource = new HSSource (getActivity());
@@ -84,6 +86,16 @@ public class SectionFragment extends HSFragmentParent {
 		
 		
 		return rootView;
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		// This is done to refresh the screen
+		if (requestCode == REQUEST_CODE_NEW_TICKET) {
+			if (resultCode == HSActivityManager.resultCode_sucess) {
+				HSActivityManager.sendSuccessSignal(getActivity(), data);
+			}
+		}
 	}
 	
 	public void onSaveInstanceState(Bundle outState) {
@@ -103,21 +115,16 @@ public class SectionFragment extends HSFragmentParent {
 	}
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		// This is done to refresh the screen
-		if (requestCode == REQUEST_CODE_NEW_TICKET) {
-			if (resultCode == HSActivityManager.resultCode_sucess) {
-				HSActivityManager.sendSuccessSignal(getActivity(), data);
-			}
-		}
+	public void onDetach() {
+		super.onDetach();
+		gearSource.cancelOperation("SECTION_FAQ");
 	}
 	
 	private void initializeView() {
 		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 		
-		gearSource.requestKBArticle(this.sectionItemToDisplay, new OnFetchedArraySuccessListener() {
+		gearSource.requestKBArticle("SECTION_FAQ", this.sectionItemToDisplay, new OnFetchedArraySuccessListener() {
 			
 			@Override
 			public void onSuccess(Object[] successObject) {
@@ -145,6 +152,18 @@ public class SectionFragment extends HSFragmentParent {
 			gearSource.launchCreateNewTicketScreen(SectionFragment.this, REQUEST_CODE_NEW_TICKET);
 			
 		}
+	};
+	
+	private OnReportAnIssueClickListener reportAnIssueLisener = new OnReportAnIssueClickListener() {
+
+		@Override
+		public void startReportAnIssue() {
+			
+			mSearchFragment.setVisibility(false);
+			gearSource.launchCreateNewTicketScreen(SectionFragment.this, REQUEST_CODE_NEW_TICKET);
+		}
+		
+		
 	};
 	
 	protected OnItemClickListener listItemClickListener = new OnItemClickListener() {

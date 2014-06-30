@@ -37,6 +37,11 @@
     <style name="hs_editTextTheme" parent="hs_EditTextBaseTheme"></style>
     <style name="hs_messageEditTextTheme" parent="hs_EditTextBaseTheme"></style> 
 	    
+    <!-- Defining the drawable icons used in the project, override the drawable to give your own custom icons -->
     
-        
+    <drawable name="hs_attachment_icon">@drawable/hs_attachment_img</drawable>
+    <drawable name="hs_search_icon">@drawable/hs_search_img</drawable>
+    <drawable name="hs_disclosure_next">@drawable/hs_disclosure_img</drawable>
+    <drawable name="hs_add_attachment">@drawable/hs_add_attachment_img</drawable>
+    
 </resources>

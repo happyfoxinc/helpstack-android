@@ -2,10 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/hs_activity_vertical_margin"
-    android:paddingLeft="@dimen/hs_activity_horizontal_margin"
-    android:paddingRight="@dimen/hs_activity_horizontal_margin"
-    android:paddingTop="@dimen/hs_activity_vertical_margin"
+    style="@style/hs_BackgroundTheme"
     tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment" >
 
     <EditText 
@@ -26,7 +23,7 @@
         android:layout_height="40dp"
         android:paddingBottom="10dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_action_attachment" />
+        android:src="@drawable/hs_attachment_icon" />
 
     <View
  		android:layout_width="match_parent"

@@ -1,7 +1,6 @@
 package com.tenmiles.helpstack.fragments;
 
 import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.support.v4.view.MenuItemCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
@@ -67,6 +66,8 @@ public class NewIssueFragment extends HSFragmentParent {
 
 	HSAttachment selectedAttachment;
 	
+	HSSource gearSource;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -90,6 +91,8 @@ public class NewIssueFragment extends HSFragmentParent {
 		}
 		
 		userDetails = (HSUser) args.getSerializable(EXTRAS_USER);
+		
+		gearSource = new HSSource(getActivity());
 		
 		return rootView;
 	}
@@ -143,8 +146,6 @@ public class NewIssueFragment extends HSFragmentParent {
 			
 			getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 			
-			HSSource source = new HSSource(getActivity());
-			
 			HSAttachment[] attachmentArray = null;
 			
 			if (selectedAttachment != null) {
@@ -154,7 +155,7 @@ public class NewIssueFragment extends HSFragmentParent {
 			
 			String formattedBody =  getMessage();
 			
-			source.createNewTicket(userDetails, getSubject(), formattedBody, attachmentArray, 
+			gearSource.createNewTicket("NEW_TICKET", userDetails, getSubject(), formattedBody, attachmentArray, 
 			new OnNewTicketFetchedSuccessListener() {
 				
 				@Override
@@ -162,6 +163,7 @@ public class NewIssueFragment extends HSFragmentParent {
 					
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 					sendSuccessSignal(ticket);
+					Toast.makeText(getActivity(), "Your issue is created and raised.", Toast.LENGTH_LONG).show();
 				}
 				
 			}, new ErrorListener() {
@@ -210,6 +212,12 @@ public class NewIssueFragment extends HSFragmentParent {
 	    }
 	}
 	
+	@Override
+	public void onDetach() {
+		gearSource.cancelOperation("NEW_TICKET");
+		super.onDetach();
+	}
+	
 	private OnClickListener attachmentClickListener = new OnClickListener() {
 		
 		@Override
@@ -224,7 +232,7 @@ public class NewIssueFragment extends HSFragmentParent {
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
 				alertBuilder.setTitle("Attachment");
-				alertBuilder.setIcon(R.drawable.ic_action_attachment);
+				alertBuilder.setIcon(R.drawable.hs_attachment_img);
 				String[] attachmentOptions = {"Change","Remove"};
 				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
 					
@@ -253,7 +261,7 @@ public class NewIssueFragment extends HSFragmentParent {
 	
 	private void resetAttachmentImage() {
 		if (selectedAttachment == null) {
-			this.imageView1.setImageResource(R.drawable.ic_action_attachment);
+			this.imageView1.setImageResource(R.drawable.hs_attachment_img);
 		}
 		else {
 			

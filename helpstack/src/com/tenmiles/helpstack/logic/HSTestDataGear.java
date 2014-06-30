@@ -1,6 +1,5 @@
 package com.tenmiles.helpstack.logic;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.android.volley.RequestQueue;
@@ -23,29 +22,7 @@ public class HSTestDataGear extends HSGear
 	}
 	
 	@Override
-	public void fetchAllTicket(HSUser userDetails, RequestQueue queue,
-			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
-		
-		ArrayList<HSTicket> ticketList = new ArrayList<HSTicket>();
-		
-		{
-			HSTicket ticket = HSTicket.createATicket("1", "Test");
-			ticketList.add(ticket);
-		}
-		
-		{
-			HSTicket ticket = HSTicket.createATicket("2", "Test 2");
-			ticketList.add(ticket);
-		}
-		
-		
-		HSTicket[] ticketArray = new HSTicket[0];
-		success.onSuccess(ticketList.toArray(ticketArray));
-		
-	}
-	
-	@Override
-	public void registerNewUser(String firstName, String lastname,
+	public void registerNewUser(String cancelTag, String firstName, String lastname,
 			String emailAddress, RequestQueue queue,
 			OnFetchedSuccessListener success, ErrorListener errorListener) {
 		
@@ -53,7 +30,7 @@ public class HSTestDataGear extends HSGear
 	}
 	
 	@Override
-	public void createNewTicket(HSUser user, String message, String body, HSUploadAttachment[] attachment, 
+	public void createNewTicket(String cancelTag, HSUser user, String message, String body, HSUploadAttachment[] attachment, 
 			RequestQueue queue,
 			OnNewTicketFetchedSuccessListener successListener,
 			ErrorListener errorListener) {
@@ -64,15 +41,19 @@ public class HSTestDataGear extends HSGear
 	}
 	
 	@Override
-	public void addReplyOnATicket(String message, HSUploadAttachment[] attachments, HSTicket ticket, HSUser user,  
+	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] uploadattachments, HSTicket ticket, HSUser user,  
 			RequestQueue queue, OnFetchedSuccessListener success,
 			ErrorListener errorListener) {
+		HSAttachment[] attachments = new HSAttachment[uploadattachments.length];
+		for (int i = 0; i < attachments.length; i++) {
+			attachments[i] = uploadattachments[i].getAttachment();
+		}
 		
-		success.onSuccess(HSTicketUpdate.createUpdateByUser(null, user.getFullName(), message, Calendar.getInstance().getTime(), null));
+		success.onSuccess(HSTicketUpdate.createUpdateByUser(null, user.getFullName(), message, Calendar.getInstance().getTime(), attachments));
 	}
 	
 	@Override
-	public void fetchAllUpdateOnTicket(HSTicket ticket,HSUser user,  RequestQueue queue,
+	public void fetchAllUpdateOnTicket(String cancelTag, HSTicket ticket,HSUser user,  RequestQueue queue,
 			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 		
 		if (ticket.getTicketId().equals("1")) {
@@ -89,8 +70,10 @@ public class HSTestDataGear extends HSGear
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("4")) {
-			HSTicketUpdate[] updateArray = new HSTicketUpdate[1];
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", user.getFullName(), this.newTicketBody, Calendar.getInstance().getTime(), null);
+			HSTicketUpdate[] updateArray = new HSTicketUpdate[2];
+			Calendar delayTime = Calendar.getInstance();
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", user.getFullName(), this.newTicketBody, delayTime.getTime(), null);
+			updateArray[1] = HSTicketUpdate.createUpdateByStaff("2", "Staff", "We will get back to shortly", Calendar.getInstance().getTime(), null);
 			success.onSuccess(updateArray);
 		}
 		else {

@@ -60,11 +60,11 @@ public class HSSource {
 		doReadUserFromCache();
 	}
 
-	public void requestKBArticle(HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
+	public void requestKBArticle(String cancelTag, HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
 		
 		if (gear.haveImplementedKBFetching()) {
 			
-			gear.fetchKBArticle(section,mRequestQueue,  new SuccessWrapper(success) {
+			gear.fetchKBArticle(cancelTag, section,mRequestQueue,  new SuccessWrapper(success) {
 				@Override
 				public void onSuccess(Object[] successObject) {
 					
@@ -103,11 +103,11 @@ public class HSSource {
 		
 	}
 	
-	public void checkForUserDetailsValidity(String firstName, String lastName, String email,OnFetchedSuccessListener success, ErrorListener errorListener) {
-		gear.registerNewUser(firstName, lastName, email, mRequestQueue, success, new ErrorWrapper("Registering New User", errorListener));
+	public void checkForUserDetailsValidity(String cancelTag, String firstName, String lastName, String email,OnFetchedSuccessListener success, ErrorListener errorListener) {
+		gear.registerNewUser(cancelTag, firstName, lastName, email, mRequestQueue, success, new ErrorWrapper("Registering New User", errorListener));
 	}
 	
-	public void createNewTicket(HSUser user, String subject, String message, HSAttachment[] attachment,  OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
+	public void createNewTicket(String cancelTag, HSUser user, String subject, String message, HSAttachment[] attachment,  OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
 		
 		HSUploadAttachment[] upload_attachments = convertAttachmentArrayToUploadAttachment(attachment);
 		
@@ -117,7 +117,7 @@ public class HSSource {
 			message = Html.toHtml(new SpannableString(message));
 		}
 		
-		gear.createNewTicket(user, subject, message, upload_attachments, mRequestQueue, new NewTicketSuccessWrapper(successListener) {
+		gear.createNewTicket(cancelTag, user, subject, message, upload_attachments, mRequestQueue, new NewTicketSuccessWrapper(successListener) {
 			
 			@Override
 			public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
@@ -133,17 +133,17 @@ public class HSSource {
 		
 	}
 	
-	public void requestAllUpdatesOnTicket(HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
-		gear.fetchAllUpdateOnTicket(ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
+	public void requestAllUpdatesOnTicket(String cancelTag, HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
+		gear.fetchAllUpdateOnTicket(cancelTag, ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
 	
-	public void addReplyOnATicket(String message,HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
+	public void addReplyOnATicket(String cancelTag, String message,HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
 		
 		if (gear.canUplaodMessageAsHtmlString()) {
 			message = Html.toHtml(new SpannableString(message));
 		}
 		
-		gear.addReplyOnATicket(message, convertAttachmentArrayToUploadAttachment(attachments),  ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
+		gear.addReplyOnATicket(cancelTag, message, convertAttachmentArrayToUploadAttachment(attachments),  ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
 	}
 
 	public HSGear getGear() {
@@ -231,6 +231,9 @@ public class HSSource {
 		return builder.toString();
 	}
 	
+	public void cancelOperation(String cancelTag) {
+		mRequestQueue.cancelAll(cancelTag);
+	}
 	
 	
 	/////////////////////////////////////////////////

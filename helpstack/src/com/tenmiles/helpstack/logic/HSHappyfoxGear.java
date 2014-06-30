@@ -80,7 +80,7 @@ public class HSHappyfoxGear extends HSGear {
 	JSONArray allSectionsArray;
 	
 	@Override
-	public void fetchKBArticle(HSKBItem section, RequestQueue queue,
+	public void fetchKBArticle(String cancelTag, HSKBItem section, RequestQueue queue,
 			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 		
 		
@@ -119,6 +119,7 @@ public class HSHappyfoxGear extends HSGear {
 			request.setRetryPolicy(new DefaultRetryPolicy(TickeFormRequest.TIMEOUT_MS, 
 					TickeFormRequest.MAX_RETRIES, TickeFormRequest.BACKOFF_MULT));
 			
+			request.setTag(cancelTag);
 			queue.add(request);
 			queue.start();
 		}
@@ -158,7 +159,7 @@ public class HSHappyfoxGear extends HSGear {
 	}
 		
 	@Override
-	public void registerNewUser(String firstName, String lastname,
+	public void registerNewUser(String cancelTag, String firstName, String lastname,
 			String emailAddress, RequestQueue queue,OnFetchedSuccessListener success,
 			ErrorListener error) {
 		
@@ -168,7 +169,7 @@ public class HSHappyfoxGear extends HSGear {
 	}
 	
 	@Override
-	public void createNewTicket(HSUser user, String message, String body, HSUploadAttachment[] attachments,  RequestQueue queue,
+	public void createNewTicket(String cancelTag, HSUser user, String message, String body, HSUploadAttachment[] attachments,  RequestQueue queue,
 			OnNewTicketFetchedSuccessListener successListener,
 			ErrorListener errorListener) {
 		
@@ -201,13 +202,14 @@ public class HSHappyfoxGear extends HSGear {
 		}, errorListener);
 		
 		request.addCredential(api_key, auth_code);
+		request.setTag(cancelTag);
 		
 		queue.add(request);
 		queue.start();
 	}
 	
 	@Override
-	public void fetchAllUpdateOnTicket(HSTicket ticket, HSUser user, RequestQueue queue,
+	public void fetchAllUpdateOnTicket(String cancelTag, HSTicket ticket, HSUser user, RequestQueue queue,
 			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 		
 		TickeFormRequest request = new TickeFormRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), new HappyfoxArrayBaseListner<JSONObject>(success, errorListener) {
@@ -241,13 +243,14 @@ public class HSHappyfoxGear extends HSGear {
 		}, errorListener);
 		
 		request.addCredential(api_key, auth_code);
+		request.setTag(cancelTag);
 		
 		queue.add(request);
 		queue.start();
 	}
 	
 	@Override
-	public void addReplyOnATicket(String message, HSUploadAttachment[] attachments,  HSTicket ticket, HSUser user,
+	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] attachments,  HSTicket ticket, HSUser user,
 			RequestQueue queue, OnFetchedSuccessListener success,
 			ErrorListener errorListener) {
 		
@@ -303,6 +306,7 @@ public class HSHappyfoxGear extends HSGear {
 		}, errorListener);
 		
 		request.addCredential(api_key, auth_code);
+		request.setTag(cancelTag);
 		
 		queue.add(request);
 		queue.start();

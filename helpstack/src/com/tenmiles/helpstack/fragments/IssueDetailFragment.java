@@ -150,27 +150,18 @@ public class IssueDetailFragment extends HSFragmentParent
         }
 	};
 	
-	private void refreshList() {
-		
-		mAdapter.clearAll();
-		
-		if (fetchedUpdates != null) {
-			mAdapter.addParent(1, "");
-			for (int i = 0; i < fetchedUpdates.length; i++) {
-				mAdapter.addChild(1, fetchedUpdates[i]);
-			}
-		}
-		
-		mAdapter.notifyDataSetChanged();
-		
-		expandAll();
+	@Override
+	public void onDetach() {
+		gearSource.cancelOperation("REPLY_TO_A_TICKET");
+		gearSource.cancelOperation("ALL_UPDATES");
+		super.onDetach();
 	}
 	
 	private void refreshUpdateFromServer() {
 		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 		
-		gearSource.requestAllUpdatesOnTicket(ticket, new OnFetchedArraySuccessListener() {
+		gearSource.requestAllUpdatesOnTicket("ALL_UPDATES", ticket, new OnFetchedArraySuccessListener() {
 			
 			@Override
 			public void onSuccess(Object[] successObject) {
@@ -228,7 +219,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
 				alertBuilder.setTitle("Attachment");
-				alertBuilder.setIcon(R.drawable.ic_action_attachment);
+				alertBuilder.setIcon(R.drawable.hs_attachment_img);
 				String[] attachmentOptions = {"Change","Remove"};
 				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
 					
@@ -277,7 +268,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				      Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(replyEditTextView.getWindowToken(), 0);
 				
-			gearSource.addReplyOnATicket(message, attachmentArray, ticket, new OnFetchedSuccessListener() {
+			gearSource.addReplyOnATicket("REPLY_TO_A_TICKET", message, attachmentArray, ticket, new OnFetchedSuccessListener() {
 				
 				@Override
 				public void onSuccess(Object successObject) {
@@ -319,6 +310,22 @@ public class IssueDetailFragment extends HSFragmentParent
 		for (int i = 0; i < count; i++) {
 			mExpandableListView.expandGroup(i);
 		}
+	}
+	
+	private void refreshList() {
+		
+		mAdapter.clearAll();
+		
+		if (fetchedUpdates != null) {
+			mAdapter.addParent(1, "");
+			for (int i = 0; i < fetchedUpdates.length; i++) {
+				mAdapter.addChild(1, fetchedUpdates[i]);
+			}
+		}
+		
+		mAdapter.notifyDataSetChanged();
+		
+		expandAll();
 	}
 
 	private void showAttachments(final HSAttachment[] attachmentsArray) {
@@ -471,7 +478,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private void resetAttachmentImage() {
 		if (selectedAttachment == null) {
-			this.mAttachmentButton.setImageResource(R.drawable.ic_action_attachment);
+			this.mAttachmentButton.setImageResource(R.drawable.hs_attachment_img);
 		}
 		else {
 			
@@ -514,7 +521,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	/// Attachments
 	private void openAttachment(HSAttachment attachment) {
 		if(knownAttachmentType(attachment)) {
-			HSActivityManager.startImageAttachmentDisplayActivity(getActivity(), attachment.getUrl(), attachment.getFileName());
+			HSActivityManager.startImageAttachmentDisplayActivity(getHelpStackActivity(), attachment.getUrl(), attachment.getFileName());
 		}
 		else {
 			downloadAttachment(attachment);

@@ -31,19 +31,7 @@ public abstract class HSGear {
 	 * @param success, return HFKBItem object
 	 * @param error
 	 */
-	public void fetchKBArticle(HSKBItem section, RequestQueue queue,  OnFetchedArraySuccessListener success, ErrorListener errorListener ) 
-	{
-		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param userDetails
-	 * @param success, return HFTicket object
-	 * @param error
-	 */
-	public void fetchAllTicket(HSUser userDetails,RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
+	public void fetchKBArticle(String cancelTag, HSKBItem section, RequestQueue queue,  OnFetchedArraySuccessListener success, ErrorListener errorListener ) 
 	{
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
@@ -58,7 +46,7 @@ public abstract class HSGear {
 	 * @param success, return HFUser object
 	 * @param error
 	 */
-	public void registerNewUser(String firstName, String lastname, String emailAddress, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener)
+	public void registerNewUser(String cancelTag, String firstName, String lastname, String emailAddress, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener)
 	{
 		success.onSuccess(HSUser.createNewUserWithDetails(firstName, lastname, emailAddress));
 	}
@@ -72,7 +60,7 @@ public abstract class HSGear {
 	 * @param successListener
 	 * @param errorListener
 	 */
-	public void createNewTicket(HSUser user, String subject, String body, HSUploadAttachment[] attachments, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
+	public void createNewTicket(String cancelTag, HSUser user, String subject, String body, HSUploadAttachment[] attachments, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	
@@ -83,7 +71,7 @@ public abstract class HSGear {
 	 * @param success, return HFTicket object
 	 * @param error
 	 */
-	public void fetchAllUpdateOnTicket(HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
+	public void fetchAllUpdateOnTicket(String cancelTag, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
 	{
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
@@ -97,7 +85,7 @@ public abstract class HSGear {
 	 * @param success
 	 * @param errorListener
 	 */
-	public void addReplyOnATicket(String message, HSUploadAttachment[] attachments, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener) {
+	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] attachments, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener) {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
 	}
 	

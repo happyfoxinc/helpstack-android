@@ -38,6 +38,8 @@ public class SearchFragment extends HSFragmentParent {
 	private ListView listView;
 	private HSSource gearSource;
 	
+	private OnReportAnIssueClickListener articleSelecetedListener;
+
 	public SearchFragment() {
 		// Required empty public constructor
 	}
@@ -75,6 +77,10 @@ public class SearchFragment extends HSFragmentParent {
 		searchAdapter.getFilter().filter(q);
 	}
 
+	public boolean isSearchVisible() {
+		return rootView.getVisibility() == View.VISIBLE;
+	}
+	
 	public void setVisibility(boolean visible) {
 		if (visible) {
 			rootView.setVisibility(View.VISIBLE);
@@ -86,6 +92,11 @@ public class SearchFragment extends HSFragmentParent {
 	
 	public void setKBArticleList(HSKBItem[] fetchedKbArticles) {
 		this.allKbArticles = fetchedKbArticles;
+		if (isSearchVisible()) {
+			searchAdapter.refreshList(allKbArticles);
+			searchAdapter.getFilter().filter("");
+			searchAdapter.notifyDataSetChanged();
+		}
 	}
 	
 	protected OnItemClickListener listItemClickListener = new OnItemClickListener() {
@@ -162,9 +173,19 @@ public class SearchFragment extends HSFragmentParent {
 		@Override
 		public void onClick(View v) {
 			
-			gearSource.launchCreateNewTicketScreen(SearchFragment.this, 1003);
+			if (articleSelecetedListener != null) {
+				articleSelecetedListener.startReportAnIssue();
+			}
 		}
 	};
+	
+	public void setOnReportAnIssueClickListener(OnReportAnIssueClickListener listener) {
+		this.articleSelecetedListener = listener;
+	}
+	
+	public interface OnReportAnIssueClickListener {
+		public void startReportAnIssue();
+	}
 	
 	private class SearchAdapter extends BaseAdapter implements Filterable{
 
