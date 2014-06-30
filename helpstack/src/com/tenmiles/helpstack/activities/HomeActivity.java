@@ -35,7 +35,7 @@ public class HomeActivity extends HSActivityParent {
     public void configureActionBar(ActionBar actionBar) {
     	super.configureActionBar(actionBar);
     	actionBar.setDisplayHomeAsUpEnabled(true);
-    	actionBar.setTitle(getString(R.string.help_title)); 
+    	actionBar.setTitle(getString(R.string.hs_help_title)); 
     }
 
     @Override

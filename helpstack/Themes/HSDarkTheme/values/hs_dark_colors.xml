@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hs_dark_background_color">#646464</color>
+    <color name="hs_dark_header_background_color">#228CD1</color>
+    <color name="hs_dark_child_background_color">#3C3C3C</color>
+    <color name="hs_dark_listView_divider_color">#0000</color>
+    <color name="hs_dark_listView_selector_color">#e1e1e1</color>
+    
+    <color name="hs_dark_leftChatBubbleColor">#3C3C3C</color>
+    <color name="hs_dark_rightChatBubbleColor">#228CD1</color>
+    <color name="hs_dark_header_textColor">#ffffff</color>
+    <color name="hs_dark_child_textColor">#ffffff</color>
+    <color name="hs_dark_messageTextColor">#ffffff</color>
+</resources>

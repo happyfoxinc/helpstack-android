@@ -5,7 +5,7 @@
 
     <item 
         android:id="@+id/doneItem"
-        android:title="@string/done"
+        android:title="@string/hs_done"
         android:visible="true"
         />
 

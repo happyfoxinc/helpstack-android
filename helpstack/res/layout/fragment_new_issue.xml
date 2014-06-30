@@ -6,20 +6,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment" >
 
         <EditText
             android:id="@+id/subjectField"
-            style="@style/editTextTheme"
+            style="@style/hs_editTextTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
             android:layout_toLeftOf="@+id/imageView1"
-            android:hint="@string/subjecthint"
+            android:hint="@string/hs_subject_hint"
             android:inputType="textEmailSubject"
             android:lines="1"
             android:text="" />
@@ -29,30 +28,36 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
             android:paddingBottom="10dp"
-            android:src="@drawable/ic_action_attachment" />
+            android:src="@drawable/hs_attachment_icon" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/subjectField"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="6dp"
             android:background="@android:color/darker_gray" />
 
         <EditText
             android:id="@+id/messageField"
-            style="@style/messageEditTextTheme"
+            style="@style/hs_messageEditTextTheme"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/subjectField"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="16dp"
             android:ems="10"
             android:gravity="left|top"
-            android:hint="@string/messagehint"
+            android:hint="@string/hs_message_hint"
             android:minLines="4"
             android:text=""
-            android:textSize="@dimen/default_text_size" >
+            android:textSize="@dimen/hs_default_text_size" >
         </EditText>
     </RelativeLayout>
 

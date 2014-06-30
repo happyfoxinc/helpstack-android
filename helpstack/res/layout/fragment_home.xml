@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/BackgroundBaseTheme"
+    style="@style/hs_backgroundTheme"
     tools:context="com.tenmiles.helpstack.HomeActivity$PlaceholderFragment" >
 
     <com.tenmiles.helpstack.theme.widget.HSExpandableListView
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:groupIndicator="@null"
-        style="@style/MainListViewTheme" />
+        style="@style/hs_listViewTheme" />
 
     <FrameLayout
         android:id="@+id/search_container"

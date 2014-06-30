@@ -5,7 +5,7 @@
 
     <item 
         android:id="@+id/nextbutton"
-        android:title="@string/next"
+        android:title="@string/hs_next"
         android:visible="true"
         />
 

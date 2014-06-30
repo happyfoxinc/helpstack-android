@@ -28,7 +28,7 @@ public class NewUserActivity extends HSActivityParent {
 	public void configureActionBar(ActionBar actionBar) {
 		super.configureActionBar(actionBar);
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(getString(R.string.new_user_title));
+		actionBar.setTitle(getString(R.string.hs_new_issue_title));
 		
 	}
 

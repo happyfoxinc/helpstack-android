@@ -8,7 +8,7 @@
         android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/report_issue" 
-        style="@style/buttonTheme"/>
+        android:text="@string/hs_issuebutton_title" 
+        style="@style/hs_buttonTheme"/>
 
 </LinearLayout>

@@ -228,7 +228,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
 				alertBuilder.setTitle("Attachment");
-				alertBuilder.setIcon(R.drawable.ic_action_attachment);
+				alertBuilder.setIcon(R.drawable.hs_attachment_img);
 				String[] attachmentOptions = {"Change","Remove"};
 				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
 					
@@ -493,7 +493,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private void resetAttachmentImage() {
 		if (selectedAttachment == null) {
-			this.mAttachmentButton.setImageResource(R.drawable.ic_action_attachment);
+			this.mAttachmentButton.setImageResource(R.drawable.hs_attachment_img);
 		}
 		else {
 			

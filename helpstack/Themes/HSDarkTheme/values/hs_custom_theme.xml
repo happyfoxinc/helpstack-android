@@ -1,0 +1,83 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- DARK THEME -->
+    <!-- Developed by :- Santhana -->
+    <!-- Override the properties of the following styles to create custom themes -->
+    <!-- DO NOT DELETE ANY OF THE FOLLOWING STYLES AS THEY ARE USED IN HELPSTACK LAYOUTS -->
+    
+    <!-- Style for background of all screens -->
+    <style name="hs_backgroundTheme" parent="hs_background_defaultTheme">
+        <item name="android:background">@color/hs_dark_background_color</item>
+    </style>
+    
+    <!-- Articles and issues list -->
+    <style name="hs_listViewTheme" parent="hs_listView_defaultTheme">
+        <item name="android:background">@color/hs_transparent_color</item>
+        <item name="android:dividerHeight">0dip</item>
+    </style>
+    
+    <!-- Header background of main list view -->
+    <style name="hs_listView_headerBackgroundTheme" parent="hs_listView_headerBackground_defaultTheme">
+        <item name="android:background">@color/hs_dark_header_background_color</item>
+    </style>
+    
+    <!-- Child view background of main list view -->
+    <style name="hs_listView_childBackgroundTheme" parent="hs_listView_childBackground_defaultTheme">
+        <item name="android:background">@color/hs_dark_child_background_color</item>
+    </style>
+    
+    <!-- ListView header text -->
+    <style name="hs_listView_headerTextTheme" parent="hs_listView_headerText_defaultTheme">
+        <item name="android:textColor">@color/hs_dark_header_textColor</item>
+    </style>
+    
+    <!-- ListView child text -->
+    <style name="hs_listView_childTextTheme" parent="hs_listView_childText_defaultTheme">
+        <item name="android:textColor">@color/hs_dark_child_textColor</item>
+    </style>
+    
+	<!-- Chat screen - left chat bubble style -->
+	<style name="hs_leftChatBubbleTheme" parent="hs_leftChatBubble_defaultTheme">
+	    <item name="android:background">@drawable/hs_dark_left_chat_bubble</item>
+	</style>
+	
+	<!-- Chat screen - right chat bubble style -->
+    <style name="hs_rightChatBubbleTheme" parent="hs_rightChatBubble_defaultTheme">
+        <item name="android:background">@drawable/hs_dark_right_chat_bubble</item>
+    </style>
+    
+    <!-- Chat screen message text style -->
+    <style name="hs_messageTextTheme" parent="hs_messageText_defaultTheme">
+        <item name="android:textColor">@color/hs_dark_messageTextColor</item>
+    </style>
+    
+    <!-- Chat screen more info text style - applied to the sender name and time -->
+    <style name="hs_smallTextTheme" parent="hs_smallText_defaultTheme">
+        <item name="android:textColor">@color/hs_dark_messageTextColor</item>
+    </style>
+    
+    <!-- Button theme - applied for report issue button -->
+    <style name="hs_buttonTheme" parent="hs_button_defaultTheme"></style>
+    
+    <!-- Edit text theme in new user and new issue screen -->
+    <style name="hs_editTextTheme" parent="hs_editText_defaultTheme"></style>
+    
+    <!-- Edit text theme used in chat screen - add reply -->
+    <style name="hs_messageEditTextTheme" parent="hs_editText_defaultTheme"></style> 
+	    
+    <!-- DRAWABLES -->
+    <!-- Defining the drawable icons used in the project, override the drawable to give your own custom icons -->
+    
+    <!-- Attachment icon used in New Issue screen, and chat screen to show attachments -->
+    <drawable name="hs_attachment_icon">@drawable/hs_attachment_img</drawable>
+    
+    <!-- Search icon used in search menu -->
+    <drawable name="hs_search_icon">@drawable/hs_search_img</drawable>
+    
+    <!-- Disclosure icon used in main list view -->
+    <drawable name="hs_disclosure_next">@drawable/hs_disclosure_img</drawable>
+    
+    <!-- Add attachment icon used in issue detail screen - add reply -->
+    <drawable name="hs_add_attachment">@drawable/hs_add_attachment_img</drawable>
+         
+</resources>
