@@ -1,55 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment" >
+    android:layout_height="match_parent" >
 
-    <EditText 
-        android:id="@+id/subjectField"
-        style="@style/editTextTheme"
-        android:layout_alignParentTop="true"
-        android:inputType="textEmailSubject"
-        android:layout_width="match_parent"
-        android:lines="1"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_toLeftOf="@+id/imageView1"
-        android:hint="@string/subjecthint"/>
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:paddingBottom="10dp"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_action_attachment" />
-
-    <View
- 		android:layout_width="match_parent"
- 		android:layout_height="1dp"
- 		android:layout_below="@id/subjectField"
- 		android:layout_marginTop="6dp"
- 		android:background="@android:color/darker_gray" />
-    
-    <EditText
-        android:id="@+id/messageField"
-        style="@style/messageEditTextTheme"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/subjectField"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:textSize="@dimen/default_text_size"
-        android:gravity="left|top"
-        android:hint="@string/messagehint"
-        android:minLines="4"
-        android:text="" >
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment" >
 
-    </EditText>
+        <EditText
+            android:id="@+id/subjectField"
+            style="@style/editTextTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imageView1"
+            android:hint="@string/subjecthint"
+            android:inputType="textEmailSubject"
+            android:lines="1"
+            android:text="" />
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="10dp"
+            android:src="@drawable/ic_action_attachment" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/subjectField"
+            android:layout_marginTop="6dp"
+            android:background="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/messageField"
+            style="@style/messageEditTextTheme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/subjectField"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:gravity="left|top"
+            android:hint="@string/messagehint"
+            android:minLines="4"
+            android:text=""
+            android:textSize="@dimen/default_text_size" >
+        </EditText>
+    </RelativeLayout>
+
+</ScrollView>
