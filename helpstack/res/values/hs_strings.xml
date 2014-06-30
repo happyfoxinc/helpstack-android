@@ -6,7 +6,7 @@
     <!-- Strings used in the main list view screen -->
     <string name="hs_help_title">Help</string>
     <string name="hs_articles_title">FAQ</string>
-    <string name="hs_issues_title">Issues</string>
+    <string name="hs_issues_title">ISSUES</string>
     <string name="hs_issuebutton_title">Report An Issue</string>
     
     <!-- Strings used in search view -->
