@@ -6,5 +6,9 @@
 
   Do NOT modify, delete, or commit to source control!
 -->
+<<<<<<< HEAD
 <string name="com.crashlytics.android.build_id" translatable="false">b039a343-494d-4159-9b1b-9a60bd33078f</string>
+=======
+<string name="com.crashlytics.android.build_id" translatable="false">483f7971-c267-44fc-a5ee-fd38267d7484</string>
+>>>>>>> fab30e209f1d080b4cf9bb67d99976980e09ab75
 </resources>
