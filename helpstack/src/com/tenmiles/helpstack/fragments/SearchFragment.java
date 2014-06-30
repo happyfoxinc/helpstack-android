@@ -78,6 +78,9 @@ public class SearchFragment extends HSFragmentParent {
 	}
 
 	public boolean isSearchVisible() {
+		if (rootView == null) {
+			return false;
+		}
 		return rootView.getVisibility() == View.VISIBLE;
 	}
 	

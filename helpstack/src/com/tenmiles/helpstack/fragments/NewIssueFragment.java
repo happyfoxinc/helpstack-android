@@ -103,9 +103,7 @@ public class NewIssueFragment extends HSFragmentParent {
 		outState.putSerializable(EXTRAS_USER, userDetails);
 		outState.putString("subject", subjectField.getText().toString());
 		outState.putString("message", messageField.getText().toString());
-		if (selectedAttachment != null) {
-			outState.putSerializable("attachment", selectedAttachment);
-		}
+		outState.putSerializable("attachment", selectedAttachment);
 	}
 	
 	@Override
@@ -115,9 +113,7 @@ public class NewIssueFragment extends HSFragmentParent {
 		if (savedInstanceState != null) {
 			subjectField.setText(savedInstanceState.getString("subject"));
 			messageField.setText(savedInstanceState.getString("message"));
-			if (savedInstanceState.containsKey("attachment")) {
-				selectedAttachment = (HSAttachment) savedInstanceState.getSerializable("attachment");
-			}
+			selectedAttachment = (HSAttachment) savedInstanceState.getSerializable("attachment");
 		}
 		
 		resetAttachmentImage();

@@ -107,8 +107,17 @@ public class IssueDetailFragment extends HSFragmentParent
 		else {
 			fetchedUpdates = (HSTicketUpdate[]) savedInstanceState.getSerializable("updates");
 			ticket = (HSTicket) savedInstanceState.getSerializable("ticket");
-			if (savedInstanceState.containsKey("selectedAttachment"))
-				selectedAttachment = (HSAttachment) savedInstanceState.getSerializable("selectedAttachment");
+			selectedAttachment = (HSAttachment) savedInstanceState.getSerializable("selectedAttachment");
+			replyEditTextView.setText(savedInstanceState.getString("replyEditTextView"));
+			
+			
+			refreshList();
+			resetAttachmentImage();
+			
+			if (fetchedUpdates == null) {
+				// may be due to orientation change during last fetch operation
+				refreshUpdateFromServer();
+			}
 		}
 		
 		refreshList();
@@ -119,8 +128,8 @@ public class IssueDetailFragment extends HSFragmentParent
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("updates", fetchedUpdates);
 		outState.putSerializable("ticket", ticket);
-		if (selectedAttachment != null)
-			outState.putSerializable("selectedAttachment", selectedAttachment);
+		outState.putSerializable("selectedAttachment", selectedAttachment);
+		outState.putSerializable("replyEditTextView", replyEditTextView.getText().toString());
 	}
 	
 	@Override
@@ -329,6 +338,12 @@ public class IssueDetailFragment extends HSFragmentParent
 	}
 
 	private void showAttachments(final HSAttachment[] attachmentsArray) {
+		
+		if (attachmentsArray.length == 1) {
+			HSAttachment attachmentToShow = attachmentsArray[0];
+			openAttachment(attachmentToShow);
+			return;
+		}
 		
 		ArrayList<String> attachments = new ArrayList<String>();
 		for(HSAttachment attachment : attachmentsArray) {

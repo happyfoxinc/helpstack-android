@@ -17,12 +17,23 @@ public class HSActivityParent extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		// Handling actionbar title when activity changes so activity doesnot have to handle it.
+		if (savedInstanceState != null) {
+			getHelpStackActionBar().setTitle(savedInstanceState.getString("Actionbar_title"));
+		}
+		
 		configureActionBar(getSupportActionBar());
-//		setSupportProgressBarIndeterminate(true);
 	}
 
 	public void configureActionBar(ActionBar actionBar) {
 		
+	}
+	
+	// Handling actionbar title when activity changes so activity doesnot have to handle it.
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("Actionbar_title", getHelpStackActionBar().getTitle().toString());
 	}
 	
 	public ActionBar getHelpStackActionBar() {

@@ -32,6 +32,8 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 	LocalAsync localAsync;
 
 	private View progressView;
+	
+	boolean isAttachmentDownloaded = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +50,32 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 		
 		setHasOptionsMenu(true);
 		
-		showLoading(true);
-		loadImage();
+		if (savedInstanceState == null) {
+			showLoading(true);
+			loadImage();
+		}
+		else {
+			isAttachmentDownloaded = savedInstanceState.getBoolean("isAttachmentDownloaded");
+			if (isAttachmentDownloaded) {
+				showLoading(false);
+				imageView.setImageBitmap((Bitmap)savedInstanceState.getParcelable("bitmap"));
+			}
+			else {
+				showLoading(true);
+				loadImage();
+			}
+			
+			
+		}
+		
 		return rootView;
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean("isAttachmentDownloaded", isAttachmentDownloaded);
+		outState.putParcelable("bitmap", ((BitmapDrawable)imageView.getDrawable()).getBitmap());
 	}
 	
 	@Override
@@ -117,6 +142,7 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 			showLoading(false);
 			
 			if(result!=null) {
+				isAttachmentDownloaded = true;
 				imageView.setImageDrawable(new BitmapDrawable(getResources(), result));
 			}
 			else {
