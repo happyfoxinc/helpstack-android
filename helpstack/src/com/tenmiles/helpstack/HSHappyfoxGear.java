@@ -1,4 +1,4 @@
-package com.tenmiles.helpstack.logic;
+package com.tenmiles.helpstack;
 
 
 import java.io.ByteArrayOutputStream;
@@ -38,6 +38,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.tenmiles.helpstack.logic.HSGear;
+import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
+import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
+import com.tenmiles.helpstack.logic.OnNewTicketFetchedSuccessListener;
 import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;

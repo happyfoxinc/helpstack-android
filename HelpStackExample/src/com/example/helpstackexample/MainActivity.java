@@ -1,7 +1,5 @@
 package com.example.helpstackexample;
 
-import com.crashlytics.android.Crashlytics;
-import com.tenmiles.helpstack.logic.HSHelpStack;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import com.crashlytics.android.Crashlytics;
+import com.tenmiles.helpstack.HSHelpStack;
 
 public class MainActivity extends ActionBarActivity {
 

@@ -2,8 +2,10 @@ package com.example.helpstackexample;
 
 import android.app.Application;
 
-import com.tenmiles.helpstack.logic.HSHappyfoxGear;
-import com.tenmiles.helpstack.logic.HSHelpStack;
+import com.tenmiles.helpstack.HSHappyfoxGear;
+import com.tenmiles.helpstack.HSHelpStack;
+
+
 
 public class HSApplication extends Application{
 

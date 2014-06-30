@@ -1,4 +1,4 @@
-package com.tenmiles.helpstack.logic;
+package com.tenmiles.helpstack;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.tenmiles.helpstack.logic.HSGear;
 
 /**
  * 

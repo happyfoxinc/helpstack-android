@@ -1,4 +1,6 @@
-package com.tenmiles.helpstack.logic;
+package com.tenmiles.helpstack;
+
+import com.tenmiles.helpstack.logic.HSGear;
 
 
 
