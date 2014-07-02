@@ -32,20 +32,23 @@
 	<!-- Chat screen - right chat bubble style -->
     <style name="hs_rightChatBubbleTheme" parent="hs_rightChatBubble_defaultTheme"></style>
     
-    <!-- Chat screen message text style -->
-    <style name="hs_messageTextTheme" parent="hs_messageText_defaultTheme"></style>
+    <!-- Chat screen message text style for right chat bubble -->
+    <style name="hs_right_messageTextTheme" parent="@style/hs_rightmessageText_defaultTheme"></style>
+    
+    <!-- Chat screen message text style for left chat bubble -->
+    <style name="hs_left_messageTextTheme" parent="@style/hs_leftmessageText_defaultTheme"></style>
     
     <!-- Chat screen more info text style - applied to the sender name and time -->
-    <style name="hs_smallTextTheme" parent="hs_smallText_defaultTheme"></style>
+    <style name="hs_smallTextTheme" parent="@style/hs_smallText_defaultTheme"></style>
     
     <!-- Button theme - applied for report issue button -->
-    <style name="hs_buttonTheme" parent="hs_button_defaultTheme"></style>
+    <style name="hs_buttonTheme" parent="@style/hs_button_defaultTheme"></style>
     
     <!-- Edit text theme in new user and new issue screen -->
-    <style name="hs_editTextTheme" parent="hs_editText_defaultTheme"></style>
+    <style name="hs_editTextTheme" parent="@style/hs_editText_defaultTheme"></style>
     
     <!-- Edit text theme used in chat screen - add reply -->
-    <style name="hs_messageEditTextTheme" parent="hs_editText_defaultTheme"></style> 
+    <style name="hs_messageEditTextTheme" parent="@style/hs_editText_defaultTheme"></style> 
 	    
     <!-- DRAWABLES -->
     <!-- Defining the drawable icons used in the project, override the drawable to give your own custom icons -->

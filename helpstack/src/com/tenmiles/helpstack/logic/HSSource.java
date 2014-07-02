@@ -89,8 +89,7 @@ public class HSSource {
 				e.printStackTrace();
 				throwError(errorListener, "Unable to read local article XML");
 			}
-		}
-		
+		}	
 	}
 	
 	public void requestAllTickets(OnFetchedArraySuccessListener success, ErrorListener error ) {
@@ -101,7 +100,6 @@ public class HSSource {
 		else {
 			success.onSuccess(cachedTickets.getTickets());
 		}
-		
 	}
 	
 	public void checkForUserDetailsValidity(String cancelTag, String firstName, String lastName, String email,OnFetchedSuccessListener success, ErrorListener errorListener) {
@@ -128,7 +126,6 @@ public class HSSource {
 				doSaveNewTicketPropertiesForGearInCache(ticket);
 				doSaveNewUserPropertiesForGearInCache(udpatedUserDetail);
 				super.onSuccess(udpatedUserDetail, ticket);
-				
 			}
 		}, new ErrorWrapper("Creating New Ticket", errorListener));
 		

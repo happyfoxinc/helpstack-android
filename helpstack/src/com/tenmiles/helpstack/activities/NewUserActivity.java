@@ -27,9 +27,7 @@ public class NewUserActivity extends HSActivityParent {
 	@Override
 	public void configureActionBar(ActionBar actionBar) {
 		super.configureActionBar(actionBar);
-		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setTitle(getString(R.string.hs_new_issue_title));
-		
 	}
 
 	@Override

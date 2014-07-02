@@ -6,7 +6,7 @@
     
 	<dimen name="hs_default_text_size">20sp</dimen>
 	<dimen name="hs_listView_divider_height">0.5dip</dimen>
-	<dimen name="hs_listView_GroupView_TextSize">18sp</dimen>
+	<dimen name="hs_listView_header_TextSize">18sp</dimen>
 	<dimen name="hs_listView_ChildView_TextSize">18sp</dimen>
 	<dimen name="hs_message_TextSize">18sp</dimen>
 	<dimen name="hs_small_TextSize">13sp</dimen>

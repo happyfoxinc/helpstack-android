@@ -2,6 +2,7 @@ package com.example.helpstackexample;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +26,10 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setIcon(R.color.hs_transparent_color);
 	}
 
 	@Override
@@ -46,6 +51,8 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
 
 	/**
 	 * A placeholder fragment containing a simple view.

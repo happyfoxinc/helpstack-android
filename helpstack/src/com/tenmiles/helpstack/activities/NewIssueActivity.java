@@ -33,7 +33,6 @@ public class NewIssueActivity extends HSActivityParent {
     public void configureActionBar(ActionBar actionBar) {
     	super.configureActionBar(actionBar);
     	actionBar.setTitle(getString(R.string.hs_new_issue_title));
-    	actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
 	@Override

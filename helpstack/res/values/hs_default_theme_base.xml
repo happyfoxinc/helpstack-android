@@ -22,7 +22,7 @@
     
     <!-- Main ListView header background default Theme -->
     <style name="hs_listView_headerBackground_defaultTheme">
-        <item name="android:background">@color/hs_groupView_background_color</item>
+        <item name="android:background">@color/hs_header_background_color</item>
     </style>
     
     <!-- Main ListView child view background default Theme -->
@@ -36,7 +36,7 @@
         <item name="android:paddingBottom">5dp</item>
         <item name="android:textColor">#000000</item>
         <item name="android:padding">10dp</item>
-        <item name="android:textSize">@dimen/hs_listView_GroupView_TextSize</item>
+        <item name="android:textSize">@dimen/hs_listView_header_TextSize</item>
     </style>
     
     <!-- Main ListView child text default theme -->
@@ -62,25 +62,34 @@
     <!-- Chat screen - message text default theme -->
     <style name="hs_messageText_defaultTheme">
         <item name="android:paddingTop">3dp</item>
-        <item name="android:textColor">@color/hs_black_color</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">@dimen/hs_message_TextSize</item>
         <item name="android:gravity">left</item>
         <item name="android:minWidth">100dp</item>
     </style>
     
+    <!-- Chat screen - left chat message text default theme -->
+    <style name="hs_leftmessageText_defaultTheme" parent="@style/hs_messageText_defaultTheme">
+        <item name="android:textColor">@color/hs_leftchat_messageTextcolor</item>
+    </style>
+    
+    <!-- Chat screen - right chat message text default theme -->
+    <style name="hs_rightmessageText_defaultTheme" parent="@style/hs_messageText_defaultTheme">
+        <item name="android:textColor">@color/hs_rightchat_messageTextcolor</item>
+    </style>
+
     <!-- Chat screen - more info text(Sender name and message time) default theme -->
     <style name="hs_smallText_defaultTheme">
-        <item name="android:textColor">@color/hs_black_color</item>
+        <item name="android:textColor">@color/hs_message_moreinfoTextColor</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">@dimen/hs_small_TextSize</item>
         <item name="android:maxWidth">@dimen/hs_smallTextMaxWidth</item>
     </style>
     
-    <!-- Button default theme -->
+    <!-- Button default theme -Report issue button -->
     <style name="hs_button_defaultTheme">
         <item name="android:background">@color/hs_transparent_color</item>
-        <item name="android:textColor">@color/hs_redColor</item>
+        <item name="android:textColor">@color/hs_buttonTextcolor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/hs_button_textSize</item>
     </style>
@@ -88,9 +97,8 @@
     <!-- Edit text default theme -->
     <style name="hs_editText_defaultTheme">
         <item name="android:background">@color/hs_transparent_color</item>
-        <item name="android:textColor">@color/hs_black_color</item>
+        <item name="android:textColor">@color/hs_editTextcolor</item>
         <item name="android:textSize">@dimen/hs_default_text_size</item>
     </style>
-    
-    
+
 </resources>

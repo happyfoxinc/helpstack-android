@@ -267,7 +267,7 @@ public class SearchFragment extends HSFragmentParent {
 			        List<HSKBItem> filterList = new ArrayList<HSKBItem>();
 			         
 			        for (HSKBItem p : allKBItems) {
-			            if (p.getSubject().toUpperCase().startsWith(constraint.toString().toUpperCase()))
+			            if (p.getSubject().toUpperCase().contains(constraint.toString().toUpperCase())) //.startsWith(constraint.toString().toUpperCase()))
 			            	filterList.add(p);
 			        }
 			        HSKBItem[] values = filterList.toArray(new HSKBItem[filterList.size()]);

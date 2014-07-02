@@ -281,7 +281,7 @@ public class NewIssueFragment extends HSFragmentParent {
 	}
 	
 	public String getMessage() {
-		return subjectField.getText().toString();
+		return messageField.getText().toString();
 	}
 	
 	public static Bitmap downscaleAndReadBitmap(Context context, Uri selectedImage) throws FileNotFoundException {

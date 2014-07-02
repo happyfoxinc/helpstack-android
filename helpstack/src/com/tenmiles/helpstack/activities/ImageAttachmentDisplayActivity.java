@@ -30,7 +30,6 @@ public class ImageAttachmentDisplayActivity extends HSActivityParent {
 	@Override
 	public void configureActionBar(ActionBar actionBar) {
 		super.configureActionBar(actionBar);
-		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override

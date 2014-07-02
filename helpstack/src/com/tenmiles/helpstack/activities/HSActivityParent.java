@@ -1,5 +1,7 @@
 package com.tenmiles.helpstack.activities;
 
+import com.tenmiles.helpstack.R;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -26,7 +28,6 @@ public class HSActivityParent extends ActionBarActivity {
 	}
 
 	public void configureActionBar(ActionBar actionBar) {
-		
 	}
 	
 	// Handling actionbar title when activity changes so activity doesnot have to handle it.
