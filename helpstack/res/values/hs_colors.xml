@@ -7,7 +7,7 @@
     <color name="hs_listView_selector_color">#d3d3d3</color>
     
     <color name="hs_transparent_color">#0000</color>
-    <color name="hs_lightGreycolor">#C6C6C6</color>
+    <color name="hs_lightGreycolor">#ECECEC</color>
     
     <color name="hs_rightchat_bubblecolor">#81c57b</color>
     <color name="hs_leftchat_bubblecolor">#ffffff</color>

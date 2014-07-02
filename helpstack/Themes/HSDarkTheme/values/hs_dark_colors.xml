@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- Background color -->
     <color name="hs_dark_background_color">#646464</color>
+    
+    <!-- Header background and text color -->
     <color name="hs_dark_header_background_color">#228CD1</color>
+    <color name="hs_dark_header_textColor">#ffffff</color>
+    
+    <!-- Child background and text color -->
     <color name="hs_dark_child_background_color">#3C3C3C</color>
+    <color name="hs_dark_child_textColor">#ffffff</color>
+    
+    <!-- List view color properties -->
+    <color name="hs_dark_listView_background_color">#0000</color>
     <color name="hs_dark_listView_divider_color">#0000</color>
     <color name="hs_dark_listView_selector_color">#e1e1e1</color>
     
+    <!-- Issue details - left chat background and text color -->
     <color name="hs_dark_leftChatBubbleColor">#3C3C3C</color>
+    <color name="hs_dark_left_messageTextColor">#ffffff</color>
+    
+    <!-- Issue details - right chat background and text color -->
     <color name="hs_dark_rightChatBubbleColor">#228CD1</color>
-    <color name="hs_dark_header_textColor">#ffffff</color>
-    <color name="hs_dark_child_textColor">#ffffff</color>
-    <color name="hs_dark_messageTextColor">#ffffff</color>
+    <color name="hs_dark_right_messageTextColor">#ffffff</color>
+    
+    <!-- Issue details - sender name/time text color -->
+    <color name="hs_dark_moreinfoTextColor">#ffffff</color>
+    
+    <!-- Button text color (Report issue button) -->
+    <color name="hs_dark_buttonTextcolor">#DE2527</color>
+    
+    <!-- Edit text color -->
+    <color name="hs_dark_editTextcolor">#000000</color>
+ 
 </resources>

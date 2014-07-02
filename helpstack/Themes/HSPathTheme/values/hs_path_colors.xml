@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Path Theme colors -->
+    
+    <!-- Background color -->
+    <color name="hs_path_background_color">#F5F0EC</color>
+    
+    <!-- Header background and text color -->
+    <color name="hs_path_header_background_color">#0000</color>
+    <color name="hs_path_header_textColor">#C2BCBE</color>
+    
+    <!-- Child background and text color -->
+    <color name="hs_path_child_background_color">#ffffff</color>
+    <color name="hs_path_child_textColor">#929292</color>
+    
+    <!-- List view color properties -->
+    <color name="hs_path_listView_backgroundcolor">#0000</color>
+    <color name="hs_path_listView_divider_color">#0000</color>
+    <color name="hs_path_listView_selector_color">#e1e1e1</color>
+    
+    <!-- Issue details - left chat background and text color -->
+    <color name="hs_path_leftChatBubbleColor">#ffffff</color>
+    <color name="hs_path_leftchat_messageTextColor">#ffffff</color>
+    
+    <!-- Issue details - right chat background and text color -->
+    <color name="hs_path_rightChatBubbleColor">#E33124</color>
+    <color name="hs_path_rightchat_messageTextColor">#ffffff</color>
+    
+    <!-- Issue details - sender name/time text color -->
+    <color name="hs_path_moreinfo_Textcolor">#929292</color>
+    
+    <!-- Button text color (Report issue button) -->
+    <color name="hs_path_buttonTextcolor">#DE2527</color>
+    
+    <!-- Edit text color -->
+    <color name="hs_path_editTextcolor">#000000</color>
+ 
+</resources>
