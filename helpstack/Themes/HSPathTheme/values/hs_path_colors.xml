@@ -20,7 +20,7 @@
     
     <!-- Issue details - left chat background and text color -->
     <color name="hs_path_leftChatBubbleColor">#ffffff</color>
-    <color name="hs_path_leftchat_messageTextColor">#ffffff</color>
+    <color name="hs_path_leftchat_messageTextColor">#929292</color>
     
     <!-- Issue details - right chat background and text color -->
     <color name="hs_path_rightChatBubbleColor">#E33124</color>
