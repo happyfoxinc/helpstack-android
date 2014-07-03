@@ -7,7 +7,7 @@
 
 
 <p align="left" >
-  <img src="https://dl.dropboxusercontent.com/u/55774910/HelpStack/Screen%20Shot%202014-05-14%20at%202.46.10%20pm.png" alt="HelpStackthemes" title="screenshots">
+  <img src="https://github.com/happyfoxinc/helpstack-android/blob/master/Images/hs_preview.pdf" alt="HelpStackthemes" title="screenshots">
 </p>
 
 ## How to use HelpStack
