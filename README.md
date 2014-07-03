@@ -27,9 +27,9 @@ Once you have the latest HelpStack, you need to import it into your *Android App
 
 * File > Import
 * Android > Existing Android Code into Workspace, then click *Next*
-* Browse and select *helpstack* and click *Finish*
+* Browse and select helpstack from **/helpstack-android/helpstack** and click *Finish*
 
-It is important that you set the flag for manifestmerger.enabled to true in your project.properties:
+It is important that you set the flag for manifestmerger.enabled to true in your project.properties file:
 
 	manifestmerger.enabled=true
 	
