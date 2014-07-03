@@ -7,7 +7,7 @@
 
 
 <p align="left" >
-  <img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/hs_preview.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9oc19wcmV2aWV3LnBuZyIsImV4cGlyZXMiOjE0MDQ5ODk2MjZ9--2bbb89f9498d4a3f40cb84adb43c44b0161c33ed" alt="HelpStackthemes" title="screenshots">
+  <img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/hs_preview.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9oc19wcmV2aWV3LnBuZyIsImV4cGlyZXMiOjE0MDQ5ODk4NTB9--fde1f0cc11a7f0d71ee389e9dd76f76fbb5340a9" alt="HelpStackthemes" title="screenshots">
 </p>
 
 ## How to use HelpStack
@@ -150,36 +150,53 @@ Once you have integrated your helpStack, use the **'showGear'** API call to open
 ## Theming/Skinning 
 
 
-You can customize the HelpStack UI screens to go with your application's UI. HelpStack comes with its own default theme. We have defined the base styles of the UI elements in ** values/hs_default_theme_base.xml **. 
+You can customize the HelpStack UI screens to go with your application's UI. HelpStack comes with its own default theme. We have defined the base styles of the UI elements in **values/hs_default_theme_base.xml**. 
 
-HelpStack comes with a default theme found in ** values/hs_default_theme.xml **. It contains the styles used by the UI layouts and the drawables used. 
+HelpStack comes with a default theme found in **values/hs_default_theme.xml**. It contains the styles used by the UI layouts and the drawables used. 
 
 It is very easy to customize the HelpStack UI. You can refer to the sample themes which we ship along with the HelpStack library. You will find it in 
-** /helpstack/Themes/ **, where you will find three sample themes - ** HSDarkTheme **, ** HSPathTheme ** and ** HSFacebookTheme **. 
+**/helpstack/Themes/**, where you will find three sample themes - **HSDarkTheme**, **HSPathTheme** and **HSFacebookTheme**. 
 
-Each theme comes with a colors.xml and hs_custom_theme.xml defined in ** ../values/ ** and the chat bubble drawables defined in ** ../drawables/ **.
+Each theme comes with a colors.xml and hs_custom_theme.xml defined in **../values/** and the chat bubble drawables defined in **../drawables/**.
 
 
 1. Choose one of the sample Themes, include the theme and colors xml in your application under values. Include the specified drawables under your application's drawables. Now you can simply build and run the application and the HelpStack UI shall take the styles specified in the chosen theme.
 
-2. Inorder to customize the UI, override the styles specified in ** /values/hs_custom_theme.xml ** 
+2. Inorder to customize the UI, override the styles specified in **/values/hs_custom_theme.xml** 
 
 Below is an illustration of the styles you need to override to customize the UI properties :-
 
+ **Main List View** 
+ 
+ <p align="right" >
+  <img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/mainlist_style.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9tYWlubGlzdF9zdHlsZS5wbmciLCJleHBpcmVzIjoxNDA0OTg5OTE4fQ%3D%3D--7dbb624e2aead4658ebd19705182a3589fd567fa" alt="HelpStackthemes" title="screenshots">
+</p>
+
+
+**Issue Details View**
+
+<p align="right" >
+<img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/issuedetail_style.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9pc3N1ZWRldGFpbF9zdHlsZS5wbmciLCJleHBpcmVzIjoxNDA0OTg5OTQ4fQ%3D%3D--49119f48c9d3211e5d2e1ec908a4526e7b49fec5" alt="HelpStackthemes" title="screenshots">
+</p>
 
 
 
-* Icons and Images
+
+#### Icons and Images
 
 All the icons used in the HelpStack UI are defined under **Drawables** in the theme file. In order to include your own icons, download and add the icons in your applications resources, and override the drawables specified in the theme for the UI to take up your own icons. Below are the icons used in HelpStack UI  :-
 
-**hs_attachment_icon** 
+**hs_attachment_icon** -
+Attachment icon used in issue detail screen and New Issue screen
 
-**hs_search_icon** 
+**hs_search_icon** -
+Search icon used in the action bar
 
-**hs_disclosure_next**
+**hs_disclosure_next** -
+Disclosure icon used in the main list view child item
 
-**hs_add_attachment** 
+**hs_add_attachment** -
+Add attachment icon used in issue detail screen, to add an attachment
 
 
 
