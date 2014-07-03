@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/name"
-        style="@style/hs_smallTextTheme"
+        style="@style/hs_smallTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,11 +24,11 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="80dp"
         android:layout_below="@id/name"
-        style="@style/hs_rightChatBubbleTheme">
+        style="@style/hs_rightChatBubbleStyle">
 
         <TextView
             android:id="@+id/textView1"
-            style="@style/hs_right_messageTextTheme"
+            style="@style/hs_right_messageTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/time"
-        style="@style/hs_smallTextTheme"
+        style="@style/hs_smallTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/textlayout"

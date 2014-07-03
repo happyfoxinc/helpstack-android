@@ -19,7 +19,7 @@
 
         <EditText
             android:id="@+id/firstname"
-            style="@style/hs_editTextTheme"
+            style="@style/hs_editTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -38,7 +38,7 @@
 
         <EditText
             android:id="@+id/lastname"
-            style="@style/hs_editTextTheme"
+            style="@style/hs_editTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -57,7 +57,7 @@
 
         <EditText
             android:id="@+id/email"
-            style="@style/hs_editTextTheme"
+            style="@style/hs_editTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

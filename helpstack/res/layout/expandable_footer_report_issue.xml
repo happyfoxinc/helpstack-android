@@ -9,6 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hs_issuebutton_title" 
-        style="@style/hs_buttonTheme"/>
+        style="@style/hs_buttonStyle"/>
 
 </LinearLayout>

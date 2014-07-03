@@ -15,11 +15,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text=""
-        style="@style/hs_smallTextTheme"/>
+        style="@style/hs_smallTextStyle"/>
 
     <RelativeLayout
         android:id="@+id/textlayout"
-        style="@style/hs_leftChatBubbleTheme"
+        style="@style/hs_leftChatBubbleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/textView1"
-            style="@style/hs_left_messageTextTheme"
+            style="@style/hs_left_messageTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/time"
-        style="@style/hs_smallTextTheme"
+        style="@style/hs_smallTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

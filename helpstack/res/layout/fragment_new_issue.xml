@@ -10,7 +10,7 @@
 
         <EditText
             android:id="@+id/subjectField"
-            style="@style/hs_editTextTheme"
+            style="@style/hs_editTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -44,7 +44,7 @@
 
         <EditText
             android:id="@+id/messageField"
-            style="@style/hs_messageEditTextTheme"
+            style="@style/hs_messageEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"

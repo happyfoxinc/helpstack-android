@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/hs_listView_childBackgroundTheme">
+    style="@style/hs_listView_childBackgroundStyle">
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/hs_listView_childTextTheme"
+        style="@style/hs_listView_childTextStyle"
         android:layout_alignParentLeft="true"
         android:paddingRight="25dp"
         android:text="" />
