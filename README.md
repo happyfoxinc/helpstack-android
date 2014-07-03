@@ -198,6 +198,9 @@ Disclosure icon used in the main list view child item
 **hs_add_attachment** -
 Add attachment icon used in issue detail screen, to add an attachment
 
+### License
+
+HelpStack is available under the MIT license. See the LICENSE file for more info.
 
 
 
