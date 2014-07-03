@@ -7,7 +7,7 @@
 
 
 <p align="left" >
-  <img src="https://github.com/happyfoxinc/helpstack-android/blob/master/Images/hs_preview.pdf" alt="HelpStackthemes" title="screenshots">
+  <img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/hs_preview.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9oc19wcmV2aWV3LnBuZyIsImV4cGlyZXMiOjE0MDQ5ODk2MjZ9--2bbb89f9498d4a3f40cb84adb43c44b0161c33ed" alt="HelpStackthemes" title="screenshots">
 </p>
 
 ## How to use HelpStack
