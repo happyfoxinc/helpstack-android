@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme for API 14+. This theme completely replaces
@@ -7,14 +7,14 @@
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <!-- API 14 theme customizations can go here. -->
-       <item name="android:actionBarStyle">@style/MyActionBar</item> 
+      <!-- <item name="android:actionBarStyle">@style/MyActionBar</item> -->
     </style>
     
     <style name="MyActionBar"
            parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
 
         <!-- Support library compatibility -->
-       
+       <item name="android:background">@color/hs_fb_rightChatBubbleColor</item>
         
     </style>
   

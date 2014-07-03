@@ -8,10 +8,10 @@
         All customizations that are NOT specific to a particular API-level can go here.
     </style>
     
-    <!-- Style for background of all screens -->
+    <!--1. Style for background of all screens -->
     <style name="hs_backgroundTheme" parent="hs_background_defaultTheme"></style>
     
-    <!-- Articles and issues list -->
+    <!--2. Articles and issues list -->
     <style name="hs_listViewTheme" parent="hs_listView_defaultTheme"></style>
     
     <!-- Header background of main list view -->

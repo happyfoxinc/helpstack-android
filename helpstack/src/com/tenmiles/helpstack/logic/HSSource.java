@@ -156,6 +156,10 @@ public class HSSource {
 		return cachedUser.getUser() == null;
 	}
 	
+	public void refreshUser() {
+		doReadUserFromCache();
+	}
+	
 	public HSUser getUser() {
 		return cachedUser.getUser();
 	}
@@ -309,7 +313,6 @@ public class HSSource {
 		
 		Gson gson = new Gson();
 		String userjson = gson.toJson(cachedUser);
-		
 		
 		File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
 		

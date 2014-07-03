@@ -23,7 +23,7 @@ public class HSActivityParent extends ActionBarActivity {
 		if (savedInstanceState != null) {
 			getHelpStackActionBar().setTitle(savedInstanceState.getString("Actionbar_title"));
 		}
-		
+		getSupportActionBar().setIcon(R.color.hs_transparent_color);
 		configureActionBar(getSupportActionBar());
 	}
 

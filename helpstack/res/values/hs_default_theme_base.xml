@@ -66,6 +66,8 @@
         <item name="android:textSize">@dimen/hs_message_TextSize</item>
         <item name="android:gravity">left</item>
         <item name="android:minWidth">100dp</item>
+        <item name="android:linksClickable">true</item>
+        <item name="android:textColorLink">#306EFF</item>
     </style>
     
     <!-- Chat screen - left chat message text default theme -->

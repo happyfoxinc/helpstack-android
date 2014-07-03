@@ -17,6 +17,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -407,8 +409,10 @@ public class IssueDetailFragment extends HSFragmentParent
 			
 			// This is a dummy view as only 1 group is gonna be used.
 			final HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
+			holder.textView1.setMovementMethod(LinkMovementMethod.getInstance());
+			//holder.textView1.setText(update.getText().trim());
+			holder.textView1.setText(Html.fromHtml(update.getText()));
 			
-			holder.textView1.setText(update.getText().trim());
 			if(update.isUserUpdate()) {
 				holder.nameField.setText("Me");
 			}else {

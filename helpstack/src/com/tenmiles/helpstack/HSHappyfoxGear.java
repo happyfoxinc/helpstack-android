@@ -325,7 +325,7 @@ public class HSHappyfoxGear extends HSGear {
 		if (!byObject.isNull("name")) {
 			userName = updateObject.getJSONObject("by").getString("name");
 		}
-		String message = updateObject.getJSONObject("message").getString("text");
+		String message = updateObject.getJSONObject("message").getString("html");
 		
 		Date update_time = null;
 		if (!updateObject.isNull("timestamp")) {

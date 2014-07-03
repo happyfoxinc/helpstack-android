@@ -22,7 +22,13 @@ public class HSApplication extends Application{
 				"431293d604214378b33a950fd11c0454",
 				"6c8c7c74dfe0491494e26883ee5e8b23", 
 				"77", "1");
+		
+//		HSHappyfoxGear happyfoxGear = new HSHappyfoxGear("https://wonderfulday.happyfox.com", 
+//				"b9613e78614d44f591b60ce6b2908109",
+//				"de25dd11000847f683a97db8657718dd", 
+//				"1", "1");
 		helpStack.setGear(happyfoxGear);
+		helpStack.ovverideGearArticlesWithLocalArticlePath(R.xml.articles);
 		
 //		HSTestDataGear testGear = new HSTestDataGear(R.xml.articles);
 //		helpStack.setGear(testGear);

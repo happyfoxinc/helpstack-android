@@ -75,8 +75,6 @@ public class HomeFragment extends HSFragmentParent {
 		mExpandableListView.setAdapter(mAdapter);
 		mExpandableListView.setOnChildClickListener(expandableChildViewClickListener);
 
-
-		
 		// Search fragment
 		mSearchFragment = new SearchFragment();
 		HSFragmentManager.putFragmentInActivity(getHelpStackActivity(), R.id.search_container, mSearchFragment, "Search");
@@ -128,6 +126,7 @@ public class HomeFragment extends HSFragmentParent {
 
 		if (requestCode == REQUEST_CODE_NEW_TICKET) {
 			if (resultCode == HSActivityManager.resultCode_sucess) {
+				gearSource.refreshUser();
 				ArrayList<HSTicket> temp = new ArrayList<HSTicket>();
 				temp.add((HSTicket)data.getSerializableExtra(NewIssueActivity.RESULT_TICKET));
 				temp.addAll(Arrays.asList(fetchedTickets));
