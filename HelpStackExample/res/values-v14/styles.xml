@@ -12,9 +12,6 @@
     
     <style name="MyActionBar"
            parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-
-        <!-- Support library compatibility -->
-       <item name="android:background">@color/hs_fb_rightChatBubbleColor</item>
         
     </style>
   

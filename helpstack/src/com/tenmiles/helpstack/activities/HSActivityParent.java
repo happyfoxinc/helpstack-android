@@ -46,6 +46,7 @@ public class HSActivityParent extends ActionBarActivity {
 			getHelpStackActionBar().setTitle(savedInstanceState.getString("Actionbar_title"));
 		}
 		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		configureActionBar(getSupportActionBar());
 	}
 
