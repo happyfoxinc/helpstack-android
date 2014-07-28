@@ -10,7 +10,7 @@ Support for ZenDesk and Desk.com has been planned for future releases.
 You can even ignore any helpdesk and configure your email address to send user requests to.  Please check the documentation for more details.
 
 <p align="left" >
-  <img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/hs_preview.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9oc19wcmV2aWV3LnBuZyIsImV4cGlyZXMiOjE0MDQ5ODk4NTB9--fde1f0cc11a7f0d71ee389e9dd76f76fbb5340a9" alt="HelpStackthemes" title="screenshots">
+  <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
 ## How to use HelpStack
@@ -172,14 +172,14 @@ Below is an illustration of the styles you need to override to customize the UI 
  **Main List View** 
  
  <p align="right" >
-  <img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/mainlist_style.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9tYWlubGlzdF9zdHlsZS5wbmciLCJleHBpcmVzIjoxNDA0OTg5OTE4fQ%3D%3D--7dbb624e2aead4658ebd19705182a3589fd567fa" alt="HelpStackthemes" title="screenshots">
+  <img src="Images/mainlist_style.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
 
 **Issue Details View**
 
 <p align="right" >
-<img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/issuedetail_style.png?token=6688351__eyJzY29wZSI6IlJhd0Jsb2I6aGFwcHlmb3hpbmMvaGVscHN0YWNrLWFuZHJvaWQvbWFzdGVyL0ltYWdlcy9pc3N1ZWRldGFpbF9zdHlsZS5wbmciLCJleHBpcmVzIjoxNDA0OTg5OTQ4fQ%3D%3D--49119f48c9d3211e5d2e1ec908a4526e7b49fec5" alt="HelpStackthemes" title="screenshots">
+<img src="Images/issuedetail_style.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
 
@@ -212,12 +212,3 @@ HelpStack is available under the MIT license. See the LICENSE file for more info
 
 
 		
-
-
-
-
-
-
-
-
-
