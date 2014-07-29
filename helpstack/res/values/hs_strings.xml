@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="hs_app_name">HelpStack</string>
-    
     <!-- Strings used in the main list view screen -->
     <string name="hs_help_title">Help</string>
     <string name="hs_articles_title">FAQ</string>

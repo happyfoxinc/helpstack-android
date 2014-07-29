@@ -48,7 +48,7 @@ public class ArticleActivity extends HSActivityParent {
 			HSKBItem kbItem = (HSKBItem)getIntent().getSerializableExtra("item");
 			ArticleFragment sectionFragment = HSFragmentManager.getArticleFragment(this, kbItem);
 			HSFragmentManager.putFragmentInActivity(this, R.id.container, sectionFragment, "Article");
-			getHelpStackActionBar().setTitle(kbItem.getSubject());
+			getHelpStackActionBar().setTitle("Article");
 			
 		}
 	}

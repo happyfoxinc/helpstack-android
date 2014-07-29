@@ -45,7 +45,6 @@ import android.widget.TextView;
 
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
-import com.tenmiles.helpstack.logic.HSSource;
 import com.tenmiles.helpstack.model.HSKBItem;
 
 /**
@@ -58,7 +57,6 @@ public class SearchFragment extends HSFragmentParent {
 	private SearchAdapter searchAdapter;
 	private HSKBItem[] allKbArticles;
 	private ListView listView;
-	private HSSource gearSource;
 	
 	private OnReportAnIssueClickListener articleSelecetedListener;
 
@@ -74,8 +72,6 @@ public class SearchFragment extends HSFragmentParent {
 		setVisibility(false);
 		listView = (ListView)rootView.findViewById(R.id.searchList);
 		searchAdapter = new SearchAdapter(this.allKbArticles);
-		
-		gearSource = new HSSource (getActivity());
 		
 		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
@@ -149,7 +145,7 @@ public class SearchFragment extends HSFragmentParent {
 		SearchView searchView = new SearchView(context);
 		MenuItemCompat.setActionView(searchItem, searchView);
 		searchView.setQueryHint(getString(R.string.hs_search_hint));
-		searchView.setSubmitButtonEnabled(true);
+		searchView.setSubmitButtonEnabled(false);
 
 		searchView.setOnSearchClickListener(new OnClickListener() {
 
@@ -236,13 +232,11 @@ public class SearchFragment extends HSFragmentParent {
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return searchResults[position];
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 

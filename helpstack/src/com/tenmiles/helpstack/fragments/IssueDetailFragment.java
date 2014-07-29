@@ -432,8 +432,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			// This is a dummy view as only 1 group is gonna be used.
 			final HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
 			holder.textView1.setMovementMethod(LinkMovementMethod.getInstance());
-			//holder.textView1.setText(update.getText().trim());
-			holder.textView1.setText(Html.fromHtml(update.getText()));
+			holder.textView1.setText(update.getText().trim());
 			
 			if(update.isUserUpdate()) {
 				holder.nameField.setText("Me");
@@ -519,7 +518,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private void resetAttachmentImage() {
 		if (selectedAttachment == null) {
-			this.mAttachmentButton.setImageResource(R.drawable.hs_attachment_img);
+			this.mAttachmentButton.setImageResource(R.drawable.hs_add_attachment);
 		}
 		else {
 			
