@@ -16,6 +16,7 @@ public class HSApplication extends Application{
 		super.onCreate();
 		
 		helpStack = HSHelpStack.getInstance(this);
+		
 		HSEmailGear emailGear = new HSEmailGear( "example@happyfox.com",R.xml.articles);
 		helpStack.setGear(emailGear);
 		
