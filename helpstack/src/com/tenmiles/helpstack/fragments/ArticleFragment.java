@@ -35,7 +35,7 @@ import com.tenmiles.helpstack.model.HSKBItem;
 public class ArticleFragment extends HSFragmentParent {
 	
 	public static final String HTML_WRAPPER_WITH_TITLE = 
-			"<!DOCTYPE html><html><head><style>body{font:22.0px helvetica} .heading{}</style>" +
+			"<!DOCTYPE html><html><head><style>body{font:18.0px helvetica} .heading{}</style>" +
 			"</head><body><h3 class='heading'>%s</h3>%s</body></html>";
 	public HSKBItem kbItem;
 	private WebView webview;
