@@ -90,9 +90,9 @@
     
     <!-- Button default Style -Report issue button -->
     <style name="hs_button_defaultStyle">
-        <item name="android:background">@color/hs_transparent_color</item>
+        <item name="android:background">@color/hs_button_background_color</item>
         <item name="android:textColor">@color/hs_buttonTextcolor</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">@dimen/hs_button_marginSize</item>
         <item name="android:textSize">@dimen/hs_button_textSize</item>
     </style>
     
