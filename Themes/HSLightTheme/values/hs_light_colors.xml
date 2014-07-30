@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Background color -->
+    <color name="hs_light_background_color">#e1e1e1</color>
+    
+    <!-- Header background and text color -->
+    <color name="hs_light_header_background_color">#81c57b</color>
+    <color name="hs_light_header_textColor">#000000</color>
+    
+    <!-- Child background and text color -->
+    <color name="hs_light_childView_background_color">#ffffff</color>
+    <color name="hs_light_childView_textColor">#000000</color>
+    
+    <!-- List view color properties -->
+    <color name="hs_light_listView_divider_color">#e2e2e2</color>
+    <color name="hs_light_listView_selector_color">#d3d3d3</color>
+    <color name="hs_light_listView_background_color">#0000</color>
+    
+    <!-- Issue details - left chat background and text color -->
+    <color name="hs_light_leftChatBubbleColor">#ffffff</color>
+    <color name="hs_light_leftmessageTextColor">#000000</color>
+    
+    <!-- Issue details - right chat background and text color -->
+    <color name="hs_light_rightChatBubbleColor">#81c57b</color>
+    <color name="hs_light_rightmessageTextColor">#000000</color>
+    
+    <!-- Issue details - sender name/time text color -->
+    <color name="hs_light_moreinfoTextColor">#000000</color>
+    
+    <!-- Button text color (Report issue button) -->
+    <color name="hs_light_buttonTextcolor">#DE2527</color>
+    
+    <!-- Edit text color -->
+    <color name="hs_light_editTextcolor">#000000</color>
+    
+</resources>
