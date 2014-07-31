@@ -6,6 +6,7 @@
     <string name="hs_articles_title">FAQ</string>
     <string name="hs_issues_title">ISSUES</string>
     <string name="hs_issuebutton_title">Report An Issue</string>
+    <string name="hs_powered_by_helpstack">Powered by HelpStack</string>
     
     <!-- Strings used in search view -->
     <string name="hs_search_hint">Search Articles</string>

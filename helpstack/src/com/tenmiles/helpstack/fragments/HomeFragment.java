@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.tenmiles.helpstack.HSHelpStack;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
@@ -93,6 +94,11 @@ public class HomeFragment extends HSFragmentParent {
 		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
 		report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
 		mExpandableListView.addFooterView(report_an_issue_view);
+		
+		if (HSHelpStack.getInstance(getActivity()).getShowCredits()) {
+			View show_credits_view = inflater.inflate(R.layout.expandable_footer_powered_by_helpstack, null);
+			mExpandableListView.addFooterView(show_credits_view);
+		}
 
 		mExpandableListView.setAdapter(mAdapter);
 		mExpandableListView.setOnChildClickListener(expandableChildViewClickListener);

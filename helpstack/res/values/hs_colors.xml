@@ -8,6 +8,7 @@
     
     <color name="hs_transparent_color">#0000</color>
     <color name="hs_lightGreycolor">#ECECEC</color>
+    <color name="hs_darkGreycolor">#B5B5B5</color>
     
     <color name="hs_rightchat_bubblecolor">#81c57b</color>
     <color name="hs_leftchat_bubblecolor">#ffffff</color>

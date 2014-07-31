@@ -62,6 +62,7 @@ public class HSHelpStack {
 	
 	private HSGear gear;
 	private RequestQueue mRequestQueue;
+	private boolean showCredits;
 	
 	private HSHelpStack(Context context) {
 		this.mContext = context;
@@ -70,6 +71,7 @@ public class HSHelpStack {
 
 	private void init(Context context) {
 		mRequestQueue = Volley.newRequestQueue(context);
+		this.setShowCredits(true);
 	}
 	
 	public void setGear(HSGear gear) {
@@ -86,6 +88,14 @@ public class HSHelpStack {
 	
 	public RequestQueue getRequestQueue() {
 		return mRequestQueue;
+	}
+	
+	public boolean getShowCredits() {
+		return this.showCredits;
+	}
+	
+	public void setShowCredits(boolean showCredits) {
+		this.showCredits = showCredits;
 	}
 	
 	/**

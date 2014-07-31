@@ -49,6 +49,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.tenmiles.helpstack.HSHelpStack;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
@@ -115,6 +116,11 @@ public class NewIssueFragment extends HSFragmentParent {
 		userDetails = (HSUser) args.getSerializable(EXTRAS_USER);
 		
 		gearSource = new HSSource(getActivity());
+		
+		if (!HSHelpStack.getInstance(getActivity()).getShowCredits()) {
+			rootView.findViewById(R.id.footerTextLabel).setVisibility(View.GONE);
+			rootView.findViewById(R.id.footerDivider).setVisibility(View.GONE);
+		}
 		
 		return rootView;
 	}
