@@ -210,7 +210,7 @@ public class IssueDetailFragment extends HSFragmentParent
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching ticket updates");
+				HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_fetching_ticket_updates));
 				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 			}
 		});
@@ -247,13 +247,13 @@ public class IssueDetailFragment extends HSFragmentParent
 				Intent intent = new Intent();
 				intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+				startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
 			}
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-				alertBuilder.setTitle("Attachment");
+				alertBuilder.setTitle(getResources().getString(R.string.hs_attachment));
 				alertBuilder.setIcon(R.drawable.hs_attachment_img);
-				String[] attachmentOptions = {"Change","Remove"};
+				String[] attachmentOptions = {getResources().getString(R.string.hs_change), getResources().getString(R.string.hs_remove)};
 				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
 					
 					@Override
@@ -262,7 +262,7 @@ public class IssueDetailFragment extends HSFragmentParent
 							Intent intent = new Intent();
 							intent.setType("image/*");
 							intent.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+							startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
 						}
 						
 						else if (which == 1) {
@@ -330,7 +330,7 @@ public class IssueDetailFragment extends HSFragmentParent
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
-					HSUtils.showAlertDialog(getActivity(), "Error", "Error in posting your reply, please check your network connection");
+					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_posting_reply));
 					sendButton.setEnabled(true);
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				}
@@ -378,7 +378,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		LayoutInflater inflater = getActivity().getLayoutInflater();
         View convertView = (View) inflater.inflate(R.layout.attachment_dialog, null);
         alertDialog.setView(convertView);
-        alertDialog.setTitle("Attachments");
+        alertDialog.setTitle(getResources().getString(R.string.hs_attachments));
         final AlertDialog dialog = alertDialog.create();
         
         ListView lv = (ListView) convertView.findViewById(R.id.listView1);
@@ -435,12 +435,12 @@ public class IssueDetailFragment extends HSFragmentParent
 			holder.textView1.setText(update.getText().trim());
 			
 			if(update.isUserUpdate()) {
-				holder.nameField.setText("Me");
+				holder.nameField.setText(getResources().getString(R.string.hs_me));
 			}else {
 				if(update.name != null) {
 					holder.nameField.setText(update.name);
 				} else {
-					holder.nameField.setText("Staff");
+					holder.nameField.setText(getResources().getString(R.string.hs_staff));
 				}
 			}
 			

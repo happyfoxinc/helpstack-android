@@ -112,12 +112,12 @@ public class NewUserFragment extends HSFragmentParent {
 		if (id == R.id.nextbutton) {
 			
 			if(getFirstName().trim().length() == 0 || getLastName().trim().length() == 0 || getEmailAdddress().trim().length() == 0) {
-				HSUtils.showAlertDialog(getActivity(), "Error", "Please enter all the fields to register successfully");
+				HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_enter_all_fields_to_register));
 				return false;
 			}
 			
 			if(!android.util.Patterns.EMAIL_ADDRESS.matcher(getEmailAdddress()).matches()) {
-				HSUtils.showAlertDialog(getActivity(), "Invalid Email", "Please enter a valid email address");
+				HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_invalid_email), getResources().getString(R.string.hs_error_enter_valid_email));
 				return false;
 			}
 			

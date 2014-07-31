@@ -7,7 +7,7 @@
         android:id="@+id/search"
         android:icon="@drawable/hs_search_icon"
         android:showAsAction="collapseActionView|ifRoom"
-        android:title="Search"
+        android:title="@string/hs_search"
         android:visible="true"/>
 
 </menu>

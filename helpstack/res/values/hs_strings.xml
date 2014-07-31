@@ -18,6 +18,7 @@
     <string name="hs_new_user_message">Please enter your name and email to register</string>
     
     <!-- Strings used in new Issue screen -->
+	<string name="hs_issue_created_raised">Your issue has been created and raised.</string>
     <string name="hs_new_issue_title">Report Issue</string>
     <string name="hs_subject_hint">Subject</string>
     <string name="hs_message_hint">Message</string>
@@ -25,12 +26,47 @@
     <!-- Strings used in issue detail screen -->
     <string name="hs_addreply_hint">Add Reply</string>
     <string name="hs_sendbutton_title">Send</string>
+    <string name="hs_me">Me</string>
+    <string name="hs_staff">Staff</string>
+    
+    <!-- Strings used as attachment options in issue detail and new issue screens -->
+    <string name="hs_change">Change</string>
+    <string name="hs_remove">Remove</string>
+    <string name="hs_select_picture">Select Picture</string>
     
     <!-- Strings used in attachment screen -->
-    <string name="hs_attachment_title">Attachment</string>
+    <string name="hs_attachment">Attachment</string>
+    <string name="hs_attachments">Attachments</string>
+        
+    <!-- Strings used in article screen -->
+    <string name="hs_article">Article</string>
     
-    <!-- Menu items -->
+    <!-- Strings used as Menu items -->
     <string name="hs_next">Next</string>
     <string name="hs_done">Done</string>
+    <string name="hs_search">Search</string>
     
+    <!-- Strings related to downloads -->
+    <string name="hs_download">Download</string>
+    <string name="hs_downloading_attachment">Downloading Attachment</string>
+    <string name="hs_download_complete">Download complete</string>
+    <string name="hs_loading">Loading...</string>
+    <string name="hs_notify_download_complete">You will be notified when the download finishes.</string>
+    <string name="hs_open_with">Open with</string>
+    
+    <!-- String used in error messages -->
+    <string name="hs_error">Error</string>
+    <string name="hs_error_check_network_connection">Please check your network connection</string>
+    <string name="hs_error_during_download">Error during download</string>
+    <string name="hs_error_enter_all_fields_to_register">Please enter all the fields to register successfully</string>
+    <string name="hs_error_enter_valid_email">Please enter a valid email address</string>
+    <string name="hs_error_fetching_attachment">Error in fetching Attachment</string>
+    <string name="hs_error_fetching_articles">Error in fetching Articles</string>
+    <string name="hs_error_fetching_articles_issues">Error in fetching Articles and Issues</string>
+    <string name="hs_error_fetching_ticket_updates">Error in fetching ticket updates</string>
+    <string name="hs_error_invalid_email">Invalid Email</string>
+    <string name="hs_error_posting_reply">Error in posting your reply, please check your network connection</string>
+    <string name="hs_error_reporting_issue">Error in reporting issue</string>
+    <string name="hs_error_subject_message_empty">Subject and message cannot be empty</string>
+
 </resources>

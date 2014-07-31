@@ -161,7 +161,7 @@ public class SectionFragment extends HSFragmentParent {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching articles");
+				HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_fetching_articles));
 			}
 		});
 	}

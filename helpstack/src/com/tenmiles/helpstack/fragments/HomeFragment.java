@@ -206,7 +206,7 @@ public class HomeFragment extends HSFragmentParent {
 				// Stop Loading
 				startHomeScreenLoadingDisplay(false);
 				if(numberOfServerCallWaiting == 0) {
-					HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching articles and issues");
+					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_fetching_articles_issues));
 				}
 			}
 
@@ -227,7 +227,7 @@ public class HomeFragment extends HSFragmentParent {
 				// Stop Loading
 				startHomeScreenLoadingDisplay(false);
 				if(numberOfServerCallWaiting == 0) {
-					HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching articles and Issues");
+					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_fetching_articles_issues));
 				}
 
 			}

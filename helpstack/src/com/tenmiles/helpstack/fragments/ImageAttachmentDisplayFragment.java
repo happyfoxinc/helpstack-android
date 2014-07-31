@@ -168,7 +168,7 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 				imageView.setImageDrawable(new BitmapDrawable(getResources(), result));
 			}
 			else {
-				HSUtils.showAlertDialog(getActivity(), "Error", "Error in fetching Attachment");
+				HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_fetching_attachment));
 			}
 		}
 	}

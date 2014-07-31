@@ -14,6 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="Show Help" />
+        android:text="@string/show_help" />
 
 </RelativeLayout>

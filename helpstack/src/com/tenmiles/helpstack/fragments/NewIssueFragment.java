@@ -158,7 +158,7 @@ public class NewIssueFragment extends HSFragmentParent {
 		if (id == R.id.doneItem) {
 			
 			if(getMessage().trim().length() == 0 || getSubject().trim().length() == 0) {
-				HSUtils.showAlertDialog(getActivity(), "Error", "Subject and message cannot be empty");
+				HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_subject_message_empty));
 				return false;
 			}
 			
@@ -181,14 +181,14 @@ public class NewIssueFragment extends HSFragmentParent {
 					
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 					sendSuccessSignal(ticket);
-					Toast.makeText(getActivity(), "Your issue is created and raised.", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
 				}
 				
 			}, new ErrorListener() {
 
 				@Override
 				public void onErrorResponse(VolleyError error) {
-					HSUtils.showAlertDialog(getActivity(), "Error in reporting issue", "Please check your network connection");
+					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_reporting_issue), getResources().getString(R.string.hs_error_check_network_connection));
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 				}
 			});
@@ -245,13 +245,13 @@ public class NewIssueFragment extends HSFragmentParent {
 				Intent intent = new Intent();
 				intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+				startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
 			}
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-				alertBuilder.setTitle("Attachment");
+				alertBuilder.setTitle(getResources().getString(R.string.hs_attachment));
 				alertBuilder.setIcon(R.drawable.hs_attachment_img);
-				String[] attachmentOptions = {"Change","Remove"};
+				String[] attachmentOptions = {getResources().getString(R.string.hs_change), getResources().getString(R.string.hs_remove)};
 				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
 					
 					@Override
@@ -260,7 +260,7 @@ public class NewIssueFragment extends HSFragmentParent {
 							Intent intent = new Intent();
 							intent.setType("image/*");
 							intent.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_CODE_PHOTO_PICKER);
+							startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
 						}
 						
 						else if (which == 1) {

@@ -63,7 +63,7 @@ public class AttachmentDownloadReceiver extends BroadcastReceiver {
 	private void downloadCompleted(Context context, Intent intent) {
 		StringBuilder text = new StringBuilder();
     	//Files are  ready
-    	String filename = "Attachment";
+    	String filename = context.getString(R.string.hs_attachment);
     	String filepath = null;
     	String mediaType = null;
     	DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
@@ -78,11 +78,11 @@ public class AttachmentDownloadReceiver extends BroadcastReceiver {
 			filepath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
 			mediaType = c.getString(c.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE));
 			if(status == DownloadManager.STATUS_SUCCESSFUL) {
-				text.append("Download complete");
+				text.append(context.getString(R.string.hs_download_complete));
 				
 			}
 			else {
-				text.append("Error during download");
+				text.append(context.getString(R.string.hs_error_during_download));
 			}
 		}
         
@@ -105,7 +105,7 @@ public class AttachmentDownloadReceiver extends BroadcastReceiver {
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setDataAndType(Uri.parse(filename), mediatype);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent pendinIntent = PendingIntent.getActivity(context, PENDING_INTENT_REQUEST_CODE, Intent.createChooser(i, "Open with"), PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pendinIntent = PendingIntent.getActivity(context, PENDING_INTENT_REQUEST_CODE, Intent.createChooser(i, context.getString(R.string.hs_open_with)), PendingIntent.FLAG_UPDATE_CURRENT);
     	return pendinIntent;
 	}
 	

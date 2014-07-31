@@ -34,7 +34,7 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:textColor="#fff"
-            android:text="Loading.." />
+            android:text="@string/hs_loading" />
     </LinearLayout>
 
 </RelativeLayout>
