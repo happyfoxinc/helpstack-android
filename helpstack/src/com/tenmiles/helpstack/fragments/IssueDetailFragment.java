@@ -39,7 +39,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +48,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -81,7 +79,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
-	private Button sendButton;
+	private ImageView sendButton;
 	private EditText replyEditTextView;
 	private ImageView mAttachmentButton;
 	
@@ -101,7 +99,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		
 		
 		replyEditTextView = (EditText) rootView.findViewById(R.id.replyEditText);
-		sendButton = (Button)rootView.findViewById(R.id.button1);
+		sendButton = (ImageView)rootView.findViewById(R.id.button1);
 		sendButton.setOnClickListener(sendReplyListener);
 		
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList);

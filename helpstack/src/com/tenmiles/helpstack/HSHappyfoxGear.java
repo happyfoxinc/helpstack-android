@@ -101,7 +101,7 @@ public class HSHappyfoxGear extends HSGear {
 		this.priority_id = priority_id;
 		this.category_id = category_id;
 
-		uploadMessageAsHtmlString(true);
+		uploadMessageAsHtmlString(false);
 
 	}
 

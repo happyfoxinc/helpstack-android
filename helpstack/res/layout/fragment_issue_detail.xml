@@ -37,21 +37,22 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/attachmentbutton"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:gravity="bottom"
             android:hint="@string/hs_addreply_hint"
             android:layout_toLeftOf="@+id/button1"
             android:maxLines="4" />
 
-        <Button
+        <ImageView
             android:id="@+id/button1"
             android:layout_alignBottom="@+id/replyEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/hs_transparent_color"
-            android:textStyle="bold"
-            android:text="@string/hs_sendbutton_title" />
+            android:contentDescription="@string/hs_sendbutton_title"
+            android:src="@drawable/hs_send_img"
+            />
 
     </RelativeLayout>
 </RelativeLayout>
