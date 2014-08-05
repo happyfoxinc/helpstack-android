@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.helpstackexample"
     android:versionCode="1"
     android:versionName="1.0" >
@@ -14,7 +15,8 @@
         android:allowBackup="true"
         android:icon="@drawable/hs_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppBaseTheme" android:name="HSApplication">
+        android:theme="@style/AppBaseTheme" android:name="HSApplication"
+        tools:replace="theme, label">
         <activity
             android:name="com.example.helpstackexample.MainActivity"
             android:label="@string/app_name" >

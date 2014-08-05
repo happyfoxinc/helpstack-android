@@ -1,8 +1,9 @@
-apply plugin: 'android-library'
+apply plugin: 'android'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':appcompat_v7')
+    compile project(':helpstack')
 }
 
 android {
