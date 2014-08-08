@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Dark Theme colors -->
     
     <!-- Background color -->
     <color name="hs_dark_background_color">#646464</color>

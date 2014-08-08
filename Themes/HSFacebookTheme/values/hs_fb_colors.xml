@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Facebook Theme colors -->
+
+    <!-- Primary color -->
+    <color name="hs_fb_primaryColor">#5370AA</color>
     
     <!-- Background color -->
     <color name="hs_fb_background_color">#F7F7F7</color>

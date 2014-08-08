@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+    <!-- Pinterest Theme colors -->
+
+    <!-- Primary color -->
+    <color name="hs_pinterest_primaryColor">#C70A00</color>
+
     <!-- Background color -->
     <color name="hs_pinterest_background_color">#F7F7F7</color>
     

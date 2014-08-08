@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Path Theme colors -->
-    
+
+    <!-- Primary color -->
+    <color name="hs_path_primaryColor">#E33124</color>
+
     <!-- Background color -->
     <color name="hs_path_background_color">#F5F0EC</color>
     

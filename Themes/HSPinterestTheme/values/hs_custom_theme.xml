@@ -78,7 +78,7 @@
     <drawable name="hs_attachment_icon">@drawable/hs_attachment_img</drawable>
     
     <!--  Search icon used in search menu -->
-    <drawable name="hs_search_icon">@drawable/hs_search_img</drawable>
+    <drawable name="hs_search_icon">@drawable/hs_search_img_light</drawable>
     
     <!-- Disclosure icon used in main list view -->
     <drawable name="hs_disclosure_next">@drawable/hs_disclosure_img</drawable>

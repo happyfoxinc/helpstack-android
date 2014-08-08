@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Light Theme colors -->
     
     <!-- Background color -->
     <color name="hs_light_background_color">#e1e1e1</color>
     
     <!-- Header background and text color -->
-    <color name="hs_light_header_background_color">#81c57b</color>
-    <color name="hs_light_header_textColor">#000000</color>
+    <color name="hs_light_header_background_color">#228CD1</color>
+    <color name="hs_light_header_textColor">#ffffff</color>
     
     <!-- Child background and text color -->
     <color name="hs_light_childView_background_color">#ffffff</color>
@@ -22,8 +23,8 @@
     <color name="hs_light_leftmessageTextColor">#000000</color>
     
     <!-- Issue details - right chat background and text color -->
-    <color name="hs_light_rightChatBubbleColor">#81c57b</color>
-    <color name="hs_light_rightmessageTextColor">#000000</color>
+    <color name="hs_light_rightChatBubbleColor">#228CD1</color>
+    <color name="hs_light_rightmessageTextColor">#ffffff</color>
     
     <!-- Issue details - sender name/time text color -->
     <color name="hs_light_moreinfoTextColor">#000000</color>
