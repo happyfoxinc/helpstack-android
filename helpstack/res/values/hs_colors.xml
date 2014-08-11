@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="hs_background_color">#e1e1e1</color>
-    <color name="hs_header_background_color">#81c57b</color>
-    <color name="hs_childView_background_color">#ffffff</color>
+    <color name="hs_header_background_color">#228CD1</color>
+    <color name="hs_childView_background_color">#000000</color>
     <color name="hs_listView_divider_color">#e2e2e2</color>
     <color name="hs_listView_selector_color">#d3d3d3</color>
     
@@ -10,8 +10,8 @@
     <color name="hs_lightGreycolor">#ECECEC</color>
     <color name="hs_darkGreycolor">#B5B5B5</color>
     
-    <color name="hs_rightchat_bubblecolor">#81c57b</color>
-    <color name="hs_leftchat_bubblecolor">#ffffff</color>
+    <color name="hs_rightchat_bubblecolor">#228CD1</color>
+    <color name="hs_leftchat_bubblecolor">#000000</color>
     <color name="hs_leftchat_messageTextcolor">#000000</color>
     <color name="hs_rightchat_messageTextcolor">#000000</color>
     <color name="hs_message_moreinfoTextColor">#000000</color>
