@@ -54,9 +54,19 @@
         <item name="android:background">@drawable/right_chat_bubble</item> 
     </style>
     
+    <!-- Chat screen - right chat bubble triangle default Style -->
+    <style name="hs_rightChatBubbleTriangle_defaultStyle">
+        <item name="android:background">@drawable/right_chat_bubble_triangle</item> 
+    </style>
+    
     <!-- Chat screen - left chat bubble default Style -->
     <style name="hs_leftChatBubble_defaultStyle">
         <item name="android:background">@drawable/left_chat_bubble</item> 
+    </style>
+    
+    <!-- Chat screen - left chat bubble triangle default Style -->
+    <style name="hs_leftChatBubbleTriangle_defaultStyle">
+        <item name="android:background">@drawable/left_chat_bubble_triangle</item> 
     </style>
     
     <!-- Chat screen - message text default Style -->

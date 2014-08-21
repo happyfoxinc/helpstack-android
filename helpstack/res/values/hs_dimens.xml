@@ -13,5 +13,5 @@
 	<dimen name="hs_button_marginSize">32dp</dimen>
 	<dimen name="hs_button_textSize">20sp</dimen>
 	<dimen name="hs_smallTextMaxWidth">100dp</dimen>
-	<dimen name="hs_chatbubbleMarginWidth">10dp</dimen>
+	<dimen name="hs_chatbubbleMarginWidth">4dp</dimen>
 </resources>

@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/hs_chatbubbleMarginWidth"
     android:paddingBottom="10dp"
     android:paddingTop="10dp" >
-
+    
     <TextView
         android:id="@+id/name"
         style="@style/hs_smallTextStyle"
@@ -16,13 +16,22 @@
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@id/textlayout"
         android:text=""/>
-
-    <RelativeLayout
+     
+    <View
+        style="@style/hs_rightChatBubbleTriangleStyle"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/textlayout"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp" />
+      	
+	<RelativeLayout
         android:id="@+id/textlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="80dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@id/name"
         style="@style/hs_rightChatBubbleStyle">
 

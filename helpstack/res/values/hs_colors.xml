@@ -11,9 +11,9 @@
     <color name="hs_darkGreycolor">#B5B5B5</color>
     
     <color name="hs_rightchat_bubblecolor">#228CD1</color>
-    <color name="hs_leftchat_bubblecolor">#000000</color>
+    <color name="hs_leftchat_bubblecolor">#FFFFFF</color>
     <color name="hs_leftchat_messageTextcolor">#000000</color>
-    <color name="hs_rightchat_messageTextcolor">#000000</color>
+    <color name="hs_rightchat_messageTextcolor">#FFFFFF</color>
     <color name="hs_message_moreinfoTextColor">#000000</color>
     <color name="hs_button_background_color">#FFFFFF</color>
     <color name="hs_buttonTextcolor">#DE2527</color>

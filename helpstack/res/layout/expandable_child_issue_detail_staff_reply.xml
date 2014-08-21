@@ -14,8 +14,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
         android:text=""
         style="@style/hs_smallTextStyle"/>
+    
+    <View
+        style="@style/hs_leftChatBubbleTriangleStyle"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/textlayout"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp" />
 
     <RelativeLayout
         android:id="@+id/textlayout"
@@ -24,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="80dp"
+        android:layout_marginLeft="10dp"
         android:layout_below="@id/name" >
 
         <TextView
@@ -35,16 +45,16 @@
             android:text="" />
         
     </RelativeLayout>
-
+    
     <TextView
         android:id="@+id/time"
         style="@style/hs_smallTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/textlayout"
-        android:text="05:55"
-         />
+        android:layout_alignLeft="@+id/textlayout"
+        android:layout_below="@+id/textlayout"
+        android:text="05:55" 
+        />
 
     <ImageView
         android:id="@+id/attachment_icon"

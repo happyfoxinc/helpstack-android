@@ -29,8 +29,14 @@
 	<!-- Chat screen - left chat bubble style -->
 	<style name="hs_leftChatBubbleStyle" parent="hs_leftChatBubble_defaultStyle"></style>
 	
+	 <!-- Chat screen - left chat bubble triangle style -->
+    <style name="hs_leftChatBubbleTriangleStyle" parent="hs_leftChatBubbleTriangle_defaultStyle"></style>
+	
 	<!-- Chat screen - right chat bubble style -->
     <style name="hs_rightChatBubbleStyle" parent="hs_rightChatBubble_defaultStyle"></style>
+    
+    <!-- Chat screen - right chat bubble triangle style -->
+    <style name="hs_rightChatBubbleTriangleStyle" parent="hs_rightChatBubbleTriangle_defaultStyle"></style>
     
     <!-- Chat screen message text style for right chat bubble -->
     <style name="hs_right_messageTextStyle" parent="@style/hs_rightmessageText_defaultStyle"></style>
