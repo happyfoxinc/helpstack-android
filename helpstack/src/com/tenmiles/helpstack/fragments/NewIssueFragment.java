@@ -285,7 +285,7 @@ public class NewIssueFragment extends HSFragmentParent {
 	
 	private void resetAttachmentImage() {
 		if (selectedAttachment == null) {
-			this.imageView1.setImageResource(R.drawable.hs_attachment_img);
+			this.imageView1.setImageResource(R.drawable.hs_add_attachment_img);
 		}
 		else {
 			
