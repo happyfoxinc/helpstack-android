@@ -25,7 +25,9 @@ package com.tenmiles.helpstack.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.MenuItemCompat.OnActionExpandListener;
@@ -57,6 +59,7 @@ public class SearchFragment extends HSFragmentParent {
 	private SearchAdapter searchAdapter;
 	private HSKBItem[] allKbArticles;
 	private ListView listView;
+	private SearchView searchView;
 	
 	private OnReportAnIssueClickListener articleSelecetedListener;
 
@@ -142,9 +145,8 @@ public class SearchFragment extends HSFragmentParent {
 	public void addSearchViewInMenuItem(Context context, MenuItem searchItem) {
 		MenuItemCompat.setShowAsAction(searchItem, MenuItemCompat.SHOW_AS_ACTION_ALWAYS|MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 		
-		SearchView searchView = new SearchView(context);
+		searchView = new SearchView(context);
 		MenuItemCompat.setActionView(searchItem, searchView);
-		searchView.setQueryHint(getString(R.string.hs_search_hint));
 		searchView.setSubmitButtonEnabled(false);
 
 		searchView.setOnSearchClickListener(new OnClickListener() {
@@ -187,6 +189,12 @@ public class SearchFragment extends HSFragmentParent {
 				return true;
 			}
 		});
+		
+		if (Build.VERSION.SDK_INT >= 14) {
+			searchView.setQueryHint(getString(R.string.hs_search_hint)); // Works on android 4.0 and above, but crashes in below version.
+		}
+		
+		
 	}
 	
 	private OnClickListener reportIssueClickListener = new OnClickListener() {
