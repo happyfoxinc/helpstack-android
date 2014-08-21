@@ -82,7 +82,7 @@ public class HSHelpStack {
 		return this.gear;
 	}
 	
-	public void showGear(Activity activity) {
+	public void showHelp(Activity activity) {
 		activity.startActivity(new Intent("com.tenmiles.helpstack.ShowHelp"));
 	}
 	

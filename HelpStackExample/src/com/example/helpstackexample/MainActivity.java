@@ -2,7 +2,6 @@ package com.example.helpstackexample;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -71,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
 				
 				@Override
 				public void onClick(View v) {
-					HSHelpStack.getInstance(getActivity()).showGear(getActivity());
+					HSHelpStack.getInstance(getActivity()).showHelp(getActivity());
 				}
 			});
 			return rootView;
