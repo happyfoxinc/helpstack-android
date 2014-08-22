@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         style="@style/hs_listView_childTextStyle"
         android:layout_alignParentLeft="true"
-        android:paddingRight="25dp"
+        android:layout_marginRight="25dp"
         android:text="" />
 	
     <ImageView
