@@ -20,7 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
 
-package com.tenmiles.helpstack;
+package com.tenmiles.helpstack.gears;
 
 
 import java.io.ByteArrayOutputStream;
@@ -84,6 +84,9 @@ public class HSHappyfoxGear extends HSGear {
 
 	public String hf_section_id;
 
+    // This are cached here so server call can be minimized and improve the speed of UI
+    JSONArray allSectionsArray;
+
 	public HSHappyfoxGear(String instanceUrl, String api_key, String auth_code, String category_id, String priority_id) {
 
 		assert instanceUrl != null : "Instance Url cannot be null";
@@ -105,9 +108,6 @@ public class HSHappyfoxGear extends HSGear {
 
 	}
 
-	// This are cached here so server call can be minimized and improve the speed of UI
-	JSONArray allSectionsArray;
-
 	// If user taps on a section, then section is send as a paremeter to the function
 	@Override
 	public void fetchKBArticle(String cancelTag, HSKBItem section, RequestQueue queue,
@@ -120,7 +120,7 @@ public class HSHappyfoxGear extends HSGear {
 				// Fetch all sections
 				String url = getApiUrl().concat("kb/sections/");
 
-				JsonArrayRequest request = new JsonArrayRequest(url, new HappyfoxArrayBaseListner<JSONArray>(success, errorListener) {
+				JsonArrayRequest request = new JsonArrayRequest(url, new HappyfoxArrayBaseListener<JSONArray>(success, errorListener) {
 
 					@Override
 					public void onResponse(JSONArray sectionsArray) {
@@ -130,8 +130,8 @@ public class HSHappyfoxGear extends HSGear {
 				}, errorListener);
 
 				// to avoid server overload call
-				request.setRetryPolicy(new DefaultRetryPolicy(TickeFormRequest.TIMEOUT_MS,
-						TickeFormRequest.MAX_RETRIES, TickeFormRequest.BACKOFF_MULT));
+				request.setRetryPolicy(new DefaultRetryPolicy(TicketFormRequest.TIMEOUT_MS,
+						TicketFormRequest.MAX_RETRIES, TicketFormRequest.BACKOFF_MULT));
 
 				request.setTag(cancelTag);
 				queue.add(request);
@@ -141,7 +141,7 @@ public class HSHappyfoxGear extends HSGear {
 				// Fetch individual section
 				String url = getApiUrl().concat("kb/section/").concat(this.hf_section_id).concat("/");
 
-				JsonObjectRequest request = new JsonObjectRequest(url, null, new HappyfoxArrayBaseListner<JSONObject>(success, errorListener) {
+				JsonObjectRequest request = new JsonObjectRequest(url, null, new HappyfoxArrayBaseListener<JSONObject>(success, errorListener) {
 
 					@Override
 					public void onResponse(JSONObject sectionsArray) {
@@ -156,8 +156,8 @@ public class HSHappyfoxGear extends HSGear {
 				}, errorListener);
 
 				// to avoid server overload call
-				request.setRetryPolicy(new DefaultRetryPolicy(TickeFormRequest.TIMEOUT_MS,
-						TickeFormRequest.MAX_RETRIES, TickeFormRequest.BACKOFF_MULT));
+				request.setRetryPolicy(new DefaultRetryPolicy(TicketFormRequest.TIMEOUT_MS,
+						TicketFormRequest.MAX_RETRIES, TicketFormRequest.BACKOFF_MULT));
 
 				request.setTag(cancelTag);
 				queue.add(request);
@@ -189,45 +189,6 @@ public class HSHappyfoxGear extends HSGear {
 		}
 
 	}
-	
-	private HSKBItem[] getArticlesFromSection(JSONObject sectionObject) throws JSONException {
-		JSONArray articleArray = sectionObject.getJSONArray("articles");
-		ArrayList<HSKBItem> kbArticleArray = new ArrayList<HSKBItem>();
-
-		for (int j = 0; j < articleArray.length(); j++) {
-			JSONObject arrayObject = articleArray.getJSONObject(j);
-			HSKBItem item = HSKBItem.createForArticle(arrayObject.getString("id"), arrayObject.getString("title").trim(), arrayObject.getString("contents"));
-			kbArticleArray.add(item);
-		}
-
-		HSKBItem[] array = new HSKBItem[0];
-		array = kbArticleArray.toArray(array);
-		return array;
-	}
-	
-	private HSKBItem[] getSectionsFromData(JSONArray sectionsArray) {
-		allSectionsArray = sectionsArray;
-		ArrayList<HSKBItem> kbSectionArray = new ArrayList<HSKBItem>();
-
-		int count  = sectionsArray.length();
-		for (int i = 0; i < count; i++) {
-			try {
-				JSONObject sectionObject = sectionsArray.getJSONObject(i);
-				if (sectionObject.getJSONArray("articles").length() > 0) {
-					HSKBItem item = HSKBItem.createForSection(sectionObject.getString("id"), sectionObject.getString("name"));
-					kbSectionArray.add(item);
-				}
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-				new VolleyError("parsing failed");
-			}
-		}
-
-		HSKBItem[] array = new HSKBItem[0];
-		array = kbSectionArray.toArray(array);
-		return array;
-	}
 
 	@Override
 	public void registerNewUser(String cancelTag, String firstName, String lastname,
@@ -255,7 +216,7 @@ public class HSHappyfoxGear extends HSGear {
 
 
 
-		TickeFormRequest request = new TickeFormRequest(getApiUrl()+"new_ticket/", prop, attachments,  new CreateNewTicketSuccessListener(user, successListener, errorListener) {
+		TicketFormRequest request = new TicketFormRequest(getApiUrl()+"new_ticket/", prop, attachments,  new CreateNewTicketSuccessListener(user, successListener, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -283,7 +244,7 @@ public class HSHappyfoxGear extends HSGear {
 	public void fetchAllUpdateOnTicket(String cancelTag, HSTicket ticket, HSUser user, RequestQueue queue,
 			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 
-		TickeFormRequest request = new TickeFormRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), new HappyfoxArrayBaseListner<JSONObject>(success, errorListener) {
+		TicketFormRequest request = new TicketFormRequest(getApiUrl() + "ticket/" + ticket.getTicketId(), new HappyfoxArrayBaseListener<JSONObject>(success, errorListener) {
 
 			@Override
 			public void onResponse(JSONObject response) {
@@ -329,7 +290,7 @@ public class HSHappyfoxGear extends HSGear {
 		prop.put("user", user.getUserId());
 		prop.put("text", message);
 
-		TickeFormRequest request = new TickeFormRequest(
+		TicketFormRequest request = new TicketFormRequest(
 				getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", 
 				prop, 
 				attachments,  
@@ -383,6 +344,45 @@ public class HSHappyfoxGear extends HSGear {
 		queue.start();
 
 	}
+
+    private HSKBItem[] getArticlesFromSection(JSONObject sectionObject) throws JSONException {
+        JSONArray articleArray = sectionObject.getJSONArray("articles");
+        ArrayList<HSKBItem> kbArticleArray = new ArrayList<HSKBItem>();
+
+        for (int j = 0; j < articleArray.length(); j++) {
+            JSONObject arrayObject = articleArray.getJSONObject(j);
+            HSKBItem item = HSKBItem.createForArticle(arrayObject.getString("id"), arrayObject.getString("title").trim(), arrayObject.getString("contents"));
+            kbArticleArray.add(item);
+        }
+
+        HSKBItem[] array = new HSKBItem[0];
+        array = kbArticleArray.toArray(array);
+        return array;
+    }
+
+    private HSKBItem[] getSectionsFromData(JSONArray sectionsArray) {
+        allSectionsArray = sectionsArray;
+        ArrayList<HSKBItem> kbSectionArray = new ArrayList<HSKBItem>();
+
+        int count  = sectionsArray.length();
+        for (int i = 0; i < count; i++) {
+            try {
+                JSONObject sectionObject = sectionsArray.getJSONObject(i);
+                if (sectionObject.getJSONArray("articles").length() > 0) {
+                    HSKBItem item = HSKBItem.createForSection(sectionObject.getString("id"), sectionObject.getString("name"));
+                    kbSectionArray.add(item);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                new VolleyError("parsing failed");
+            }
+        }
+
+        HSKBItem[] array = new HSKBItem[0];
+        array = kbSectionArray.toArray(array);
+        return array;
+    }
 
 	private HSTicketUpdate parseTicketUpdateFromJson(JSONObject updateObject) throws JSONException {
 		String updateId = null;
@@ -452,13 +452,13 @@ public class HSHappyfoxGear extends HSGear {
 		return format.parse(timeStr);
 	}
 
-	private abstract class HappyfoxArrayBaseListner<T> implements Listener<T> {
+	private abstract class HappyfoxArrayBaseListener<T> implements Listener<T> {
 
 		protected OnFetchedArraySuccessListener successCallback;
 		protected ErrorListener errorListener;
 
-		public HappyfoxArrayBaseListner(OnFetchedArraySuccessListener success,
-				ErrorListener errorListener) {
+		public HappyfoxArrayBaseListener(OnFetchedArraySuccessListener success,
+                                         ErrorListener errorListener) {
 			this.successCallback = success;
 			this.errorListener = errorListener;
 		}
@@ -495,7 +495,7 @@ public class HSHappyfoxGear extends HSGear {
 
 
 
-	private class TickeFormRequest extends Request<JSONObject> {
+	private class TicketFormRequest extends Request<JSONObject> {
 
 		/** Socket timeout in milliseconds for image requests */
 		protected static final int TIMEOUT_MS = 0;
@@ -512,8 +512,8 @@ public class HSHappyfoxGear extends HSGear {
 
 		HashMap<String, String> headers = new HashMap<String, String>();
 
-		public TickeFormRequest(String url, Properties requestProperties, HSUploadAttachment[] attachments_to_upload, Listener<JSONObject> listener,
-				ErrorListener errorListener) {
+		public TicketFormRequest(String url, Properties requestProperties, HSUploadAttachment[] attachments_to_upload, Listener<JSONObject> listener,
+                                 ErrorListener errorListener) {
 			super(Method.POST, url, errorListener);
 			mListener = listener;
 
@@ -548,8 +548,8 @@ public class HSHappyfoxGear extends HSGear {
 
 		}
 
-		public TickeFormRequest(String url, Listener<JSONObject> listener,
-				ErrorListener errorListener) {
+		public TicketFormRequest(String url, Listener<JSONObject> listener,
+                                 ErrorListener errorListener) {
 			super(Method.GET, url, errorListener);
 			mListener = listener;
 			setRetryPolicy(

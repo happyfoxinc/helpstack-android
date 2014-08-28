@@ -20,7 +20,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
 
-package com.tenmiles.helpstack;
+package com.tenmiles.helpstack.gears;
 
 import com.tenmiles.helpstack.logic.HSGear;
 

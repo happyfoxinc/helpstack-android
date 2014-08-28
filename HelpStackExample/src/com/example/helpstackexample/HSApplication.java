@@ -2,7 +2,7 @@ package com.example.helpstackexample;
 
 import android.app.Application;
 
-import com.tenmiles.helpstack.HSEmailGear;
+import com.tenmiles.helpstack.gears.HSEmailGear;
 import com.tenmiles.helpstack.HSHelpStack;
 
 
