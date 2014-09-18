@@ -23,35 +23,6 @@
 package com.tenmiles.helpstack.gears;
 
 
-import android.net.Uri;
-import android.util.Base64;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Cache;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.tenmiles.helpstack.logic.HSGear;
-import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
-import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
-import com.tenmiles.helpstack.logic.OnNewTicketFetchedSuccessListener;
-import com.tenmiles.helpstack.model.HSAttachment;
-import com.tenmiles.helpstack.model.HSKBItem;
-import com.tenmiles.helpstack.model.HSTicket;
-import com.tenmiles.helpstack.model.HSTicketUpdate;
-import com.tenmiles.helpstack.model.HSUploadAttachment;
-import com.tenmiles.helpstack.model.HSUser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -65,6 +36,36 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.net.Uri;
+import android.util.Base64;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.tenmiles.helpstack.logic.HSGear;
+import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
+import com.tenmiles.helpstack.logic.OnFetchedSuccessListener;
+import com.tenmiles.helpstack.logic.OnNewTicketFetchedSuccessListener;
+import com.tenmiles.helpstack.model.HSAttachment;
+import com.tenmiles.helpstack.model.HSKBItem;
+import com.tenmiles.helpstack.model.HSTicket;
+import com.tenmiles.helpstack.model.HSTicketUpdate;
+import com.tenmiles.helpstack.model.HSUploadAttachment;
+import com.tenmiles.helpstack.model.HSUser;
 
 
 public class HSZendeskGear extends HSGear {
@@ -84,12 +85,13 @@ public class HSZendeskGear extends HSGear {
         this.api_token = api_token;
 
         uploadMessageAsHtmlString(false);
+        setNumberOfAttachmentGearCanHandle(1);
     }
 
 
     @Override
     public void fetchKBArticle(String cancelTag, HSKBItem section, RequestQueue queue,
-                               OnFetchedArraySuccessListener successListener, Response.ErrorListener errorListener) {
+                               OnFetchedArraySuccessListener successListener, ErrorListener errorListener) {
         if (section == null) {
             // This is first request of sections
 
@@ -127,14 +129,10 @@ public class HSZendeskGear extends HSGear {
     @Override
     public void createNewTicket(String cancelTag, HSUser user, String message, String body, HSUploadAttachment[] attachments,  RequestQueue queue,
                                 OnNewTicketFetchedSuccessListener successListener,
-                                Response.ErrorListener errorListener) {
+                                ErrorListener errorListener) {
 
         if (attachments != null && attachments.length > 0) {
-            try {
-                createNewTicketWithAttachment(cancelTag, user, message, body, attachments, queue, successListener, errorListener);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        	createNewTicketWithAttachment(cancelTag, user, message, body, attachments, queue, successListener, errorListener);
         }
         else {
             createTicket(cancelTag, user, message, body, null, queue, successListener, errorListener);
@@ -143,7 +141,7 @@ public class HSZendeskGear extends HSGear {
 
     @Override
     public void fetchAllUpdateOnTicket(String cancelTag, final HSTicket ticket, HSUser user, RequestQueue queue,
-                                       OnFetchedArraySuccessListener successListener, Response.ErrorListener errorListener) {
+                                       OnFetchedArraySuccessListener successListener, ErrorListener errorListener) {
 
         ZendeskJsonObjectRequest fetchRequest = new ZendeskJsonObjectRequest(cancelTag,
                 getApiUrl().concat("tickets/").concat(ticket.getTicketId()).concat("/audits.json?include=users"),
@@ -181,14 +179,10 @@ public class HSZendeskGear extends HSGear {
 
     @Override
     public void addReplyOnATicket(final String cancelTag, final String message, final HSUploadAttachment[] attachments,  final HSTicket ticket, final HSUser user,
-                                  RequestQueue queue, final OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
+                                  RequestQueue queue, final OnFetchedSuccessListener successListener, ErrorListener errorListener) {
 
         if (attachments != null && attachments.length > 0) {
-            try {
-                addReplyToTicketWithAttachment(cancelTag, ticket, user, message, attachments, queue, successListener, errorListener);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        	addReplyToTicketWithAttachment(cancelTag, ticket, user, message, attachments, queue, successListener, errorListener);
         }
         else {
             addReplyToTicket(cancelTag, ticket, user, message, null, queue, successListener, errorListener);
@@ -211,7 +205,7 @@ public class HSZendeskGear extends HSGear {
     }
 
     private void createNewTicketWithAttachment(final String cancelTag, final HSUser user, final String message, final String body, HSUploadAttachment[] attachments,  final RequestQueue queue,
-                                               final OnNewTicketFetchedSuccessListener successListener, final Response.ErrorListener errorListener) throws JSONException {
+                                               final OnNewTicketFetchedSuccessListener successListener, final ErrorListener errorListener)  {
 
         Uri.Builder builder = new Uri.Builder();
         builder.encodedPath(getApiUrl());
@@ -223,7 +217,7 @@ public class HSZendeskGear extends HSGear {
 
         String attachmentUrl = builder.build().toString();
 
-        ZendeskObjectRequest attachmentRequest = new ZendeskObjectRequest(cancelTag, attachmentUrl, attachmentObject, new Response.Listener<JSONObject>() {
+        ZendeskObjectRequest attachmentRequest = new ZendeskObjectRequest(cancelTag, attachmentUrl, attachmentObject, new Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
@@ -232,14 +226,10 @@ public class HSZendeskGear extends HSGear {
                     createTicket(cancelTag, user, message, body, attachmentToken, queue, successListener, errorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    errorListener.onErrorResponse(new VolleyError("Parsing failed when creating new ticket in Zendesk"));
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
+        }, errorListener);
 
         addRequestAndStartQueue(queue, attachmentRequest);
     }
@@ -274,13 +264,13 @@ public class HSZendeskGear extends HSGear {
     }
 
     private void addReplyToTicketWithAttachment(final String cancelTag, final HSTicket ticket, final HSUser user, final String message, HSUploadAttachment[] attachments,  final RequestQueue queue,
-                                                final OnFetchedSuccessListener successListener, final Response.ErrorListener errorListener) throws JSONException {
+                                                final OnFetchedSuccessListener successListener, final ErrorListener errorListener) {
 
         Uri.Builder builder = new Uri.Builder();
         builder.encodedPath(getApiUrl());
         builder.appendEncodedPath("uploads.json");
 
-        HSUploadAttachment attachmentObject = attachments[0];
+        HSUploadAttachment attachmentObject = attachments[0]; // It is been specified in constructor, so hard-coding the value. Can be changed later
         String attachmentFileName = getAttachmentFileName(attachmentObject);
         builder.appendQueryParameter("filename", attachmentFileName);
 
@@ -292,17 +282,15 @@ public class HSZendeskGear extends HSGear {
             public void onResponse(JSONObject jsonObject) {
                 try {
                     String attachmentToken = jsonObject.getJSONObject("upload").getString("token");
-                    addReplyToTicket(cancelTag, ticket, user, message, attachmentToken, queue, successListener, errorListener);
+                    String[] attachmentTokenList = new String[1]; // It is been specified in constructor, so hard-coding the value. Can be changed later
+                    attachmentTokenList[0] = attachmentToken;
+                    addReplyToTicket(cancelTag, ticket, user, message, attachmentTokenList, queue, successListener, errorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    errorListener.onErrorResponse(new VolleyError("Parsing failed when reading attachment token from Zendesk"));
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
+        }, errorListener);
 
         addRequestAndStartQueue(queue, attachmentRequest);
     }
@@ -311,7 +299,7 @@ public class HSZendeskGear extends HSGear {
         return attachmentObject.getAttachment().getFileName() == null ? "picture":attachmentObject.getAttachment().getFileName();
     }
 
-    private void addReplyToTicket(String cancelTag, HSTicket ticket, HSUser user, final String message, String attachmentToken, RequestQueue queue, final OnFetchedSuccessListener successListener, final Response.ErrorListener errorListener) {
+    private void addReplyToTicket(String cancelTag, HSTicket ticket, HSUser user, final String message, String[] attachmentToken, RequestQueue queue, final OnFetchedSuccessListener successListener, final Response.ErrorListener errorListener) {
 
         JSONObject ticketJson = null;
         try {
@@ -388,7 +376,7 @@ public class HSZendeskGear extends HSGear {
         return ticket;
     }
 
-    private JSONObject retrieveRequestProperties(String body, String attachmentToken) throws JSONException {
+    private JSONObject retrieveRequestProperties(String body, String[] attachmentToken) throws JSONException {
 
         JSONObject comment = new JSONObject();
         JSONObject requestProperties = new JSONObject();
@@ -397,7 +385,10 @@ public class HSZendeskGear extends HSGear {
         comment.put("body", body);
         if (attachmentToken != null) {
             JSONArray attachmentsArray = new JSONArray();
-            attachmentsArray.put(attachmentToken);
+            for (int i = 0; i < attachmentToken.length; i++) {
+            	attachmentsArray.put(attachmentToken[i]);
+			}
+            
             comment.put("uploads", attachmentsArray);
         }
 
@@ -535,7 +526,7 @@ public class HSZendeskGear extends HSGear {
         return usersObject;
     }
 
-    private void showArticlesInSection(String cancelTag, String section_id,  RequestQueue queue, final OnFetchedArraySuccessListener successListener, final Response.ErrorListener errorListener) {
+    private void showArticlesInSection(String cancelTag, String section_id,  RequestQueue queue, final OnFetchedArraySuccessListener successListener, final ErrorListener errorListener) {
         // Fetch individual section
         String url = getApiUrl().concat("help_center/sections/").concat(section_id).concat("/articles.json");
 
@@ -580,26 +571,26 @@ public class HSZendeskGear extends HSGear {
         return format.parse(timeStr);
     }
 
-    private abstract class ZendeskArrayBaseListener<T> implements Response.Listener<T> {
+    private abstract class ZendeskArrayBaseListener<T> implements Listener<T> {
 
         protected OnFetchedArraySuccessListener successListener;
-        protected Response.ErrorListener errorListener;
+        protected ErrorListener errorListener;
 
         public ZendeskArrayBaseListener(OnFetchedArraySuccessListener successListener,
-                                        Response.ErrorListener errorListener) {
+                                        ErrorListener errorListener) {
             this.successListener = successListener;
             this.errorListener = errorListener;
         }
 
     }
 
-    private abstract class ZendeskBaseListener<T> implements Response.Listener<T> {
+    private abstract class ZendeskBaseListener<T> implements Listener<T> {
 
         protected OnFetchedSuccessListener successListener;
         protected Response.ErrorListener errorListener;
 
         public ZendeskBaseListener(OnFetchedSuccessListener successListener,
-                                   Response.ErrorListener errorListener) {
+                                   ErrorListener errorListener) {
             this.successListener = successListener;
             this.errorListener = errorListener;
         }
@@ -618,22 +609,22 @@ public class HSZendeskGear extends HSGear {
 
         HashMap<String, String> headers = new HashMap<String, String>();
 
-        public ZendeskJsonObjectRequest(String cancelTag, int method, String url, JSONObject jsonRequest, Response.Listener<org.json.JSONObject> listener, Response.ErrorListener errorListener) {
+        public ZendeskJsonObjectRequest(String cancelTag, int method, String url, JSONObject jsonRequest, Listener<org.json.JSONObject> listener, ErrorListener errorListener) {
             super(method, url, jsonRequest, listener, errorListener);
             addRequestParameters(cancelTag);
         }
 
-        public ZendeskJsonObjectRequest(String cancelTag, String email_address, int method, String url, JSONObject jsonRequest, Response.Listener<org.json.JSONObject> listener, Response.ErrorListener errorListener) {
+        public ZendeskJsonObjectRequest(String cancelTag, String email_address, int method, String url, JSONObject jsonRequest, Listener<org.json.JSONObject> listener, Response.ErrorListener errorListener) {
             super(method, url, jsonRequest, listener, errorListener);
             addRequestParameters(cancelTag, email_address);
         }
 
-        public ZendeskJsonObjectRequest(String cancelTag, String url, JSONObject ticketJson, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        public ZendeskJsonObjectRequest(String cancelTag, String url, JSONObject ticketJson, Listener<JSONObject> listener, ErrorListener errorListener) {
             super(url, ticketJson, listener, errorListener);
             addRequestParameters(cancelTag);
         }
 
-        public ZendeskJsonObjectRequest(String cancelTag, String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        public ZendeskJsonObjectRequest(String cancelTag, String url, Listener<JSONObject> listener, ErrorListener errorListener) {
             super(url, null, listener, errorListener);
             addRequestParameters(cancelTag);
         }
@@ -668,10 +659,10 @@ public class HSZendeskGear extends HSGear {
     private class ZendeskObjectRequest extends Request<JSONObject> {
 
         private byte[] content;
-        private Response.Listener mListener;
+        private Listener<JSONObject> mListener;
         HashMap<String, String> headers = new HashMap<String, String>();
 
-        public ZendeskObjectRequest(String cancelTag, String attachmentUrl, HSUploadAttachment attachmentObject, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        public ZendeskObjectRequest(String cancelTag, String attachmentUrl, HSUploadAttachment attachmentObject, Listener<JSONObject> listener, ErrorListener errorListener) {
             super(Method.POST, attachmentUrl, errorListener);
 
             addRequestParameters(cancelTag);
@@ -756,15 +747,15 @@ public class HSZendeskGear extends HSGear {
         }
     }
 
-    private abstract class CreateNewTicketSuccessListener implements Response.Listener<JSONObject>
+    private abstract class CreateNewTicketSuccessListener implements Listener<JSONObject>
     {
 
         protected HSUser user;
         protected OnNewTicketFetchedSuccessListener successListener;
-        protected Response.ErrorListener errorListener;
+        protected ErrorListener errorListener;
 
         public CreateNewTicketSuccessListener(HSUser user, OnNewTicketFetchedSuccessListener successListener,
-                                              Response.ErrorListener errorListener) {
+                                              ErrorListener errorListener) {
             this.user = user;
             this.successListener = successListener;
             this.errorListener = errorListener;
