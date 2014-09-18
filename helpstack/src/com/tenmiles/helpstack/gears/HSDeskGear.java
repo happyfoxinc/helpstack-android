@@ -341,13 +341,9 @@ public class HSDeskGear extends HSGear {
                     final ArrayList<HSTicketUpdate> ticketUpdates = new ArrayList<HSTicketUpdate>();
                     ticketUpdates.add(originalMessage);
 
-                    JSONObject repliesParams = new JSONObject();
-                    repliesParams.put("sort_field", "updated_at");
-                    repliesParams.put("sort_direction", "asc");
-
                     String repliesUrl = instanceUrl.concat(apiHref).concat("/replies");
 
-                    DeskJsonObjectRequest repliesRequest = new DeskJsonObjectRequest(cancelTag, repliesUrl, repliesParams, new DeskArrayBaseListener<JSONObject>(successListener, errorListener) {
+                    DeskJsonObjectRequest repliesRequest = new DeskJsonObjectRequest(cancelTag, repliesUrl, null, new DeskArrayBaseListener<JSONObject>(successListener, errorListener) {
 
                         @Override
                         public void onResponse(JSONObject repliesObject) {
@@ -357,37 +353,34 @@ public class HSDeskGear extends HSGear {
                             Date updated_time;
 
                             try {
-                                if (repliesObject != null && !repliesObject.getString("body").equals("")) {
+                            	JSONArray entriesArray = repliesObject.getJSONObject("_embedded").getJSONArray("entries");
 
-                                    JSONArray entriesArray = repliesObject.getJSONObject("_embedded").getJSONArray("entries");
+                                int eventsArrayLength = entriesArray.length();
+                                for (int i = 0; i < eventsArrayLength; i++) {
+                                    JSONObject replyObject = entriesArray.getJSONObject(i);
 
-                                    int eventsArrayLength = entriesArray.length();
-                                    for (int i = 0; i < eventsArrayLength; i++) {
-                                        JSONObject replyObject = entriesArray.getJSONObject(i);
-
-                                        if (replyObject.getString("from") != null) {
-                                            from = replyObject.getString("from");
-                                        }
-
-                                        content = replyObject.getString("body");
-
-                                        if (replyObject.getString("direction").equals("out")) {
-                                            isUpdateTypeUserReply = false;
-                                        } else {
-                                            isUpdateTypeUserReply = true;
-                                        }
-
-                                        updated_time = parseTime(replyObject.getString("updated_at"));
-
-                                        HSTicketUpdate replyForTicket;
-                                        if (isUpdateTypeUserReply) {
-                                            replyForTicket = HSTicketUpdate.createUpdateByUser(ticket.getTicketId(), from, content, updated_time, null);
-                                        } else {
-                                            replyForTicket = HSTicketUpdate.createUpdateByStaff(ticket.getTicketId(), from, content, updated_time, null);
-                                        }
-
-                                        ticketUpdates.add(replyForTicket);
+                                    if (replyObject.getString("from") != null) {
+                                        from = replyObject.getString("from");
                                     }
+
+                                    content = replyObject.getString("body");
+
+                                    if (replyObject.getString("direction").equals("out")) {
+                                        isUpdateTypeUserReply = false;
+                                    } else {
+                                        isUpdateTypeUserReply = true;
+                                    }
+
+                                    updated_time = parseTime(replyObject.getString("updated_at"));
+
+                                    HSTicketUpdate replyForTicket;
+                                    if (isUpdateTypeUserReply) {
+                                        replyForTicket = HSTicketUpdate.createUpdateByUser(ticket.getTicketId(), from, content, updated_time, null);
+                                    } else {
+                                        replyForTicket = HSTicketUpdate.createUpdateByStaff(ticket.getTicketId(), from, content, updated_time, null);
+                                    }
+
+                                    ticketUpdates.add(replyForTicket);
                                 }
 
                                 HSTicketUpdate[] array = new HSTicketUpdate[0];
