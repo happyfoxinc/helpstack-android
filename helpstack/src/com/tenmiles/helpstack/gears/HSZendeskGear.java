@@ -211,7 +211,7 @@ public class HSZendeskGear extends HSGear {
         builder.encodedPath(getApiUrl());
         builder.appendEncodedPath("uploads.json");
 
-        HSUploadAttachment attachmentObject = attachments[0];
+        HSUploadAttachment attachmentObject = attachments[0]; // It is been handled in constructor, so hard coding here
         String attachmentFileName = getAttachmentFileName(attachmentObject);
         builder.appendQueryParameter("filename", attachmentFileName);
 
@@ -223,7 +223,9 @@ public class HSZendeskGear extends HSGear {
             public void onResponse(JSONObject jsonObject) {
                 try {
                     String attachmentToken = jsonObject.getJSONObject("upload").getString("token");
-                    createTicket(cancelTag, user, message, body, attachmentToken, queue, successListener, errorListener);
+                    String[] attachmentTokenList = new String[1]; // It is been handled in constructor, so hard coding here
+                    attachmentTokenList[0] = attachmentToken;
+                    createTicket(cancelTag, user, message, body, attachmentTokenList, queue, successListener, errorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     errorListener.onErrorResponse(new VolleyError("Parsing failed when creating new ticket in Zendesk"));
@@ -234,7 +236,7 @@ public class HSZendeskGear extends HSGear {
         addRequestAndStartQueue(queue, attachmentRequest);
     }
 
-    private void createTicket(String cancelTag, final HSUser user, String message, String body, String attachmentToken, RequestQueue queue, final OnNewTicketFetchedSuccessListener successListener, final Response.ErrorListener errorListener) {
+    private void createTicket(String cancelTag, final HSUser user, String message, String body, String[] attachmentToken, RequestQueue queue, final OnNewTicketFetchedSuccessListener successListener, final Response.ErrorListener errorListener) {
         JSONObject ticketJson = null;
         try {
             ticketJson = retrieveTicketProperties(user, body, attachmentToken, message);
@@ -350,7 +352,7 @@ public class HSZendeskGear extends HSGear {
         addRequestAndStartQueue(queue, request);
     }
 
-    private JSONObject retrieveTicketProperties(HSUser user, String body, String attachmentToken, String message) throws JSONException {
+    private JSONObject retrieveTicketProperties(HSUser user, String body, String[] attachmentToken, String message) throws JSONException {
         JSONObject requester = new JSONObject();
         JSONObject comment = new JSONObject();
         JSONObject ticketProperties = new JSONObject();
@@ -363,7 +365,10 @@ public class HSZendeskGear extends HSGear {
         comment.put("body", body);
         if (attachmentToken != null) {
             JSONArray attachmentsArray = new JSONArray();
-            attachmentsArray.put(attachmentToken);
+            for (int i = 0; i < attachmentToken.length; i++) {
+            	attachmentsArray.put(attachmentToken[i]);
+			}
+            
             comment.put("uploads", attachmentsArray);
         }
 
