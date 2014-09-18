@@ -71,7 +71,8 @@ public abstract class HSGear {
 	}
 	
 	/**
-	 * 
+	 *
+     * HSUploadAttachment.getAttachment() can contain mime/Type and filename
 	 * 
 	 * @param user
 	 * @param subject
