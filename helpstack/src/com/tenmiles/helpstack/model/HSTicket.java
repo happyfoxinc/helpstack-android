@@ -39,12 +39,21 @@ public class HSTicket implements Serializable {
 	@SerializedName("ticket_id")
 	private String ticketId;
 
+    @SerializedName("ticket_api_href")
+    private String ticketApiHref;
+
 	public static HSTicket createATicket(String id, String subject) {
 		HSTicket ticket = new HSTicket();
 		ticket.ticketId = id;
 		ticket.subject = subject;
 		return ticket;
 	}
+
+    public static HSTicket createATicket(String id, String subject, String ticketLink) {
+        HSTicket ticket = createATicket(id, subject);
+        ticket.ticketApiHref = ticketLink;
+        return ticket;
+    }
 	
 	public String getSubject() {
 		return subject;
@@ -53,5 +62,8 @@ public class HSTicket implements Serializable {
 	public String getTicketId() {
 		return ticketId;
 	}
-	
+
+    public String getApiHref() {
+        return ticketApiHref;
+    }
 }
