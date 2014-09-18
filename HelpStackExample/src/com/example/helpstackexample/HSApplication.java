@@ -30,17 +30,17 @@ public class HSApplication extends Application{
 		//				"<Category ID>", "<Priority ID>");
 		//		helpStack.setGear(happyfoxGear);
 
-		HSZendeskGear zenDeskGear = new HSZendeskGear(
-				"https://2robots1.zendesk.com/",
-				"anirudh24seven@gmail.com",
-				"WIgGdsweOaIlM1Ml50D9g3ejkFIFvBbKtlVF5MCK");
-		helpStack.setGear(zenDeskGear);
+//		HSZendeskGear zenDeskGear = new HSZendeskGear(
+//				"https://2robots1.zendesk.com/",
+//				"anirudh24seven@gmail.com",
+//				"WIgGdsweOaIlM1Ml50D9g3ejkFIFvBbKtlVF5MCK");
+//		helpStack.setGear(zenDeskGear);
 
-//		HSDeskGear deskGear = new HSDeskGear(
-//				"https://2robots2.desk.com/",
-//				"anirudh.24seven@gmail.com",
-//				"anirudh.24seven@gmail.com",
-//				"Temppassword123$");
-//		helpStack.setGear(deskGear);
+		HSDeskGear deskGear = new HSDeskGear(
+				"https://2robots2.desk.com/",
+				"anirudh.24seven@gmail.com",
+				"anirudh.24seven@gmail.com",
+				"Temppassword123$");
+		helpStack.setGear(deskGear);
 	}
 }

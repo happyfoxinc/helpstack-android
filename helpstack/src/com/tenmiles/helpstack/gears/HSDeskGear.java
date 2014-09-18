@@ -23,9 +23,27 @@
 package com.tenmiles.helpstack.gears;
 
 
+import static com.tenmiles.helpstack.model.HSUser.createNewUserWithDetails;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.net.Uri;
 import android.util.Base64;
-import android.util.Base64InputStream;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -42,29 +60,6 @@ import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
-
-import org.apache.http.client.utils.URIUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-
-import static com.tenmiles.helpstack.model.HSUser.createNewUserWithDetails;
 
 
 public class HSDeskGear extends HSGear {
@@ -293,7 +288,7 @@ public class HSDeskGear extends HSGear {
                     String caseIdHref = response.getJSONObject("_links").getJSONObject("self").getString("href");
                     String caseId = retrieveSectionId(caseIdHref);
 
-                    final HSTicket ticket = HSTicket.createATicket(caseId, subject, response.getJSONObject("_links").getJSONObject("self").getString("href"));
+                    final HSTicket ticket = HSTicket.createATicket(caseId, subject, caseIdHref);
                     // If there are attachment to be uploaded, upload attachment
 
                     if (attachments != null && attachments.length > 0) {
@@ -320,50 +315,6 @@ public class HSDeskGear extends HSGear {
         }, errorListener);
 
         addRequestAndStartQueue(queue, request); // For ticket creation
-    }
-
-    private void uploadAttachmentToServer(String cancelTag,  String caseId, HSUploadAttachment attachmentObject, RequestQueue queue, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) throws JSONException {
-
-        Uri.Builder builder = new Uri.Builder();
-        builder.encodedPath(instanceUrl);
-        builder.appendEncodedPath(caseId.substring(1));
-        builder.appendEncodedPath("attachments");
-
-        String attachmentUrl = builder.build().toString();
-
-
-        String attachmentFileName = attachmentObject.getAttachment().getFileName() == null ? "picture":attachmentObject.getAttachment().getFileName();
-        String attachmentMimeType = attachmentObject.getAttachment().getMime_type();
-        try {
-            JSONObject attachmentPostObject = new JSONObject();
-
-            InputStream input = attachmentObject.generateInputStreamToUpload();
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            byte[] buffer = new byte[512];
-            try {
-                int n = 0;
-                while (-1 != (n = input.read(buffer))) {
-                    output.write(buffer, 0, n);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            attachmentPostObject.put("content", Base64.encodeToString(output.toByteArray(), Base64.DEFAULT).substring(0, 5000));
-
-            attachmentPostObject.put("content_type", attachmentMimeType);
-            attachmentPostObject.put("file_name", attachmentFileName);
-
-
-
-            DeskJsonObjectRequest attachmentRequest = new DeskJsonObjectRequest(cancelTag, attachmentUrl, attachmentPostObject,
-                    successListener, errorListener);
-
-            addRequestAndStartQueue(queue, attachmentRequest); // For Attachments
-        } catch (FileNotFoundException e) {
-            errorListener.onErrorResponse(new VolleyError("File not found"));
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -465,7 +416,7 @@ public class HSDeskGear extends HSGear {
 
     @Override
     public void addReplyOnATicket(final String cancelTag, final String message, final HSUploadAttachment[] attachments,  final HSTicket ticket, final HSUser user,
-                                  RequestQueue queue, final OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
+                                  final RequestQueue queue, final OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
 
         JSONObject replyJson = null;
         try {
@@ -481,7 +432,6 @@ public class HSDeskGear extends HSGear {
                     @Override
                     public void onResponse(JSONObject responseObject) {
 
-                        HSTicketUpdate userReply;
                         String content = null;
                         String userName = null;
                         Date update_time = null;
@@ -499,9 +449,25 @@ public class HSDeskGear extends HSGear {
                                 update_time = parseTime(responseObject.getString("updated_at"));
                             }
 
-                            userReply = HSTicketUpdate.createUpdateByUser(ticket.getTicketId(), userName, content, update_time, null);
+                            final HSTicketUpdate userReply = HSTicketUpdate.createUpdateByUser(ticket.getTicketId(), userName, content, update_time, null);
+                            
+                            if (attachments != null && attachments.length > 0) {
+                                HSUploadAttachment attachmentObject = attachments[0]; // We are handling the number of attachments in constructor
 
-                            successListener.onSuccess(userReply);
+
+                                uploadAttachmentToServer(cancelTag, ticket.getApiHref(), attachmentObject, queue, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject jsonObject) {
+                                    	successListener.onSuccess(userReply);
+                                    }
+                                }, errorListener);
+
+                            }
+                            else {
+                            	successListener.onSuccess(userReply);
+                            }
+
+                            
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -529,6 +495,52 @@ public class HSDeskGear extends HSGear {
         queue.add(request);
         queue.start();
     }
+    
+    private void uploadAttachmentToServer(String cancelTag,  String caseId, HSUploadAttachment attachmentObject, RequestQueue queue, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) throws JSONException {
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.encodedPath(instanceUrl);
+        builder.appendEncodedPath(caseId.substring(1));
+        builder.appendEncodedPath("attachments");
+
+        String attachmentUrl = builder.build().toString();
+
+
+        String attachmentFileName = attachmentObject.getAttachment().getFileName() == null ? "picture":attachmentObject.getAttachment().getFileName();
+        String attachmentMimeType = attachmentObject.getAttachment().getMime_type();
+        try {
+            JSONObject attachmentPostObject = new JSONObject();
+
+            InputStream input = attachmentObject.generateInputStreamToUpload();
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] buffer = new byte[512];
+            try {
+                int n = 0;
+                while (-1 != (n = input.read(buffer))) {
+                    output.write(buffer, 0, n);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            attachmentPostObject.put("content", Base64.encodeToString(output.toByteArray(), Base64.DEFAULT));
+
+            attachmentPostObject.put("content_type", attachmentMimeType);
+            attachmentPostObject.put("file_name", attachmentFileName);
+
+
+
+            DeskJsonObjectRequest attachmentRequest = new DeskJsonObjectRequest(cancelTag, attachmentUrl, attachmentPostObject,
+                    successListener, errorListener);
+
+            addRequestAndStartQueue(queue, attachmentRequest); // For Attachments
+        } catch (FileNotFoundException e) {
+            errorListener.onErrorResponse(new VolleyError("File not found"));
+            e.printStackTrace();
+        }
+    }
+
+    
 
     private String retrieveSectionId(String href) throws JSONException {
         // href will be of the form: /api/v2/topic/<section id>
@@ -668,7 +680,7 @@ public class HSDeskGear extends HSGear {
         protected static final int MAX_RETRIES = 0;
 
         /** Default backoff multiplier for image requests */
-        protected static final float BACKOFF_MULT = 1f;
+        protected static final float BACKOFF_MULT = 0f;
 
         HashMap<String, String> headers = new HashMap<String, String>();
 
