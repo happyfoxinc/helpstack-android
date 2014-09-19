@@ -94,6 +94,7 @@
     <style name="hs_smallText_defaultStyle">
         <item name="android:textColor">@color/hs_message_moreinfoTextColor</item>
         <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textSize">@dimen/hs_small_TextSize</item>
         <item name="android:maxWidth">@dimen/hs_smallTextMaxWidth</item>
     </style>

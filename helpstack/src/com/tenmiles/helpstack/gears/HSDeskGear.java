@@ -23,25 +23,6 @@
 package com.tenmiles.helpstack.gears;
 
 
-import static com.tenmiles.helpstack.model.HSUser.createNewUserWithDetails;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.net.Uri;
 import android.util.Base64;
 
@@ -60,6 +41,25 @@ import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
+
+import static com.tenmiles.helpstack.model.HSUser.createNewUserWithDetails;
 
 
 public class HSDeskGear extends HSGear {
@@ -359,7 +359,7 @@ public class HSDeskGear extends HSGear {
                                 for (int i = 0; i < eventsArrayLength; i++) {
                                     JSONObject replyObject = entriesArray.getJSONObject(i);
 
-                                    if (replyObject.getString("from") != null) {
+                                    if (!replyObject.isNull("from")) {
                                         from = replyObject.getString("from");
                                     }
 

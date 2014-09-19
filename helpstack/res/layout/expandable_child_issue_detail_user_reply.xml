@@ -42,6 +42,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="" />
+
+        <TextView
+            android:id="@+id/textView_no_message"
+            style="@style/hs_left_messageTextStyle"
+            android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="No Message" />
         
     </RelativeLayout>
 

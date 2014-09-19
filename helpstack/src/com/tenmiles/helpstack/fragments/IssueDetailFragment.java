@@ -39,6 +39,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -420,6 +421,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				holder.nameField = (TextView) convertView.findViewById(R.id.name);
 				holder.timeField = (TextView) convertView.findViewById(R.id.time);
 				holder.attachmentButton = (ImageView) convertView.findViewById(R.id.attachment_icon);
+                holder.textView_no_message = (TextView) convertView.findViewById(R.id.textView_no_message);
 				
 				convertView.setTag(holder);
 			}
@@ -430,7 +432,20 @@ public class IssueDetailFragment extends HSFragmentParent
 			// This is a dummy view as only 1 group is gonna be used.
 			final HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
 			holder.textView1.setMovementMethod(LinkMovementMethod.getInstance());
-			holder.textView1.setText(update.getText().trim());
+
+            String text = update.getText().trim();
+            if (text == null || text.length() == 0 ) {
+                holder.textView_no_message.setVisibility(View.VISIBLE);
+                holder.textView1.setVisibility(View.GONE);
+                holder.textView1.setText("");
+            }
+            else {
+                holder.textView_no_message.setVisibility(View.GONE);
+                holder.textView1.setVisibility(View.VISIBLE);
+                holder.textView1.setText(text);
+            }
+
+
 			
 			if(update.isUserUpdate()) {
 				holder.nameField.setText(getResources().getString(R.string.hs_me));
@@ -511,6 +526,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			public TextView nameField;
 			public TextView timeField;
 			public ImageView attachmentButton;
+            public TextView textView_no_message;
 		}
 	}
 	
