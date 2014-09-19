@@ -217,7 +217,25 @@ public abstract class HSGear {
 	}
 
 
+    /**
+     * if true, gear don't have to return back HSTicketUpdate object, after a reply is been added.
+     *
+     * @default: false, means it is necessary for the gear to return HSTicketUpdate object, after a reply is been added.
+     *
+     * @param canIgnore
+     */
+    public void ignoreTicketUpdateInformationAfterAddingReply(boolean canIgnore) {
+        this.ignoreTicketUpdateInformationAfterAddingReply = canIgnore;
+    }
 
+    /**
+     *
+     * @return if the HSTicketUpdate object, after a reply is added should be used in UI.
+     *
+     */
+    public boolean canIgnoreTicketUpdateInformationAfterAddingReply() {
+        return this.ignoreTicketUpdateInformationAfterAddingReply;
+    }
 
 
     ////////////////////////////////////////////////////
@@ -236,5 +254,8 @@ public abstract class HSGear {
 	private String companySupportEmailAddress;
 	
 	private boolean supportHtmlMessage = false;
+
+    private boolean ignoreTicketUpdateInformationAfterAddingReply = false;
+
 
 }

@@ -23,27 +23,6 @@
 package com.tenmiles.helpstack.gears;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TimeZone;
-
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.StringBody;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.util.Base64;
 import android.util.Log;
 
@@ -71,6 +50,27 @@ import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
+
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.StringBody;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TimeZone;
 
 
 public class HSHappyfoxGear extends HSGear {
@@ -103,9 +103,6 @@ public class HSHappyfoxGear extends HSGear {
 		this.auth_code = auth_code;
 		this.priority_id = priority_id;
 		this.category_id = category_id;
-
-		uploadMessageAsHtmlString(false);
-
 	}
 
 	// If user taps on a section, then section is send as a paremeter to the function

@@ -22,17 +22,6 @@
 
 package com.tenmiles.helpstack.logic;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import org.xmlpull.v1.XmlPullParserException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -54,8 +43,21 @@ import com.tenmiles.helpstack.model.HSCachedTicket;
 import com.tenmiles.helpstack.model.HSCachedUser;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
+import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
+
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
 public class HSSource {
 	private static final String TAG = HSSource.class.getSimpleName();
@@ -157,13 +159,26 @@ public class HSSource {
 		gear.fetchAllUpdateOnTicket(cancelTag, ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
 	
-	public void addReplyOnATicket(String cancelTag, String message,HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
+	public void addReplyOnATicket(String cancelTag, String message, HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
 		
 		if (gear.canUplaodMessageAsHtmlString()) {
 			message = Html.toHtml(new SpannableString(message));
 		}
 		
-		gear.addReplyOnATicket(cancelTag, message, convertAttachmentArrayToUploadAttachment(attachments),  ticket, getUser(), mRequestQueue, success, new ErrorWrapper("Adding reply to a ticket", errorListener));
+		gear.addReplyOnATicket(cancelTag, message, convertAttachmentArrayToUploadAttachment(attachments),  ticket, getUser(), mRequestQueue, new OnFetchedSuccessListenerWrapper(success, message, attachments) {
+
+            @Override
+            public void onSuccess(Object successObject) {
+
+                if (!gear.getWillSendTicketUpdateInformationAfterAddingReply()) {
+                    HSTicketUpdate update = HSTicketUpdate.createUpdateByUser(null, null, this.message, Calendar.getInstance().getTime(), this.attachments);
+                    super.onSuccess(update);
+                }
+                else {
+                    super.onSuccess(successObject);
+                }
+            }
+        }, new ErrorWrapper("Adding reply to a ticket", errorListener));
 	}
 
 	public HSGear getGear() {
@@ -426,6 +441,27 @@ public class HSSource {
 		}
 		
 	}
+
+    private class OnFetchedSuccessListenerWrapper implements OnFetchedSuccessListener {
+
+        private OnFetchedSuccessListener listener;
+        private String message;
+        private HSAttachment[] attachments;
+
+        private OnFetchedSuccessListenerWrapper(OnFetchedSuccessListener listener, String message, HSAttachment[] attachments) {
+            this.listener = listener;
+            this.message = message;
+            this.attachments = attachments;
+        }
+
+
+        @Override
+        public void onSuccess(Object successObject) {
+            if (this.listener != null) {
+                this.listener.onSuccess(successObject);
+            }
+        }
+    }
 	
 	private class ErrorWrapper implements ErrorListener {
 

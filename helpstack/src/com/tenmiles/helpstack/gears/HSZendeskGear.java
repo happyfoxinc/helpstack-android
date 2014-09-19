@@ -23,24 +23,6 @@
 package com.tenmiles.helpstack.gears;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.net.Uri;
 import android.util.Base64;
 
@@ -67,6 +49,24 @@ import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
+
 
 public class HSZendeskGear extends HSGear {
 
@@ -83,9 +83,6 @@ public class HSZendeskGear extends HSGear {
         this.instanceUrl = instanceUrl;
         this.staff_email_address = staff_email_address;
         this.api_token = api_token;
-
-        uploadMessageAsHtmlString(false);
-        setNumberOfAttachmentGearCanHandle(1);
     }
 
 
@@ -340,7 +337,7 @@ public class HSZendeskGear extends HSGear {
 
                         update = HSTicketUpdate.createUpdateByUser(updateId, userName, message, update_time, attachmentList);
 
-                        successListener.onSuccess(update);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                         errorListener.onErrorResponse(new VolleyError("Parse error with response when adding reply on ticket"));

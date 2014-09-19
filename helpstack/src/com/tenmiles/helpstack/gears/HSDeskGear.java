@@ -78,9 +78,6 @@ public class HSDeskGear extends HSGear {
         this.to_help_email = to_help_email;
         this.staff_login_email = staff_login_email;
         this.staff_login_password = staff_login_password;
-
-        uploadMessageAsHtmlString(false);
-        setNumberOfAttachmentGearCanHandle(1);
     }
 
     @Override
