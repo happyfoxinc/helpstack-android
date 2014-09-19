@@ -182,7 +182,7 @@ public class HSZendeskGear extends HSGear {
         	addReplyToTicketWithAttachment(cancelTag, ticket, user, message, attachments, queue, successListener, errorListener);
         }
         else {
-            addReplyToTicket(cancelTag, ticket, user, message, null, queue, successListener, errorListener);
+            addReplyToTicket(cancelTag, ticket, user, message, null, null, queue, successListener, errorListener);
         }
     }
 
@@ -269,7 +269,7 @@ public class HSZendeskGear extends HSGear {
         builder.encodedPath(getApiUrl());
         builder.appendEncodedPath("uploads.json");
 
-        HSUploadAttachment attachmentObject = attachments[0]; // It is been specified in constructor, so hard-coding the value. Can be changed later
+        final HSUploadAttachment attachmentObject = attachments[0]; // It is been specified in constructor, so hard-coding the value. Can be changed later
         String attachmentFileName = getAttachmentFileName(attachmentObject);
         builder.appendQueryParameter("filename", attachmentFileName);
 
@@ -283,7 +283,12 @@ public class HSZendeskGear extends HSGear {
                     String attachmentToken = jsonObject.getJSONObject("upload").getString("token");
                     String[] attachmentTokenList = new String[1]; // It is been specified in constructor, so hard-coding the value. Can be changed later
                     attachmentTokenList[0] = attachmentToken;
-                    addReplyToTicket(cancelTag, ticket, user, message, attachmentTokenList, queue, successListener, errorListener);
+
+
+                    HSAttachment[] attachmentObjectList = new HSAttachment[1]; // It is been specified in constructor, so hard-coding the value. Can be changed later
+                    attachmentObjectList[0] = attachmentObject.getAttachment();
+
+                    addReplyToTicket(cancelTag, ticket, user, message, attachmentTokenList, attachmentObjectList, queue, successListener, errorListener);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     errorListener.onErrorResponse(new VolleyError("Parsing failed when reading attachment token from Zendesk"));
@@ -298,7 +303,7 @@ public class HSZendeskGear extends HSGear {
         return attachmentObject.getAttachment().getFileName() == null ? "picture":attachmentObject.getAttachment().getFileName();
     }
 
-    private void addReplyToTicket(String cancelTag, HSTicket ticket, HSUser user, final String message, String[] attachmentToken, RequestQueue queue, final OnFetchedSuccessListener successListener, final Response.ErrorListener errorListener) {
+    private void addReplyToTicket(String cancelTag, HSTicket ticket, HSUser user, final String message, String[] attachmentToken, final HSAttachment[] attachmentObjectList, RequestQueue queue, final OnFetchedSuccessListener successListener, final Response.ErrorListener errorListener) {
 
         JSONObject ticketJson = null;
         try {
@@ -322,7 +327,7 @@ public class HSZendeskGear extends HSGear {
                     String updateId = null;
                     String userName = null;
                     Date update_time = null;
-                    HSAttachment[] attachmentList = null;
+                    HSAttachment[] attachmentList = attachmentObjectList;
 
                     try {
                         JSONObject requestObject= response.getJSONObject("request");
@@ -337,6 +342,7 @@ public class HSZendeskGear extends HSGear {
 
                         update = HSTicketUpdate.createUpdateByUser(updateId, userName, message, update_time, attachmentList);
 
+                        successListener.onSuccess(update);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

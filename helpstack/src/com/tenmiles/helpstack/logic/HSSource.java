@@ -170,7 +170,7 @@ public class HSSource {
             @Override
             public void onSuccess(Object successObject) {
 
-                if (!gear.getWillSendTicketUpdateInformationAfterAddingReply()) {
+                if (gear.canIgnoreTicketUpdateInformationAfterAddingReply()) {
                     HSTicketUpdate update = HSTicketUpdate.createUpdateByUser(null, null, this.message, Calendar.getInstance().getTime(), this.attachments);
                     super.onSuccess(update);
                 }
@@ -445,8 +445,8 @@ public class HSSource {
     private class OnFetchedSuccessListenerWrapper implements OnFetchedSuccessListener {
 
         private OnFetchedSuccessListener listener;
-        private String message;
-        private HSAttachment[] attachments;
+        protected String message;
+        protected HSAttachment[] attachments;
 
         private OnFetchedSuccessListenerWrapper(OnFetchedSuccessListener listener, String message, HSAttachment[] attachments) {
             this.listener = listener;
