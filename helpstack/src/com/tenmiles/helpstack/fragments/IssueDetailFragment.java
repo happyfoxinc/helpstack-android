@@ -288,6 +288,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			
 			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 			sendButton.setEnabled(false);
+            sendButton.setAlpha((float)0.4);
 			
 			HSAttachment[] attachmentArray = null;
 			
@@ -305,6 +306,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				@Override
 				public void onSuccess(Object successObject) {
 					sendButton.setEnabled(true);
+                    sendButton.setAlpha((float)1.0);
 					HSTicketUpdate update = (HSTicketUpdate) successObject;
 					
 					ArrayList<HSTicketUpdate> updateList = new ArrayList<HSTicketUpdate>();
@@ -331,6 +333,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				public void onErrorResponse(VolleyError error) {
 					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_posting_reply));
 					sendButton.setEnabled(true);
+                    sendButton.setAlpha((float)1.0);
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				}
 			});

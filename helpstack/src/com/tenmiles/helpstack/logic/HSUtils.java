@@ -22,16 +22,14 @@
 
 package com.tenmiles.helpstack.logic;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.Date;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.ParseException;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class HSUtils {
 	
@@ -60,7 +58,7 @@ public class HSUtils {
 		givenTime.setTime(givenDate);
 		// Step 1: To see if time difference is less than 24 hours of not
 		long timeDiff = currentTime.getTimeInMillis() - givenTime.getTimeInMillis();
-		if(timeDiff<0) {
+		if(timeDiff<=0) {
 			// I am not sure why can we here
 			return "Now";
 		}
