@@ -3,7 +3,7 @@
 </p>
 
 
-**HelpStack** is a library to provide in-app support for your app's users. 
+[**HelpStack**](https://www.helpstack.io)  is a library to provide in-app support for your app's users.
 
 With HelpStack, you can:
 - Show Knowledge Base articles
@@ -125,7 +125,7 @@ Add a clickable item (probably a button) in your UI, wherever appropriate. Set a
 It is very easy to customize the HelpStack UI. You might want to do so to make it go along with your app's UI.
 
 We ship sample themes along with the HelpStack library. You can find them in 
-**/helpstack/Themes/**, where you will observe 3 sample themes - **HSDarkTheme**, **HSPathTheme** and **HSFacebookTheme**. 
+**/helpstack/Themes/**, where you will find 5 sample themes - **HSLightTheme** (Default), **HSDarkTheme**, **HSFacebookTheme**, **HSPathTheme** and  **HSPinterestTheme**.
 
 Each theme comes with the following:
 - A *colors.xml* and a **hs_custom_theme.xml** defined in **../values/**
@@ -142,20 +142,55 @@ Each theme comes with the following:
 
 Below is the list of parameters you can configure to change the looks of HelpStack:
 
-<p>
+**Main List View** 
  <img src="Images/mainlist_style.png" alt="HelpStackthemes" title="screenshots">
+ 
+**Issue Details View**
  <img src="Images/issuedetail_style.png" alt="HelpStackthemes" title="screenshots">
-</p>
 
-Look at the [Theming documentation](Themes/Themes.md) for more information.
+
+- **hs_backgroundStyle** - Background of all screens
+- **hs_listViewStyle** - Articles and issues list
+- **hs_listView_headerBackgroundStyle** - Header background of main list view
+- **hs_listView_childBackgroundStyle** - Child view background of main list view
+- **hs_listView_headerTextStyle** - ListView header text
+- **hs_listView_childTextStyle** - ListView child text
+- **hs_leftChatBubbleStyle** - Chat screen - left chat bubble style
+- **hs_rightChatBubbleStyle** - Chat screen - right chat bubble style
+- **hs_left_messageTextStyle** - Chat screen message text style for left chat bubble
+- **hs_right_messageTextStyle** - Chat screen message text style for right chat bubble
+- **hs_smallTextStyle** - Chat screen more info text style - applied to the sender name and time
+- **hs_buttonStyle** - Button Style - applied for report issue button 
+- **hs_editTextStyle** - Edit text Style in new user and new issue screen
+- **hs_messageEditTextStyle** - Edit text Style used in chat screen - add reply
+
+
+Override the styles specified in **/values/hs_custom_theme.xml** 
+
+##### Icons and Images
+
+  All the icons used in the HelpStack UI are defined under **Drawables** in the **hs_custom_theme.xml** file. In order to include your own icons, download and add the icons in your applications resources, and override the drawables specified in the theme for the UI to take up your own icons.
+  
+  Below are the icons used in HelpStack UI  :-
+
+  - **hs_attachment_icon** - Attachment icon used in issue detail screen and New Issue screen
+  - **hs_search_icon** - Search icon used in the action bar
+  - **hs_disclosure_next** - Disclosure icon used in the main list view child item
+  - **hs_add_attachment** - Add attachment icon used in issue detail screen, to add an attachment
+
+
+##### Note
+
+  If you want the complete look-and-feel of a theme, you might also want to update the color of your app's Action bar.
+
   
 ## About
 
-HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community.
+HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community. For more information, visit [helpstack.io](https://www.helpstack.io).
 
 ## Contact
 
-Reach out to us at [@HelpStack](https://twitter.com/HelpStackSDK).
+Reach out to us on Twitter at [@HelpStack](https://twitter.com/HelpStackSDK).
 
 ## License
 
