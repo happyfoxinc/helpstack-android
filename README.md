@@ -3,7 +3,7 @@
 </p>
 
 
-[**HelpStack**](https://www.helpstack.io)  is a library to provide in-app support for your app's users.
+[**HelpStack**](http://www.helpstack.io)  is a library to provide in-app support for your app's users.
 
 With HelpStack, you can:
 - Show Knowledge Base articles
@@ -186,7 +186,7 @@ Override the styles specified in **/values/hs_custom_theme.xml**
   
 ## About
 
-HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community. For more information, visit [helpstack.io](https://www.helpstack.io).
+HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community. For more information, visit [helpstack.io](http://www.helpstack.io).
 
 ## Contact
 
