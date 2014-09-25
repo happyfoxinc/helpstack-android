@@ -17,7 +17,7 @@ HelpStack supports the following helpdesk solutions:
 
 <div class="row" align="center">
     <img src="http://www.helpstack.io/startup/common-files/img/logos/zendesk.png" alt="Zendesk" width="160">
-    <a href="http://www.happyfox.com" target="_blank"><img src="http://www.helpstack.io/startup/common-files/img/logos/happyfox.png" alt="HappyFox" width="160" style="margin-left:20px; margin-right:20px;"></a>
+    <a href="http://www.happyfox.com" target="_blank" style="margin-left:60px; margin-right:60px;"><img src="http://www.helpstack.io/startup/common-files/img/logos/happyfox.png" alt="HappyFox" width="160"></a>
     <img src="http://www.helpstack.io/startup/common-files/img/logos/desk.png" alt="Desk" width="160">
 </div>
       
