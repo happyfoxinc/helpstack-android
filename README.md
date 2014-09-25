@@ -14,6 +14,20 @@ HelpStack supports the following helpdesk solutions:
 - Zendesk
 - Desk.com
 
+
+<div class="row" align="center">
+  <div class="col-sm-4 col-xs-4">
+    <img src="http://www.helpstack.io/startup/common-files/img/logos/zendesk.png" alt="Zendesk" width="160">
+  </div>
+  <div class="col-sm-4 col-xs-4" >
+    <a href="http://www.happyfox.com" target="_blank"><img src="http://www.helpstack.io/startup/common-files/img/logos/happyfox.png" alt="HappyFox" width="160" style="margin-left:20px; margin-right:20px;"></a>
+  </div>
+  <div class="col-sm-4 col-xs-4">
+    <img src="http://www.helpstack.io/startup/common-files/img/logos/desk.png" alt="Desk" width="160">
+  </div>
+</div>
+      
+
 If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
 
 Visit [helpstack.io](http://wwww.helpstack.io) to learn more.
