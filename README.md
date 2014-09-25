@@ -3,11 +3,11 @@
 </p>
 
 
-[**HelpStack**](http://www.helpstack.io)  is a library to provide in-app support for your app's users.
+**HelpStack** is a library to provide in-app support for your app's users, by connecting with the helpdesk of your choice.
 
 With HelpStack, you can:
-- Show Knowledge Base articles
-- Let users create tickets from your app
+- Show (local/remote) FAQ articles
+- Let users report issues within your app
 
 HelpStack supports the following helpdesk solutions: 
 - HappyFox
@@ -15,6 +15,8 @@ HelpStack supports the following helpdesk solutions:
 - Desk.com
 
 If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
+
+Visit [helpstack.io](http://wwww.helpstack.io) to learn more.
 
 <p align="left" >
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
@@ -24,15 +26,11 @@ If you don't have a helpdesk solution, you can also configure HelpStack, for use
 
 Installating the HelpStack library is fairly straight-forward.
 
-#### Eclipse/ADT:
 1. Clone or download the library along with its dependencies from the Git repository. 
 2. Import it as a library project into your Application. 
 3. Set the flag for *manifestmerger.enabled* to *true* in your *project.properties* file:
 
         manifestmerger.enabled=true
-
-#### Android Studio:
-We are working on including HelpStack as a gradle dependency in your Android Studio project. It will be available soon. 
     
 ## Using the Library
 
@@ -44,7 +42,7 @@ Broadly speaking, there are just 3 steps to begin using HelpStack within your ap
 3. Customize the theme of HelpStack according to your choice.
 
 
-#### Step 1 - Choose and obtain Gear credentials:
+#### Step 1 - Choose a Gear and obtain credentials:
 
 Obtain the necessary credentials for the gear of your choice and create a suitable Gear object.
 
@@ -57,6 +55,10 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
                 "<Your Auth Code>",
                 "<Category ID>",
                 "<Priority ID>");
+                
+The API key and Auth code can be found in your HappyFox account under *Manage* > *Integrations*. You can generate an API key and Auth code by clicking on the API configure link.
+
+HappyFox requires that the Priority ID and Category ID cannot be nil. This is the ID of the priority and the category with which tickets will be created when a customer reports an issue. 
 
 ##### ii. Zendesk Gear credentials:
 *Zendesk Account URL*, *Staff Email address* and *API token*.
@@ -65,6 +67,8 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
             "<Account URL>",
             "<Staff Email Address>",
             "<API Token");
+
+The token can be found in your Zendesk account under Settings > Channels > API.
 
 ##### iii. Desk Gear credentials:
 *Desk Account URL*, *To Help Email address*, *Staff Email address* and *Staff password*
@@ -186,7 +190,9 @@ Override the styles specified in **/values/hs_custom_theme.xml**
   
 ## About
 
-HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community. For more information, visit [helpstack.io](http://www.helpstack.io).
+HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community.
+
+For more information, visit [helpstack.io](http://www.helpstack.io).
 
 ## Contact
 
@@ -195,11 +201,3 @@ Reach out to us on Twitter at [@HelpStack](https://twitter.com/HelpStackSDK).
 ## License
 
 HelpStack is available under the MIT license. See the LICENSE file for more info.
-
-
-
-
-
-
-
-    
