@@ -47,6 +47,9 @@ public class HSUser implements Serializable {
 	
 	@SerializedName("user_id")
 	private String userId;
+
+    @SerializedName("user_api_href")
+    private String userApiHref;
 	
 	public HSUser() {
 	}
@@ -58,6 +61,12 @@ public class HSUser implements Serializable {
 		user.emailAddress = email;
 		return user;
 	}
+
+    public static HSUser createNewUserWithDetails(String first_name, String last_name, String email, String userLink) {
+        HSUser user = createNewUserWithDetails(first_name, last_name, email);
+        user.userApiHref = userLink;
+        return user;
+    }
 	
 	public String getFirstName() {
 		return first_Name;
@@ -78,6 +87,10 @@ public class HSUser implements Serializable {
 	public String getUserId() {
 		return userId;
 	}
+
+    public String getApiHref() {
+        return userApiHref;
+    }
 
 	public static HSUser appendCredentialOnUserDetail(HSUser user, String userId, String access_token) {
 		user.userId = userId;

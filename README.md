@@ -1,162 +1,125 @@
 <p align="center" >
-  <img src="https://dl.dropboxusercontent.com/u/55774910/HelpStack/Helpstack%20by%20Happyfox%20logos.png" alt="HelpStack" title="Logo">
+  [<img src="https://dl.dropboxusercontent.com/u/55774910/HelpStack/Helpstack%20by%20Happyfox%20logos.png" alt="HelpStack" title="Logo" />](http://www.helpstack.io/)
 </p>
 
 
-**HelpStack** provides you with a simple way of adding a great in-App support for your Android App users. You can integrate any of your HappyFox account with it to show your Knowledge base articles and let users create tickets from your app. 
+**HelpStack** is a library to provide in-app support for your app's users. 
 
-Support for ZenDesk and Desk.com has been planned for future releases. 
+With HelpStack, you can:
+- Show Knowledge Base articles
+- Let users create tickets from your app
 
-You can even ignore any helpdesk and configure your email address to send user requests to.  Please check the documentation for more details.
+HelpStack supports the following helpdesk solutions: 
+- HappyFox
+- Zendesk
+- Desk.com
+
+If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
 
 <p align="left" >
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
-## How to use HelpStack
+## Installation
 
-You can add HelpStack In-App support in four simple steps-
+Installating the HelpStack library is fairly straight-forward.
 
-###Step 1 - Getting HelpStack library
+#### Eclipse/ADT:
+1. Clone or download the library along with its dependencies from the Git repository. 
+2. Import it as a library project into your Application. 
+3. Set the flag for *manifestmerger.enabled* to *true* in your *project.properties* file:
 
-Clone HelpStack for android from the git repository or download the zip file. It contains the HelpStack library along with its dependancy libraries. 
+        manifestmerger.enabled=true
 
-###Step 2 - Adding HelpStack into your android project
+#### Android Studio:
+We are working on including HelpStack as a gradle dependency in your Android Studio project. It will be available soon. 
+    
+## Using the Library
 
-Once you have the latest HelpStack, you need to import it into your *Android Application Project*. Please follow the steps below :-
+Broadly speaking, there are just 3 steps to begin using HelpStack within your app:
 
-* File > Import
-* Android > Existing Android Code into Workspace, then click *Next*
-* Browse and select helpstack from **/helpstack-android/helpstack** and click *Finish*
-
-It is important that you set the flag for manifestmerger.enabled to true in your project.properties file:
-
-	manifestmerger.enabled=true
-	
-* HelpStack comes with its own customisable user interface which uses *appcompat_v7* library for ActionBar support. Make sure to add appcombat_v7 library under HelpStack dependency libraries in its Project Properties. 
-
-* Once HelpStack and its dependancies are successfully imported, build it as a Library project and include it in your *Android Application* Dependancy libraries in the following way :-
-
-	* Right click on your project and go to *Properties*
-	* Go to *Android* and under *Library*, add *HelpStack*
-	
-###Step 3 - Integrating HelpStack in your app
-
-You can integrate your existing *HappyFox* account with HelpStack, or you can integrate HelpStack with a simple *Email* support. In HelpStack, we call the supported helpdesk solutions as *Gears*.
-
-Ideally, you need to create a gear object of your choice and set it up with *HSHelpStack* instance only once. You can do this in the **'OnCreate'** method of your app's Main Activity, but we suggest you do it the preferred way as mentioned below :-
-
-1. Create a custom *Application* class which extends *Application* class
-	
-		 public class HSApplication extends Application {
-			@Override
-			public void onCreate() {
-				super.onCreate();
-				/* Do the helpstack integration here */
-		    }
-		  }	  
-		  
-2. Now open your Application Android manifest and set the Application name as your custom application class name. 
-
-		 <application
-			android:name="HSApplication"
-			.../>	
-	  
-To integrate HelpStack with your application, you will need an instance of the HSHelpStack class. Inside your onCreate method of your custom application class or your main activity class, do the following :-
-
-		 public class HSApplication extends Application{
-
-			HSHelpStack helpStack;
-	
-			@Override
-			public void onCreate() {
-				super.onCreate();
-				helpStack = HSHelpStack.getInstance(this);
-				/* Create a happyfox or an email gear and set it to 'helpStack' */
-			}
+1. Choose a helpdesk solution of your choice and obtain the necessary credentials. These helpdesk solutions will be referred to as **Gears**.
+2. Configure HelpStack to work with the Gear of your choice.
+2. Add an entry-point for HelpStack in the UI and connect it with HelpStack.
+3. Customize the theme of HelpStack according to your choice.
 
 
-#### 1. Happyfox gear
+#### Step 1 - Choose and obtain Gear credentials:
 
-To integrate your existing HappyFox account into HelpStack, include the following lines of code inside your 'onCreate' method :-
-	
-		helpStack = HSHelpStack.getInstance(this);
-		HSHappyfoxGear happyfoxGear = new HSHappyfoxGear("https://example.happyfox.com",
-									   "<YOUR API KEY>",
-									   "<YOUR AUTH CODE>", 
-									   "<CATEGORY ID>",
-									   "<PRIORITY ID>");
-		helpStack.setGear(happyfoxGear);
+Obtain the necessary credentials for the gear of your choice and create a suitable Gear object.
 
-* Getting the API Key and Auth code
+##### i. HappyFox Gear credentials:
+*HappyFox Account URL*, *API Key*, *Auth Code*, *Category ID* and *Priority ID*.
 
-	Configuring HappyFox in HelpStack primarily requires the base URL, API Key and Auth code for authenticating the registered HappyFox user. 
+    HSHappyfoxGear happyfoxGear = new HSHappyfoxGear(
+                "<Account URL>",
+                "<Your API Key>",
+                "<Your Auth Code>",
+                "<Category ID>",
+                "<Priority ID>");
 
-	You will find the API key and Auth code in the ‘*Integrations*’ page of your HappyFox account under ‘*Manage*’. You can generate an API key and Auth code by clicking on the API configure link.
+##### ii. Zendesk Gear credentials:
+*Zendesk Account URL*, *Staff Email address* and *API token*.
 
-* Getting the Priority ID and Category ID
+    HSZendeskGear zenDeskGear = new HSZendeskGear(
+            "<Account URL>",
+            "<Staff Email Address>",
+            "<API Token");
 
-	HappyFox requires that the Priority ID and Category ID cannot be nil. This is the ID of the priority and the category with which tickets will be created when a customer reports an issue. 
+##### iii. Desk Gear credentials:
+*Desk Account URL*, *To Help Email address*, *Staff Email address* and *Staff password*
 
-		For Priorities and its IDs:
-		<base_uri> / <response_format> /priorities/
-	
-		For categories and its IDs:
-		<base_uri> / <response_format> /categories/
+    HSDeskGear deskGear = new HSDeskGear(
+            "<Account URL>",
+            "<To Help email address>",
+            "<Staff email address>",
+            "<Staff password");
 
-	Use API Key and Auth code for authentication.
+##### iv. Email:
+*Email address* and *Articles in xml format*
 
-	*Example:*
-	
-		https://example.happyfox.com/api/1.1/json/priorities/ 
-		https://example.happyfox.com/api/1.1/json/categories/
 
-That is all is required to integrate your existing Happyfox account with helpstack and to include it in your Android application. 
+    HSEmailGear emailGear = new HSEmailGear( 
+                "example@happyfox.com",
+                R.xml.articles);
 
-#### 2. Email Gear
-
-If you do not use any of the help desk solutions, you can still use HelpStack to provide efficient customer support by configuring with just your email. You can configure email support in Helpstack by including the below lines of code within your onCreate method :-
-
-		HSEmailGear emailGear = new HSEmailGear( "example@happyfox.com",R.xml.articles);
-		helpStack.setGear(emailGear);		
-		
-You need to provide the support email address, and a local xml file where you have defined your FAQs/ Articles. 
-
-You can include Local Articles by creating a xml file (eg: articles.xml) in your application resources and you can define the articles within the articles xml file in the following way :- 
-
-		<articles>
-
-    		<article subject="How do I get started with the app" text=
-        	"You can take the app tour from your settings anytime to get a brief overview of how to use the app" />
-        	
-        	....
-        	
-        </articles>
+#### Step 2 - Configure HelpStack with the Gear:
+i. Set the Gear object with *HSHelpStack* instance only once. You can do this in the **OnCreate()** method of your app's Main Activity, but it is suggested that you create a custom *Application* class which extends the **Application** class:
   
-You can provide an array of articles, where each article contains a *subject* and a *text*.
-
-You then have to mention the local article file path as *R.xml.articles* when you set up the Email gear (Please refer above). HelpStack will take care of reading the articles from the articles xml file and displaying the FAQs on the *Help* screen. 
-
-##### Note 
-Even if you are using a HelpDesk solution such as HappyFox, you can still opt to show your FAQs/KnowledgeBase articles using a local xml file, instead of letting HelpStack fetch the KBArticles from the server, as there is a possibility that the user may not have a network connection and hence will not be able to view the FAQs all the time. In order to use locally defined Articles, you can create an *articles.xml* file as defined above and after setting up your desired gear (HappyFox gear), include the following lines of code :- 
-
-		helpStack.setGear(happyfoxGear);
-		helpStack.ovverideGearArticlesWithLocalArticlePath(R.xml.articles); 
-		
-
-### Step 4 - Showing the Help screen
-
-Once you have integrated your helpStack, use the **'showGear'** API to open up HelpStack UI to show up the FAQs or to report an Issue.
-
-		HSHelpStack.getInstance(getActivity()).showGear(getActivity());
-		
-## Theming/Skinning 
-
-### Introduction
   
+     public class HSApplication extends Application {
+      
+      HSHelpStack helpStack;
+      
+      @Override
+      public void onCreate() {
+        super.onCreate();
+        
+        // Insert Gear object creation from previous step here
+        <GearType> <Gear Object> = new <GearType> (<Credentials>)
+        
+        // Setting the Gear
+        helpStack.setGear(<Gear Object>);
+      }
+      
+    }	  
+      
+ii. Now open your Application Android manifest and set the Application name as your custom application class name. 
+
+     <application
+        android:name="HSApplication"
+        ...
+      />	
+
+#### Step 3 - Entry point in UI:
+Add a clickable item (probably a button) in your UI, wherever appropriate. Set a *click listener* to it. Within the *click listener*, use the **showGear** API to open up the HelpStack UI:
+
+    HSHelpStack.getInstance(getActivity()).showGear(getActivity());
+
+
+#### Step 4 - Theming/Skinning:
+
 It is very easy to customize the HelpStack UI. You might want to do so to make it go along with your app's UI.
-
-HelpStack comes with a default theme found in **values/hs_default_theme.xml**. It contains the styles used by the UI layouts and the drawables. It makes use of the base styles of UI elements defined in **values/hs_default_theme_base.xml**. 
 
 We ship sample themes along with the HelpStack library. You can find them in 
 **/helpstack/Themes/**, where you will observe 3 sample themes - **HSDarkTheme**, **HSPathTheme** and **HSFacebookTheme**. 
@@ -166,64 +129,31 @@ Each theme comes with the following:
 - Chat bubble drawables defined in **../drawables/**.
 
 
-### Using the sample themes
+##### Using the sample themes
 
 - Decide which sample theme you want to use
 - Include the *theme* and *colors* xml files in your application under **values**
 - Include the theme's drawables under your application's **drawables**
 - Now you can simply build and run the application. The HelpStack UI will use the styles specified in the chosen theme.
 
-### Customizing the UI further
 
-- #### Styles
-  In order to customize the UI further, override the styles specified in **/values/hs_custom_theme.xml** 
+Below is the list of parameters you can configure to change the looks of HelpStack:
 
-  - **hs_backgroundStyle** - Background of all screens
-  - **hs_listViewStyle** - Articles and issues list
-  - **hs_listView_headerBackgroundStyle** - Header background of main list view
-  - **hs_listView_childBackgroundStyle** - Child view background of main list view
-  - **hs_listView_headerTextStyle** - ListView header text
-  - **hs_listView_childTextStyle** - ListView child text
-  - **hs_leftChatBubbleStyle** - Chat screen - left chat bubble style
-  - **hs_rightChatBubbleStyle** - Chat screen - right chat bubble style
-  - **hs_left_messageTextStyle** - Chat screen message text style for left chat bubble
-  - **hs_right_messageTextStyle** - Chat screen message text style for right chat bubble
-  - **hs_smallTextStyle** - Chat screen more info text style - applied to the sender name and time
-  - **hs_buttonStyle** - Button Style - applied for report issue button 
-  - **hs_editTextStyle** - Edit text Style in new user and new issue screen
-  - **hs_messageEditTextStyle** - Edit text Style used in chat screen - add reply
+<p>
+ <img src="Images/mainlist_style.png" alt="HelpStackthemes" title="screenshots">
+ <img src="Images/issuedetail_style.png" alt="HelpStackthemes" title="screenshots">
+</p>
 
-  Below are illustrations of what each style affects:
-
-   **Main List View** 
-   
-   <p align="right" >
-    <img src="Images/mainlist_style.png" alt="HelpStackthemes" title="screenshots">
-  </p>
-
-  **Issue Details View**
-
-  <p align="right" >
-  <img src="Images/issuedetail_style.png" alt="HelpStackthemes" title="screenshots">
-  </p>
-
-
-- #### Icons and Images
-
-  All the icons used in the HelpStack UI are defined under **Drawables** in the **hs_custom_theme.xml** file. In order to include your own icons, download and add the icons in your applications resources, and override the drawables specified in the theme for the UI to take up your own icons.
+Look at the [Theming documentation](Themes/Themes.md) for more information.
   
-  Below are the icons used in HelpStack UI  :-
+## About
 
-  - **hs_attachment_icon** - Attachment icon used in issue detail screen and New Issue screen
-  - **hs_search_icon** - Search icon used in the action bar
-  - **hs_disclosure_next** - Disclosure icon used in the main list view child item
-  - **hs_add_attachment** - Add attachment icon used in issue detail screen, to add an attachment
+HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community.
 
+## Contact
 
-- #### Note
+Reach out to us at [@HelpStack](https://twitter.com/HelpStackSDK).
 
-  If you want the complete look-and-feel of a theme, you might want to update the color of your app's Action bar, as well.
-  
 ## License
 
 HelpStack is available under the MIT license. See the LICENSE file for more info.
@@ -234,4 +164,4 @@ HelpStack is available under the MIT license. See the LICENSE file for more info
 
 
 
-		
+    

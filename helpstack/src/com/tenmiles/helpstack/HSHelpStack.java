@@ -33,7 +33,7 @@ import com.tenmiles.helpstack.logic.HSGear;
 
 /**
  * 
- * Contains methods and function to set Gear, Themes and call Help.
+ * Contains methods and function to set Gear and show Help.
  * 
  * @author Nalin Chhajer
  *
@@ -42,6 +42,11 @@ public class HSHelpStack {
 	private static final String TAG = HSHelpStack.class.getSimpleName();
 	public static final String LOG_TAG = HSHelpStack.class.getSimpleName();
 
+    /**
+     *
+     * @param context
+     * @return singleton instance of this class.
+     */
 	public static HSHelpStack getInstance(Context context) {
 		if (singletonInstance == null) {
 			synchronized (HSHelpStack.class) { // 1
@@ -56,55 +61,96 @@ public class HSHelpStack {
 		}
 		return singletonInstance;
 	}
-	
-	private static HSHelpStack singletonInstance = null;
-	private Context mContext;
-	
-	private HSGear gear;
-	private RequestQueue mRequestQueue;
-	private boolean showCredits;
-	
-	private HSHelpStack(Context context) {
-		this.mContext = context;
-		init(context);
-	}
 
-	private void init(Context context) {
-		mRequestQueue = Volley.newRequestQueue(context);
-		this.setShowCredits(true);
-	}
-	
+    /**
+     *
+     * Sets which gear to use in HelpStack. It has to be set before calling any show* functions.
+     *
+     * @param gear
+     */
 	public void setGear(HSGear gear) {
 		this.gear = gear;
 	}
-	
+
+    /**
+     *
+     * @return gear which HelpStack has to use.
+     */
 	public HSGear getGear() {
 		return this.gear;
 	}
-	
+
+    /**
+     *
+     * Starts a Help activity. It shows all FAQ and also let user report new issue if not found in FAQ.
+     *
+     * @param activity
+     */
 	public void showHelp(Activity activity) {
 		activity.startActivity(new Intent("com.tenmiles.helpstack.ShowHelp"));
 	}
-	
+
+    /**
+     * Call this, if you want to override gear method of article handling, in this case, you can provide articles locally and let HelpStack choose from it.
+     *
+     * It is light weight call. Call this after calling setGear.
+     *
+     * @param articleResId
+     */
+    public void overrideGearArticlesWithLocalArticlePath(int articleResId) {
+        assert gear != null : "Some gear has to be set before overriding gear with local article path";
+        gear.setNotImplementingKBFetching(articleResId);
+    }
+
+    /**
+     *
+     * Shows a credit @ bottom of the page.
+     *
+     * @param showCredits
+     */
+    public void setShowCredits(boolean showCredits) {
+        this.showCredits = showCredits;
+    }
+
+    /**
+     *
+     * @return if credit can be shown.
+     * @default Yes
+     */
+    public boolean getShowCredits() {
+        return this.showCredits;
+    }
+
+    /**
+     *
+     *
+     *
+     * @return RequestQueue object which was created during initialization. It is used by all the activity to store and perform network operation.
+     */
 	public RequestQueue getRequestQueue() {
 		return mRequestQueue;
 	}
 	
-	public boolean getShowCredits() {
-		return this.showCredits;
-	}
-	
-	public void setShowCredits(boolean showCredits) {
-		this.showCredits = showCredits;
-	}
-	
-	/**
-	 * It is light weight call. Call this after calling setGear.
-	 * 
-	 * @param articleResId
-	 */
-	public void ovverideGearArticlesWithLocalArticlePath(int articleResId) {
-		assert gear != null : "Some gear has to be set before overridding gear with local article path";
-		gear.setNotImplementingKBFetching(articleResId);
-	}
+
+    ////////////////////////////////////////////////////
+    /////////////   Private Variables   ///////////////
+    ///////////////////////////////////////////////////
+
+    private static HSHelpStack singletonInstance = null;
+    private Context mContext;
+
+    private HSGear gear;
+    private RequestQueue mRequestQueue;
+    private boolean showCredits;
+
+    private HSHelpStack(Context context) {
+        this.mContext = context;
+        init(context);
+    }
+
+    private void init(Context context) {
+        mRequestQueue = Volley.newRequestQueue(context);
+        this.setShowCredits(true);
+    }
 }
+

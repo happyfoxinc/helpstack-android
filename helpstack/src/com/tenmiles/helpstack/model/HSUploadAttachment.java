@@ -41,15 +41,21 @@ public class HSUploadAttachment {
 	}
 	
 	public InputStreamBody generateStreamToUpload() throws FileNotFoundException {
-		InputStream stream = mContext.getContentResolver().openInputStream(Uri.parse(attachment.getUrl()));
+        InputStream stream = generateInputStreamToUpload();
 		
 		InputStreamBody body =  new InputStreamBody(stream, attachment.getMime_type(), 
 				attachment.getFileName() == null?"attachment":attachment.getFileName());
 		
 		return body;
 	}
-	
-	public HSAttachment getAttachment() {
+
+    public InputStream generateInputStreamToUpload() throws FileNotFoundException {
+        InputStream stream = mContext.getContentResolver().openInputStream(Uri.parse(attachment.getUrl()));
+        return stream;
+    }
+
+
+    public HSAttachment getAttachment() {
 		return attachment;
 	}
 	

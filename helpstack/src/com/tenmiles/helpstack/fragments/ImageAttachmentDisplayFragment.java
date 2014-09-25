@@ -22,6 +22,7 @@
 
 package com.tenmiles.helpstack.fragments;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -29,8 +30,10 @@ import java.net.URL;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,6 +41,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.polites.android.GestureImageView;
 import com.tenmiles.helpstack.R;
@@ -115,8 +119,22 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.image_attachment_display, menu);
 	}
-	
-	@Override
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        MenuItem downloadItem = menu.findItem(R.id.menu_download);
+        if (image_url != null && image_url.startsWith("http")) {
+            downloadItem.setVisible(true);
+        }
+        else {
+            downloadItem.setVisible(false);
+        }
+
+    }
+
+    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.menu_download) {
 			DownloadAttachmentUtility.downloadAttachment(getActivity(), image_url, getHelpStackActivity().getTitle().toString());
@@ -126,9 +144,31 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 	}
 	
 	public void loadImage() {
-		closeAsync();
-		localAsync = new LocalAsync();
-		localAsync.execute(image_url);
+        if (image_url.startsWith("http")) {
+            closeAsync();
+            localAsync = new LocalAsync();
+            localAsync.execute(image_url);
+            getActivity().invalidateOptionsMenu();
+        }
+        else if (image_url.startsWith("content")) {
+            Bitmap selectedBitmap;
+            try {
+                selectedBitmap = NewIssueFragment.downscaleAndReadBitmap(getActivity(), Uri.parse(image_url));
+                imageView.setImageBitmap(selectedBitmap);
+                showLoading(false);
+            }
+            catch (FileNotFoundException e) {
+                Toast.makeText(getActivity(), "Sorry! could not open attachment, unknown image", Toast.LENGTH_LONG).show();
+                getActivity().finish();
+            }
+
+        }
+        else {
+            Toast.makeText(getActivity(), "Sorry! could not open attachment, unknown image", Toast.LENGTH_LONG).show();
+            getActivity().finish();
+        }
+
+
 	}
 	
 	public void closeAsync() {
