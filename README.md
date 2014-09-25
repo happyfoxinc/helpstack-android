@@ -95,10 +95,13 @@ i. Set the Gear object with *HSHelpStack* instance only once. You can do this in
       public void onCreate() {
         super.onCreate();
         
+        // Get the HSHelpStack instance
+        helpStack = HSHelpStack.getInstance(this);
+        
         // Insert Gear object creation from previous step here
         <GearType> <Gear Object> = new <GearType> (<Credentials>)
         
-        // Setting the Gear
+        // Set the Gear
         helpStack.setGear(<Gear Object>);
       }
       
