@@ -14,14 +14,6 @@ HelpStack supports the following helpdesk solutions:
 - Zendesk
 - Desk.com
 
-
-<div class="row" align="center">
-    <img src="http://www.helpstack.io/startup/common-files/img/logos/zendesk.png" alt="Zendesk" width="160">
-    <a href="http://www.happyfox.com" target="_blank" style="margin-left:60px; margin-right:60px;"><img src="http://www.helpstack.io/startup/common-files/img/logos/happyfox.png" alt="HappyFox" width="160"></a>
-    <img src="http://www.helpstack.io/startup/common-files/img/logos/desk.png" alt="Desk" width="160">
-</div>
-      
-
 If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
 
 Visit [helpstack.io](http://wwww.helpstack.io) to learn more.
@@ -197,10 +189,13 @@ Override the styles specified in **/values/hs_custom_theme.xml**
 
   
 ## About
+For more information about HelpStack, visit [helpstack.io](http://www.helpstack.io).
 
 HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Being an open source project, it also contains work from the HelpStack community.
 
-For more information, visit [helpstack.io](http://www.helpstack.io).
+<div align="center">
+  <a href="http://www.happyfox.com" target="_blank"><img src="http://www.helpstack.io/startup/common-files/img/logos/happyfox.png" alt="HappyFox" width="160" ></a>
+</div>
 
 ## Contact
 
