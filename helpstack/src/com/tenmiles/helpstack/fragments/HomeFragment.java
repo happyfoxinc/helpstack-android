@@ -172,7 +172,7 @@ public class HomeFragment extends HSFragmentParent {
 		super.onCreateOptionsMenu(menu, inflater);
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		inflater.inflate(R.menu.search, menu);
+		inflater.inflate(R.menu.hs_search_menu, menu);
 
 		MenuItem searchItem = menu.findItem(R.id.search);
 		mSearchFragment.addSearchViewInMenuItem(getActivity(), searchItem);
