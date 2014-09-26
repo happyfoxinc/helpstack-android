@@ -26,12 +26,41 @@ Visit [helpstack.io](http://wwww.helpstack.io) to learn more.
 
 Installating the HelpStack library is fairly straight-forward.
 
+### [Eclipse/ADT]:
 1. Clone or download the library along with its dependencies from the Git repository. 
 2. Import it as a library project into your Application. 
 3. Set the flag for *manifestmerger.enabled* to *true* in your *project.properties* file:
 
         manifestmerger.enabled=true
     
+### [Android Studio]:
+
+1. Add jcenter as a repository to your app's build.gradle
+2. Add com.tenmiles:helpstack:1.0 as a dependency
+
+        repositories {
+          jcenter()
+        }
+        
+        dependencies {
+          compile 'com.tenmiles:helpstack:1.0'
+        }
+    
+You might face a few issues, depending on your app.
+
+1. **Attribute is already present**: Follow the instructions suggested by Android Studio, which is along the lines of adding
+
+        tools:replace="android:label"
+        
+  to your *application* tag.
+2. **Duplicate files copied in APK**, listing some library jars: HelpStack uses some libraries and your app might be using the same. To avoid using the library from HelpStack, exclude it when you add the dependency. For example, if the library is *httpmime*, import the library in the manner below:
+
+
+    compile ('com.tenmiles:helpstack:1.0') {
+      exclude group: 'org.apache.httpcomponents', module: 'httpmime'
+    }
+
+
 ## Using the Library
 
 Broadly speaking, there are just 3 steps to begin using HelpStack within your app:
