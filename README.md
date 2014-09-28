@@ -16,7 +16,7 @@ HelpStack supports the following helpdesk solutions:
 
 If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
 
-Visit [helpstack.io](http://wwww.helpstack.io) to learn more.
+Visit [helpstack.io](http://www.helpstack.io) to learn more.
 
 <p align="left" >
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
