@@ -151,7 +151,7 @@ public class NewIssueFragment extends HSFragmentParent {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 		// Inflate the menu; this adds items to the action bar if it is present.
-		inflater.inflate(R.menu.issue_menu, menu);
+		inflater.inflate(R.menu.hs_issue_menu, menu);
 		
 		MenuItem doneMenu = menu.findItem(R.id.doneItem);
 		MenuItemCompat.setShowAsAction(doneMenu, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);

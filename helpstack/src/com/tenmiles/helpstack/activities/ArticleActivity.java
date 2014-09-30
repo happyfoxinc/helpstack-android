@@ -57,7 +57,7 @@ public class ArticleActivity extends HSActivityParent {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.article, menu);
+		getMenuInflater().inflate(R.menu.hs_article, menu);
 		return true;
 	}
 

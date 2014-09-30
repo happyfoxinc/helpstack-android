@@ -117,7 +117,7 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.image_attachment_display, menu);
+		inflater.inflate(R.menu.hs_image_attachment_display, menu);
 	}
 
     @Override

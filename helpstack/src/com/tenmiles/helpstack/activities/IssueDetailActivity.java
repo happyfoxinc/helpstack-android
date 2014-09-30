@@ -59,7 +59,7 @@ public class IssueDetailActivity extends HSActivityParent {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.issue_detail, menu);
+		getMenuInflater().inflate(R.menu.hs_issue_detail, menu);
 		return true;
 	}
 
