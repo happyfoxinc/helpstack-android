@@ -46,7 +46,7 @@ public class SectionActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_section);
+		setContentView(R.layout.hs_activity_section);
 
 		if (savedInstanceState == null) {
 			

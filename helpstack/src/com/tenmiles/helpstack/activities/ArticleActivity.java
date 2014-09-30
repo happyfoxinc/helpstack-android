@@ -41,7 +41,7 @@ public class ArticleActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_article);
+		setContentView(R.layout.hs_activity_article);
 
 		if (savedInstanceState == null) {
 			

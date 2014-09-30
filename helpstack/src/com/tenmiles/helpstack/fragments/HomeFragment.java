@@ -84,19 +84,19 @@ public class HomeFragment extends HSFragmentParent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+		View rootView = inflater.inflate(R.layout.hs_fragment_home, container, false);
 
 		// ListView
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
 		mAdapter = new LocalAdapter(getActivity());
 
 		// report an issue
-		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
+		View report_an_issue_view = inflater.inflate(R.layout.hs_expandable_footer_report_issue, null);
 		report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
 		mExpandableListView.addFooterView(report_an_issue_view);
 		
 		if (HSHelpStack.getInstance(getActivity()).getShowCredits()) {
-			View show_credits_view = inflater.inflate(R.layout.expandable_footer_powered_by_helpstack, null);
+			View show_credits_view = inflater.inflate(R.layout.hs_expandable_footer_powered_by_helpstack, null);
 			mExpandableListView.addFooterView(show_credits_view);
 		}
 
@@ -370,7 +370,7 @@ public class HomeFragment extends HSFragmentParent {
 			ChildViewHolder holder;
 
 			if (convertView == null) {
-				convertView = mLayoutInflater.inflate(R.layout.expandable_child_home_default, null);
+				convertView = mLayoutInflater.inflate(R.layout.hs_expandable_child_home_default, null);
 				holder = new ChildViewHolder();
 
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
@@ -401,7 +401,7 @@ public class HomeFragment extends HSFragmentParent {
 			ParentViewHolder holder;
 
 			if (convertView == null) {
-				convertView = mLayoutInflater.inflate(R.layout.expandable_parent_home_default, null);
+				convertView = mLayoutInflater.inflate(R.layout.hs_expandable_parent_home_default, null);
 				holder = new ParentViewHolder();
 
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);

@@ -44,7 +44,7 @@ public class HomeActivity extends HSActivityParent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_home);
+		setContentView(R.layout.hs_activity_home);
 
         if (savedInstanceState == null) { // Activity started first time
         	HomeFragment homeFrag = HSFragmentManager.getHomeFragment();

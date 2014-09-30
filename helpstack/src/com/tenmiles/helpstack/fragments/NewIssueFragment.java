@@ -97,7 +97,7 @@ public class NewIssueFragment extends HSFragmentParent {
 		
 		setHasOptionsMenu(true);
 		
-		View rootView = inflater.inflate(R.layout.fragment_new_issue, container, false);
+		View rootView = inflater.inflate(R.layout.hs_fragment_new_issue, container, false);
 		
 		this.subjectField = (EditText) rootView.findViewById(R.id.subjectField);
 		

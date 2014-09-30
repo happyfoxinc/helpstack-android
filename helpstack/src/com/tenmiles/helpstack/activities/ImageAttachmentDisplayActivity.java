@@ -38,7 +38,7 @@ public class ImageAttachmentDisplayActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_image_attachment_display);
+		setContentView(R.layout.hs_activity_image_attachment_display);
 
 		if (savedInstanceState == null) {
 			String url = getIntent().getExtras().getString(EXTRAS_STRING_URL);

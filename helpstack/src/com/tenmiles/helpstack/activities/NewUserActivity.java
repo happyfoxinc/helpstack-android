@@ -37,7 +37,7 @@ public class NewUserActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_user);
+		setContentView(R.layout.hs_activity_new_user);
 		
 		if (savedInstanceState == null) {
 			NewUserFragment newUserFragment = new NewUserFragment();

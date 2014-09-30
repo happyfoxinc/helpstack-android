@@ -41,7 +41,7 @@ public class NewIssueActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_issue);
+		setContentView(R.layout.hs_activity_new_issue);
 
 		if (savedInstanceState == null) {
 			Bundle bundle = getIntent().getExtras();

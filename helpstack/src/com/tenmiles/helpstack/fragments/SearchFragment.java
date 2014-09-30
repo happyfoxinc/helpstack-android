@@ -71,12 +71,12 @@ public class SearchFragment extends HSFragmentParent {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		rootView =  inflater.inflate(R.layout.fragment_search, container, false);
+		rootView =  inflater.inflate(R.layout.hs_fragment_search, container, false);
 		setVisibility(false);
 		listView = (ListView)rootView.findViewById(R.id.searchList);
 		searchAdapter = new SearchAdapter(this.allKbArticles);
 		
-		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
+		View report_an_issue_view = inflater.inflate(R.layout.hs_expandable_footer_report_issue, null);
         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
 
         listView.addFooterView(report_an_issue_view);
@@ -253,7 +253,7 @@ public class SearchFragment extends HSFragmentParent {
 			ViewHolder holder = null;
 			if(convertView == null){
 				LayoutInflater inflater = getActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.sectionlist_article, null);
+				convertView = inflater.inflate(R.layout.hs_sectionlist_article, null);
 				holder = new ViewHolder();
 				holder.textview = (TextView)convertView.findViewById(R.id.sectionlisttextview);
 				convertView.setTag(holder);

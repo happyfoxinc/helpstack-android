@@ -67,7 +67,7 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 		
 		
 		View rootView = inflater.inflate(
-				R.layout.fragment_image_attachment_display, container,
+				R.layout.hs_fragment_image_attachment_display, container,
 				false);
 		
 		progressView = rootView.findViewById(R.id.progressHolder);

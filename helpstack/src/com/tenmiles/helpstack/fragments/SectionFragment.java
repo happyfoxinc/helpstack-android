@@ -75,13 +75,13 @@ public class SectionFragment extends HSFragmentParent {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle savedInstanceState) {
 		
-		View rootView = inflater.inflate(R.layout.fragment_section, container, false);
+		View rootView = inflater.inflate(R.layout.hs_fragment_section, container, false);
 		
 		// List View
 		mListView = (ListView)rootView.findViewById(R.id.sectionlistview);
 		
 		// Report an issue
-		View report_an_issue_view = inflater.inflate(R.layout.expandable_footer_report_issue, null);
+		View report_an_issue_view = inflater.inflate(R.layout.hs_expandable_footer_report_issue, null);
         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
         mListView.addFooterView(report_an_issue_view);
 		
@@ -252,7 +252,7 @@ public class SectionFragment extends HSFragmentParent {
 			if(convertView == null) {
 				holder = new ViewHolder();
 				LayoutInflater inflater = getActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.sectionlist_article, null);
+				convertView = inflater.inflate(R.layout.hs_sectionlist_article, null);
 				holder.title = (TextView)convertView.findViewById(R.id.sectionlisttextview);
 				convertView.setTag(holder);
 			}else {

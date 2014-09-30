@@ -39,7 +39,7 @@ public class IssueDetailActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_issue_detail);
+		setContentView(R.layout.hs_activity_issue_detail);
 
 		if (savedInstanceState == null) {
 			IssueDetailFragment mIssueDetailFragment = HSFragmentManager.getIssueDetailFragment();

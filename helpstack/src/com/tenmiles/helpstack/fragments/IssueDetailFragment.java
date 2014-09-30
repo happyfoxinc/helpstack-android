@@ -96,7 +96,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-		View rootView = inflater.inflate(R.layout.fragment_issue_detail, null);
+		View rootView = inflater.inflate(R.layout.hs_fragment_issue_detail, null);
 		
 		
 		replyEditTextView = (EditText) rootView.findViewById(R.id.replyEditText);
@@ -378,7 +378,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		String[] attachmentNames = attachments.toArray(new String[attachments.size()]);
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-        View convertView = (View) inflater.inflate(R.layout.attachment_dialog, null);
+        View convertView = (View) inflater.inflate(R.layout.hs_attachment_dialog, null);
         alertDialog.setView(convertView);
         alertDialog.setTitle(getResources().getString(R.string.hs_attachments));
         final AlertDialog dialog = alertDialog.create();
@@ -414,10 +414,10 @@ public class IssueDetailFragment extends HSFragmentParent
 			if (convertView == null) {
 				holder = new ChildViewHolder();
 				if (getChildType(groupPosition, childPosition) == 0) {
-					convertView = mLayoutInflater.inflate(R.layout.expandable_child_issue_detail_staff_reply, null);
+					convertView = mLayoutInflater.inflate(R.layout.hs_expandable_child_issue_detail_staff_reply, null);
 				}
 				else {
-					convertView = mLayoutInflater.inflate(R.layout.expandable_child_issue_detail_user_reply, null);
+					convertView = mLayoutInflater.inflate(R.layout.hs_expandable_child_issue_detail_user_reply, null);
 				}
 				
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
@@ -487,7 +487,7 @@ public class IssueDetailFragment extends HSFragmentParent
 				View convertView, ViewGroup parent) {
 			ParentViewHolder holder;
 			if (convertView == null) {
-				convertView = mLayoutInflater.inflate(R.layout.expandable_parent_issue_detail_default, null);
+				convertView = mLayoutInflater.inflate(R.layout.hs_expandable_parent_issue_detail_default, null);
 				holder = new ParentViewHolder();
 				holder.parent = convertView;
 				
