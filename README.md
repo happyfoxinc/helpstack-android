@@ -16,8 +16,6 @@ HelpStack supports the following helpdesk solutions:
 
 If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
 
-Visit [helpstack.io](http://www.helpstack.io) to learn more.
-
 <p align="left" >
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
 </p>
@@ -32,95 +30,87 @@ Installating the HelpStack library is fairly straight-forward.
 3. Set the flag for *manifestmerger.enabled* to *true* in your *project.properties* file:
 
         manifestmerger.enabled=true
+        
+
+- **[Error]: Attribute is already present**: Replace the necessary attribute. For example:
+
+        <manifest
+          xmlns:tools="http://schemas.android.com/tools"
+          ...>
+          
+          <application
+              tools:replace="android:label"
+              ...>
     
+- **[Error]: Jar mismatch! Found different versions of jar in the dependency list**: Replace the jar in the library with the jar from your project. Clean the project and build again.
+ 
 ### [Android Studio]:
 
 1. Add jcenter as a repository to your app's build.gradle
-2. Add com.tenmiles:helpstack:1.0 as a dependency
 
         repositories {
           jcenter()
         }
         
+2. Add *com.tenmiles:helpstack:1.0* as a dependency in the same build.gradle
+        
         dependencies {
           compile 'com.tenmiles:helpstack:1.0'
         }
-    
-You might face a few issues, depending on your app.
-
-1. **Attribute is already present**: Follow the instructions suggested by Android Studio, which is along the lines of adding
-
-        tools:replace="android:label"
-        
-  to your *application* tag.
-2. **Duplicate files copied in APK**, listing some library jars: HelpStack uses some libraries and your app might be using the same. To avoid using the library from HelpStack, exclude it when you add the dependency. For example, if the library is *httpmime*, import the library in the manner below:
 
 
-    compile ('com.tenmiles:helpstack:1.0') {
-      exclude group: 'org.apache.httpcomponents', module: 'httpmime'
-    }
+- **[Error]: Attribute is already present**: Replace the necessary attribute. For example:
+
+        <manifest
+          xmlns:tools="http://schemas.android.com/tools"
+          ...>
+          
+          <application
+              tools:replace="android:label"
+              ...>
+  
+- **[Issue]: Duplicate files copied in APK**: This happens due to library version-mismatch. To avoid using the library from HelpStack, exclude it when you add the dependency. For example:
+
+        compile ('com.tenmiles:helpstack:1.0') {
+          exclude group: 'org.apache.httpcomponents', module: 'httpmime'
+        }
+
+### External Dependencies
+
+HelpStack depends on the following libraries:
+
+    com.android.support:appcompat-v7:20.0.0
+    com.google.code.gson:gson:2.2.4
+    org.apache.httpcomponents:httpmime:4.2.6
+    com.mcxiaoke.volley:library-aar:1.+
 
 
 ## Using the Library
 
 Broadly speaking, there are just 3 steps to begin using HelpStack within your app:
 
-1. Choose a helpdesk solution of your choice and obtain the necessary credentials. These helpdesk solutions will be referred to as **Gears**.
-2. Configure HelpStack to work with the Gear of your choice.
+The helpdesk solutions will be referred to as **Gears**.
+
+1. Configure HelpStack to work with the Gear of your choice.
 2. Add an entry-point for HelpStack in the UI and connect it with HelpStack.
 3. Customize the theme of HelpStack according to your choice.
 
 
-#### Step 1 - Choose a Gear and obtain credentials:
+#### Step 1 - Configure HelpStack with the Gear of your choice:
 
-Obtain the necessary credentials for the gear of your choice and create a suitable Gear object.
+Create a custom *Application* class which extends the **Application** class. Be sure to mention it in your manifest as well.
 
-##### i. HappyFox Gear credentials:
-*HappyFox Account URL*, *API Key*, *Auth Code*, *Category ID* and *Priority ID*.
+    <application
+      android:name="HSApplication"
+      ...
+    />    
+    
+Obtain the necessary credentials for the gear of your choice and create a suitable Gear object. Set the Gear object with *HSHelpStack* instance only once. 
 
-    HSHappyfoxGear happyfoxGear = new HSHappyfoxGear(
-                "<Account URL>",
-                "<Your API Key>",
-                "<Your Auth Code>",
-                "<Category ID>",
-                "<Priority ID>");
-                
-The API key and Auth code can be found in your HappyFox account under *Manage* > *Integrations*. You can generate an API key and Auth code by clicking on the API configure link.
+##### i. HappyFox:
+Credentials: *HappyFox Account URL*, *API Key*, *Auth Code*, *Category ID* and *Priority ID*.
 
-HappyFox requires that the Priority ID and Category ID cannot be nil. This is the ID of the priority and the category with which tickets will be created when a customer reports an issue. 
-
-##### ii. Zendesk Gear credentials:
-*Zendesk Account URL*, *Staff Email address* and *API token*.
-
-    HSZendeskGear zenDeskGear = new HSZendeskGear(
-            "<Account URL>",
-            "<Staff Email Address>",
-            "<API Token");
-
-The token can be found in your Zendesk account under Settings > Channels > API.
-
-##### iii. Desk Gear credentials:
-*Desk Account URL*, *To Help Email address*, *Staff Email address* and *Staff password*
-
-    HSDeskGear deskGear = new HSDeskGear(
-            "<Account URL>",
-            "<To Help email address>",
-            "<Staff email address>",
-            "<Staff password");
-
-##### iv. Email:
-*Email address* and *Articles in xml format*
-
-
-    HSEmailGear emailGear = new HSEmailGear( 
-                "example@happyfox.com",
-                R.xml.articles);
-
-#### Step 2 - Configure HelpStack with the Gear:
-i. Set the Gear object with *HSHelpStack* instance only once. You can do this in the **OnCreate()** method of your app's Main Activity, but it is suggested that you create a custom *Application* class which extends the **Application** class:
-  
-  
-     public class HSApplication extends Application {
+    public class HSApplication extends Application {
       
       HSHelpStack helpStack;
       
@@ -131,34 +121,107 @@ i. Set the Gear object with *HSHelpStack* instance only once. You can do this in
         // Get the HSHelpStack instance
         helpStack = HSHelpStack.getInstance(this);
         
-        // Insert Gear object creation from previous step here
-        <GearType> <Gear Object> = new <GearType> (<Credentials>)
+        // Crate the Gear object 
+        HSHappyfoxGear happyfoxGear = new HSHappyfoxGear(
+                "<Account URL>",
+                "<Your API Key>",
+                "<Your Auth Code>",
+                "<Category ID>",
+                "<Priority ID>");
         
         // Set the Gear
-        helpStack.setGear(<Gear Object>);
+        helpStack.setGear(happyfoxGear);
       }
       
-    }	  
+    }
+
+The API key and Auth code can be found in your HappyFox account under *Manage* > *Integrations*. You can generate an API key and Auth code by clicking on the API configure link.
+
+HappyFox requires that the Priority ID and Category ID cannot be nil. This is the ID of the priority and the category with which tickets will be created when a customer reports an issue. 
+
+*Example*:
+
+    https://example.happyfox.com/api/1.1/json/priorities/ 
+    https://example.happyfox.com/api/1.1/json/categories/
+
+
+##### ii. Zendesk:
+Credentials: *Zendesk Account URL*, *Staff Email address* and *API token*.
+  
+    public class HSApplication extends Application {
       
-ii. Now open your Application Android manifest and set the Application name as your custom application class name. 
+      HSHelpStack helpStack;
+      
+      @Override
+      public void onCreate() {
+        super.onCreate();
+        
+        // Get the HSHelpStack instance
+        helpStack = HSHelpStack.getInstance(this);
+        
+        // Crate the Gear object 
+        HSZendeskGear zenDeskGear = new HSZendeskGear(
+                "<Account URL>",
+                "<Staff Email Address>",
+                "<API Token");
+        
+        // Set the Gear
+        helpStack.setGear(zenDeskGear);
+      }
+      
+    }
+    
+The token can be found in your Zendesk account under Settings > Channels > API.
 
-     <application
-        android:name="HSApplication"
-        ...
-      />	
+##### iii. Desk:
+**Credentials**: *Desk Account URL*, *To Help Email address*, *Staff Email address* and *Staff password*
 
-#### Step 3 - Entry point in UI:
+    public class HSApplication extends Application {
+     
+      HSHelpStack helpStack;
+      
+      @Override
+      public void onCreate() {
+        super.onCreate();
+        
+        // Get the HSHelpStack instance
+        helpStack = HSHelpStack.getInstance(this);
+        
+        // Crate the Gear object 
+        HSDeskGear deskGear = new HSDeskGear(
+                "<Account URL>",
+                "<To Help email address>",
+                "<Staff email address>",
+                "<Staff password");
+       
+        // Set the Gear
+        helpStack.setGear(deskGear);
+      }
+     
+    }
+   
+##### iv. Email:
+*Email address* and *Articles in xml format*
+
+
+    HSEmailGear emailGear = new HSEmailGear( 
+                "example@happyfox.com",
+                R.xml.articles);
+                
+
+#### Step 2 - Entry point in UI:
 Add a clickable item (probably a button) in your UI, wherever appropriate. Set a *click listener* to it. Within the *click listener*, use the **showGear** API to open up the HelpStack UI:
 
     HSHelpStack.getInstance(getActivity()).showGear(getActivity());
 
 
-#### Step 4 - Theming/Skinning:
+#### Step 3 - Theming/Skinning:
 
-It is very easy to customize the HelpStack UI. You might want to do so to make it go along with your app's UI.
+It is very easy to customize the HelpStack UI, if you want it go along with your app's UI.
 
-We ship sample themes along with the HelpStack library. You can find them in 
-**/helpstack/Themes/**, where you will find 5 sample themes - **HSLightTheme** (Default), **HSDarkTheme**, **HSFacebookTheme**, **HSPathTheme** and  **HSPinterestTheme**.
+HelpStack comes with built-in screens and a default theme. It also comes with a set of pre-configured themes. You can download them from the link below:
+
+#### [Download Themes](./Themes/)
 
 Each theme comes with the following:
 - A *colors.xml* and a **hs_custom_theme.xml** defined in **../values/**
@@ -166,12 +229,10 @@ Each theme comes with the following:
 
 
 ##### Using the sample themes
-
 - Decide which sample theme you want to use
 - Include the *theme* and *colors* xml files in your application under **values**
 - Include the theme's drawables under your application's **drawables**
 - Now you can simply build and run the application. The HelpStack UI will use the styles specified in the chosen theme.
-
 
 Below is the list of parameters you can configure to change the looks of HelpStack:
 
