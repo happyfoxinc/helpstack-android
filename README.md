@@ -75,16 +75,6 @@ Installating the HelpStack library is fairly straight-forward.
           exclude group: 'org.apache.httpcomponents', module: 'httpmime'
         }
 
-### External Dependencies
-
-HelpStack depends on the following libraries:
-
-    com.android.support:appcompat-v7:20.0.0
-    com.google.code.gson:gson:2.2.4
-    org.apache.httpcomponents:httpmime:4.2.6
-    com.mcxiaoke.volley:library-aar:1.+
-
-
 ## Using the Library
 
 Broadly speaking, there are just 3 steps to begin using HelpStack within your app:
@@ -108,7 +98,6 @@ Create a custom *Application* class which extends the **Application** class. Be 
 Obtain the necessary credentials for the gear of your choice and create a suitable Gear object. Set the Gear object with *HSHelpStack* instance only once. 
 
 ##### i. HappyFox:
-Credentials: *HappyFox Account URL*, *API Key*, *Auth Code*, *Category ID* and *Priority ID*.
 
     public class HSApplication extends Application {
       
@@ -129,6 +118,9 @@ Credentials: *HappyFox Account URL*, *API Key*, *Auth Code*, *Category ID* and *
                 "<Category ID>",
                 "<Priority ID>");
         
+        // [Optional] Set the Section Id of your Knowledge Base articles
+        happyfoxGear.setSectionId("<Section id>");
+        
         // Set the Gear
         helpStack.setGear(happyfoxGear);
       }
@@ -137,16 +129,16 @@ Credentials: *HappyFox Account URL*, *API Key*, *Auth Code*, *Category ID* and *
 
 The API key and Auth code can be found in your HappyFox account under *Manage* > *Integrations*. You can generate an API key and Auth code by clicking on the API configure link.
 
-HappyFox requires that the Priority ID and Category ID cannot be nil. This is the ID of the priority and the category with which tickets will be created when a customer reports an issue. 
+Priority ID and Category ID cannot be nil. These are the ID's of the priority and the category with which tickets will be created. Setting the Section ID of your KB articles is optional.
 
 *Example*:
 
     https://example.happyfox.com/api/1.1/json/priorities/ 
     https://example.happyfox.com/api/1.1/json/categories/
+    https://example.happyfox.com/api/1.1/json/kb/sections/
 
 
 ##### ii. Zendesk:
-Credentials: *Zendesk Account URL*, *Staff Email address* and *API token*.
   
     public class HSApplication extends Application {
       
@@ -174,7 +166,6 @@ Credentials: *Zendesk Account URL*, *Staff Email address* and *API token*.
 The token can be found in your Zendesk account under Settings > Channels > API.
 
 ##### iii. Desk:
-**Credentials**: *Desk Account URL*, *To Help Email address*, *Staff Email address* and *Staff password*
 
     public class HSApplication extends Application {
      
@@ -277,6 +268,15 @@ Override the styles specified in **/values/hs_custom_theme.xml**
 
   If you want the complete look-and-feel of a theme, you might also want to update the color of your app's Action bar.
 
+
+## External Dependencies
+
+HelpStack depends on the following libraries:
+
+    com.android.support:appcompat-v7:20.0.0
+    com.google.code.gson:gson:2.2.4
+    org.apache.httpcomponents:httpmime:4.2.6
+    com.mcxiaoke.volley:library-aar:1.+
   
 ## About
 For more information about HelpStack, visit [helpstack.io](http://www.helpstack.io).

@@ -81,8 +81,7 @@ public class HSHappyfoxGear extends HSGear {
 	private String auth_code;
 	private String priority_id;
 	private String category_id;
-
-	public String hf_section_id;
+	private String section_id;
 
     // This are cached here so server call can be minimized and improve the speed of UI
     JSONArray allSectionsArray;
@@ -113,7 +112,7 @@ public class HSHappyfoxGear extends HSGear {
 		if (section == null) {
 			// This is first request of sections 
 
-			if (this.hf_section_id == null) {
+			if (this.section_id == null) {
 				// Fetch all sections
 				String url = getApiUrl().concat("kb/sections/");
 
@@ -136,7 +135,7 @@ public class HSHappyfoxGear extends HSGear {
 			}
 			else {
 				// Fetch individual section
-				String url = getApiUrl().concat("kb/section/").concat(this.hf_section_id).concat("/");
+				String url = getApiUrl().concat("kb/section/").concat(this.section_id).concat("/");
 
 				JsonObjectRequest request = new JsonObjectRequest(url, null, new HappyfoxArrayBaseListener<JSONObject>(success, errorListener) {
 
@@ -341,6 +340,10 @@ public class HSHappyfoxGear extends HSGear {
 		queue.start();
 
 	}
+
+    public void setSectionId(String sectionId) {
+        this.section_id = sectionId;
+    }
 
     private HSKBItem[] getArticlesFromSection(JSONObject sectionObject) throws JSONException {
         JSONArray articleArray = sectionObject.getJSONArray("articles");
