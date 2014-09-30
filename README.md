@@ -6,13 +6,13 @@
 **HelpStack** is a library to provide in-app support for your app's users, by connecting with the helpdesk of your choice.
 
 With HelpStack, you can:
-- Show (local/remote) FAQ articles
+- Show FAQ articles
 - Let users report issues within your app
 
-HelpStack supports the following helpdesk solutions: 
-- HappyFox
-- Zendesk
-- Desk.com
+HelpStack supports the following leading helpdesk solutions: 
+- [HappyFox](https://www.happyfox.com/)
+- [Zendesk](https://www.zendesk.com/)
+- [Desk.com]()
 
 If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
 
