@@ -4,7 +4,7 @@
     <!-- Default/Base Themes -->
     <!-- The base characteristics are defined in the default themes -->
    
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+    <style name="HSAppBaseTheme" parent="Theme.AppCompat.Light">
     </style>
     
     <!-- Background default Style -->

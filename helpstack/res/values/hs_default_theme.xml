@@ -4,7 +4,7 @@
     <!-- Override the properties of the following styles to create custom Styles -->
     
     <!-- Application Style. -->
-   <style name="AppTheme" parent="AppBaseTheme">
+   <style name="HSAppTheme" parent="HSAppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     

@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@drawable/hs_launcher"
         android:label="@string/hs_app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/HSAppTheme" >
         <activity
             android:name="com.tenmiles.helpstack.activities.HomeActivity"
             android:label="@string/hs_app_name" android:exported="false">
