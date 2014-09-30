@@ -12,7 +12,7 @@ With HelpStack, you can:
 HelpStack supports the following leading helpdesk solutions: 
 - [HappyFox](https://www.happyfox.com/)
 - [Zendesk](https://www.zendesk.com/)
-- [Desk.com]()
+- [Desk.com](http://www.desk.com/)
 
 If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
 
