@@ -158,18 +158,26 @@ Priority ID and Category ID cannot be nil. These are the ID's of the priority an
         helpStack = HSHelpStack.getInstance(this);
         
         // Crate the Gear object 
-        HSZendeskGear zenDeskGear = new HSZendeskGear(
+        HSZendeskGear zendeskGear = new HSZendeskGear(
                 "<Account URL>",
                 "<Staff Email Address>",
                 "<API Token");
+                
+        // [Optional] Set the Section Id of your Help Center articles
+        zendeskGear.setSectionId("<Section id>");
         
         // Set the Gear
-        helpStack.setGear(zenDeskGear);
+        helpStack.setGear(zendeskGear);
       }
       
     }
     
-The token can be found in your Zendesk account under Settings > Channels > API.
+The token can be found in your Zendesk account under Settings > Channels > API. Setting the Section ID of your Help Center articles is optional.
+
+*Example*:
+
+    https://example.zendesk.com/api/v2/help_center/sections.json
+
 
 ##### iii. Desk:
 
