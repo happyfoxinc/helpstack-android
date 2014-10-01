@@ -2,19 +2,25 @@
   <a href="http://www.helpstack.io/"><img src="https://dl.dropboxusercontent.com/u/55774910/HelpStack/Helpstack%20by%20Happyfox%20logos.png" alt="HelpStack" title="Logo" /></a>
 </p>
 
-
-**HelpStack** is a library to provide in-app support for your app's users, by connecting with the helpdesk of your choice.
+**HelpStack** is a library to provide in-app support for your app's users, by connecting with the helpdesk of your choice. Your app’s users can easily raise requests or report issues from within your app.
 
 With HelpStack, you can:
-- Show FAQ articles
+
 - Let users report issues within your app
+- Let users attach screenshots to their support requests
+- Receive Device and App Information automatically, along with the reported issue
+- Let users view your responses to their issues
+- Provide self-support by showing FAQ articles
+- Customise your HelpStack screen to blend with your app theme
 
 HelpStack supports the following leading helpdesk solutions: 
 - [HappyFox](https://www.happyfox.com/)
 - [Zendesk](https://www.zendesk.com/)
 - [Desk.com](http://www.desk.com/)
 
-If you don't have a helpdesk solution, you can also configure HelpStack, for users to raise requests via email.
+If you don't have a helpdesk solution, you can still configure HelpStack for users to raise requests via email.
+
+Check out [helpstack.io](http://www.helpstack.io) for more information.
 
 <p align="left" >
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
