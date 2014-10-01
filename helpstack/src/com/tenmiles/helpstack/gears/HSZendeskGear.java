@@ -112,7 +112,12 @@ public class HSZendeskGear extends HSGear {
                             }
                         }, errorListener);
 
-                addRequestAndStartQueue(queue, request);
+                request.setTag(cancelTag);
+                request.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
+                        ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+
+                queue.add(request);
+                queue.start();
             }
             else {
                 showArticlesInSection(cancelTag,this.section_id,  queue, successListener, errorListener);
@@ -171,7 +176,13 @@ public class HSZendeskGear extends HSGear {
                     }
                 }, errorListener);
 
-        addRequestAndStartQueue(queue, fetchRequest);
+        fetchRequest.addCredential(staff_email_address, api_token);
+        fetchRequest.setTag(cancelTag);
+        fetchRequest.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
+                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+
+        queue.add(fetchRequest);
+        queue.start();
     }
 
     @Override
@@ -194,11 +205,6 @@ public class HSZendeskGear extends HSGear {
 
     public String getApiUrl() {
         return this.instanceUrl.concat("api/v2/");
-    }
-
-    private void addRequestAndStartQueue(RequestQueue queue, Request request) {
-        queue.add(request);
-        queue.start();
     }
 
     private void createNewTicketWithAttachment(final String cancelTag, final HSUser user, final String message, final String body, HSUploadAttachment[] attachments,  final RequestQueue queue,
@@ -230,7 +236,14 @@ public class HSZendeskGear extends HSGear {
             }
         }, errorListener);
 
-        addRequestAndStartQueue(queue, attachmentRequest);
+
+        attachmentRequest.addCredential(staff_email_address, api_token);
+        attachmentRequest.setTag(cancelTag);
+        attachmentRequest.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
+                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+
+        queue.add(attachmentRequest);
+        queue.start();
     }
 
     private void createTicket(String cancelTag, final HSUser user, String message, String body, String[] attachmentToken, RequestQueue queue, final OnNewTicketFetchedSuccessListener successListener, final Response.ErrorListener errorListener) {
@@ -259,7 +272,13 @@ public class HSZendeskGear extends HSGear {
             }
         }, errorListener);
 
-        addRequestAndStartQueue(queue, request);
+        request.addCredential(staff_email_address, api_token);
+        request.setTag(cancelTag);
+        request.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
+                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+
+        queue.add(request);
+        queue.start();
     }
 
     private void addReplyToTicketWithAttachment(final String cancelTag, final HSTicket ticket, final HSUser user, final String message, HSUploadAttachment[] attachments,  final RequestQueue queue,
@@ -296,7 +315,13 @@ public class HSZendeskGear extends HSGear {
             }
         }, errorListener);
 
-        addRequestAndStartQueue(queue, attachmentRequest);
+        attachmentRequest.addCredential(staff_email_address, api_token);
+        attachmentRequest.setTag(cancelTag);
+        attachmentRequest.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
+                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+
+        queue.add(attachmentRequest);
+        queue.start();
     }
 
     private String getAttachmentFileName(HSUploadAttachment attachmentObject) {
@@ -352,7 +377,13 @@ public class HSZendeskGear extends HSGear {
             }
         }, errorListener);
 
-        addRequestAndStartQueue(queue, request);
+        request.addCredential(staff_email_address, api_token);
+        request.setTag(cancelTag);
+        request.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
+                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+
+        queue.add(request);
+        queue.start();
     }
 
     private JSONObject retrieveTicketProperties(HSUser user, String body, String[] attachmentToken, String message) throws JSONException {
@@ -552,7 +583,13 @@ public class HSZendeskGear extends HSGear {
             }
         }, errorListener);
 
-        addRequestAndStartQueue(queue, request);
+        request.addCredential(staff_email_address, api_token);
+        request.setTag(cancelTag);
+        request.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
+                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+
+        queue.add(request);
+        queue.start();
     }
 
     protected static Date parseTime(String dateString) {
@@ -619,36 +656,18 @@ public class HSZendeskGear extends HSGear {
 
         public ZendeskJsonObjectRequest(String cancelTag, int method, String url, JSONObject jsonRequest, Listener<org.json.JSONObject> listener, ErrorListener errorListener) {
             super(method, url, jsonRequest, listener, errorListener);
-            addRequestParameters(cancelTag);
         }
 
         public ZendeskJsonObjectRequest(String cancelTag, String email_address, int method, String url, JSONObject jsonRequest, Listener<org.json.JSONObject> listener, Response.ErrorListener errorListener) {
             super(method, url, jsonRequest, listener, errorListener);
-            addRequestParameters(cancelTag, email_address);
         }
 
         public ZendeskJsonObjectRequest(String cancelTag, String url, JSONObject ticketJson, Listener<JSONObject> listener, ErrorListener errorListener) {
             super(url, ticketJson, listener, errorListener);
-            addRequestParameters(cancelTag);
         }
 
         public ZendeskJsonObjectRequest(String cancelTag, String url, Listener<JSONObject> listener, ErrorListener errorListener) {
             super(url, null, listener, errorListener);
-            addRequestParameters(cancelTag);
-        }
-
-        private void addRequestParameters(String cancelTag) {
-            this.addCredential(staff_email_address, api_token);
-            this.setTag(cancelTag);
-            this.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
-                    ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
-        }
-
-        private void addRequestParameters(String cancelTag, String email_address) {
-            this.addCredential(email_address, api_token);
-            this.setTag(cancelTag);
-            this.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
-                    ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
         }
 
         public void addCredential(String name, String api_token) {
@@ -672,8 +691,6 @@ public class HSZendeskGear extends HSGear {
 
         public ZendeskObjectRequest(String cancelTag, String attachmentUrl, HSUploadAttachment attachmentObject, Listener<JSONObject> listener, ErrorListener errorListener) {
             super(Method.POST, attachmentUrl, errorListener);
-
-            addRequestParameters(cancelTag);
 
             mListener = listener;
 
@@ -700,14 +717,7 @@ public class HSZendeskGear extends HSGear {
             this.content = output.toByteArray();
         }
 
-        private void addRequestParameters(String cancelTag) {
-            this.addCredential(staff_email_address, api_token);
-            this.setTag(cancelTag);
-            this.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
-                    ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
-        }
-
-        public void addCredential(String name, String api_token) {
+        private void addCredential(String name, String api_token) {
             String credentials = name.concat("/token:").concat(api_token);
             String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
             headers.put("Authorization", "Basic ".concat(base64EncodedCredentials));
