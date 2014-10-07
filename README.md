@@ -215,9 +215,9 @@ The token can be found in your Zendesk account under Settings > Channels > API. 
                 
 
 #### Step 2 - Entry point in UI:
-Add a clickable item (probably a button) in your UI, wherever appropriate. Set a *click listener* to it. Within the *click listener*, use the **showGear** API to open up the HelpStack UI:
+Add a clickable item (probably a button) in your UI, wherever appropriate. Set a *click listener* to it. Within the *click listener*, use the **showHelp** API to open up the HelpStack UI:
 
-    HSHelpStack.getInstance(getActivity()).showGear(getActivity());
+    HSHelpStack.getInstance(getActivity()).showHelp(getActivity());
 
 
 #### Step 3 - Theming/Skinning:
