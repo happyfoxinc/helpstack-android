@@ -15,8 +15,8 @@
         android:allowBackup="true"
         android:icon="@drawable/hs_launcher"
         android:label="@string/app_name"
-        android:theme="@style/HSAppBaseTheme" android:name="HSApplication"
-        tools:replace="theme, label">
+        android:theme="@style/HSAppBaseTheme"
+        android:name="HSApplication">
         <activity
             android:name="com.example.helpstackexample.MainActivity"
             android:label="@string/app_name" >

@@ -18,7 +18,9 @@ HelpStack supports the following leading helpdesk solutions:
 - [Zendesk](https://www.zendesk.com/)
 - [Desk.com](http://www.desk.com/)
 
-If you don't have a helpdesk solution, you can still configure HelpStack for users to raise requests via email.
+- Email - If you don't have a helpdesk solution, you can still configure HelpStack for users to raise requests via email.
+
+You can choose any 1 of the 4 options mentioned above, to get started with HelpStack.
 
 Check out [helpstack.io](http://www.helpstack.io) for more information.
 
@@ -37,16 +39,6 @@ Installating the HelpStack library is fairly straight-forward.
 
         manifestmerger.enabled=true
         
-
-- **[Error]: Attribute is already present**: Replace the necessary attribute. For example:
-
-        <manifest
-          xmlns:tools="http://schemas.android.com/tools"
-          ...>
-          
-          <application
-              tools:replace="android:label"
-              ...>
     
 - **[Error]: Jar mismatch! Found different versions of jar in the dependency list**: Replace the jar in the library with the jar from your project. Clean the project and build again.
  
@@ -65,16 +57,6 @@ Installating the HelpStack library is fairly straight-forward.
         }
 
 
-- **[Error]: Attribute is already present**: Replace the necessary attribute. For example:
-
-        <manifest
-          xmlns:tools="http://schemas.android.com/tools"
-          ...>
-          
-          <application
-              tools:replace="android:label"
-              ...>
-  
 - **[Issue]: Duplicate files copied in APK**: This happens due to library version-mismatch. To avoid using the library from HelpStack, exclude it when you add the dependency. For example:
 
         compile ('com.tenmiles:helpstack:1.0') {
@@ -135,13 +117,11 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
 
 The API key and Auth code can be found in your HappyFox account under *Manage* > *Integrations*. You can generate an API key and Auth code by clicking on the API configure link.
 
-Priority ID and Category ID cannot be nil. These are the ID's of the priority and the category with which tickets will be created. Setting the Section ID of your KB articles is optional.
+Priority ID and Category ID cannot be nil. These are the ID's of the priority and the category with which tickets will be created. Setting the Section ID of your KB articles is optional. Navigate to the following URL's in your HappyFox account, to obtain the necessary details:
 
-*Example*:
-
-    https://example.happyfox.com/api/1.1/json/priorities/ 
-    https://example.happyfox.com/api/1.1/json/categories/
-    https://example.happyfox.com/api/1.1/json/kb/sections/
+    https://<HappyFox account domain>/api/1.1/json/priorities/ 
+    https://<HappyFox account domain>/api/1.1/json/categories/
+    https://<HappyFox account domain>/api/1.1/json/kb/sections/
 
 
 ##### ii. Zendesk:
@@ -172,11 +152,9 @@ Priority ID and Category ID cannot be nil. These are the ID's of the priority an
       
     }
     
-The token can be found in your Zendesk account under Settings > Channels > API. Setting the Section ID of your Help Center articles is optional.
+The token can be found in your Zendesk account under Settings > Channels > API. Setting the Section ID of your Help Center articles is optional. You can find the sections in your Zendesk account, as mentioned below:
 
-*Example*:
-
-    https://example.zendesk.com/api/v2/help_center/sections.json
+    https://<Zendesk account domain>/api/v2/help_center/sections.json
 
 
 ##### iii. Desk:
