@@ -1,0 +1,88 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Halloween Theme -->
+    <!-- Developed by :- Anirudh -->
+    <!-- Override the properties of the following styles to create custom Styles -->
+    <!-- DO NOT DELETE ANY OF THE FOLLOWING STYLES AS THEY ARE USED IN HELPSTACK LAYOUTS -->
+    
+    <!-- Style for background of all screens -->
+    <style name="hs_backgroundStyle" parent="hs_background_defaultStyle">
+        <item name="android:background">@color/hs_halloween_background_color</item>
+    </style>
+    
+    <!-- Articles and issues list -->
+    <style name="hs_listViewStyle" parent="hs_listView_defaultStyle">
+        <item name="android:background">@color/hs_halloween_listView_background_color</item>
+        <item name="android:dividerHeight">0dip</item>
+    </style>
+    
+    <!-- Header background of main list view -->
+    <style name="hs_listView_headerBackgroundStyle" parent="hs_listView_headerBackground_defaultStyle">
+        <item name="android:background">@color/hs_halloween_header_background_color</item>
+    </style>
+    
+    <!-- Child view background of main list view -->
+    <style name="hs_listView_childBackgroundStyle" parent="hs_listView_childBackground_defaultStyle">
+        <item name="android:background">@color/hs_halloween_child_background_color</item>
+    </style>
+    
+    <!-- ListView header text -->
+    <style name="hs_listView_headerTextStyle" parent="hs_listView_headerText_defaultStyle">
+        <item name="android:textColor">@color/hs_halloween_header_textColor</item>
+    </style>
+    
+    <!-- ListView child text -->
+    <style name="hs_listView_childTextStyle" parent="hs_listView_childText_defaultStyle">
+        <item name="android:textColor">@color/hs_halloween_child_textColor</item>
+    </style>
+    
+	<!-- Chat screen - left chat bubble style -->
+	<style name="hs_leftChatBubbleStyle" parent="hs_leftChatBubble_defaultStyle">
+	    <item name="android:background">@drawable/hs_halloween_left_chat_bubble</item>
+	</style>
+	
+	<!-- Chat screen - right chat bubble style -->
+    <style name="hs_rightChatBubbleStyle" parent="hs_rightChatBubble_defaultStyle">
+        <item name="android:background">@drawable/hs_halloween_right_chat_bubble</item>
+    </style>
+    
+    <!-- Chat screen message text style for left chat bubble -->
+    <style name="hs_right_messageTextStyle" parent="@style/hs_rightmessageText_defaultStyle">
+        <item name="android:textColor">@color/hs_halloween_right_messageTextColor</item>
+    </style>
+    
+    <!-- Chat screen more info text style - applied to the sender name and time -->
+    <style name="hs_left_messageTextStyle" parent="@style/hs_leftmessageText_defaultStyle">
+        <item name="android:textColor">@color/hs_halloween_left_messageTextColor</item>
+    </style>
+    
+    <!-- Chat screen more info text style - applied to the sender name and time -->
+    <style name="hs_smallTextStyle" parent="@style/hs_smallText_defaultStyle">
+        <item name="android:textColor">@color/hs_halloween_moreinfoTextColor</item>
+    </style>
+    
+    <!-- Button Style - applied for report issue button -->
+    <style name="hs_buttonStyle" parent="hs_button_defaultStyle"></style>
+    
+    <!-- Edit text Style in new user and new issue screen -->
+    <style name="hs_editTextStyle" parent="hs_editText_defaultStyle"></style>
+    
+    <!-- Edit text Style used in chat screen - add reply -->
+    <style name="hs_messageEditTextStyle" parent="hs_editText_defaultStyle"></style> 
+	    
+    <!-- DRAWABLES
+    Defining the drawable icons used in the project, override the drawable to give your own custom icons
+    
+    Attachment icon used in New Issue screen, and chat screen to show attachments -->
+    <drawable name="hs_attachment_icon">@drawable/hs_attachment_img</drawable>
+    
+   <!--  Search icon used in search menu -->
+    <drawable name="hs_search_icon">@drawable/hs_search_img_light</drawable>
+    
+    <!-- Disclosure icon used in main list view -->
+    <drawable name="hs_disclosure_next">@drawable/hs_disclosure_img</drawable>
+    
+    <!-- Add attachment icon used in issue detail screen - add reply -->
+    <drawable name="hs_add_attachment">@drawable/hs_add_attachment_img</drawable>
+         
+</resources>

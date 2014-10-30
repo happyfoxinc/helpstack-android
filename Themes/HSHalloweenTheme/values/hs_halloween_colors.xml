@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Halloween Theme colors -->
+    
+    <!-- Background color -->
+    <color name="hs_halloween_background_color">#000000</color>
+    
+    <!-- Header background and text color -->
+    <color name="hs_halloween_header_background_color">#fc6600</color>
+    <color name="hs_halloween_header_textColor">#ffffff</color>
+    
+    <!-- Child background and text color -->
+    <color name="hs_halloween_child_background_color">#212121</color>
+    <color name="hs_halloween_child_textColor">#ffffff</color>
+    
+    <!-- List view color properties -->
+    <color name="hs_halloween_listView_background_color">#0000</color>
+    <color name="hs_halloween_listView_divider_color">#0000</color>
+    <color name="hs_halloween_listView_selector_color">#e1e1e1</color>
+    
+    <!-- Issue details - left chat background and text color -->
+    <color name="hs_halloween_leftChatBubbleColor">#3C3C3C</color>
+    <color name="hs_halloween_left_messageTextColor">#ffffff</color>
+    
+    <!-- Issue details - right chat background and text color -->
+    <color name="hs_halloween_rightChatBubbleColor">#fc6600</color>
+    <color name="hs_halloween_right_messageTextColor">#ffffff</color>
+    
+    <!-- Issue details - sender name/time text color -->
+    <color name="hs_halloween_moreinfoTextColor">#ffffff</color>
+    
+    <!-- Button text color (Report issue button) -->
+    <color name="hs_halloween_buttonTextcolor">#DE2527</color>
+    
+    <!-- Edit text color -->
+    <color name="hs_halloween_editTextcolor">#000000</color>
+ 
+</resources>
