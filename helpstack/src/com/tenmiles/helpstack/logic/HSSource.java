@@ -39,6 +39,7 @@ import com.tenmiles.helpstack.HSHelpStack;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.fragments.HSFragmentParent;
 import com.tenmiles.helpstack.model.HSAttachment;
+import com.tenmiles.helpstack.model.HSCachedDraft;
 import com.tenmiles.helpstack.model.HSCachedTicket;
 import com.tenmiles.helpstack.model.HSCachedUser;
 import com.tenmiles.helpstack.model.HSKBItem;
@@ -65,24 +66,31 @@ public class HSSource {
 	private static final String HELPSTACK_DIRECTORY = "helpstack";
 	private static final String HELPSTACK_TICKETS_FILE_NAME = "tickets";
 	private static final String HELPSTACK_TICKETS_USER_DATA = "user_credential";
+    private static final String HELPSTACK_DRAFT = "draft";
 	
 	private HSGear gear;
 	private Context mContext;
 	private RequestQueue mRequestQueue;
-	
-	private HSCachedTicket cachedTickets;
-	private HSCachedUser cachedUser;
+
+    private HSCachedUser cachedUser;
+
+	private HSCachedTicket cachedTicket;
+    private HSUser draftUser;
+    private HSCachedDraft draft;
 	
 	public HSSource(Context context) {
 		this.mContext = context;
 		setGear(HSHelpStack.getInstance(context).getGear());
 		mRequestQueue = HSHelpStack.getInstance(context).getRequestQueue();
 		
-		cachedTickets = new HSCachedTicket();
+		cachedTicket = new HSCachedTicket();
 		cachedUser = new HSCachedUser();
+
+        draftUser = new HSUser();
 		// read the ticket data from cache and maintain here
 		doReadTicketsFromCache();
 		doReadUserFromCache();
+        doReadDraftFromCache();
 	}
 
 	public void requestKBArticle(String cancelTag, HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
@@ -118,11 +126,11 @@ public class HSSource {
 	
 	public void requestAllTickets(OnFetchedArraySuccessListener success, ErrorListener error ) {
 		
-		if (cachedTickets == null) {
+		if (cachedTicket == null) {
 			success.onSuccess(new HSTicket[0]);
 		}
 		else {
-			success.onSuccess(cachedTickets.getTickets());
+			success.onSuccess(cachedTicket.getTickets());
 		}
 	}
 	
@@ -156,7 +164,7 @@ public class HSSource {
 	}
 	
 	public void requestAllUpdatesOnTicket(String cancelTag, HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
-		gear.fetchAllUpdateOnTicket(cancelTag, ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
+		gear.fetchAllUpdateOnTicket(cancelTag, ticket, cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
 	
 	public void addReplyOnATicket(String cancelTag, String message, HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
@@ -196,10 +204,39 @@ public class HSSource {
 	public void refreshUser() {
 		doReadUserFromCache();
 	}
+
+    public void refreshDraft() {
+        doReadDraftFromCache();
+    }
 	
 	public HSUser getUser() {
 		return cachedUser.getUser();
 	}
+
+    public HSUser getDraftUser() {
+        if (draft != null) {
+            return draft.getUser();
+        }
+        return null;
+    }
+
+    public String getDraftSubject() {
+        if (draft != null) {
+            return draft.getSubject();
+        }
+        return null;
+    }
+
+    public String getDraftMessage() {
+        if (draft != null) {
+            return draft.getMessage();
+        }
+        return null;
+    }
+
+     public void saveUserInDraft(HSUser user, String subject, String message) {
+         doSaveNewUserPropertiesForGearInDraft(user, subject, message);
+     }
 
 	public boolean haveImplementedTicketFetching() {
 		return gear.haveImplementedTicketFetching();
@@ -332,10 +369,10 @@ public class HSSource {
 	
 	protected void doSaveNewTicketPropertiesForGearInCache(HSTicket ticket) {
 		
-		cachedTickets.addTicketAtStart(ticket);
+		cachedTicket.addTicketAtStart(ticket);
 		
 		Gson gson = new Gson();
-		String ticketsgson = gson.toJson(cachedTickets);
+		String ticketsgson = gson.toJson(cachedTicket);
 		
 		
 		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
@@ -365,7 +402,7 @@ public class HSSource {
 		
 		if (json != null) {
 			Gson gson = new Gson();
-			cachedTickets = gson.fromJson(json, HSCachedTicket.class);
+			cachedTicket = gson.fromJson(json, HSCachedTicket.class);
 		}
 	}
 	
@@ -382,6 +419,30 @@ public class HSSource {
 			cachedUser = gson.fromJson(json, HSCachedUser.class);
 		}
 	}
+
+    protected void doReadDraftFromCache() {
+        File userFile = new File(getProjectDirectory(), HELPSTACK_DRAFT);
+
+        String json = readJsonFromFile(userFile);
+
+        if (json != null) {
+            Gson gson = new Gson();
+            draft = gson.fromJson(json, HSCachedDraft.class);
+        }
+    }
+
+    protected void doSaveNewUserPropertiesForGearInDraft(HSUser user, String subject, String message) {
+        draftUser = user;
+
+        Gson gson = new Gson();
+        HSCachedDraft draft = new HSCachedDraft(draftUser, subject, message);
+        String userJson = gson.toJson(draft);
+
+        File userFile = new File(getProjectDirectory(), HELPSTACK_DRAFT);
+
+        writeJsonIntoFile(userFile, userJson);
+
+    }
 	
 	protected File getProjectDirectory() {
 		

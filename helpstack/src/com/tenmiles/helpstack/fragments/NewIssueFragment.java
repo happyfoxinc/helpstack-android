@@ -65,8 +65,9 @@ public class NewIssueFragment extends HSFragmentParent {
 	private final int REQUEST_CODE_PHOTO_PICKER = 100;
 	
 	public static final String EXTRAS_USER = NewIssueActivity.EXTRAS_USER;
-	
 	public static final String RESULT_TICKET = NewIssueActivity.RESULT_TICKET;
+    public static final String SUBJECT_KEY = "Subject";
+    public static final String MESSAGE_KEY = "Message";
 	
 	public static NewIssueFragment createNewIssueFragment(HSUser user)
 	{
@@ -81,14 +82,11 @@ public class NewIssueFragment extends HSFragmentParent {
 	
 	
 	HSUser userDetails;
-	
-	
-	
+
 	EditText subjectField, messageField;
 	ImageView imageView1;
 
 	HSAttachment selectedAttachment;
-	
 	HSSource gearSource;
 	
 	@Override
@@ -100,7 +98,6 @@ public class NewIssueFragment extends HSFragmentParent {
 		View rootView = inflater.inflate(R.layout.hs_fragment_new_issue, container, false);
 		
 		this.subjectField = (EditText) rootView.findViewById(R.id.subjectField);
-		
 		this.messageField = (EditText) rootView.findViewById(R.id.messageField);
 		
 		this.imageView1 = (ImageView) rootView.findViewById(R.id.imageView1);
@@ -116,6 +113,9 @@ public class NewIssueFragment extends HSFragmentParent {
 		userDetails = (HSUser) args.getSerializable(EXTRAS_USER);
 		
 		gearSource = new HSSource(getActivity());
+
+        this.subjectField.setText(gearSource.getDraftSubject());
+        this.messageField.setText(gearSource.getDraftMessage());
 		
 		if (!HSHelpStack.getInstance(getActivity()).getShowCredits()) {
 			rootView.findViewById(R.id.footerTextLabel).setVisibility(View.GONE);
@@ -133,6 +133,12 @@ public class NewIssueFragment extends HSFragmentParent {
 		outState.putString("message", messageField.getText().toString());
 		outState.putSerializable("attachment", selectedAttachment);
 	}
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        gearSource.saveUserInDraft(userDetails, this.subjectField.getText().toString(), this.messageField.getText().toString());
+    }
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -155,6 +161,9 @@ public class NewIssueFragment extends HSFragmentParent {
 		
 		MenuItem doneMenu = menu.findItem(R.id.doneItem);
 		MenuItemCompat.setShowAsAction(doneMenu, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+
+        MenuItem clearMenu = menu.findItem(R.id.clearItem);
+        MenuItemCompat.setShowAsAction(clearMenu, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 	}
 	
 	@Override
@@ -187,7 +196,8 @@ public class NewIssueFragment extends HSFragmentParent {
 					
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 					sendSuccessSignal(ticket);
-					Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
+                    clearFormData();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
 				}
 				
 			}, new ErrorListener() {
@@ -198,22 +208,29 @@ public class NewIssueFragment extends HSFragmentParent {
 					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
 				}
 			});
-			
+
 			return true;
 		}
+        else if (id == R.id.clearItem) {
+            clearFormData();
+        }
 		
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
+    private void clearFormData() {
+        this.subjectField.setText("");
+        this.messageField.setText("");
+    }
+
+    @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
 		
 		switch(requestCode) { 
 	    case REQUEST_CODE_PHOTO_PICKER:
 	        if(resultCode == Activity.RESULT_OK){  
-	            
-				
+
 				Uri selectedImage = intent.getData();
 				
 				//User had pick an image.
@@ -231,7 +248,6 @@ public class NewIssueFragment extends HSFragmentParent {
 		        selectedAttachment = HSAttachment.createAttachment(selectedImage.toString(), display_name, mime_type);
 				
 				resetAttachmentImage();
-	            
 	        }
 	    }
 	}
@@ -277,7 +293,6 @@ public class NewIssueFragment extends HSFragmentParent {
 				});
 				alertBuilder.create().show();
 			}
-			
 		}
 	};
 	
@@ -288,7 +303,6 @@ public class NewIssueFragment extends HSFragmentParent {
 			this.imageView1.setImageResource(R.drawable.hs_add_attachment_img);
 		}
 		else {
-			
 			try {
 				Uri uri = Uri.parse(selectedAttachment.getUrl());
 				Bitmap selectedBitmap;
@@ -298,8 +312,6 @@ public class NewIssueFragment extends HSFragmentParent {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 		}
 		
 	}

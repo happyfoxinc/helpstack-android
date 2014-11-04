@@ -67,7 +67,13 @@ public class NewUserFragment extends HSFragmentParent {
 		this.emailField = (EditText) rootView.findViewById(R.id.email);
 		
 		gearSource = new HSSource(getActivity());
-		
+        HSUser user = gearSource.getDraftUser();
+        if (user != null) {
+            this.firstNameField.setText(user.getFirstName());
+            this.lastNameField.setText(user.getLastName());
+            this.emailField.setText(user.getEmail());
+        }
+
 		return rootView;
 	}
 	

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="hs_app_name">HelpStack</string>
     
     <!-- Strings used in the main list view screen -->
     <string name="hs_help_title">Help</string>
@@ -69,5 +70,7 @@
     <string name="hs_error_posting_reply">Error in posting your reply, please check your network connection</string>
     <string name="hs_error_reporting_issue">Error in reporting issue</string>
     <string name="hs_error_subject_message_empty">Subject and message cannot be empty</string>
+
+    <string name="hs_clear">Clear</string>
 
 </resources>
