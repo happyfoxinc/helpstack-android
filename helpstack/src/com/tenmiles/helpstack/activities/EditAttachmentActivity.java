@@ -55,6 +55,8 @@ public class EditAttachmentActivity extends Activity {
     private HSAttachment selectedAttachment;
     private Bitmap originalBitmap;
 
+    private TextView clearChangesTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,14 @@ public class EditAttachmentActivity extends Activity {
         getActionBar().setTitle(R.string.hs_attachment_edit);
 
         drawView = (DrawingView)findViewById(R.id.drawing);
-        TextView clearChanges = (TextView) findViewById(R.id.clear_TextView);
+        drawView.setObserver(new DrawingView.ObserverInterface() {
+            @Override
+            public void activateClearOption(boolean isEnabled) {
+                activityClearTextView(isEnabled);
+            }
+        });
+
+        TextView clearChanges = (TextView) findViewById(R.id.clear_change_text);
         clearChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +83,7 @@ public class EditAttachmentActivity extends Activity {
 
         currentPaint = (ImageButton) findViewById(R.id.hs_red_brush);
         currentPaint.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
+        clearChangesTextView = (TextView)findViewById(R.id.clear_change_text);
 
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -214,5 +224,12 @@ public class EditAttachmentActivity extends Activity {
     }
 
 
-
+    public void activityClearTextView(boolean isEnabled) {
+        if (isEnabled) {
+            clearChangesTextView.setTextColor(getResources().getColor(android.R.color.white));
+        }
+        else {
+            clearChangesTextView.setTextColor(getResources().getColor(R.color.hs_darkerGreycolor));
+        }
+    }
 }

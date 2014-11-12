@@ -22,11 +22,11 @@
         android:layout_marginBottom="4dp">
 
         <TextView
-            android:id="@+id/clear_TextView"
+            android:id="@+id/clear_change_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/hs_darkerGreycolor"
             android:text="@string/hs_clear"
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/hs_default_text_size" />

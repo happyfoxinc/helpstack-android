@@ -31,6 +31,8 @@ public class DrawingView extends View {
     private int resizedHeight;
     private boolean isEdited;
 
+    private ObserverInterface mObserver;
+
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -92,6 +94,7 @@ public class DrawingView extends View {
                 drawCanvas.drawPath(drawPath, drawPaint);
                 setIsEdited(true);
                 drawPath.reset();
+                activateClearOptionInActivity(true);
                 break;
             default:
                 return false;
@@ -112,6 +115,7 @@ public class DrawingView extends View {
         drawPath.reset();
         setCanvasBitmap(cachedBitmap);
         setIsEdited(false);
+        activateClearOptionInActivity(false);
         invalidate();
     }
 
@@ -137,5 +141,19 @@ public class DrawingView extends View {
     private int getLeftStart(int resizedWidth) {
         int leftStart = (this.getLeft() + this.getRight() - resizedWidth) >> 1;
         return leftStart;
+    }
+
+    public void setObserver(ObserverInterface observer){
+        mObserver = observer;
+    }
+
+    private void activateClearOptionInActivity(boolean isEdited){
+        if( mObserver != null ){
+            mObserver.activateClearOption(isEdited);
+        }
+    }
+
+    public interface ObserverInterface {
+        void activateClearOption(boolean isEdited);
     }
 }
