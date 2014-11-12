@@ -28,6 +28,9 @@ Check out [helpstack.io](http://www.helpstack.io) for more information.
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
+## Users
+If you use HelpStack, don't forget to send a Pull Request to this Wiki page: [HelpStack Android users](https://github.com/happyfoxinc/helpstack-android/wiki/HelpStack-Android-users)
+
 ## Installation
 
 Installating the HelpStack library is fairly straight-forward.
