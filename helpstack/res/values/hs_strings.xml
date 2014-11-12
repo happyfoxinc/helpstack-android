@@ -41,7 +41,9 @@
     <string name="hs_attachments">Attachments</string>
 
     <string name="hs_attachment_edit">Edit Attachment</string>
-    <string name="hs_save">Save</string>
+    <string name="hs_attach">Attach</string>
+    <string name="discard">Discard</string>
+    <string name="hs_clear">Clear</string>
 
     <!-- Strings used in article screen -->
     <string name="hs_article">Article</string>

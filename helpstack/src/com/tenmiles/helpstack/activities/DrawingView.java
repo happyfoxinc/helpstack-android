@@ -6,41 +6,34 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+
+import static java.lang.StrictMath.max;
+import static java.lang.StrictMath.min;
+
 
 public class DrawingView extends View {
 
     private Path drawPath;
     private Paint drawPaint;
-    private Paint canvasPaint;
     private Canvas drawCanvas;
+
+    private Paint canvasPaint;
     private Bitmap canvasBitmap;
 
-    private int paintColor = 0xFFFF0000;
+    private Bitmap cachedBitmap;
 
+    private int paintColor = 0xFFF44336;
     private int brushSize = 20;
+    private int resizedWidth;
+    private int resizedHeight;
+    private boolean isEdited;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setupDrawing();
-    }
 
-    public void setCanvasBitmap(Bitmap bitmap) {
-        drawCanvas.drawColor(Color.BLUE);
-//        bitmap = Bitmap.createBitmap(bitmap, 0, 0,  drawCanvas.getWidth(), drawCanvas.getHeight());
-        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(mutableBitmap, drawCanvas.getWidth(), drawCanvas.getHeight(), false);
-        drawCanvas.drawBitmap(resizedBitmap, this.getLeft(), this.getTop(), drawPaint);
-    }
-
-    private void setupDrawing() {
         drawPath = new Path();
         drawPaint = new Paint();
 
@@ -55,10 +48,22 @@ public class DrawingView extends View {
         canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
+    public void setCanvasBitmap(Bitmap bitmap) {
+        cachedBitmap = bitmap;
+        drawCanvas.drawColor(Color.BLACK);
+        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        calculateResizeRatio(bitmap, drawCanvas);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(mutableBitmap, resizedWidth, resizedHeight, false);
+
+        int leftStart = getLeftStart(resizedWidth);
+        int topStart = getTopStart(resizedHeight);
+
+        drawCanvas.drawBitmap(resizedBitmap, leftStart, topStart, drawPaint);
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        // View given size
         super.onSizeChanged(w, h, oldw, oldh);
 
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -76,7 +81,6 @@ public class DrawingView extends View {
         float touchX = event.getX();
         float touchY = event.getY();
 
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 drawPath.moveTo(touchX, touchY);
@@ -86,6 +90,7 @@ public class DrawingView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 drawCanvas.drawPath(drawPath, drawPaint);
+                setIsEdited(true);
                 drawPath.reset();
                 break;
             default:
@@ -103,4 +108,34 @@ public class DrawingView extends View {
         drawPaint.setColor(paintColor);
     }
 
+    public void clearChanges() {
+        drawPath.reset();
+        setCanvasBitmap(cachedBitmap);
+        setIsEdited(false);
+        invalidate();
+    }
+
+    private void setIsEdited(boolean value) {
+        isEdited = value;
+    }
+
+    public boolean hasBeenEdited() {
+        return isEdited;
+    }
+
+    private void calculateResizeRatio(Bitmap bitmap, Canvas drawCanvas) {
+        double resizeRatio = min((double)drawCanvas.getWidth()/bitmap.getWidth(), (double)drawCanvas.getHeight()/bitmap.getHeight());
+        resizedWidth = (int) (resizeRatio * bitmap.getWidth());
+        resizedHeight = (int) (resizeRatio * bitmap.getHeight());
+    }
+
+    private int getTopStart(int resizedHeight) {
+        int topStart = (this.getTop() + this.getBottom() - resizedHeight) >> 1;
+        return topStart;
+    }
+
+    private int getLeftStart(int resizedWidth) {
+        int leftStart = (this.getLeft() + this.getRight() - resizedWidth) >> 1;
+        return leftStart;
+    }
 }

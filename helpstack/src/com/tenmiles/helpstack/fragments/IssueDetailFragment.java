@@ -58,6 +58,7 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.activities.EditAttachmentActivity;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
@@ -159,9 +160,9 @@ public class IssueDetailFragment extends HSFragmentParent
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		
 		if(requestCode == REQUEST_CODE_PHOTO_PICKER && resultCode == Activity.RESULT_OK)
-		{      
-			
-			Uri selectedImage = intent.getData();
+		{
+
+            Uri selectedImage = Uri.parse(intent.getStringExtra("URI"));
 			
 			//User had pick an image.
 	        Cursor cursor = getActivity().getContentResolver().query(selectedImage, new String[] { 
@@ -243,10 +244,8 @@ public class IssueDetailFragment extends HSFragmentParent
 		public void onClick(View v) {
 			
 			if (selectedAttachment == null) {
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
+                Intent intent = new Intent(getActivity(), EditAttachmentActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_PHOTO_PICKER);
 			}
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
@@ -258,10 +257,8 @@ public class IssueDetailFragment extends HSFragmentParent
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (which == 0) {
-							Intent intent = new Intent();
-							intent.setType("image/*");
-							intent.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
+                            Intent intent = new Intent(getActivity(), EditAttachmentActivity.class);
+                            startActivityForResult(intent, REQUEST_CODE_PHOTO_PICKER);
 						}
 						
 						else if (which == 1) {

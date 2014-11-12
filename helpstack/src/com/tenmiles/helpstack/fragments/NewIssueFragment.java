@@ -261,10 +261,8 @@ public class NewIssueFragment extends HSFragmentParent {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
+                            Intent intent = new Intent(getActivity(), EditAttachmentActivity.class);
+                            startActivityForResult(intent, REQUEST_CODE_PHOTO_PICKER);
                         }
 
                         else if (which == 1) {
