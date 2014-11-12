@@ -276,7 +276,7 @@ HelpStack depends on the following libraries:
   
 ## Video
 
-![HelpStack for Android](http://img.youtube.com/vi/bmI3dXFMUuI/0.jpg)](http://www.youtube.com/watch?v=bmI3dXFMUuI)
+[![HelpStack for Android](http://img.youtube.com/vi/bmI3dXFMUuI/0.jpg)](http://www.youtube.com/watch?v=bmI3dXFMUuI)
 
 ## About
 For more information about HelpStack, visit [helpstack.io](http://www.helpstack.io).
