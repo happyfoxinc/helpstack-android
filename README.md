@@ -273,6 +273,11 @@ HelpStack depends on the following libraries:
     org.apache.httpcomponents:httpmime:4.2.6
     com.mcxiaoke.volley:library-aar:1.+
   
+  
+## Video
+
+![HelpStack for Android](http://img.youtube.com/vi/bmI3dXFMUuI/0.jpg)](http://www.youtube.com/watch?v=bmI3dXFMUuI)
+
 ## About
 For more information about HelpStack, visit [helpstack.io](http://www.helpstack.io).
 
