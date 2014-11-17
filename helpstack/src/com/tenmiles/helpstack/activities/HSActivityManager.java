@@ -25,6 +25,7 @@ package com.tenmiles.helpstack.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.tenmiles.helpstack.fragments.HSFragmentParent;
 import com.tenmiles.helpstack.model.HSKBItem;
@@ -47,6 +48,11 @@ public class HSActivityManager {
 		Intent intent = new Intent(context, HomeActivity.class);
 		context.startActivity(intent);
 	}
+
+    public static void startNewIssueActivity(HSFragmentParent context, int requestCode) {
+        Intent intent = new Intent(context.getActivity(), NewIssueActivity.class);
+        context.startActivityForResult(intent, requestCode);
+    }
 	
 	public static void startNewIssueActivity(HSFragmentParent context, HSUser user, int requestCode) {
 		Intent intent = new Intent(context.getActivity(), NewIssueActivity.class);
@@ -66,8 +72,9 @@ public class HSActivityManager {
 		context.startActivityForResult(intent, requestCode);
 	}
 	
-	public static void startNewUserActivity(HSFragmentParent context, int requestCode) {
+	public static void startNewUserActivity(HSFragmentParent context, int requestCode, Bundle bundle) {
 		Intent intent = new Intent(context.getActivity(), NewUserActivity.class);
+        intent.putExtras(bundle);
 		context.startActivityForResult(intent, requestCode);
 	}
 	

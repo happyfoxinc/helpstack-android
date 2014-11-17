@@ -17,7 +17,7 @@
     <string name="hs_firstname_hint">First Name</string>
     <string name="hs_lastname_hint">Last Name</string>
     <string name="hs_email_hint">Email Address</string>
-    <string name="hs_new_user_message">Please enter your name and email to register</string>
+    <string name="hs_new_user_message">Please enter your contact details to reach you</string>
 
     <!-- Strings used in new Issue screen -->
     <string name="hs_issue_created_raised">Your issue has been created and raised.</string>
