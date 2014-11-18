@@ -4,9 +4,10 @@
     tools:context="com.tenmiles.helpstack.activities.EditAttachmentActivity" >
 
     <item
-        android:id="@+id/save"
+        android:id="@+id/attach"
         android:orderInCategory="1"
         android:showAsAction="always"
-        android:title="@string/hs_save"/>
+        android:icon="@drawable/ic_action_accept"
+        android:title="@string/hs_attach" />
 
 </menu>

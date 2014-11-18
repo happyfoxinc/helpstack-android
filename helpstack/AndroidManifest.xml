@@ -43,7 +43,8 @@
             android:name="com.tenmiles.helpstack.activities.ImageAttachmentDisplayActivity">
         </activity>
         <activity
-            android:name="com.tenmiles.helpstack.activities.EditAttachmentActivity">
+            android:name="com.tenmiles.helpstack.activities.EditAttachmentActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <receiver

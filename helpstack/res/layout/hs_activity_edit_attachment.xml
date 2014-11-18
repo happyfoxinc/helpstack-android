@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFCCCCCC"
+    android:background="#111111"
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
@@ -15,68 +15,72 @@
 
 
     <LinearLayout
-        android:id="@+id/paint_colors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
 
-        <ImageButton
-            android:layout_width="@dimen/color_button_size"
-            android:layout_height="@dimen/color_button_size"
-            android:layout_margin="2dp"
-            android:background="#FFFF0000"
-            android:onClick="paintClicked"
-            android:src="@drawable/paint"
-            android:tag="#FFFF0000" />
+        <TextView
+            android:id="@+id/clear_change_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/hs_darkerGreycolor"
+            android:text="@string/hs_clear"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/hs_default_text_size" />
 
+        <RelativeLayout
+            android:id="@+id/paint_colors"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            >
 
-        <ImageButton
-            android:layout_width="@dimen/color_button_size"
-            android:layout_height="@dimen/color_button_size"
-            android:layout_margin="2dp"
-            android:background="#FF009900"
+            <ImageButton
+                android:id="@+id/hs_blue_brush"
+                android:layout_width="@dimen/color_button_size"
+                android:layout_height="@dimen/color_button_size"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/paint"
+                android:src="@drawable/brush_blue"
+                android:onClick="paintColorClicked"
+                android:tag="#2196f3" />
 
-            android:onClick="paintClicked"
-            android:src="@drawable/paint"
-            android:tag="#FF009900" />
+            <ImageButton
+                android:id="@+id/hs_green_brush"
+                android:layout_width="@dimen/color_button_size"
+                android:layout_height="@dimen/color_button_size"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:padding="5dp"
+                android:layout_toLeftOf="@id/hs_blue_brush"
+                android:layout_centerVertical="true"
+                android:background="@drawable/paint"
+                android:src="@drawable/brush_green"
+                android:onClick="paintColorClicked"
+                android:tag="#4caf50" />
 
-        <ImageButton
-            android:layout_width="@dimen/color_button_size"
-            android:layout_height="@dimen/color_button_size"
-            android:layout_margin="2dp"
-            android:background="#FF0000FF"
+            <ImageButton
+                android:id="@+id/hs_red_brush"
+                android:layout_width="@dimen/color_button_size"
+                android:layout_height="@dimen/color_button_size"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:padding="5dp"
+                android:layout_toLeftOf="@id/hs_green_brush"
+                android:layout_centerVertical="true"
+                android:background="@drawable/paint"
+                android:src="@drawable/brush_red"
+                android:onClick="paintColorClicked"
+                android:tag="#f44336" />
 
-            android:onClick="paintClicked"
-            android:src="@drawable/paint"
-            android:tag="#FF0000FF" />
-
-
-
-
-
-        <ImageButton
-            android:layout_width="@dimen/color_button_size"
-            android:layout_height="@dimen/color_button_size"
-            android:layout_margin="2dp"
-            android:background="#FFFFFFFF"
-
-            android:onClick="paintClicked"
-            android:src="@drawable/paint"
-            android:tag="#FFFFFFFF" />
-
-
-
-        <ImageButton
-            android:layout_width="@dimen/color_button_size"
-            android:layout_height="@dimen/color_button_size"
-            android:layout_margin="2dp"
-            android:background="#FF000000"
-
-            android:onClick="paintClicked"
-            android:src="@drawable/paint"
-            android:tag="#FF000000" />
-
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

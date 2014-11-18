@@ -32,13 +32,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tenmiles.helpstack.R;
@@ -47,31 +46,49 @@ import com.tenmiles.helpstack.model.HSAttachment;
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
-public class EditAttachmentActivity extends HSActivityParent {
+public class EditAttachmentActivity extends Activity {
 
     private final int REQUEST_CODE_PHOTO_PICKER = 100;
 
     private DrawingView drawView;
-
     private ImageButton currentPaint;
     private HSAttachment selectedAttachment;
+    private Bitmap originalBitmap;
+
+    private TextView clearChangesTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hs_activity_edit_attachment);
 
-        drawView = (DrawingView)findViewById(R.id.drawing);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setTitle(R.string.hs_attachment_edit);
 
-        LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
-        currentPaint = (ImageButton)paintLayout.getChildAt(0);
-        currentPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
+        drawView = (DrawingView)findViewById(R.id.drawing);
+        drawView.setObserver(new DrawingView.ObserverInterface() {
+            @Override
+            public void activateClearOption(boolean isEnabled) {
+                activityClearTextView(isEnabled);
+            }
+        });
+
+        TextView clearChanges = (TextView) findViewById(R.id.clear_change_text);
+        clearChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawView.clearChanges();
+            }
+        });
+
+        currentPaint = (ImageButton) findViewById(R.id.hs_red_brush);
+        currentPaint.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
+        clearChangesTextView = (TextView)findViewById(R.id.clear_change_text);
 
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
-
     }
 
     @Override
@@ -83,26 +100,22 @@ public class EditAttachmentActivity extends HSActivityParent {
     }
 
     @Override
-    public void configureActionBar(ActionBar actionBar) {
-        super.configureActionBar(actionBar);
-        actionBar.setTitle(getString(R.string.hs_attachment_edit));
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            HSActivityManager.finishSafe(this);
+        if(id == android.R.id.home) {
+            discardDraft();
             return true;
         }
-        else if (id == R.id.save) {
+        else if(id == R.id.attach) {
             onSaveClick();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        discardDraft();
     }
 
     @Override
@@ -114,7 +127,6 @@ public class EditAttachmentActivity extends HSActivityParent {
                 if(resultCode == Activity.RESULT_OK){
                     Uri selectedImage = intent.getData();
 
-                    //User had pick an image.
                     Cursor cursor = this.getContentResolver().query(selectedImage, new String[] {
                             MediaStore.Images.ImageColumns.DATA,
                             MediaStore.Images.ImageColumns.DISPLAY_NAME,
@@ -130,89 +142,94 @@ public class EditAttachmentActivity extends HSActivityParent {
 
                     try {
                         Uri uri = Uri.parse(selectedAttachment.getUrl());
-                        Bitmap selectedBitmap;
-                        selectedBitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri), null, null);
-                        drawView.setCanvasBitmap(selectedBitmap);
+                        originalBitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri), null, null);
+                        drawView.setCanvasBitmap(originalBitmap);
                     } catch (FileNotFoundException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
+                else {
+                    finish();
+                }
         }
     }
 
-    public void paintClicked(View view) {
 
+    private void onSaveClick() {
+        drawView.setDrawingCacheEnabled(true);
+
+        String imageSaved;
+        if (drawView.hasBeenEdited()) {
+            imageSaved = MediaStore.Images.Media.insertImage(getContentResolver(), drawView.getDrawingCache(),
+                    UUID.randomUUID().toString() + ".png", "drawing");
+        }
+        else {
+            imageSaved = MediaStore.Images.Media.insertImage(getContentResolver(), originalBitmap,
+                    UUID.randomUUID().toString() + ".png", "drawing");
+        }
+
+        if(imageSaved!=null){
+            Toast savedToast = Toast.makeText(getApplicationContext(),
+                    "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
+            savedToast.show();
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("URI", imageSaved);
+            setResult(Activity.RESULT_OK, resultIntent);
+
+            finish();
+        }
+        else{
+            Toast unsavedToast = Toast.makeText(getApplicationContext(),
+                    "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
+            unsavedToast.show();
+        }
+
+        drawView.destroyDrawingCache();
+    }
+
+
+    public void paintColorClicked(View view) {
         if (view != currentPaint) {
             ImageButton imageButton = (ImageButton)view;
             String color = imageButton.getTag().toString();
 
             drawView.setColor(color);
 
-            imageButton.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
-            currentPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint));
+            imageButton.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
+            currentPaint.setBackground(getResources().getDrawable(R.drawable.paint));
 
             currentPaint = (ImageButton) view;
         }
     }
 
+    private void discardDraft() {
+        if (drawView.hasBeenEdited()) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.discard)
+                    .setMessage("Do you want to discard your changes?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(R.string.discard, new DialogInterface.OnClickListener() {
 
-    private void onSaveClick() {
-        AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-        saveDialog.setTitle("Save");
-        saveDialog.setMessage("Save drawing?");
-        saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int which){
-                drawView.setDrawingCacheEnabled(true);
-
-                String imageSaved = MediaStore.Images.Media.insertImage(
-                        getContentResolver(),
-                        drawView.getDrawingCache(),
-                        UUID.randomUUID().toString()+".png",
-                        "drawing");
-
-                if(imageSaved!=null){
-                    Toast savedToast = Toast.makeText(getApplicationContext(),
-                            "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
-                    savedToast.show();
-
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("URI", imageSaved);
-                    setResult(Activity.RESULT_OK, resultIntent);
-
-                    finish();
-                }
-                else{
-                    Toast unsavedToast = Toast.makeText(getApplicationContext(),
-                            "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
-                    unsavedToast.show();
-                }
-
-                drawView.destroyDrawingCache();
-
-
-            }
-        });
-        saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int which){
-                dialog.cancel();
-            }
-        });
-        saveDialog.show();
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    EditAttachmentActivity.super.onBackPressed();
+                                }
+                            }
+                    ).create().show();
+        }
+        else {
+            HSActivityManager.finishSafe(this);
+        }
     }
 
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Exit?")
-                .setMessage("Do you want to discard your changes?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        EditAttachmentActivity.super.onBackPressed();
-                    }
-                }).create().show();
+    public void activityClearTextView(boolean isEnabled) {
+        if (isEnabled) {
+            clearChangesTextView.setTextColor(getResources().getColor(android.R.color.white));
+        }
+        else {
+            clearChangesTextView.setTextColor(getResources().getColor(R.color.hs_darkerGreycolor));
+        }
     }
-
 }
