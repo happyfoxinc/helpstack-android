@@ -37,6 +37,9 @@ public class NewIssueActivity extends HSActivityParent {
 
     public static final String EXTRAS_USER = "user";
     public static final String RESULT_TICKET = "ticket";
+
+    public static final String EXTRAS_SUBJECT = "Subject";
+    public static final String EXTRAS_MESSAGE = "Message";
     public static final String EXTRAS_ATTACHMENT = "attachment";
 
     @Override
@@ -51,7 +54,7 @@ public class NewIssueActivity extends HSActivityParent {
                 newIssueFragment = HSFragmentManager.getNewIssueFragment((HSUser) bundle.getSerializable(EXTRAS_USER));
             }
             else {
-                newIssueFragment = HSFragmentManager.getNewIssueFragment();
+                newIssueFragment = HSFragmentManager.getNewIssueFragment(null);
             }
             HSFragmentManager.putFragmentInActivity(this, R.id.container, newIssueFragment, "Issue");
         }

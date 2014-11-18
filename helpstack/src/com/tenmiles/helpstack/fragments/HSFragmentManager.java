@@ -43,10 +43,6 @@ public class HSFragmentManager {
 		return fragment;
 	}
 
-    public static NewIssueFragment getNewIssueFragment() {
-        return NewIssueFragment.createNewIssueFragment();
-    }
-
 	public static NewIssueFragment getNewIssueFragment(HSUser user) {
 		return NewIssueFragment.createNewIssueFragment(user);
 	}

@@ -225,7 +225,7 @@ public class HSSource {
 		
 		if (haveImplementedTicketFetching()) {
 			if(isNewUser()) {
-                HSActivityManager.startNewIssueActivity(fragment, requestCode);
+                HSActivityManager.startNewIssueActivity(fragment, null, requestCode);
 			}else {
 				HSActivityManager.startNewIssueActivity(fragment, getUser(), requestCode);
 			}

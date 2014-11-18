@@ -68,38 +68,28 @@ public class NewIssueFragment extends HSFragmentParent {
     public static final int REQUEST_CODE_NEW_TICKET = HomeFragment.REQUEST_CODE_NEW_TICKET;
 
     public static final String EXTRAS_USER = NewIssueActivity.EXTRAS_USER;
-
     public static final String RESULT_TICKET = NewIssueActivity.RESULT_TICKET;
-
     private static final String EXTRAS_ATTACHMENT = NewIssueActivity.EXTRAS_ATTACHMENT;
-
-    public static NewIssueFragment createNewIssueFragment()
-    {
-        return new NewIssueFragment();
-    }
-
-    public static NewIssueFragment createNewIssueFragment(HSUser user)
-    {
-        Bundle args = new Bundle();
-        args.putSerializable(EXTRAS_USER, user);
-
-        NewIssueFragment frag = new NewIssueFragment();
-
-        frag.setArguments(args);
-        return frag;
-    }
-
-
-    HSUser userDetails;
-
-
 
     EditText subjectField, messageField;
     ImageView imageView1;
 
+    private HSUser userDetails;
     HSAttachment selectedAttachment;
-
     HSSource gearSource;
+
+    public static NewIssueFragment createNewIssueFragment(HSUser user)
+    {
+        NewIssueFragment frag = new NewIssueFragment();
+
+        if(user != null) {
+            Bundle args = new Bundle();
+            args.putSerializable(EXTRAS_USER, user);
+            frag.setArguments(args);
+        }
+
+        return frag;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -167,7 +157,7 @@ public class NewIssueFragment extends HSFragmentParent {
 
         MenuItem doneMenu = menu.findItem(R.id.doneItem);
 
-        if (userDetails == null) {
+        if (gearSource.isNewUser()) {
             doneMenu.setIcon(getResources().getDrawable(R.drawable.hs_action_forward));
             doneMenu.setTitle(getResources().getText(R.string.hs_next));
         }
@@ -197,7 +187,7 @@ public class NewIssueFragment extends HSFragmentParent {
 
             String formattedBody = getMessage();
 
-            if(userDetails != null) {
+            if(!gearSource.isNewUser()) {
                 getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 
                 gearSource.createNewTicket("NEW_TICKET", userDetails, getSubject(), formattedBody, attachmentArray,
@@ -222,10 +212,7 @@ public class NewIssueFragment extends HSFragmentParent {
             }
             else {
                 Bundle bundle = new Bundle();
-                bundle.putString("Subject", getSubject());
-                bundle.putString("Message", formattedBody);
-                bundle.putSerializable(EXTRAS_ATTACHMENT, attachmentArray);
-                HSActivityManager.startNewUserActivity(this, REQUEST_CODE_NEW_TICKET, bundle);
+                HSActivityManager.startNewUserActivity(this, REQUEST_CODE_NEW_TICKET, getSubject(), formattedBody, attachmentArray);
             }
 
             return true;

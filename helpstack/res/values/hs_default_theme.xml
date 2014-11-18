@@ -70,5 +70,10 @@
     
     <!-- Add attachment icon used in issue detail screen - add reply -->
     <drawable name="hs_add_attachment">@drawable/hs_add_attachment_img</drawable>
-    
+
+    <!-- Accept icon used in New issue and New user screen -->
+    <drawable name="hs_action_accept">@drawable/hs_action_accept_img</drawable>
+
+    <!-- Accept icon used in New issue screen if user has not registered -->
+    <drawable name="hs_action_forward">@drawable/hs_action_forward_img</drawable>
 </resources>
