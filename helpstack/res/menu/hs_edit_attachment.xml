@@ -7,7 +7,7 @@
         android:id="@+id/attach"
         android:orderInCategory="1"
         android:showAsAction="always"
-        android:icon="@drawable/ic_action_accept"
+        android:icon="@drawable/hs_action_accept"
         android:title="@string/hs_attach" />
 
 </menu>

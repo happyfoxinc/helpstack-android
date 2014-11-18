@@ -40,7 +40,9 @@ public class NewUserActivity extends HSActivityParent {
 		setContentView(R.layout.hs_activity_new_user);
 		
 		if (savedInstanceState == null) {
+            Bundle bundle = getIntent().getExtras();
 			NewUserFragment newUserFragment = new NewUserFragment();
+            newUserFragment.setArguments(bundle);
 			HSFragmentManager.putFragmentInActivity(this, R.id.container, newUserFragment, "NewUser");
 		}
 		

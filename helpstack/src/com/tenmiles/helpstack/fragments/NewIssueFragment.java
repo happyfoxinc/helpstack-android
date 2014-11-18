@@ -65,32 +65,31 @@ public class NewIssueFragment extends HSFragmentParent {
 
     private final int REQUEST_CODE_PHOTO_PICKER = 100;
 
+    public static final int REQUEST_CODE_NEW_TICKET = HomeFragment.REQUEST_CODE_NEW_TICKET;
+
     public static final String EXTRAS_USER = NewIssueActivity.EXTRAS_USER;
-
     public static final String RESULT_TICKET = NewIssueActivity.RESULT_TICKET;
-
-    public static NewIssueFragment createNewIssueFragment(HSUser user)
-    {
-        Bundle args = new Bundle();
-        args.putSerializable(EXTRAS_USER, user);
-
-        NewIssueFragment frag = new NewIssueFragment();
-
-        frag.setArguments(args);
-        return frag;
-    }
-
-
-    HSUser userDetails;
-
-
+    private static final String EXTRAS_ATTACHMENT = NewIssueActivity.EXTRAS_ATTACHMENT;
 
     EditText subjectField, messageField;
     ImageView imageView1;
 
+    private HSUser userDetails;
     HSAttachment selectedAttachment;
-
     HSSource gearSource;
+
+    public static NewIssueFragment createNewIssueFragment(HSUser user)
+    {
+        NewIssueFragment frag = new NewIssueFragment();
+
+        if(user != null) {
+            Bundle args = new Bundle();
+            args.putSerializable(EXTRAS_USER, user);
+            frag.setArguments(args);
+        }
+
+        return frag;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,9 +111,11 @@ public class NewIssueFragment extends HSFragmentParent {
         Bundle args = savedInstanceState;
         if (args == null) {
             args = getArguments();
-        }
 
-        userDetails = (HSUser) args.getSerializable(EXTRAS_USER);
+            if (args != null) {
+                userDetails = (HSUser) args.getSerializable(EXTRAS_USER);
+            }
+        }
 
         gearSource = new HSSource(getActivity());
 
@@ -155,6 +156,12 @@ public class NewIssueFragment extends HSFragmentParent {
         inflater.inflate(R.menu.hs_issue_menu, menu);
 
         MenuItem doneMenu = menu.findItem(R.id.doneItem);
+
+        if (gearSource.isNewUser()) {
+            doneMenu.setIcon(getResources().getDrawable(R.drawable.hs_action_forward));
+            doneMenu.setTitle(getResources().getText(R.string.hs_next));
+        }
+
         MenuItemCompat.setShowAsAction(doneMenu, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
 
@@ -169,7 +176,7 @@ public class NewIssueFragment extends HSFragmentParent {
                 return false;
             }
 
-            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
+
 
             HSAttachment[] attachmentArray = null;
 
@@ -178,27 +185,35 @@ public class NewIssueFragment extends HSFragmentParent {
                 attachmentArray[0] = selectedAttachment;
             }
 
-            String formattedBody =  getMessage();
+            String formattedBody = getMessage();
 
-            gearSource.createNewTicket("NEW_TICKET", userDetails, getSubject(), formattedBody, attachmentArray,
-                    new OnNewTicketFetchedSuccessListener() {
+            if(!gearSource.isNewUser()) {
+                getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 
-                        @Override
-                        public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
+                gearSource.createNewTicket("NEW_TICKET", userDetails, getSubject(), formattedBody, attachmentArray,
+                        new OnNewTicketFetchedSuccessListener() {
 
-                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-                            sendSuccessSignal(ticket);
-                            Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
-                        }
+                            @Override
+                            public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
 
-                    }, new ErrorListener() {
+                                getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                                sendSuccessSignal(ticket);
+                                Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
+                            }
 
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_reporting_issue), getResources().getString(R.string.hs_error_check_network_connection));
-                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-                        }
-                    });
+                        }, new ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_reporting_issue), getResources().getString(R.string.hs_error_check_network_connection));
+                                getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                            }
+                        });
+            }
+            else {
+                Bundle bundle = new Bundle();
+                HSActivityManager.startNewUserActivity(this, REQUEST_CODE_NEW_TICKET, getSubject(), formattedBody, attachmentArray);
+            }
 
             return true;
         }
@@ -232,6 +247,10 @@ public class NewIssueFragment extends HSFragmentParent {
 
                     resetAttachmentImage();
 
+                }
+            case REQUEST_CODE_NEW_TICKET:
+                if (resultCode == HSActivityManager.resultCode_sucess) {
+                    HSActivityManager.sendSuccessSignal(getActivity(), intent);
                 }
         }
     }
