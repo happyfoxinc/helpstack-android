@@ -111,7 +111,7 @@ public class HomeFragment extends HSFragmentParent {
 		setHasOptionsMenu(true);
 
 		// Initialize gear
-		gearSource = new HSSource (getActivity());
+		gearSource = new HSSource(getActivity());
 
 		// handle orientation
 		if (savedInstanceState == null) {

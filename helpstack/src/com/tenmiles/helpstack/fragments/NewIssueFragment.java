@@ -69,7 +69,9 @@ public class NewIssueFragment extends HSFragmentParent {
 
     public static final String EXTRAS_USER = NewIssueActivity.EXTRAS_USER;
     public static final String RESULT_TICKET = NewIssueActivity.RESULT_TICKET;
-    private static final String EXTRAS_ATTACHMENT = NewIssueActivity.EXTRAS_ATTACHMENT;
+    public static final String EXTRAS_SUBJECT = NewIssueActivity.EXTRAS_SUBJECT;
+    public static final String EXTRAS_MESSAGE = NewIssueActivity.EXTRAS_MESSAGE;
+    public static final String EXTRAS_ATTACHMENT = NewIssueActivity.EXTRAS_ATTACHMENT;
 
     EditText subjectField, messageField;
     ImageView imageView1;
@@ -119,6 +121,9 @@ public class NewIssueFragment extends HSFragmentParent {
 
         gearSource = new HSSource(getActivity());
 
+        this.subjectField.setText(gearSource.getDraftSubject());
+        this.messageField.setText(gearSource.getDraftMessage());
+
         if (!HSHelpStack.getInstance(getActivity()).getShowCredits()) {
             rootView.findViewById(R.id.footerTextLabel).setVisibility(View.GONE);
             rootView.findViewById(R.id.footerDivider).setVisibility(View.GONE);
@@ -134,6 +139,20 @@ public class NewIssueFragment extends HSFragmentParent {
         outState.putString("subject", subjectField.getText().toString());
         outState.putString("message", messageField.getText().toString());
         outState.putSerializable("attachment", selectedAttachment);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        HSAttachment[] attachmentArray = null;
+
+        if (selectedAttachment != null) {
+            attachmentArray = new HSAttachment[1];
+            attachmentArray[0] = selectedAttachment;
+        }
+
+        gearSource.saveTicketDetailsInDraft(subjectField.getText().toString(), messageField.getText().toString(), attachmentArray);
     }
 
     @Override
@@ -176,8 +195,6 @@ public class NewIssueFragment extends HSFragmentParent {
                 return false;
             }
 
-
-
             HSAttachment[] attachmentArray = null;
 
             if (selectedAttachment != null) {
@@ -198,6 +215,7 @@ public class NewIssueFragment extends HSFragmentParent {
 
                                 getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
                                 sendSuccessSignal(ticket);
+                                clearFormData();
                                 Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
                             }
 
@@ -211,7 +229,6 @@ public class NewIssueFragment extends HSFragmentParent {
                         });
             }
             else {
-                Bundle bundle = new Bundle();
                 HSActivityManager.startNewUserActivity(this, REQUEST_CODE_NEW_TICKET, getSubject(), formattedBody, attachmentArray);
             }
 
@@ -246,7 +263,6 @@ public class NewIssueFragment extends HSFragmentParent {
                     selectedAttachment = HSAttachment.createAttachment(selectedImage.toString(), display_name, mime_type);
 
                     resetAttachmentImage();
-
                 }
             case REQUEST_CODE_NEW_TICKET:
                 if (resultCode == HSActivityManager.resultCode_sucess) {
@@ -283,7 +299,6 @@ public class NewIssueFragment extends HSFragmentParent {
                             Intent intent = new Intent(getActivity(), EditAttachmentActivity.class);
                             startActivityForResult(intent, REQUEST_CODE_PHOTO_PICKER);
                         }
-
                         else if (which == 1) {
                             selectedAttachment = null;
                             resetAttachmentImage();
@@ -296,14 +311,11 @@ public class NewIssueFragment extends HSFragmentParent {
         }
     };
 
-
-
     private void resetAttachmentImage() {
         if (selectedAttachment == null) {
             this.imageView1.setImageResource(R.drawable.hs_add_attachment_img);
         }
         else {
-
             try {
                 Uri uri = Uri.parse(selectedAttachment.getUrl());
                 Bitmap selectedBitmap;
@@ -313,10 +325,14 @@ public class NewIssueFragment extends HSFragmentParent {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
-
         }
+    }
 
+
+    private void clearFormData() {
+        this.subjectField.setText("");
+        this.messageField.setText("");
+        gearSource.clearTicketDraft();
     }
 
     public String getSubject() {

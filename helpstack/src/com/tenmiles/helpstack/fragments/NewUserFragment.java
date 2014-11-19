@@ -52,11 +52,13 @@ public class NewUserFragment extends HSFragmentParent {
 	private static final int NEW_TICKET_REQUEST_CODE = 1003;
 
     private static final String RESULT_TICKET = NewIssueActivity.RESULT_TICKET;
-    private static final String EXTRAS_ATTACHMENT = NewIssueActivity.EXTRAS_ATTACHMENT;
+    private static final String EXTRAS_SUBJECT = NewIssueFragment.EXTRAS_SUBJECT;
+    private static final String EXTRAS_MESSAGE = NewIssueFragment.EXTRAS_MESSAGE;
+    private static final String EXTRAS_ATTACHMENT = NewIssueFragment.EXTRAS_ATTACHMENT;
 
-    private HSAttachment[] attachmentArray;
     private String subject;
     private String message;
+    private HSAttachment[] attachmentArray;
 
     public NewUserFragment() {
 
@@ -83,13 +85,20 @@ public class NewUserFragment extends HSFragmentParent {
             args = getArguments();
 
             if (args != null) {
-                subject = args.getString("Subject");
-                message = args.getString("Message");
+                subject = args.getString(EXTRAS_SUBJECT);
+                message = args.getString(EXTRAS_MESSAGE);
                 attachmentArray = (HSAttachment[]) args.getSerializable(EXTRAS_ATTACHMENT);
             }
         }
 		
 		gearSource = new HSSource(getActivity());
+
+        HSUser user = gearSource.getDraftUser();
+        if (user != null) {
+            this.firstNameField.setText(user.getFirstName());
+            this.lastNameField.setText(user.getLastName());
+            this.emailField.setText(user.getEmail());
+        }
 		
 		return rootView;
 	}
@@ -101,6 +110,18 @@ public class NewUserFragment extends HSFragmentParent {
 		outState.putString("last_name", lastNameField.getText().toString());
 		outState.putString("email", emailField.getText().toString());
 	}
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        HSUser userDetails = HSUser.createNewUserWithDetails(
+                this.firstNameField.getText().toString(),
+                this.lastNameField.getText().toString(),
+                this.emailField.getText().toString());
+
+        gearSource.saveUserDetailsInDraft(userDetails);
+    }
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -161,6 +182,7 @@ public class NewUserFragment extends HSFragmentParent {
 
                                     getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
                                     sendSuccessSignal(ticket);
+                                    gearSource.clearTicketDraft();
                                     Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
                                 }
 
@@ -187,21 +209,21 @@ public class NewUserFragment extends HSFragmentParent {
 		
 		return super.onOptionsItemSelected(item);
 	}
-	
-	@Override
+
+    @Override
 	public void onDetach() {
 		gearSource.cancelOperation("NEW_USER");
 		super.onDetach();
 	}
-	
+
 	public String getFirstName() {
 		return firstNameField.getText().toString();
 	}
-	
+
 	public String getLastName() {
 		return lastNameField.getText().toString();
 	}
-	
+
 	public String getEmailAdddress() {
 		return emailField.getText().toString();
 	}

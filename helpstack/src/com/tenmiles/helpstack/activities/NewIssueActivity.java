@@ -38,8 +38,8 @@ public class NewIssueActivity extends HSActivityParent {
     public static final String EXTRAS_USER = "user";
     public static final String RESULT_TICKET = "ticket";
 
-    public static final String EXTRAS_SUBJECT = "Subject";
-    public static final String EXTRAS_MESSAGE = "Message";
+    public static final String EXTRAS_SUBJECT = "subject";
+    public static final String EXTRAS_MESSAGE = "message";
     public static final String EXTRAS_ATTACHMENT = "attachment";
 
     @Override
