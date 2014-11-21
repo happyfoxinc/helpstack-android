@@ -124,6 +124,11 @@ public class NewIssueFragment extends HSFragmentParent {
         this.subjectField.setText(gearSource.getDraftSubject());
         this.messageField.setText(gearSource.getDraftMessage());
 
+        if (gearSource.getDraftAttachments() != null && gearSource.getDraftAttachments().length > 0) {
+            this.selectedAttachment = gearSource.getDraftAttachments()[0];
+            resetAttachmentImage();
+        }
+
         if (!HSHelpStack.getInstance(getActivity()).getShowCredits()) {
             rootView.findViewById(R.id.footerTextLabel).setVisibility(View.GONE);
             rootView.findViewById(R.id.footerDivider).setVisibility(View.GONE);
@@ -173,6 +178,9 @@ public class NewIssueFragment extends HSFragmentParent {
         super.onCreateOptionsMenu(menu, inflater);
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.hs_issue_menu, menu);
+
+        MenuItem clearMenu = menu.findItem(R.id.clearItem);
+        MenuItemCompat.setShowAsAction(clearMenu, MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
 
         MenuItem doneMenu = menu.findItem(R.id.doneItem);
 
@@ -234,6 +242,9 @@ public class NewIssueFragment extends HSFragmentParent {
 
             return true;
         }
+        else if(id == R.id.clearItem) {
+            clearFormData();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -263,10 +274,12 @@ public class NewIssueFragment extends HSFragmentParent {
                     selectedAttachment = HSAttachment.createAttachment(selectedImage.toString(), display_name, mime_type);
 
                     resetAttachmentImage();
+                    break;
                 }
             case REQUEST_CODE_NEW_TICKET:
                 if (resultCode == HSActivityManager.resultCode_sucess) {
                     HSActivityManager.sendSuccessSignal(getActivity(), intent);
+                    break;
                 }
         }
     }
@@ -332,6 +345,10 @@ public class NewIssueFragment extends HSFragmentParent {
     private void clearFormData() {
         this.subjectField.setText("");
         this.messageField.setText("");
+        this.selectedAttachment = null;
+
+        resetAttachmentImage();
+
         gearSource.clearTicketDraft();
     }
 
