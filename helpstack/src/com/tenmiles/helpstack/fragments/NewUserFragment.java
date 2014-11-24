@@ -82,7 +82,42 @@ public class NewUserFragment extends HSFragmentParent {
 		this.lastNameField = (EditText) rootView.findViewById(R.id.lastname);
 		this.emailField = (EditText) rootView.findViewById(R.id.email);
 
-        Bundle args = savedInstanceState;
+        
+		
+		return rootView;
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(EXTRAS_FIRST_NAME, firstNameField.getText().toString());
+		outState.putString(EXTRAS_LAST_NAME, lastNameField.getText().toString());
+		outState.putString(EXTRAS_EMAIL, emailField.getText().toString());
+		outState.putString(EXTRAS_SUBJECT, subject);
+		outState.putString(EXTRAS_MESSAGE, message);
+		if (attachmentArray != null) {
+			Gson gson = new Gson();
+			outState.putSerializable(EXTRAS_ATTACHMENT, gson.toJson(attachmentArray));
+		}
+	}
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        HSUser userDetails = HSUser.createNewUserWithDetails(
+                this.firstNameField.getText().toString(),
+                this.lastNameField.getText().toString(),
+                this.emailField.getText().toString());
+
+        gearSource.saveUserDetailsInDraft(userDetails);
+    }
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		Bundle args = savedInstanceState;
         if (args == null) {
             args = getArguments();
         }
@@ -104,7 +139,7 @@ public class NewUserFragment extends HSFragmentParent {
             if (email != null) emailField.setText(email);
         }
 		
-		gearSource = new HSSource(getActivity());
+		gearSource = HSSource.getInstance(getActivity());
 
         HSUser draftUser = gearSource.getDraftUser();
         if (draftUser != null) {
@@ -112,50 +147,6 @@ public class NewUserFragment extends HSFragmentParent {
             this.lastNameField.setText(draftUser.getLastName());
             this.emailField.setText(draftUser.getEmail());
         }
-		
-		return rootView;
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(EXTRAS_FIRST_NAME, firstNameField.getText().toString());
-		outState.putString(EXTRAS_LAST_NAME, lastNameField.getText().toString());
-		outState.putString(EXTRAS_EMAIL, emailField.getText().toString());
-		outState.putString(EXTRAS_SUBJECT, subject);
-		outState.putString(EXTRAS_MESSAGE, message);
-		if (attachmentArray != null) {
-			Gson gson = new Gson();
-			outState.putSerializable(EXTRAS_ATTACHMENT, gson.toJson(attachmentArray));
-		}
-		
-		
-	}
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        HSUser userDetails = HSUser.createNewUserWithDetails(
-                this.firstNameField.getText().toString(),
-                this.lastNameField.getText().toString(),
-                this.emailField.getText().toString());
-
-        gearSource.saveUserDetailsInDraft(userDetails);
-    }
-	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		
-		if (savedInstanceState == null) {
-			
-		}
-		else {
-			this.firstNameField.setText(savedInstanceState.getString("first_name"));
-			this.lastNameField.setText(savedInstanceState.getString("last_name"));
-			this.emailField.setText(savedInstanceState.getString("email"));
-		}
 	}
 	
 	@Override

@@ -68,6 +68,32 @@ public class HSSource {
 	private static final String HELPSTACK_TICKETS_USER_DATA = "user_credential";
     private static final String HELPSTACK_DRAFT = "draft";
 	
+    private static HSSource singletonInstance = null;
+    
+    /**
+    *
+    * @param context
+    * @return singleton instance of this class.
+    */
+	public static HSSource getInstance(Context context) {
+		if (singletonInstance == null) {
+			synchronized (HSSource.class) { // 1
+				if (singletonInstance == null) // 2
+				{
+					Log.d(TAG, "New Instance");
+					singletonInstance = new HSSource(
+							context.getApplicationContext()); // 3
+				}
+
+				// Can be called even before a gear is set
+				if (singletonInstance.gear == null) {
+					singletonInstance.setGear(HSHelpStack.getInstance(context).getGear());
+				}
+			}
+		}
+		return singletonInstance;
+	}
+    
 	private HSGear gear;
 	private Context mContext;
 	private RequestQueue mRequestQueue;
@@ -77,7 +103,7 @@ public class HSSource {
 
     private HSDraft draftObject;
 	
-	public HSSource(Context context) {
+	private HSSource(Context context) {
 		this.mContext = context;
 		setGear(HSHelpStack.getInstance(context).getGear());
 		mRequestQueue = HSHelpStack.getInstance(context).getRequestQueue();
@@ -90,6 +116,8 @@ public class HSSource {
 		doReadUserFromCache();
         doReadDraftFromCache();
 	}
+	
+	
 
 	public void requestKBArticle(String cancelTag, HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
 		

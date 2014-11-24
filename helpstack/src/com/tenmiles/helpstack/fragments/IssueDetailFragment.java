@@ -114,7 +114,7 @@ public class IssueDetailFragment extends HSFragmentParent
         mExpandableListView.setAdapter(mAdapter);
         mExpandableListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         
-        gearSource = new HSSource(getActivity());
+        gearSource = HSSource.getInstance(getActivity());
 
         this.replyEditTextView.setText(gearSource.getDraftReplyMessage());
 

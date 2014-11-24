@@ -119,7 +119,7 @@ public class NewIssueFragment extends HSFragmentParent {
             }
         }
 
-        gearSource = new HSSource(getActivity());
+        gearSource = HSSource.getInstance(getActivity());
 
         this.subjectField.setText(gearSource.getDraftSubject());
         this.messageField.setText(gearSource.getDraftMessage());

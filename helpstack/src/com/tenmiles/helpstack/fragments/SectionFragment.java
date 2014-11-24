@@ -95,7 +95,7 @@ public class SectionFragment extends HSFragmentParent {
         mSearchFragment.setOnReportAnIssueClickListener(reportAnIssueLisener);
         setHasOptionsMenu(true);
         
-        gearSource = new HSSource (getActivity());
+        gearSource = HSSource.getInstance(getActivity());
 		
         if (savedInstanceState == null) {
         	initializeView();

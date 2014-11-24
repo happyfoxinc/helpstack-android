@@ -25,11 +25,9 @@ package com.tenmiles.helpstack.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 import com.google.gson.Gson;
 import com.tenmiles.helpstack.fragments.HSFragmentParent;
-import com.tenmiles.helpstack.fragments.NewIssueFragment;
 import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
