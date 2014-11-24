@@ -86,10 +86,8 @@ public class HSSource {
 				}		
 			}
 		}
-		// Can be called even before a gear is set
-		if (singletonInstance.gear == null) {
-			singletonInstance.setGear(HSHelpStack.getInstance(context).getGear());
-		}
+		// As this singleton can be called even before gear is set, refreshing it
+		singletonInstance.setGear(HSHelpStack.getInstance(context).getGear());
 		return singletonInstance;
 	}
     
