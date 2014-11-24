@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.gson.Gson;
 import com.tenmiles.helpstack.fragments.HSFragmentParent;
 import com.tenmiles.helpstack.fragments.NewIssueFragment;
 import com.tenmiles.helpstack.model.HSAttachment;
@@ -75,7 +76,11 @@ public class HSActivityManager {
 		Intent intent = new Intent(context.getActivity(), NewUserActivity.class);
         intent.putExtra(NewIssueActivity.EXTRAS_SUBJECT, subject);
         intent.putExtra(NewIssueActivity.EXTRAS_MESSAGE, message);
-        intent.putExtra(NewIssueActivity.EXTRAS_ATTACHMENT, attachmentArray);
+        if (attachmentArray != null) {
+        	Gson json = new Gson();
+        	intent.putExtra(NewIssueActivity.EXTRAS_ATTACHMENT, json.toJson(attachmentArray));
+        }
+        
 		context.startActivityForResult(intent, requestCode);
 	}
 	

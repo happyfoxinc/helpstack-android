@@ -29,6 +29,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class HSAttachment implements Serializable{
 	
+	private static final long serialVersionUID = 8417480406914032499L;
+
 	@SerializedName("file_name")
 	private String fileName;
 	

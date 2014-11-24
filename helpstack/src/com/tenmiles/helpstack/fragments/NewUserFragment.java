@@ -34,8 +34,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.activities.NewIssueActivity;
@@ -49,12 +50,13 @@ import com.tenmiles.helpstack.model.HSUser;
 
 public class NewUserFragment extends HSFragmentParent {
 
-	private static final int NEW_TICKET_REQUEST_CODE = 1003;
-
     private static final String RESULT_TICKET = NewIssueActivity.RESULT_TICKET;
     private static final String EXTRAS_SUBJECT = NewIssueFragment.EXTRAS_SUBJECT;
     private static final String EXTRAS_MESSAGE = NewIssueFragment.EXTRAS_MESSAGE;
     private static final String EXTRAS_ATTACHMENT = NewIssueFragment.EXTRAS_ATTACHMENT;
+    private static final String EXTRAS_FIRST_NAME = "first_name";
+    private static final String EXTRAS_LAST_NAME = "last_name";
+    private static final String EXTRAS_EMAIL = "email";
 
     private String subject;
     private String message;
@@ -83,12 +85,23 @@ public class NewUserFragment extends HSFragmentParent {
         Bundle args = savedInstanceState;
         if (args == null) {
             args = getArguments();
-
-            if (args != null) {
-                subject = args.getString(EXTRAS_SUBJECT);
-                message = args.getString(EXTRAS_MESSAGE);
-                attachmentArray = (HSAttachment[]) args.getSerializable(EXTRAS_ATTACHMENT);
+        }
+        
+        if (args != null) {
+            subject = args.getString(EXTRAS_SUBJECT, null);
+            message = args.getString(EXTRAS_MESSAGE, null);
+            if (args.containsKey(EXTRAS_ATTACHMENT)) {
+            	String json = args.getString(EXTRAS_ATTACHMENT);
+            	Gson gson = new Gson();
+            	attachmentArray = gson.fromJson(json, HSAttachment[].class);
             }
+            
+            String first_name = args.getString(EXTRAS_FIRST_NAME, null);
+            if (first_name != null) firstNameField.setText(first_name);
+            String last_name = args.getString(EXTRAS_LAST_NAME, null);
+            if (last_name != null) lastNameField.setText(last_name);
+            String email = args.getString(EXTRAS_EMAIL, null);
+            if (email != null) emailField.setText(email);
         }
 		
 		gearSource = new HSSource(getActivity());
@@ -106,9 +119,17 @@ public class NewUserFragment extends HSFragmentParent {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("first_name", firstNameField.getText().toString());
-		outState.putString("last_name", lastNameField.getText().toString());
-		outState.putString("email", emailField.getText().toString());
+		outState.putString(EXTRAS_FIRST_NAME, firstNameField.getText().toString());
+		outState.putString(EXTRAS_LAST_NAME, lastNameField.getText().toString());
+		outState.putString(EXTRAS_EMAIL, emailField.getText().toString());
+		outState.putString(EXTRAS_SUBJECT, subject);
+		outState.putString(EXTRAS_MESSAGE, message);
+		if (attachmentArray != null) {
+			Gson gson = new Gson();
+			outState.putSerializable(EXTRAS_ATTACHMENT, gson.toJson(attachmentArray));
+		}
+		
+		
 	}
 
     @Override
