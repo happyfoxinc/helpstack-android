@@ -110,13 +110,10 @@ public class HSSource {
 		
 		cachedTicket = new HSCachedTicket();
 		cachedUser = new HSCachedUser();
+		draftObject = new HSDraft();
 
-		// read the ticket data from cache and maintain here
-		doReadTicketsFromCache();
-		doReadUserFromCache();
-        doReadDraftFromCache();
+		refreshFieldsFromCache();
 	}
-	
 	
 
 	public void requestKBArticle(String cancelTag, HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
@@ -367,6 +364,13 @@ public class HSSource {
 	////////     Utility Functions  /////////////////
 	/////////////////////////////////////////////////
 	
+	public void refreshFieldsFromCache() {
+		// read the ticket data from cache and maintain here
+		doReadTicketsFromCache();
+		doReadUserFromCache();
+        doReadDraftFromCache();
+	}
+	
 	/**
 	 * Opens a file and read its content. Return null if any error occured or file not found
 	 * @param file
@@ -483,10 +487,6 @@ public class HSSource {
     }
 
     protected void doSaveTicketDraftForGearInCache(String subject, String message, HSAttachment[] attachmentsArray) {
-        if(draftObject == null) {
-            draftObject = new HSDraft();
-        }
-
         draftObject.setDraftSubject(subject);
         draftObject.setDraftMessage(message);
         draftObject.setDraftAttachments(attachmentsArray);
