@@ -115,6 +115,13 @@ public class IssueDetailFragment extends HSFragmentParent
         mExpandableListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         
         gearSource = new HSSource(getActivity());
+
+        this.replyEditTextView.setText(gearSource.getDraftReplyMessage());
+
+        if (gearSource.getDraftReplyAttachments() != null && gearSource.getDraftReplyAttachments().length > 0) {
+            this.selectedAttachment = gearSource.getDraftReplyAttachments()[0];
+            resetAttachmentImage();
+        }
 		
         mAdapter.setOnChildItemClickListener(listChildClickListener);
         
@@ -155,7 +162,21 @@ public class IssueDetailFragment extends HSFragmentParent
 		outState.putSerializable("selectedAttachment", selectedAttachment);
 		outState.putSerializable("replyEditTextView", replyEditTextView.getText().toString());
 	}
-	
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        HSAttachment[] attachmentArray = null;
+
+        if (selectedAttachment != null) {
+            attachmentArray = new HSAttachment[1];
+            attachmentArray[0] = selectedAttachment;
+        }
+
+        gearSource.saveReplyDetailsInDraft(replyEditTextView.getText().toString(), attachmentArray);
+    }
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		
@@ -302,6 +323,8 @@ public class IssueDetailFragment extends HSFragmentParent
 				
 				@Override
 				public void onSuccess(Object successObject) {
+                    clearFormData();
+                    
 					sendButton.setEnabled(true);
                     sendButton.setAlpha((float)1.0);
 					HSTicketUpdate update = (HSTicketUpdate) successObject;
@@ -336,8 +359,13 @@ public class IssueDetailFragment extends HSFragmentParent
 			});
 		}
 	};
-	
-	private void expandAll() {
+
+    private void clearFormData() {
+        replyEditTextView.setText("");
+        gearSource.clearReplyDraft();
+    }
+
+    private void expandAll() {
 		int count = mAdapter.getGroupCount();
 		for (int i = 0; i < count; i++) {
 			mExpandableListView.expandGroup(i);

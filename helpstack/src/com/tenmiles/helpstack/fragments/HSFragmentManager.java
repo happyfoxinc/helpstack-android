@@ -42,7 +42,6 @@ public class HSFragmentManager {
 		HomeFragment fragment = new HomeFragment();
 		return fragment;
 	}
-	
 
 	public static NewIssueFragment getNewIssueFragment(HSUser user) {
 		return NewIssueFragment.createNewIssueFragment(user);

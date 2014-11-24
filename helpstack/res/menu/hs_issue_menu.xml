@@ -3,10 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.tenmiles.helpstack.NewIssueActivity" >
 
+    <item
+        android:id="@+id/clearItem"
+        android:title="@string/hs_clear"
+        android:visible="true"
+        />
+
     <item 
         android:id="@+id/doneItem"
         android:title="@string/hs_done"
         android:visible="true"
+        android:icon="@drawable/hs_action_accept"
         />
 
 </menu>

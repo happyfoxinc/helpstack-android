@@ -39,6 +39,7 @@ import com.tenmiles.helpstack.HSHelpStack;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.fragments.HSFragmentParent;
 import com.tenmiles.helpstack.model.HSAttachment;
+import com.tenmiles.helpstack.model.HSDraft;
 import com.tenmiles.helpstack.model.HSCachedTicket;
 import com.tenmiles.helpstack.model.HSCachedUser;
 import com.tenmiles.helpstack.model.HSKBItem;
@@ -65,24 +66,29 @@ public class HSSource {
 	private static final String HELPSTACK_DIRECTORY = "helpstack";
 	private static final String HELPSTACK_TICKETS_FILE_NAME = "tickets";
 	private static final String HELPSTACK_TICKETS_USER_DATA = "user_credential";
+    private static final String HELPSTACK_DRAFT = "draft";
 	
 	private HSGear gear;
 	private Context mContext;
 	private RequestQueue mRequestQueue;
 	
-	private HSCachedTicket cachedTickets;
+	private HSCachedTicket cachedTicket;
 	private HSCachedUser cachedUser;
+
+    private HSDraft draftObject;
 	
 	public HSSource(Context context) {
 		this.mContext = context;
 		setGear(HSHelpStack.getInstance(context).getGear());
 		mRequestQueue = HSHelpStack.getInstance(context).getRequestQueue();
 		
-		cachedTickets = new HSCachedTicket();
+		cachedTicket = new HSCachedTicket();
 		cachedUser = new HSCachedUser();
+
 		// read the ticket data from cache and maintain here
 		doReadTicketsFromCache();
 		doReadUserFromCache();
+        doReadDraftFromCache();
 	}
 
 	public void requestKBArticle(String cancelTag, HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
@@ -118,11 +124,11 @@ public class HSSource {
 	
 	public void requestAllTickets(OnFetchedArraySuccessListener success, ErrorListener error ) {
 		
-		if (cachedTickets == null) {
+		if (cachedTicket == null) {
 			success.onSuccess(new HSTicket[0]);
 		}
 		else {
-			success.onSuccess(cachedTickets.getTickets());
+			success.onSuccess(cachedTicket.getTickets());
 		}
 	}
 	
@@ -156,7 +162,7 @@ public class HSSource {
 	}
 	
 	public void requestAllUpdatesOnTicket(String cancelTag, HSTicket ticket, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
-		gear.fetchAllUpdateOnTicket(cancelTag, ticket,cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
+		gear.fetchAllUpdateOnTicket(cancelTag, ticket, cachedUser.getUser(), mRequestQueue, success, new ErrorWrapper("Fetching updates on Ticket", errorListener));
 	}
 	
 	public void addReplyOnATicket(String cancelTag, String message, HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
@@ -201,6 +207,60 @@ public class HSSource {
 		return cachedUser.getUser();
 	}
 
+    public String getDraftSubject() {
+        if(draftObject != null) {
+            return draftObject.getSubject();
+        }
+        return null;
+    }
+
+    public String getDraftMessage() {
+        if(draftObject != null) {
+            return draftObject.getMessage();
+        }
+        return null;
+    }
+
+    public HSUser getDraftUser() {
+        if(draftObject != null) {
+            return draftObject.getDraftUser();
+        }
+        return null;
+    }
+
+    public HSAttachment[] getDraftAttachments() {
+        if(draftObject != null) {
+            return draftObject.getAttachments();
+        }
+        return null;
+    }
+
+    public String getDraftReplyMessage() {
+        if(draftObject != null) {
+            return draftObject.getDraftReplyMessage();
+        }
+        return null;
+    }
+
+    public HSAttachment[] getDraftReplyAttachments() {
+        if(draftObject != null) {
+            return draftObject.getDraftReplyAttachments();
+        }
+        return null;
+    }
+
+    public void saveTicketDetailsInDraft(String subject, String message, HSAttachment[] attachmentsArray) {
+        doSaveTicketDraftForGearInCache(subject, message, attachmentsArray);
+    }
+
+    public void saveUserDetailsInDraft(HSUser user) {
+        doSaveUserDraftForGearInCache(user);
+    }
+
+    public void saveReplyDetailsInDraft(String message, HSAttachment[] attachmentsArray) {
+        doSaveReplyDraftForGearInCache(message, attachmentsArray);
+    }
+
 	public boolean haveImplementedTicketFetching() {
 		return gear.haveImplementedTicketFetching();
 	}
@@ -225,7 +285,7 @@ public class HSSource {
 		
 		if (haveImplementedTicketFetching()) {
 			if(isNewUser()) {
-				HSActivityManager.startNewUserActivity(fragment, requestCode);
+                HSActivityManager.startNewIssueActivity(fragment, null, requestCode);
 			}else {
 				HSActivityManager.startNewIssueActivity(fragment, getUser(), requestCode);
 			}
@@ -332,10 +392,10 @@ public class HSSource {
 	
 	protected void doSaveNewTicketPropertiesForGearInCache(HSTicket ticket) {
 		
-		cachedTickets.addTicketAtStart(ticket);
+		cachedTicket.addTicketAtStart(ticket);
 		
 		Gson gson = new Gson();
-		String ticketsgson = gson.toJson(cachedTickets);
+		String ticketsgson = gson.toJson(cachedTicket);
 		
 		
 		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
@@ -365,7 +425,7 @@ public class HSSource {
 		
 		if (json != null) {
 			Gson gson = new Gson();
-			cachedTickets = gson.fromJson(json, HSCachedTicket.class);
+			cachedTicket = gson.fromJson(json, HSCachedTicket.class);
 		}
 	}
 	
@@ -382,8 +442,52 @@ public class HSSource {
 			cachedUser = gson.fromJson(json, HSCachedUser.class);
 		}
 	}
-	
-	protected File getProjectDirectory() {
+
+    protected void doReadDraftFromCache() {
+        File draftFile = new File(getProjectDirectory(), HELPSTACK_DRAFT);
+
+        String json = readJsonFromFile(draftFile);
+
+        if (json != null) {
+            Gson gson = new Gson();
+            draftObject = gson.fromJson(json, HSDraft.class);
+        }
+    }
+
+    protected void doSaveTicketDraftForGearInCache(String subject, String message, HSAttachment[] attachmentsArray) {
+        if(draftObject == null) {
+            draftObject = new HSDraft();
+        }
+
+        draftObject.setDraftSubject(subject);
+        draftObject.setDraftMessage(message);
+        draftObject.setDraftAttachments(attachmentsArray);
+
+        writeDraftIntoFile();
+    }
+
+    protected void doSaveUserDraftForGearInCache(HSUser user) {
+        draftObject.setDraftUSer(user);
+        writeDraftIntoFile();
+    }
+
+    protected void doSaveReplyDraftForGearInCache(String message, HSAttachment[] attachmentsArray) {
+        draftObject.setDraftReplyMessage(message);
+        draftObject.setDraftReplyAttachments(attachmentsArray);
+
+        writeDraftIntoFile();
+    }
+
+
+    private void writeDraftIntoFile() {
+        Gson gson = new Gson();
+        String draftJson = gson.toJson(draftObject);
+        File draftFile = new File(getProjectDirectory(), HELPSTACK_DRAFT);
+
+        writeJsonIntoFile(draftFile, draftJson);
+    }
+
+    protected File getProjectDirectory() {
 		
 		File projDir = new File(mContext.getFilesDir(), HELPSTACK_DIRECTORY);
 		if (!projDir.exists())
@@ -391,8 +495,16 @@ public class HSSource {
 		
 		return projDir;
 	}
-	
-	private class NewTicketSuccessWrapper implements OnNewTicketFetchedSuccessListener
+
+    public void clearTicketDraft() {
+        saveTicketDetailsInDraft("", "", null);
+    }
+
+    public void clearReplyDraft() {
+        saveReplyDetailsInDraft("", null);
+    }
+
+    private class NewTicketSuccessWrapper implements OnNewTicketFetchedSuccessListener
 	{
 
 		private OnNewTicketFetchedSuccessListener lastListner;
