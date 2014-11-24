@@ -83,13 +83,12 @@ public class HSSource {
 					Log.d(TAG, "New Instance");
 					singletonInstance = new HSSource(
 							context.getApplicationContext()); // 3
-				}
-
-				// Can be called even before a gear is set
-				if (singletonInstance.gear == null) {
-					singletonInstance.setGear(HSHelpStack.getInstance(context).getGear());
-				}
+				}		
 			}
+		}
+		// Can be called even before a gear is set
+		if (singletonInstance.gear == null) {
+			singletonInstance.setGear(HSHelpStack.getInstance(context).getGear());
 		}
 		return singletonInstance;
 	}
