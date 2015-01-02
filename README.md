@@ -17,7 +17,6 @@ HelpStack supports the following leading helpdesk solutions:
 - [HappyFox](https://www.happyfox.com/)
 - [Zendesk](https://www.zendesk.com/)
 - [Desk.com](http://www.desk.com/)
-
 - Email - If you don't have a helpdesk solution, you can still configure HelpStack for users to raise requests via email.
 
 You can choose any 1 of the 4 options mentioned above, to get started with HelpStack.
@@ -28,8 +27,8 @@ Check out [helpstack.io](http://www.helpstack.io) for more information.
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
-## Users
-If you use HelpStack, don't forget to send a Pull Request to this Wiki page: [HelpStack Android users](https://github.com/happyfoxinc/helpstack-android/wiki/HelpStack-Android-users)
+## HelpStack Android Users
+If you use HelpStack in your app, please let us know by adding yourself to this Wiki page: [HelpStack Android users](https://github.com/happyfoxinc/helpstack-android/wiki/HelpStack-Android-users)
 
 ## Installation
 
@@ -91,31 +90,25 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
 ##### i. HappyFox:
 
     public class HSApplication extends Application {
-      
       HSHelpStack helpStack;
       
       @Override
       public void onCreate() {
         super.onCreate();
         
-        // Get the HSHelpStack instance
-        helpStack = HSHelpStack.getInstance(this);
+        helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
         
-        // Crate the Gear object 
         HSHappyfoxGear happyfoxGear = new HSHappyfoxGear(
                 "<Account URL>",
                 "<Your API Key>",
                 "<Your Auth Code>",
                 "<Category ID>",
-                "<Priority ID>");
+                "<Priority ID>"); // Create the Gear object 
         
-        // [Optional] Set the Section Id of your Knowledge Base articles
-        happyfoxGear.setSectionId("<Section id>");
+        happyfoxGear.setSectionId("<Section id>"); // Optional. Set the Section Id of your Knowledge Base articles.
         
-        // Set the Gear
-        helpStack.setGear(happyfoxGear);
+        helpStack.setGear(happyfoxGear); // Set the Gear
       }
-      
     }
 
 The API key and Auth code can be found in your HappyFox account under *Manage* > *Integrations*. You can generate an API key and Auth code by clicking on the API configure link.
@@ -130,29 +123,23 @@ Priority ID and Category ID cannot be nil. These are the ID's of the priority an
 ##### ii. Zendesk:
   
     public class HSApplication extends Application {
-      
       HSHelpStack helpStack;
       
       @Override
       public void onCreate() {
         super.onCreate();
         
-        // Get the HSHelpStack instance
-        helpStack = HSHelpStack.getInstance(this);
+        helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
         
-        // Crate the Gear object 
         HSZendeskGear zendeskGear = new HSZendeskGear(
                 "<Account URL>",
                 "<Staff Email Address>",
-                "<API Token");
+                "<API Token"); // Create the Gear object 
                 
-        // [Optional] Set the Section Id of your Help Center articles
-        zendeskGear.setSectionId("<Section id>");
+        zendeskGear.setSectionId("<Section id>"); // Optional. Set the Section Id of your Help Center articles.
         
-        // Set the Gear
-        helpStack.setGear(zendeskGear);
+        helpStack.setGear(zendeskGear); // Set the Gear
       }
-      
     }
     
 The token can be found in your Zendesk account under Settings > Channels > API. Setting the Section ID of your Help Center articles is optional. You can find the sections in your Zendesk account, as mentioned below:
@@ -163,27 +150,22 @@ The token can be found in your Zendesk account under Settings > Channels > API. 
 ##### iii. Desk:
 
     public class HSApplication extends Application {
-     
       HSHelpStack helpStack;
       
       @Override
       public void onCreate() {
         super.onCreate();
         
-        // Get the HSHelpStack instance
-        helpStack = HSHelpStack.getInstance(this);
+        helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
         
-        // Crate the Gear object 
         HSDeskGear deskGear = new HSDeskGear(
                 "<Account URL>",
                 "<To Help email address>",
                 "<Staff email address>",
-                "<Staff password");
+                "<Staff password"); // Create the Gear object 
        
-        // Set the Gear
-        helpStack.setGear(deskGear);
+        helpStack.setGear(deskGear); // Set the Gear
       }
-     
     }
    
 ##### iv. Email:
