@@ -105,10 +105,6 @@ public class HSSource {
 		setGear(HSHelpStack.getInstance(context).getGear());
 		mRequestQueue = HSHelpStack.getInstance(context).getRequestQueue();
 		
-		cachedTicket = new HSCachedTicket();
-		cachedUser = new HSCachedUser();
-		draftObject = new HSDraft();
-
 		refreshFieldsFromCache();
 	}
 	
@@ -452,7 +448,10 @@ public class HSSource {
 		
 		String json = readJsonFromFile(ticketFile);
 		
-		if (json != null) {
+		if (json == null) {
+			cachedTicket = new HSCachedTicket();
+		}
+		else {
 			Gson gson = new Gson();
 			cachedTicket = gson.fromJson(json, HSCachedTicket.class);
 		}
@@ -466,7 +465,10 @@ public class HSSource {
 		
 		String json = readJsonFromFile(userFile);
 		
-		if (json != null) {
+		if (json == null) {
+			cachedUser = new HSCachedUser();
+		}
+		else {
 			Gson gson = new Gson();
 			cachedUser = gson.fromJson(json, HSCachedUser.class);
 		}
@@ -477,8 +479,11 @@ public class HSSource {
 
         String json = readJsonFromFile(draftFile);
 
-        if (json != null) {
-            Gson gson = new Gson();
+        if (json == null) {
+        	draftObject = new HSDraft();
+        }
+        else {
+        	Gson gson = new Gson();
             draftObject = gson.fromJson(json, HSDraft.class);
         }
     }
