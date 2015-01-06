@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.tenmiles.helpstack.activities.EditAttachmentActivity" >
+
+    <item
+        android:id="@+id/attach"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:icon="@drawable/hs_action_accept"
+        android:title="@string/hs_attach" />
+
+</menu>

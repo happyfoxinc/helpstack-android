@@ -58,6 +58,7 @@ import android.widget.TextView;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.activities.EditAttachmentActivity;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter;
 import com.tenmiles.helpstack.helper.HSBaseExpandableListAdapter.OnChildItemClickListener;
@@ -113,7 +114,14 @@ public class IssueDetailFragment extends HSFragmentParent
         mExpandableListView.setAdapter(mAdapter);
         mExpandableListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         
-        gearSource = new HSSource(getActivity());
+        gearSource = HSSource.getInstance(getActivity());
+
+        this.replyEditTextView.setText(gearSource.getDraftReplyMessage());
+
+        if (gearSource.getDraftReplyAttachments() != null && gearSource.getDraftReplyAttachments().length > 0) {
+            this.selectedAttachment = gearSource.getDraftReplyAttachments()[0];
+            resetAttachmentImage();
+        }
 		
         mAdapter.setOnChildItemClickListener(listChildClickListener);
         
@@ -154,14 +162,28 @@ public class IssueDetailFragment extends HSFragmentParent
 		outState.putSerializable("selectedAttachment", selectedAttachment);
 		outState.putSerializable("replyEditTextView", replyEditTextView.getText().toString());
 	}
-	
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        HSAttachment[] attachmentArray = null;
+
+        if (selectedAttachment != null) {
+            attachmentArray = new HSAttachment[1];
+            attachmentArray[0] = selectedAttachment;
+        }
+
+        gearSource.saveReplyDetailsInDraft(replyEditTextView.getText().toString(), attachmentArray);
+    }
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		
 		if(requestCode == REQUEST_CODE_PHOTO_PICKER && resultCode == Activity.RESULT_OK)
-		{      
-			
-			Uri selectedImage = intent.getData();
+		{
+
+            Uri selectedImage = Uri.parse(intent.getStringExtra("URI"));
 			
 			//User had pick an image.
 	        Cursor cursor = getActivity().getContentResolver().query(selectedImage, new String[] { 
@@ -243,10 +265,8 @@ public class IssueDetailFragment extends HSFragmentParent
 		public void onClick(View v) {
 			
 			if (selectedAttachment == null) {
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
+                Intent intent = new Intent(getActivity(), EditAttachmentActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_PHOTO_PICKER);
 			}
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
@@ -258,10 +278,8 @@ public class IssueDetailFragment extends HSFragmentParent
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (which == 0) {
-							Intent intent = new Intent();
-							intent.setType("image/*");
-							intent.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.hs_select_picture)), REQUEST_CODE_PHOTO_PICKER);
+                            Intent intent = new Intent(getActivity(), EditAttachmentActivity.class);
+                            startActivityForResult(intent, REQUEST_CODE_PHOTO_PICKER);
 						}
 						
 						else if (which == 1) {
@@ -305,6 +323,8 @@ public class IssueDetailFragment extends HSFragmentParent
 				
 				@Override
 				public void onSuccess(Object successObject) {
+                    clearFormData();
+                    
 					sendButton.setEnabled(true);
                     sendButton.setAlpha((float)1.0);
 					HSTicketUpdate update = (HSTicketUpdate) successObject;
@@ -339,8 +359,13 @@ public class IssueDetailFragment extends HSFragmentParent
 			});
 		}
 	};
-	
-	private void expandAll() {
+
+    private void clearFormData() {
+        replyEditTextView.setText("");
+        gearSource.clearReplyDraft();
+    }
+
+    private void expandAll() {
 		int count = mAdapter.getGroupCount();
 		for (int i = 0; i < count; i++) {
 			mExpandableListView.expandGroup(i);

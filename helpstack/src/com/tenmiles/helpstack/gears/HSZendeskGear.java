@@ -377,7 +377,7 @@ public class HSZendeskGear extends HSGear {
             }
         }, errorListener);
 
-        request.addCredential(staff_email_address, api_token);
+        request.addCredential(user.getEmail(), api_token);
         request.setTag(cancelTag);
         request.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
                 ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
@@ -462,7 +462,7 @@ public class HSZendeskGear extends HSGear {
         JSONArray eventsArray = updateObject.getJSONArray("events");
 
         int eventsArrayLength = eventsArray.length();
-        for (int i = 0; i < eventsArrayLength; i++) {
+        for (int i = 0; i < eventsArrayLength; i++) { //else Nothing
             JSONObject eventObject = eventsArray.getJSONObject(i);
             if (eventObject.getString("type").equals("Comment")) {
 
@@ -480,17 +480,21 @@ public class HSZendeskGear extends HSGear {
                 // authorId can be null here because of previous if loop. Make sure to handle it properly
                 JSONObject author = searchForUser(authorId, usersArray);
 
-                if (!author.isNull("name")) {
-                    from = author.getString("name");
+                if (author != null) {
+                	if (!author.isNull("name")) {
+                        from = author.getString("name");
+                    }
+                	
+                	String role = author.getString("role");
+                    if (role.equals("end-user")) {
+                        isUpdateTypeUserReply = true;
+                    }
                 }
+                
+                
 
                 if (!updateObject.isNull("created_at")) {
                     update_time = parseTime(updateObject.getString("created_at"));
-                }
-
-                String role = author.getString("role");
-                if (role.equals("end-user")) {
-                    isUpdateTypeUserReply = true;
                 }
 
                 JSONArray attachmentObjects = eventObject.getJSONArray("attachments");
@@ -508,6 +512,9 @@ public class HSZendeskGear extends HSGear {
                     }
                     attachments = attachmentArray.toArray(new HSAttachment[length]);
                 }
+                
+                
+                break;
             }
         }
 
@@ -562,7 +569,7 @@ public class HSZendeskGear extends HSGear {
             }
         }
 
-        return usersObject;
+        return null;
     }
 
     private void showArticlesInSection(String cancelTag, String section_id,  RequestQueue queue, final OnFetchedArraySuccessListener successListener, final ErrorListener errorListener) {

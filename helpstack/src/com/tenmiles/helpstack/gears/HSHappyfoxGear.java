@@ -255,7 +255,10 @@ public class HSHappyfoxGear extends HSGear {
 						JSONObject updateObject = updateArray.getJSONObject(i);
 
 						if (!updateObject.isNull("message")) {
-							ticketUpdates.add(parseTicketUpdateFromJson(updateObject));
+							HSTicketUpdate update = parseTicketUpdateFromJson(updateObject);
+							if (update != null) {
+								ticketUpdates.add(update);
+							}
 						}
 					}
 
@@ -313,6 +316,10 @@ public class HSHappyfoxGear extends HSGear {
 
 								update = parseTicketUpdateFromJson(updateObject);
 
+								if (update == null) {
+									continue;
+								}
+								
 								break;
 							}
 
@@ -384,10 +391,28 @@ public class HSHappyfoxGear extends HSGear {
         return array;
     }
 
+    
+    /**
+     * 
+     * @param updateObject, can be null if it is private note
+     * @return
+     * @throws JSONException
+     */
 	private HSTicketUpdate parseTicketUpdateFromJson(JSONObject updateObject) throws JSONException {
 		String updateId = null;
 		String userName = null;
 
+		if (updateObject.isNull("message")) {
+			return null;
+		}
+		
+		JSONObject messageObject = updateObject.getJSONObject("message");
+		
+		// private note
+		if (!messageObject.isNull("message_type") && messageObject.getString("message_type").equals("p")) {
+			return null;
+		}
+		
 		JSONObject byObject = updateObject.getJSONObject("by");
 		if (!byObject.isNull("name")) {
 			userName = updateObject.getJSONObject("by").getString("name");

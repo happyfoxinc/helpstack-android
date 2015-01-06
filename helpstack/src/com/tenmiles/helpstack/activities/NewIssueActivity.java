@@ -35,55 +35,65 @@ import com.tenmiles.helpstack.model.HSUser;
 
 public class NewIssueActivity extends HSActivityParent {
 
-	public static final String EXTRAS_USER = "user";
-	public static final String RESULT_TICKET = "ticket";
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.hs_activity_new_issue);
+    public static final String EXTRAS_USER = "user";
+    public static final String RESULT_TICKET = "ticket";
 
-		if (savedInstanceState == null) {
-			Bundle bundle = getIntent().getExtras();
-			NewIssueFragment newIssueFragment = HSFragmentManager.getNewIssueFragment((HSUser)bundle.getSerializable(EXTRAS_USER));
-			HSFragmentManager.putFragmentInActivity(this, R.id.container, newIssueFragment, "Issue");
-		}
-		
-	}
-	
-	@Override
-    public void configureActionBar(ActionBar actionBar) {
-    	super.configureActionBar(actionBar);
-    	actionBar.setTitle(getString(R.string.hs_new_issue_title));
+    public static final String EXTRAS_SUBJECT = "subject";
+    public static final String EXTRAS_MESSAGE = "message";
+    public static final String EXTRAS_ATTACHMENT = "attachment";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.hs_activity_new_issue);
+
+        if (savedInstanceState == null) {
+            Bundle bundle = getIntent().getExtras();
+            NewIssueFragment newIssueFragment;
+            if (getIntent().hasExtra(EXTRAS_USER)) {
+                newIssueFragment = HSFragmentManager.getNewIssueFragment((HSUser) bundle.getSerializable(EXTRAS_USER));
+            }
+            else {
+                newIssueFragment = HSFragmentManager.getNewIssueFragment(null);
+            }
+            HSFragmentManager.putFragmentInActivity(this, R.id.container, newIssueFragment, "Issue");
+        }
+
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public void configureActionBar(ActionBar actionBar) {
+        super.configureActionBar(actionBar);
+        actionBar.setTitle(getString(R.string.hs_new_issue_title));
+    }
 
-		
-		
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == android.R.id.home) {
-			finishSafe();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
-	public void finishSafe() {
-		Intent intent = new Intent();
-		setResult(HSActivityManager.resultCode_cancelled,intent);
-		finish();
-	}
-	
-	
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finishSafe();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void finishSafe() {
+        Intent intent = new Intent();
+        setResult(HSActivityManager.resultCode_cancelled,intent);
+        finish();
+    }
+
+
 
 }

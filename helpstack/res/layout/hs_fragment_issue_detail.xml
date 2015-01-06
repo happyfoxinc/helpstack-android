@@ -51,7 +51,7 @@
             android:layout_alignParentRight="true"
             android:background="@color/hs_transparent_color"
             android:contentDescription="@string/hs_sendbutton_title"
-            android:src="@drawable/hs_send_img"
+            android:src="@drawable/hs_send_now_img"
             />
 
     </RelativeLayout>

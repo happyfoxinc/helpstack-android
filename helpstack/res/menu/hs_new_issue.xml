@@ -4,9 +4,10 @@
     tools:context="com.tenmiles.helpstack.NewIssueActivity" >
 
     <item 
-        android:id="@+id/nextbutton"
-        android:title="@string/hs_next"
+        android:id="@+id/create_first_ticket_button"
+        android:title="@string/hs_done"
         android:visible="true"
+        android:icon="@drawable/hs_action_accept"
         />
 
 </menu>

@@ -26,7 +26,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.Gson;
 import com.tenmiles.helpstack.fragments.HSFragmentParent;
+import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSUser;
@@ -50,7 +52,9 @@ public class HSActivityManager {
 	
 	public static void startNewIssueActivity(HSFragmentParent context, HSUser user, int requestCode) {
 		Intent intent = new Intent(context.getActivity(), NewIssueActivity.class);
-		intent.putExtra(NewIssueActivity.EXTRAS_USER, user);
+        if(user != null) {
+            intent.putExtra(NewIssueActivity.EXTRAS_USER, user);
+        }
 		context.startActivityForResult(intent, requestCode);
 	}
 
@@ -65,9 +69,16 @@ public class HSActivityManager {
 		intent.putExtra(ArticleActivity.EXTRAS_ARTICLE_ITEM, kbItem);
 		context.startActivityForResult(intent, requestCode);
 	}
-	
-	public static void startNewUserActivity(HSFragmentParent context, int requestCode) {
+
+	public static void startNewUserActivity(HSFragmentParent context, int requestCode, String subject, String message, HSAttachment[] attachmentArray) {
 		Intent intent = new Intent(context.getActivity(), NewUserActivity.class);
+        intent.putExtra(NewIssueActivity.EXTRAS_SUBJECT, subject);
+        intent.putExtra(NewIssueActivity.EXTRAS_MESSAGE, message);
+        if (attachmentArray != null) {
+        	Gson json = new Gson();
+        	intent.putExtra(NewIssueActivity.EXTRAS_ATTACHMENT, json.toJson(attachmentArray));
+        }
+        
 		context.startActivityForResult(intent, requestCode);
 	}
 	
@@ -94,5 +105,4 @@ public class HSActivityManager {
 		context.setResult(HSActivityManager.resultCode_sucess,result);
 		context.finish();
 	}
-	
 }
