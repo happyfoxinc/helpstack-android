@@ -16,9 +16,9 @@ import static java.lang.StrictMath.min;
 
 public class DrawingView extends View {
 
-    private Path drawPath;
-    private Paint drawPaint;
-    private Canvas drawCanvas;
+    private Path mPath;
+    private Paint mPaint;
+    private Canvas mCanvas;
 
     private Paint canvasPaint;
     private Bitmap canvasBitmap;
@@ -36,32 +36,32 @@ public class DrawingView extends View {
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        drawPath = new Path();
-        drawPaint = new Paint();
+        mPath = new Path();
+        mPaint = new Paint();
 
-        drawPaint.setColor(paintColor);
+        mPaint.setColor(paintColor);
 
-        drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(brushSize);
-        drawPaint.setStyle(Paint.Style.STROKE);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setAntiAlias(true);
+        mPaint.setStrokeWidth(brushSize);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     public void setCanvasBitmap(Bitmap bitmap) {
         cachedBitmap = bitmap;
-        drawCanvas.drawColor(Color.BLACK);
+        mCanvas.drawColor(Color.BLACK);
         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
 
-        calculateResizeRatio(bitmap, drawCanvas);
+        calculateResizeRatio(bitmap, mCanvas);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(mutableBitmap, resizedWidth, resizedHeight, false);
 
         int leftStart = getLeftStart(resizedWidth);
         int topStart = getTopStart(resizedHeight);
 
-        drawCanvas.drawBitmap(resizedBitmap, leftStart, topStart, drawPaint);
+        mCanvas.drawBitmap(resizedBitmap, leftStart, topStart, mPaint);
     }
 
     @Override
@@ -69,13 +69,13 @@ public class DrawingView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
 
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        drawCanvas = new Canvas(canvasBitmap);
+        mCanvas = new Canvas(canvasBitmap);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
-        canvas.drawPath(drawPath, drawPaint);
+        canvas.drawPath(mPath, mPaint);
     }
 
     @Override
@@ -85,15 +85,15 @@ public class DrawingView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                drawPath.moveTo(touchX, touchY);
+                mPath.moveTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
-                drawPath.lineTo(touchX, touchY);
+                mPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
-                drawCanvas.drawPath(drawPath, drawPaint);
+                mCanvas.drawPath(mPath, mPaint);
                 setIsEdited(true);
-                drawPath.reset();
+                mPath.reset();
                 activateClearOptionInActivity(true);
                 break;
             default:
@@ -108,11 +108,11 @@ public class DrawingView extends View {
         invalidate();
 
         paintColor = Color.parseColor(newColor);
-        drawPaint.setColor(paintColor);
+        mPaint.setColor(paintColor);
     }
 
     public void clearChanges() {
-        drawPath.reset();
+        mPath.reset();
         setCanvasBitmap(cachedBitmap);
         setIsEdited(false);
         activateClearOptionInActivity(false);
