@@ -36,15 +36,11 @@
         <item name="android:textColor">@color/hs_halloween_child_textColor</item>
     </style>
     
-	<!-- Chat screen - left chat bubble style -->
-	<style name="hs_leftChatBubbleStyle" parent="hs_leftChatBubble_defaultStyle">
-	    <item name="android:background">@drawable/hs_halloween_left_chat_bubble</item>
-	</style>
-	
-	<!-- Chat screen - right chat bubble style -->
-    <style name="hs_rightChatBubbleStyle" parent="hs_rightChatBubble_defaultStyle">
-        <item name="android:background">@drawable/hs_halloween_right_chat_bubble</item>
-    </style>
+    <!-- Chat screen - left chat bubble color -->
+    <color name="hs_leftchat_bubblecolor">@color/hs_halloween_leftChatBubbleColor</color>
+    
+    <!-- Chat screen - right chat bubble color -->
+    <color name="hs_rightchat_bubblecolor">@color/hs_halloween_rightChatBubbleColor</color>
     
     <!-- Chat screen message text style for left chat bubble -->
     <style name="hs_right_messageTextStyle" parent="@style/hs_rightmessageText_defaultStyle">

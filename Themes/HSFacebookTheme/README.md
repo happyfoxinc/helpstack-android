@@ -4,9 +4,6 @@
 - Creator: Tenmiles
 
 This theme comes with the following files:
-- drawables
-  - hs_fb_leftchatbubble.xml
-  - hs_fb_rightchatbubble.xml
 - values
   - hs_custom_theme.xml
   - hs_fb_colors.xml

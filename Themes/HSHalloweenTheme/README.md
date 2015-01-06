@@ -4,9 +4,6 @@
 - Creator: Tenmiles
 
 This theme comes with the following files:
-- drawables
-  - hs_halloween_leftchatbubble.xml
-  - hs_halloween_rightchatbubble.xml
 - values
   - hs_custom_theme.xml
   - hs_halloween_colors.xml
