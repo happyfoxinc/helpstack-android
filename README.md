@@ -27,8 +27,8 @@ Check out [helpstack.io](http://www.helpstack.io) for more information.
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
-## HelpStack Android Users
-If you use HelpStack in your app, please let us know by adding yourself to this Wiki page: [HelpStack Android users](https://github.com/happyfoxinc/helpstack-android/wiki/HelpStack-Android-users)
+## App Showcase
+Have you made something awesome with HelpStack? Add yourself here: [App Showcase](https://github.com/happyfoxinc/helpstack-android/wiki/App-Showcase)
 
 ## Installation
 
