@@ -39,7 +39,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +50,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -202,7 +202,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			resetAttachmentImage();
             
         }
-	};
+	}
 	
 	@Override
 	public void onDetach() {
@@ -428,7 +428,11 @@ public class IssueDetailFragment extends HSFragmentParent
 
 	private class LocalAdapter extends HSBaseExpandableListAdapter 
 	{
-		public LocalAdapter(Context context) {
+
+        public static final String GOOGLE_PLAY_ID_STRING = "https://play.google.com/store/apps/details?id=";
+        public static final String MARKET_DETAILS_ID = "market://details?id=";
+
+        public LocalAdapter(Context context) {
 			super(context);
 		}
 
@@ -439,7 +443,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			if (convertView == null) {
 				holder = new ChildViewHolder();
 				if (getChildType(groupPosition, childPosition) == 0) {
-					convertView = mLayoutInflater.inflate(R.layout.hs_expandable_child_issue_detail_staff_reply, null);
+                    convertView = mLayoutInflater.inflate(R.layout.hs_expandable_child_issue_detail_staff_reply, null);
 				}
 				else {
 					convertView = mLayoutInflater.inflate(R.layout.hs_expandable_child_issue_detail_user_reply, null);
@@ -450,8 +454,9 @@ public class IssueDetailFragment extends HSFragmentParent
 				holder.timeField = (TextView) convertView.findViewById(R.id.time);
 				holder.attachmentButton = (ImageView) convertView.findViewById(R.id.attachment_icon);
                 holder.textView_no_message = (TextView) convertView.findViewById(R.id.textView_no_message);
-				
-				convertView.setTag(holder);
+                holder.playStoreImageButton = (ImageButton)convertView.findViewById(R.id.playStoreImageView);
+
+                convertView.setTag(holder);
 			}
 			else {
 				holder = (ChildViewHolder) convertView.getTag();
@@ -483,6 +488,23 @@ public class IssueDetailFragment extends HSFragmentParent
 				} else {
 					holder.nameField.setText(getResources().getString(R.string.hs_staff));
 				}
+
+                if(doesMessageContainLinkToStore(groupPosition, childPosition)) {
+                    String message = update.getText();
+                    final String PACKAGE_NAME = message.substring(message.lastIndexOf(GOOGLE_PLAY_ID_STRING)+GOOGLE_PLAY_ID_STRING.length());
+
+                    holder.playStoreImageButton.setVisibility(View.VISIBLE);
+                    holder.playStoreImageButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET_DETAILS_ID + PACKAGE_NAME)));
+                            } catch (android.content.ActivityNotFoundException e) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_PLAY_ID_STRING + PACKAGE_NAME)));
+                            }
+                        }
+                    });
+                }
 			}
 			
 			if(update.isAttachmentEmtpy()) {
@@ -544,7 +566,16 @@ public class IssueDetailFragment extends HSFragmentParent
 			HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
 			return update.isStaffUpdate()?0:1;
 		}
-		
+
+        private boolean doesMessageContainLinkToStore(int groupPosition, int childPosition) {
+            HSTicketUpdate update = (HSTicketUpdate) getChild(groupPosition, childPosition);
+
+            if (update.isStaffUpdate() && update.getText().contains(GOOGLE_PLAY_ID_STRING)) {
+                return true;
+            }
+            return false;
+        }
+
 		private class ParentViewHolder {
 			View parent;
 		}
@@ -555,6 +586,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			public TextView timeField;
 			public ImageView attachmentButton;
             public TextView textView_no_message;
+            public ImageButton playStoreImageButton;
 		}
 	}
 	
