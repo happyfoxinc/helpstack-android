@@ -58,6 +58,14 @@ public class HSActivityManager {
 		context.startActivityForResult(intent, requestCode);
 	}
 
+    public static void startNewIssueActivity(Activity context, HSUser user, int requestCode) {
+        Intent intent = new Intent(context, NewIssueActivity.class);
+        if(user != null) {
+            intent.putExtra(NewIssueActivity.EXTRAS_USER, user);
+        }
+        context.startActivityForResult(intent, requestCode);
+    }
+
 	public static void startSectionActivity(HSFragmentParent context, HSKBItem kbItem, int requestCode) {
 		Intent intent = new Intent(context.getActivity(), SectionActivity.class);
 		intent.putExtra(SectionActivity.EXTRAS_SECTION_ITEM, kbItem);

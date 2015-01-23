@@ -29,7 +29,11 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.tenmiles.helpstack.activities.NewIssueActivity;
+import com.tenmiles.helpstack.fragments.HSFragmentParent;
+import com.tenmiles.helpstack.fragments.HomeFragment;
 import com.tenmiles.helpstack.logic.HSGear;
+import com.tenmiles.helpstack.logic.HSSource;
 
 /**
  * 
@@ -89,6 +93,16 @@ public class HSHelpStack {
 	public void showHelp(Activity activity) {
 		activity.startActivity(new Intent("com.tenmiles.helpstack.ShowHelp"));
 	}
+
+    /**
+     *
+     * Starts a New Issue activity. It lets user report new issue.
+     *
+     * @param activity
+     */
+    public void reportIssue(Activity activity) {
+        HSSource.getInstance(activity).launchCreateNewTicketScreen(activity, HomeFragment.REQUEST_CODE_NEW_TICKET);
+    }
 
     /**
      * Call this, if you want to override gear method of article handling, in this case, you can provide articles locally and let HelpStack choose from it.

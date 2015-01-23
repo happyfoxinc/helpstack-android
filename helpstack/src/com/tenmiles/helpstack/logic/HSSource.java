@@ -150,7 +150,7 @@ public class HSSource {
 		}
 	}
 	
-	public void checkForUserDetailsValidity(String cancelTag, String firstName, String lastName, String email,OnFetchedSuccessListener success, ErrorListener errorListener) {
+	public void checkForUserDetailsValidity(String cancelTag, String firstName, String lastName, String email, OnFetchedSuccessListener success, ErrorListener errorListener) {
 		gear.registerNewUser(cancelTag, firstName, lastName, email, mRequestQueue, success, new ErrorWrapper("Registering New User", errorListener));
 	}
 	
@@ -314,6 +314,33 @@ public class HSSource {
 		
 	}
 
+    /***
+     *
+     * Depending on the setting set on gear, it launches new ticket activity.
+     *
+     * if email : launches email [Done]
+     * else:
+     * if user logged in : launches user details [Done]
+     * else: launches new ticket [Done]
+     *
+     * @param activity
+     * @param requestCode
+     */
+    public void launchCreateNewTicketScreen(Activity activity, int requestCode) {
+
+        if (haveImplementedTicketFetching()) {
+            if(isNewUser()) {
+                HSActivityManager.startNewIssueActivity(activity, null, requestCode);
+            }else {
+                HSActivityManager.startNewIssueActivity(activity, getUser(), requestCode);
+            }
+        }
+        else {
+            launchEmailAppWithEmailAddress(activity);
+        }
+
+    }
+
 	public void launchEmailAppWithEmailAddress(Activity activity) {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 	    emailIntent.setType("plain/text");
@@ -416,38 +443,29 @@ public class HSSource {
 	}
 	
 	protected void doSaveNewTicketPropertiesForGearInCache(HSTicket ticket) {
-		
 		cachedTicket.addTicketAtStart(ticket);
 		
 		Gson gson = new Gson();
-		String ticketsgson = gson.toJson(cachedTicket);
-		
-		
+		String ticketsJson = gson.toJson(cachedTicket);
 		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
 		
-		writeJsonIntoFile(ticketFile, ticketsgson);
-		
+		writeJsonIntoFile(ticketFile, ticketsJson);
 	}
 	
 	protected void doSaveNewUserPropertiesForGearInCache(HSUser user) {
-		
 		cachedUser.setUser(user);
 		
 		Gson gson = new Gson();
-		String userjson = gson.toJson(cachedUser);
-		
+		String userJson = gson.toJson(cachedUser);
 		File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
 		
-		writeJsonIntoFile(userFile, userjson);
-		
+		writeJsonIntoFile(userFile, userJson);
 	}
 	
 	protected void doReadTicketsFromCache() {
-		
 		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
 		
 		String json = readJsonFromFile(ticketFile);
-		
 		if (json == null) {
 			cachedTicket = new HSCachedTicket();
 		}
@@ -456,15 +474,11 @@ public class HSSource {
 			cachedTicket = gson.fromJson(json, HSCachedTicket.class);
 		}
 	}
-	
-	
-	
-	protected void doReadUserFromCache() {
-		
+
+    protected void doReadUserFromCache() {
 		File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
 		
 		String json = readJsonFromFile(userFile);
-		
 		if (json == null) {
 			cachedUser = new HSCachedUser();
 		}
@@ -478,7 +492,6 @@ public class HSSource {
         File draftFile = new File(getProjectDirectory(), HELPSTACK_DRAFT);
 
         String json = readJsonFromFile(draftFile);
-
         if (json == null) {
         	draftObject = new HSDraft();
         }
@@ -508,7 +521,6 @@ public class HSSource {
         writeDraftIntoFile();
     }
 
-
     private void writeDraftIntoFile() {
         Gson gson = new Gson();
         String draftJson = gson.toJson(draftObject);
@@ -518,7 +530,6 @@ public class HSSource {
     }
 
     protected File getProjectDirectory() {
-		
 		File projDir = new File(mContext.getFilesDir(), HELPSTACK_DIRECTORY);
 		if (!projDir.exists())
 		    projDir.mkdirs();
@@ -534,42 +545,38 @@ public class HSSource {
         saveReplyDetailsInDraft("", null);
     }
 
+    protected HSUploadAttachment[] convertAttachmentArrayToUploadAttachment(HSAttachment[] attachment) {
+        HSUploadAttachment[] upload_attachments = new HSUploadAttachment[0];
+
+        if (attachment != null && attachment.length > 0) {
+            int attachmentCount = gear.getNumberOfAttachmentGearCanHandle();
+            assert attachmentCount >=  attachment.length : "Gear cannot handle more than "+attachmentCount+" attachmnets";
+            upload_attachments = new HSUploadAttachment[attachment.length];
+            for (int i = 0; i < upload_attachments.length; i++) {
+                upload_attachments[i] = new HSUploadAttachment(mContext, attachment[i]);
+            }
+        }
+
+        return upload_attachments;
+    }
+
     private class NewTicketSuccessWrapper implements OnNewTicketFetchedSuccessListener
 	{
+		private OnNewTicketFetchedSuccessListener lastListener;
 
-		private OnNewTicketFetchedSuccessListener lastListner;
-
-		public NewTicketSuccessWrapper(OnNewTicketFetchedSuccessListener lastListner) {
-			this.lastListner = lastListner;
+		public NewTicketSuccessWrapper(OnNewTicketFetchedSuccessListener lastListener) {
+			this.lastListener = lastListener;
 		}
 		
 		@Override
 		public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
-			if (lastListner != null)
-				lastListner.onSuccess(udpatedUserDetail, ticket);
+			if (lastListener != null)
+				lastListener.onSuccess(udpatedUserDetail, ticket);
 		}
-		
 	}
-	
-	protected HSUploadAttachment[] convertAttachmentArrayToUploadAttachment(HSAttachment[] attachment) {
-		
-		HSUploadAttachment[] upload_attachments = new HSUploadAttachment[0];
-		
-		if (attachment != null && attachment.length > 0) {
-			int attachmentCount = gear.getNumberOfAttachmentGearCanHandle();
-			assert attachmentCount >=  attachment.length : "Gear cannot handle more than "+attachmentCount+" attachmnets";
-			upload_attachments = new HSUploadAttachment[attachment.length];
-			for (int i = 0; i < upload_attachments.length; i++) {
-				upload_attachments[i] = new HSUploadAttachment(mContext, attachment[i]);
-			}	
-		}
-		
-		return upload_attachments;
-	}
-	
+
 	private class SuccessWrapper implements OnFetchedArraySuccessListener
 	{
-
 		private OnFetchedArraySuccessListener lastListner;
 
 		public SuccessWrapper(OnFetchedArraySuccessListener lastListner) {
@@ -581,11 +588,9 @@ public class HSSource {
 			if (lastListner != null)
 				lastListner.onSuccess(successObject);
 		}
-		
 	}
 
     private class OnFetchedSuccessListenerWrapper implements OnFetchedSuccessListener {
-
         private OnFetchedSuccessListener listener;
         protected String message;
         protected HSAttachment[] attachments;
@@ -596,7 +601,6 @@ public class HSSource {
             this.attachments = attachments;
         }
 
-
         @Override
         public void onSuccess(Object successObject) {
             if (this.listener != null) {
@@ -606,7 +610,6 @@ public class HSSource {
     }
 	
 	private class ErrorWrapper implements ErrorListener {
-
 		private ErrorListener errorListener;
 		private String methodName;
 
