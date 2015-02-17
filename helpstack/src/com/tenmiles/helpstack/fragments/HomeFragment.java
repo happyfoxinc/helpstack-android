@@ -22,9 +22,6 @@
 
 package com.tenmiles.helpstack.fragments;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +38,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.tenmiles.helpstack.HSHelpStack;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
@@ -52,6 +50,9 @@ import com.tenmiles.helpstack.logic.HSUtils;
 import com.tenmiles.helpstack.logic.OnFetchedArraySuccessListener;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Initial Fragment of HelpStack that contains FAQ and Tickets
@@ -118,8 +119,9 @@ public class HomeFragment extends HSFragmentParent {
 			initializeView();
 		}
 		else {
-			fetchedKbArticles = (HSKBItem[]) savedInstanceState.getSerializable("kbArticles");
-			fetchedTickets = (HSTicket[]) savedInstanceState.getSerializable("tickets");
+            Gson gson = new Gson();
+			fetchedKbArticles = gson.fromJson(savedInstanceState.getString("kbArticles"), HSKBItem[].class);
+			fetchedTickets = gson.fromJson(savedInstanceState.getString("tickets"), HSTicket[].class);
 			numberOfServerCallWaiting = savedInstanceState.getInt("numberOfServerCallWaiting");
 			mSearchFragment.setKBArticleList(fetchedKbArticles);
 			if (numberOfServerCallWaiting > 0) { // To avoid error during orientation
@@ -143,8 +145,9 @@ public class HomeFragment extends HSFragmentParent {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putSerializable("kbArticles", fetchedKbArticles);
-		outState.putSerializable("tickets", fetchedTickets);
+        Gson gson = new Gson();
+		outState.putString("kbArticles", gson.toJson(fetchedKbArticles));
+		outState.putString("tickets", gson.toJson(fetchedTickets));
 		outState.putInt("numberOfServerCallWaiting", numberOfServerCallWaiting);
 	}
 

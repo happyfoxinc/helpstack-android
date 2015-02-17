@@ -97,7 +97,7 @@ public class NewUserFragment extends HSFragmentParent {
 		outState.putString(EXTRAS_MESSAGE, message);
 		if (attachmentArray != null) {
 			Gson gson = new Gson();
-			outState.putSerializable(EXTRAS_ATTACHMENT, gson.toJson(attachmentArray));
+			outState.putString(EXTRAS_ATTACHMENT, gson.toJson(attachmentArray));
 		}
 	}
 

@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.fragments.SearchFragment.OnReportAnIssueClickListener;
@@ -101,7 +102,10 @@ public class SectionFragment extends HSFragmentParent {
         	initializeView();
         }
         else {
-        	fetchedKbItems = (HSKBItem[]) savedInstanceState.getSerializable("section_array");
+            String json = savedInstanceState.getString("section_array");
+            Gson gson = new Gson();
+            fetchedKbItems = gson.fromJson(json, HSKBItem[].class);
+
         	mSearchFragment.setKBArticleList(fetchedKbItems);
         	refreshList();
         }
@@ -122,7 +126,8 @@ public class SectionFragment extends HSFragmentParent {
 	
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putSerializable("section_array", fetchedKbItems);
+        Gson gson = new Gson();
+		outState.putSerializable("section_array", gson.toJson(fetchedKbItems));
 	};
 	
 	@Override

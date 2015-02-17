@@ -22,13 +22,6 @@
 
 package com.tenmiles.helpstack.fragments;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.StringTokenizer;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -39,7 +32,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +49,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.EditAttachmentActivity;
 import com.tenmiles.helpstack.activities.HSActivityManager;
@@ -70,6 +63,13 @@ import com.tenmiles.helpstack.model.HSAttachment;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.service.DownloadAttachmentUtility;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.StringTokenizer;
 
 public class IssueDetailFragment extends HSFragmentParent 
 {
@@ -136,7 +136,8 @@ public class IssueDetailFragment extends HSFragmentParent
 			refreshUpdateFromServer();
 		}
 		else {
-			fetchedUpdates = (HSTicketUpdate[]) savedInstanceState.getSerializable("updates");
+            Gson gson = new Gson();
+            fetchedUpdates  = gson.fromJson(savedInstanceState.getString("updates"), HSTicketUpdate[].class);
 			ticket = (HSTicket) savedInstanceState.getSerializable("ticket");
 			selectedAttachment = (HSAttachment) savedInstanceState.getSerializable("selectedAttachment");
 			replyEditTextView.setText(savedInstanceState.getString("replyEditTextView"));
@@ -157,7 +158,8 @@ public class IssueDetailFragment extends HSFragmentParent
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putSerializable("updates", fetchedUpdates);
+        Gson json = new Gson();
+		outState.putString("updates", json.toJson(fetchedUpdates));
 		outState.putSerializable("ticket", ticket);
 		outState.putSerializable("selectedAttachment", selectedAttachment);
 		outState.putSerializable("replyEditTextView", replyEditTextView.getText().toString());
