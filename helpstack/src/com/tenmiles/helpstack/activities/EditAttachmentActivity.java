@@ -32,6 +32,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,7 +47,7 @@ import com.tenmiles.helpstack.model.HSAttachment;
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
-public class EditAttachmentActivity extends Activity {
+public class EditAttachmentActivity extends ActionBarActivity {
 
     private final int REQUEST_CODE_PHOTO_PICKER = 100;
 
@@ -62,8 +63,8 @@ public class EditAttachmentActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hs_activity_edit_attachment);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(R.string.hs_attachment_edit);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.hs_attachment_edit);
 
         drawView = (DrawingView)findViewById(R.id.drawing);
         drawView.setObserver(new DrawingView.ObserverInterface() {
