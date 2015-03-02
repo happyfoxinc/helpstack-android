@@ -6,10 +6,7 @@
 
 With HelpStack, you can:
 
-- Let users report issues within your app
-- Let users attach screenshots to their support requests
-- Receive Device and App Information automatically, along with the reported issue
-- Let users view your responses to their issues
+- Let users report issues within your app, along with device & app information
 - Provide self-support by showing FAQ articles
 - Customise your HelpStack screen to blend with your app theme
 
@@ -32,19 +29,7 @@ Have you made something awesome with HelpStack? Add yourself here: [App Showcase
 
 ## Installation
 
-Installating the HelpStack library is fairly straight-forward.
-
-### [Eclipse/ADT]:
-1. Clone or download the library along with its dependencies from the Git repository. 
-2. Import it as a library project into your Application. 
-3. Set the flag for *manifestmerger.enabled* to *true* in your *project.properties* file:
-
-        manifestmerger.enabled=true
-        
-    
-- **[Error]: Jar mismatch! Found different versions of jar in the dependency list**: Replace the jar in the library with the jar from your project. Clean the project and build again.
- 
-### [Android Studio]:
+Installing the HelpStack library is fairly straight-forward. 
 
 1. Add jcenter as a repository to your app's build.gradle
 
@@ -52,18 +37,14 @@ Installating the HelpStack library is fairly straight-forward.
           jcenter()
         }
         
-2. Add *com.tenmiles:helpstack:1.0* as a dependency in the same build.gradle
+2. Add *com.tenmiles:helpstack:1.1.1* as a dependency in the same build.gradle
         
         dependencies {
-          compile 'com.tenmiles:helpstack:1.0'
+          compile 'com.tenmiles:helpstack:1.1.1'
         }
 
-
-- **[Issue]: Duplicate files copied in APK**: This happens due to library version-mismatch. To avoid using the library from HelpStack, exclude it when you add the dependency. For example:
-
-        compile ('com.tenmiles:helpstack:1.0') {
-          exclude group: 'org.apache.httpcomponents', module: 'httpmime'
-        }
+        
+For more information on installation, such as Installing in Eclipse and common installation errors, visit this Wiki page: [Installation Instructions](https://github.com/happyfoxinc/helpstack-android/wiki/Installation-Instructions)
 
 ## Using the Library
 
@@ -87,7 +68,7 @@ Create a custom *Application* class which extends the **Application** class. Be 
     
 Obtain the necessary credentials for the gear of your choice and create a suitable Gear object. Set the Gear object with *HSHelpStack* instance only once. 
 
-##### i. HappyFox:
+##### i. <Gear>
 
     public class HSApplication extends Application {
       HSHelpStack helpStack;
@@ -98,77 +79,19 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
         
         helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
         
-        HSHappyfoxGear happyfoxGear = new HSHappyfoxGear(
-                "<Account URL>",
-                "<Your API Key>",
-                "<Your Auth Code>",
-                "<Category ID>",
-                "<Priority ID>"); // Create the Gear object 
-        
-        happyfoxGear.setSectionId("<Section id>"); // Optional. Set the Section Id of your Knowledge Base articles.
-        
-        helpStack.setGear(happyfoxGear); // Set the Gear
-      }
-    }
-
-The API key and Auth code can be found in your HappyFox account under *Manage* > *Integrations*. You can generate an API key and Auth code by clicking on the API configure link.
-
-Priority ID and Category ID cannot be nil. These are the ID's of the priority and the category with which tickets will be created. Setting the Section ID of your KB articles is optional. Navigate to the following URL's in your HappyFox account, to obtain the necessary details:
-
-    https://<HappyFox account domain>/api/1.1/json/priorities/ 
-    https://<HappyFox account domain>/api/1.1/json/categories/
-    https://<HappyFox account domain>/api/1.1/json/kb/sections/
-
-
-##### ii. Zendesk:
-  
-    public class HSApplication extends Application {
-      HSHelpStack helpStack;
-      
-      @Override
-      public void onCreate() {
-        super.onCreate();
-        
-        helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
-        
-        HSZendeskGear zendeskGear = new HSZendeskGear(
-                "<Account URL>",
-                "<Staff Email Address>",
-                "<API Token"); // Create the Gear object 
-                
-        zendeskGear.setSectionId("<Section id>"); // Optional. Set the Section Id of your Help Center articles.
-        
-        helpStack.setGear(zendeskGear); // Set the Gear
+        <GearType> <gear> = new <GearType>(<Gear credentials as parameters>); // Create the Gear object 
+          
+        helpStack.setGear(<gear>); // Set the Gear
       }
     }
     
-The token can be found in your Zendesk account under Settings > Channels > API. Setting the Section ID of your Help Center articles is optional. You can find the sections in your Zendesk account, as mentioned below:
-
-    https://<Zendesk account domain>/api/v2/help_center/sections.json
-
-
-##### iii. Desk:
-
-    public class HSApplication extends Application {
-      HSHelpStack helpStack;
+  Follow the instructions below for configuring the gear of your choice:
+    
+  - [HappyFox gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#i-happyfox)
+  - [Zendesk gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#ii-zendesk)
+  - [Desk gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#iii-desk)
       
-      @Override
-      public void onCreate() {
-        super.onCreate();
-        
-        helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
-        
-        HSDeskGear deskGear = new HSDeskGear(
-                "<Account URL>",
-                "<To Help email address>",
-                "<Staff email address>",
-                "<Staff password"); // Create the Gear object 
-       
-        helpStack.setGear(deskGear); // Set the Gear
-      }
-    }
-   
-##### iv. Email:
+##### ii. Email:
 *Email address* and *Articles in xml format*
 
 
@@ -202,44 +125,7 @@ Each theme comes with the following:
 - Include the theme's drawables under your application's **drawables**
 - Now you can simply build and run the application. The HelpStack UI will use the styles specified in the chosen theme.
 
-Below is the list of parameters you can configure to change the looks of HelpStack:
-
-**Main List View** 
- <img src="Images/mainlist_style.png" alt="HelpStackthemes" title="screenshots">
- 
-**Issue Details View**
- <img src="Images/issuedetail_style.png" alt="HelpStackthemes" title="screenshots">
-
-
-- **hs_backgroundStyle** - Background of all screens
-- **hs_listViewStyle** - Articles and issues list
-- **hs_listView_headerBackgroundStyle** - Header background of main list view
-- **hs_listView_childBackgroundStyle** - Child view background of main list view
-- **hs_listView_headerTextStyle** - ListView header text
-- **hs_listView_childTextStyle** - ListView child text
-- **hs_leftChatBubbleStyle** - Chat screen - left chat bubble style
-- **hs_rightChatBubbleStyle** - Chat screen - right chat bubble style
-- **hs_left_messageTextStyle** - Chat screen message text style for left chat bubble
-- **hs_right_messageTextStyle** - Chat screen message text style for right chat bubble
-- **hs_smallTextStyle** - Chat screen more info text style - applied to the sender name and time
-- **hs_buttonStyle** - Button Style - applied for report issue button 
-- **hs_editTextStyle** - Edit text Style in new user and new issue screen
-- **hs_messageEditTextStyle** - Edit text Style used in chat screen - add reply
-
-
-Override the styles specified in **/values/hs_custom_theme.xml** 
-
-##### Icons and Images
-
-  All the icons used in the HelpStack UI are defined under **Drawables** in the **hs_custom_theme.xml** file. In order to include your own icons, download and add the icons in your applications resources, and override the drawables specified in the theme for the UI to take up your own icons.
-  
-  Below are the icons used in HelpStack UI  :-
-
-  - **hs_attachment_icon** - Attachment icon used in issue detail screen and New Issue screen
-  - **hs_search_icon** - Search icon used in the action bar
-  - **hs_disclosure_next** - Disclosure icon used in the main list view child item
-  - **hs_add_attachment** - Add attachment icon used in issue detail screen, to add an attachment
-
+List of parameters for configuring the look and feel of HelpStack: [Parameters for configuring Themes](https://github.com/happyfoxinc/helpstack-android/wiki/Parameters-for-configuring-themes)
 
 ##### Note
 
