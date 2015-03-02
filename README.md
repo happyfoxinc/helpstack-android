@@ -127,6 +127,12 @@ Each theme comes with the following:
 
 List of parameters for configuring the look and feel of HelpStack: [Parameters for configuring Themes](https://github.com/happyfoxinc/helpstack-android/wiki/Parameters-for-configuring-themes)
 
+**Main List View** 
+<img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/mainlist_style.png" alt="HelpStackthemes" title="Main List View screenshot">
+
+**Issue Details View**
+<img src="https://raw.githubusercontent.com/happyfoxinc/helpstack-android/master/Images/issuedetail_style.png" alt="HelpStackthemes" title="Issue Detail screenshot">
+
 ##### Note
 
   If you want the complete look-and-feel of a theme, you might also want to update the color of your app's Action bar.
