@@ -25,6 +25,8 @@ Check out [helpstack.io](http://www.helpstack.io) for more information.
 </p>
 
 ## App Showcase
+
+[![Join the chat at https://gitter.im/happyfoxinc/helpstack-android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/happyfoxinc/helpstack-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Have you made something awesome with HelpStack? Add yourself here: [App Showcase](https://github.com/happyfoxinc/helpstack-android/wiki/App-Showcase)
 
 ## Installation
