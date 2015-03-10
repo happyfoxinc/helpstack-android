@@ -1,8 +1,18 @@
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':appcompat_v7')
+
+    compile ('com.android.support:appcompat-v7:19.1.0') {
+        force = true
+    }
+
+    compile ('com.google.code.gson:gson:2.2.4') {
+        force = true
+    }
+
+    compile 'org.apache.httpcomponents:httpmime:4.2.6'
+    compile 'com.mcxiaoke.volley:library:1.0.5'
 }
 
 android {
