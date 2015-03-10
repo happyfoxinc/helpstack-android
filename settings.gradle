@@ -1,3 +1,2 @@
-include ':appcompat_v7'
 include ':helpstack'
 include ':HelpStackExample'

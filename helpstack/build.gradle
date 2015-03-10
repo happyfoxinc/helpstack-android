@@ -1,8 +1,19 @@
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':appcompat_v7')
+
+    compile ('com.android.support:appcompat-v7:19.1.0') {
+        force = true
+    }
+
+    compile ('com.google.code.gson:gson:2.2.4') {
+        force = true
+    }
+
+    compile 'org.apache.httpcomponents:httpmime:4.2.6'
+    compile 'com.mcxiaoke.volley:library:1.0.5'
 }
 
 android {
@@ -32,4 +43,34 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.groupId = 'com.tenmiles'
+        pom.artifactId = 'helpstack'
+        pom.version = '1.1.2'
+        // Add other pom properties here if you want (developer details / licenses)
+        repository(url: "file:///Users/anirudh/Desktop/gradleRelease/")
+    }
+}
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
 }
