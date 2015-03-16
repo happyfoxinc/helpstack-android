@@ -37,10 +37,10 @@ Installing the HelpStack library is fairly straight-forward.
           jcenter()
         }
         
-2. Add *com.tenmiles:helpstack:1.1.1* as a dependency in the same build.gradle
+2. Add *com.tenmiles:helpstack:1.1.2* as a dependency in the same build.gradle
         
         dependencies {
-          compile 'com.tenmiles:helpstack:1.1.1'
+          compile 'com.tenmiles:helpstack:1.1.2'
         }
 
         
@@ -137,6 +137,7 @@ List of parameters for configuring the look and feel of HelpStack: [Parameters f
 
   If you want the complete look-and-feel of a theme, you might also want to update the color of your app's Action bar.
 
+For more information, refer to the documents in the [Wiki section](https://github.com/happyfoxinc/helpstack-android/wiki).
 
 ## External Dependencies
 
