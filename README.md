@@ -158,7 +158,7 @@ HelpStack is maintained by the folks at [HappyFox](http://www.happyfox.com/). Be
 
 ## Contact
 
-Reach out to us on Twitter at [@HelpStack](https://twitter.com/HelpStackSDK).
+Reach out to us on Twitter at [@HelpStackSDK](https://twitter.com/HelpStackSDK).
 
 ## License
 
