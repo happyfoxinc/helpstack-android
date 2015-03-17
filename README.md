@@ -27,6 +27,8 @@ Check out [helpstack.io](http://www.helpstack.io) for more information.
 ## App Showcase
 Have you made something awesome with HelpStack? Add yourself here: [App Showcase](https://github.com/happyfoxinc/helpstack-android/wiki/App-Showcase)
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/happyfoxinc/helpstack-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 ## Installation
 
 Installing the HelpStack library is fairly straight-forward. 
