@@ -70,6 +70,8 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
 
 ##### Setting the Gear
 
+The general structure of setting a gear is given below: 
+
     public class HSApplication extends Application {
       HSHelpStack helpStack;
       
@@ -90,7 +92,6 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
   - [HappyFox gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#i-happyfox)
   - [Zendesk gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#ii-zendesk)
   - [Desk gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#iii-desk)
-      
   - [Email gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#iv-email)
                 
 
