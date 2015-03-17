@@ -68,7 +68,7 @@ Create a custom *Application* class which extends the **Application** class. Be 
     
 Obtain the necessary credentials for the gear of your choice and create a suitable Gear object. Set the Gear object with *HSHelpStack* instance only once. 
 
-##### i. <Gear>
+##### Setting the <Gear>
 
     public class HSApplication extends Application {
       HSHelpStack helpStack;
@@ -91,13 +91,7 @@ Obtain the necessary credentials for the gear of your choice and create a suitab
   - [Zendesk gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#ii-zendesk)
   - [Desk gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#iii-desk)
       
-##### ii. Email:
-*Email address* and *Articles in xml format*
-
-
-    HSEmailGear emailGear = new HSEmailGear( 
-                "example@happyfox.com",
-                R.xml.articles);
+  - [Email gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#iv-email)
                 
 
 #### Step 2 - Entry point in UI:
