@@ -68,7 +68,7 @@ Create a custom *Application* class which extends the **Application** class. Be 
     
 Obtain the necessary credentials for the gear of your choice and create a suitable Gear object. Set the Gear object with *HSHelpStack* instance only once. 
 
-##### Setting the <Gear>
+##### Setting the Gear
 
     public class HSApplication extends Application {
       HSHelpStack helpStack;
