@@ -30,6 +30,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -83,7 +84,11 @@ public class EditAttachmentActivity extends ActionBarActivity {
         });
 
         currentPaint = (ImageButton) findViewById(R.id.hs_red_brush);
-        currentPaint.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
+        if(Build.VERSION.SDK_INT >= 16) {
+            currentPaint.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
+        } else {
+            currentPaint.setBackgroundDrawable(getResources().getDrawable(R.drawable.paint_pressed));
+        }
         clearChangesTextView = (TextView)findViewById(R.id.clear_change_text);
 
         Intent intent = new Intent();
@@ -197,9 +202,13 @@ public class EditAttachmentActivity extends ActionBarActivity {
             String color = imageButton.getTag().toString();
 
             drawView.setColor(color);
-
-            imageButton.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
-            currentPaint.setBackground(getResources().getDrawable(R.drawable.paint));
+            if(Build.VERSION.SDK_INT >= 16) {
+                imageButton.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
+                currentPaint.setBackground(getResources().getDrawable(R.drawable.paint));
+            } else {
+                imageButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.paint_pressed));
+                currentPaint.setBackgroundDrawable(getResources().getDrawable(R.drawable.paint));
+            }
 
             currentPaint = (ImageButton) view;
         }
