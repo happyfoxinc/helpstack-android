@@ -24,6 +24,9 @@ Check out [helpstack.io](http://www.helpstack.io) for more information.
   <img src="Images/hs_preview.png" alt="HelpStackthemes" title="screenshots">
 </p>
 
+## How to progress with HelpStack
+Checkout this wiki page if you want a clear idea on how you can progress with HelpStack: [Wiki - How to progress with HelpStack](https://github.com/happyfoxinc/helpstack-android/wiki/How-to-progress-with-HelpStack)
+
 ## App Showcase
 Have you made something awesome with HelpStack? Add yourself here: [App Showcase](https://github.com/happyfoxinc/helpstack-android/wiki/App-Showcase)
 
