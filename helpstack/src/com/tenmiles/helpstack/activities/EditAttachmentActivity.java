@@ -83,7 +83,12 @@ public class EditAttachmentActivity extends ActionBarActivity {
         });
 
         currentPaint = (ImageButton) findViewById(R.id.hs_red_brush);
-        currentPaint.setBackground(getResources().getDrawable(R.drawable.paint_pressed));
+                if(android.os.Build.VERSION.SDK_INT < 16) {
+            currentPaint.setBackgroundDrawable(getResources().getDrawable(ru.appsm.inapphelp.R.drawable.paint_pressed));
+        }
+        else {
+            currentPaint.setBackground(getResources().getDrawable(ru.appsm.inapphelp.R.drawable.paint_pressed));
+        }
         clearChangesTextView = (TextView)findViewById(R.id.clear_change_text);
 
         Intent intent = new Intent();
