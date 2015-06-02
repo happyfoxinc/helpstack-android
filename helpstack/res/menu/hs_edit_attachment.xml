@@ -6,7 +6,7 @@
     <item
         android:id="@+id/attach"
         android:orderInCategory="1"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:icon="@drawable/hs_action_accept"
         android:title="@string/hs_attach" />
 
