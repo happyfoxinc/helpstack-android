@@ -33,7 +33,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +48,7 @@ import com.tenmiles.helpstack.model.HSAttachment;
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
-public class EditAttachmentActivity extends ActionBarActivity {
+public class EditAttachmentActivity extends AppCompatActivity {
 
     private final int REQUEST_CODE_PHOTO_PICKER = 100;
 
