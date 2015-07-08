@@ -651,7 +651,7 @@ public class HSZendeskGear extends HSGear {
 
     private class ZendeskJsonObjectRequest extends JsonObjectRequest {
 
-        protected static final int TIMEOUT_MS = 0;
+        protected static final int TIMEOUT_MS = 10000;
 
         /** Default number of retries for image requests */
         protected static final int MAX_RETRIES = 0;

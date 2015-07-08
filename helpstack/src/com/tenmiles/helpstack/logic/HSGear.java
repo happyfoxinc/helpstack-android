@@ -42,11 +42,11 @@ public abstract class HSGear {
 	
 	/**
      *
-     * @param cancelTag
-     * @param section
-     * @param queue
-     * @param success
-     * @param errorListener
+     * @param cancelTag Cancel Tag
+     * @param section Section
+     * @param queue Queue
+     * @param success Success listener
+     * @param errorListener Error listener
      */
 	public void fetchKBArticle(String cancelTag, HSKBItem section, RequestQueue queue,  OnFetchedArraySuccessListener success, ErrorListener errorListener ) 
 	{
@@ -55,13 +55,13 @@ public abstract class HSGear {
 
     /**
      *
-     * @param cancelTag
-     * @param firstName
-     * @param lastname
-     * @param emailAddress
-     * @param queue
-     * @param success
-     * @param errorListener
+     * @param cancelTag Cancel Tag
+     * @param firstName First Name
+     * @param lastname Last Name
+     * @param emailAddress Email Address
+     * @param queue Queue
+     * @param success Success Listener
+     * @param errorListener Error Listener
      */
 	public void registerNewUser(String cancelTag, String firstName, String lastname, String emailAddress, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener)
 	{
@@ -72,11 +72,11 @@ public abstract class HSGear {
 	 *
      * HSUploadAttachment.getAttachment() can contain mime/Type and filename
 	 * 
-	 * @param user
-	 * @param subject
-	 * @param body
-	 * @param successListener
-	 * @param errorListener
+	 * @param user User
+	 * @param subject Subject
+	 * @param body Body
+	 * @param successListener Success Listener
+	 * @param errorListener Error Listener
 	 */
 	public void createNewTicket(String cancelTag, HSUser user, String subject, String body, HSUploadAttachment[] attachments, RequestQueue queue, OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener ) {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
@@ -84,12 +84,12 @@ public abstract class HSGear {
 
     /**
      *
-     * @param cancelTag
-     * @param ticket
-     * @param user
-     * @param queue
-     * @param success
-     * @param errorListener
+     * @param cancelTag Cancel Tag
+     * @param ticket Ticket
+     * @param user User
+     * @param queue Queue
+     * @param success Success Listener
+     * @param errorListener Error Listener
      */
 	public void fetchAllUpdateOnTicket(String cancelTag, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener)
 	{
@@ -98,12 +98,12 @@ public abstract class HSGear {
 	
 	/***
 	 * 
-	 * @param message
-	 * @param ticket
-	 * @param user
-	 * @param queue
-	 * @param success
-	 * @param errorListener
+	 * @param message Message
+	 * @param ticket Ticket
+	 * @param user User
+	 * @param queue Queue
+	 * @param success Success Listener
+	 * @param errorListener Error Listener
 	 */
 	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] attachments, HSTicket ticket, HSUser user, RequestQueue queue, OnFetchedSuccessListener success, ErrorListener errorListener) {
 		errorListener.onErrorResponse(new VolleyError("Not implemented method"));
@@ -113,9 +113,9 @@ public abstract class HSGear {
      * Set this parameter, if gear is not implementing handling of Issues. Doing this, default email client will be open with given support Email Address.
      * Then there is no need to implement issues fetching related methods.
      *
-     * @default  it is considered that gear is gonna implement ticket fetching.
+     * Default:   it is considered that gear is gonna implement ticket fetching.
      *
-     * @param companySupportEmailAddress
+     * @param companySupportEmailAddress Company Support Email Address
      */
 	public void setNotImplementingTicketsFetching(String companySupportEmailAddress) {
 		implementsTicketFetching = false;
@@ -132,9 +132,8 @@ public abstract class HSGear {
     /**
      * Returns if gear have implemented Ticket Fetching. Modify this parameter using {@link #setNotImplementingTicketsFetching(java.lang.String) setNotImplementingTicketsFetching}
      *
-     * @default true
+     * Default:  true
      *
-     * @return
      */
     public boolean haveImplementedTicketFetching() {
         return implementsTicketFetching;
@@ -143,9 +142,9 @@ public abstract class HSGear {
      * Set this parameter, if gear is not implementing handling of FAQ. Doing this, FAQ will be fetched from article path.
      * Then there is no need to implement issues fetching related methods.
      *
-     * @default  it is considered that gear is gonna implement email fetching.
+     * Default:   it is considered that gear is gonna implement email fetching.
      *
-     * @param articleResid
+     * @param articleResid Article Resource ID
      */
 	public void setNotImplementingKBFetching (int articleResid) {
 		implementsKBFetching = false;
@@ -163,9 +162,8 @@ public abstract class HSGear {
     /**
      * Returns if gear have implemented KB Fetching. Modify this parameter using {@link #setNotImplementingKBFetching(int) setNotImplementingKBFetching}
      *
-     * @default true
+     * Default:  true
      *
-     * @return
      */
     public boolean haveImplementedKBFetching() {
         return implementsKBFetching;
@@ -175,9 +173,9 @@ public abstract class HSGear {
      *
      * If this parameter is set, message written by user in chat screen and new issue screen will be returned in HTML format.
      *
-     * @default false
+     * Default:  false
      *
-     * @param htmlEnabled
+     * @param htmlEnabled HTML Enabled
      */
 	public void uploadMessageAsHtmlString(boolean htmlEnabled) {
 		this.supportHtmlMessage = htmlEnabled;
@@ -186,9 +184,8 @@ public abstract class HSGear {
     /**
      * returns if gear can upload message as html string.
      *
-     * @default false
+     * Default:  false
      *
-     * @return
      */
 	public boolean canUplaodMessageAsHtmlString() {
 		return supportHtmlMessage;
@@ -199,9 +196,9 @@ public abstract class HSGear {
      *
      * Sets maximum number of attachment gears can handle.
      *
-     * @default 1
+     * Default:  1
      *
-     * @param numberOfAttachmentGearCanHandle
+     * @param numberOfAttachmentGearCanHandle Number of Attachments that the Gear can handle
      */
 	public void setNumberOfAttachmentGearCanHandle (int numberOfAttachmentGearCanHandle) {
 		this.numberOfAttachmentGearCanHandle = numberOfAttachmentGearCanHandle;
@@ -210,7 +207,7 @@ public abstract class HSGear {
     /**
      *
      * @return maximum number of attachment gear can handle.
-     * @default is 1
+     * Default:  is 1
      */
 	public int getNumberOfAttachmentGearCanHandle() {
 		return numberOfAttachmentGearCanHandle;
@@ -220,9 +217,9 @@ public abstract class HSGear {
     /**
      * if true, gear don't have to return back HSTicketUpdate object, after a reply is been added.
      *
-     * @default: false, means it is necessary for the gear to return HSTicketUpdate object, after a reply is been added.
+     * Default: false, means it is necessary for the gear to return HSTicketUpdate object, after a reply is been added.
      *
-     * @param canIgnore
+     * @param canIgnore Can Ignore
      */
     public void ignoreTicketUpdateInformationAfterAddingReply(boolean canIgnore) {
         this.ignoreTicketUpdateInformationAfterAddingReply = canIgnore;

@@ -523,7 +523,7 @@ public class HSHappyfoxGear extends HSGear {
 	private class TicketFormRequest extends Request<JSONObject> {
 
 		/** Socket timeout in milliseconds for image requests */
-		protected static final int TIMEOUT_MS = 0;
+		protected static final int TIMEOUT_MS = 10000;
 
 		/** Default number of retries for image requests */
 		protected static final int MAX_RETRIES = 0;
