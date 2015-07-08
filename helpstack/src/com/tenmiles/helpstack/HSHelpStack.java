@@ -44,7 +44,7 @@ public class HSHelpStack {
 
     /**
      *
-     * @param context
+     * @param context Context
      * @return singleton instance of this class.
      */
 	public static HSHelpStack getInstance(Context context) {
@@ -66,7 +66,7 @@ public class HSHelpStack {
      *
      * Sets which gear to use in HelpStack. It has to be set before calling any show* functions.
      *
-     * @param gear
+     * @param gear Gear
      */
 	public void setGear(HSGear gear) {
 		this.gear = gear;
@@ -84,7 +84,7 @@ public class HSHelpStack {
      *
      * Starts a Help activity. It shows all FAQ and also let user report new issue if not found in FAQ.
      *
-     * @param activity
+     * @param activity Activity
      */
 	public void showHelp(Activity activity) {
 		activity.startActivity(new Intent("com.tenmiles.helpstack.ShowHelp"));
@@ -95,7 +95,7 @@ public class HSHelpStack {
      *
      * It is light weight call. Call this after calling setGear.
      *
-     * @param articleResId
+     * @param articleResId Article Resource ID
      */
     public void overrideGearArticlesWithLocalArticlePath(int articleResId) {
         assert gear != null : "Some gear has to be set before overriding gear with local article path";
@@ -106,7 +106,7 @@ public class HSHelpStack {
      *
      * Shows a credit @ bottom of the page.
      *
-     * @param showCredits
+     * @param showCredits Show Credits or not
      */
     public void setShowCredits(boolean showCredits) {
         this.showCredits = showCredits;
@@ -115,7 +115,6 @@ public class HSHelpStack {
     /**
      *
      * @return if credit can be shown.
-     * @default Yes
      */
     public boolean getShowCredits() {
         return this.showCredits;
