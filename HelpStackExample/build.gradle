@@ -4,7 +4,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':helpstack')
 
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
 }
 
 android {
