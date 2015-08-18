@@ -50,13 +50,10 @@ public class HSHelpStack {
 	public static HSHelpStack getInstance(Context context) {
 		if (singletonInstance == null) {
 			synchronized (HSHelpStack.class) { // 1
-				if (singletonInstance == null) // 2
-				{
+				if (singletonInstance == null) { // 2
 					Log.d(TAG, "New Instance");
-					singletonInstance = new HSHelpStack(
-							context.getApplicationContext()); // 3
+					singletonInstance = new HSHelpStack(context.getApplicationContext()); // 3
 				}
-
 			}
 		}
 		return singletonInstance;

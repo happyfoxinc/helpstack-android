@@ -22,8 +22,6 @@
 
 package com.tenmiles.helpstack.logic;
 
-import java.util.Calendar;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
@@ -33,8 +31,9 @@ import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
 
-public class HSTestDataGear extends HSGear 
-{
+import java.util.Calendar;
+
+public class HSTestDataGear extends HSGear {
 	
 	private String newTicketBody;
 	private HSUploadAttachment[] newTicketattachment;
@@ -44,18 +43,15 @@ public class HSTestDataGear extends HSGear
 	}
 	
 	@Override
-	public void registerNewUser(String cancelTag, String firstName, String lastname,
-			String emailAddress, RequestQueue queue,
+	public void registerNewUser(String cancelTag, String firstName, String lastName, String emailAddress, RequestQueue queue,
 			OnFetchedSuccessListener success, ErrorListener errorListener) {
-		
-		success.onSuccess(HSUser.createNewUserWithDetails(firstName, lastname, emailAddress));
+
+		success.onSuccess(HSUser.createNewUserWithDetails(firstName, lastName, emailAddress));
 	}
 	
 	@Override
-	public void createNewTicket(String cancelTag, HSUser user, String message, String body, HSUploadAttachment[] attachment, 
-			RequestQueue queue,
-			OnNewTicketFetchedSuccessListener successListener,
-			ErrorListener errorListener) {
+	public void createNewTicket(String cancelTag, HSUser user, String message, String body, HSUploadAttachment[] attachment, RequestQueue queue,
+			OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
 		
 		this.newTicketBody = body;
 		this.newTicketattachment = attachment;
@@ -63,9 +59,9 @@ public class HSTestDataGear extends HSGear
 	}
 	
 	@Override
-	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] uploadattachments, HSTicket ticket, HSUser user,  
-			RequestQueue queue, OnFetchedSuccessListener success,
-			ErrorListener errorListener) {
+	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] uploadattachments, HSTicket ticket, HSUser user, RequestQueue queue,
+            OnFetchedSuccessListener success, ErrorListener errorListener) {
+
 		HSAttachment[] attachments = new HSAttachment[uploadattachments.length];
 		for (int i = 0; i < attachments.length; i++) {
 			attachments[i] = uploadattachments[i].getAttachment();
@@ -82,13 +78,13 @@ public class HSTestDataGear extends HSGear
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[2];
 			Calendar delayTime = Calendar.getInstance();
 			delayTime.add(Calendar.MINUTE, -30);
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "I have not received my order yet. Order id is 23405", delayTime.getTime(), null);
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", "John", "I have not received my order yet. Order id is 23405", delayTime.getTime(), null);
 			updateArray[1] = HSTicketUpdate.createUpdateByStaff("2", "Staff", "We have confirmed, it is on the way and you will receive it in 2 days", Calendar.getInstance().getTime(), null);
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("2")) {
 			HSTicketUpdate[] updateArray = new HSTicketUpdate[1];
-			updateArray[0] = HSTicketUpdate.createUpdateByUser("1","John", "Where are you located.", Calendar.getInstance().getTime(), null);
+			updateArray[0] = HSTicketUpdate.createUpdateByUser("1", "John", "Where are you located?", Calendar.getInstance().getTime(), null);
 			success.onSuccess(updateArray);
 		}
 		else if (ticket.getTicketId().equals("4")) {
@@ -101,8 +97,6 @@ public class HSTestDataGear extends HSGear
 		else {
 			errorListener.onErrorResponse(new VolleyError("Not Found"));
 		}
-		
-		
-		
 	}
+
 }

@@ -35,8 +35,7 @@ import android.widget.ExpandableListView;
  */
 public class HSExpandableListView extends ExpandableListView {
 
-	public HSExpandableListView(Context context, AttributeSet attrs,
-			int defStyle) {
+	public HSExpandableListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initView(context);
 	}
@@ -52,8 +51,5 @@ public class HSExpandableListView extends ExpandableListView {
 	}
 	
 	public void initView(Context context) {
-		
 	}
-	
-
 }

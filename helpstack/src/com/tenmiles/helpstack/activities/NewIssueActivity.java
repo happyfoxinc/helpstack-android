@@ -35,9 +35,8 @@ import com.tenmiles.helpstack.model.HSUser;
 
 public class NewIssueActivity extends HSActivityParent {
 
-    public static final String EXTRAS_USER = "user";
     public static final String RESULT_TICKET = "ticket";
-
+    public static final String EXTRAS_USER = "user";
     public static final String EXTRAS_SUBJECT = "subject";
     public static final String EXTRAS_MESSAGE = "message";
     public static final String EXTRAS_ATTACHMENT = "attachment";
@@ -58,7 +57,6 @@ public class NewIssueActivity extends HSActivityParent {
             }
             HSFragmentManager.putFragmentInActivity(this, R.id.container, newIssueFragment, "Issue");
         }
-
     }
 
     @Override
@@ -69,17 +67,11 @@ public class NewIssueActivity extends HSActivityParent {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finishSafe();
@@ -93,7 +85,5 @@ public class NewIssueActivity extends HSActivityParent {
         setResult(HSActivityManager.resultCode_cancelled,intent);
         finish();
     }
-
-
 
 }

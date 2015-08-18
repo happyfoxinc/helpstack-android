@@ -22,11 +22,11 @@
 
 package com.tenmiles.helpstack.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.google.gson.annotations.SerializedName;
 
 public class HSCachedTicket implements Serializable {
 
@@ -46,7 +46,6 @@ public class HSCachedTicket implements Serializable {
 	}
 
 	public void addTicketAtStart(HSTicket ticket) {
-		// append the data . and save in cache 
 		ArrayList<HSTicket> ticketsList = new ArrayList<HSTicket>();
 		ticketsList.add(ticket);
 		ticketsList.addAll(Arrays.asList(tickets));

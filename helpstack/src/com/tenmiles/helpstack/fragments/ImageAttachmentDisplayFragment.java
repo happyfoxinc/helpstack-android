@@ -53,25 +53,17 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 
 	public String image_url;
 	
-	GestureImageView imageView;
-	LocalAsync localAsync;
-
-	private View progressView;
-	
-	boolean isAttachmentDownloaded = false;
+	private GestureImageView imageView;
+	private LocalAsync localAsync;
+    private View progressView;
+    private boolean isAttachmentDownloaded = false;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		
-		
-		View rootView = inflater.inflate(
-				R.layout.hs_fragment_image_attachment_display, container,
-				false);
-		
-		progressView = rootView.findViewById(R.id.progressHolder);
-		
-		imageView = (GestureImageView) rootView.findViewById(R.id.image);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.hs_fragment_image_attachment_display, container, false);
+        progressView = rootView.findViewById(R.id.progressHolder);
+        imageView = (GestureImageView) rootView.findViewById(R.id.image);
 		
 		setHasOptionsMenu(true);
 		
@@ -89,8 +81,6 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 				showLoading(true);
 				loadImage();
 			}
-			
-			
 		}
 		
 		return rootView;
@@ -130,7 +120,6 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
         else {
             downloadItem.setVisible(false);
         }
-
     }
 
     @Override
@@ -155,19 +144,15 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
                 selectedBitmap = NewIssueFragment.downscaleAndReadBitmap(getActivity(), Uri.parse(image_url));
                 imageView.setImageBitmap(selectedBitmap);
                 showLoading(false);
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 Toast.makeText(getActivity(), "Sorry! could not open attachment, unknown image", Toast.LENGTH_LONG).show();
                 getActivity().finish();
             }
-
         }
         else {
             Toast.makeText(getActivity(), "Sorry! could not open attachment, unknown image", Toast.LENGTH_LONG).show();
             getActivity().finish();
         }
-
-
 	}
 	
 	public void closeAsync() {
@@ -217,7 +202,7 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
 	    InputStream in = null;
 	    try {
 	    	BitmapFactory.Options options = new BitmapFactory.Options();
-	    	bitmap = BitmapFactory.decodeStream(new URL(url).openStream(),null,options);
+	    	bitmap = BitmapFactory.decodeStream(new URL(url).openStream(), null, options);
 	        
 	    } catch (IOException e) {
 	        Log.e(TAG, "Could not load Bitmap from: " + url);
@@ -228,7 +213,7 @@ public class ImageAttachmentDisplayFragment extends HSFragmentParent {
             }
 	    }
 
-	    return bitmap;
+        return bitmap;
 	}
 
 }

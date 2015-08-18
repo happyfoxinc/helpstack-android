@@ -67,7 +67,7 @@ public class HSDraft implements Serializable {
         this.draftAttachments = attachmentsArray;
     }
 
-    public void setDraftUSer(HSUser user) {
+    public void setDraftUser(HSUser user) {
         this.draftUser = user;
     }
 

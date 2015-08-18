@@ -33,7 +33,8 @@ import com.tenmiles.helpstack.fragments.IssueDetailFragment;
 import com.tenmiles.helpstack.model.HSTicket;
 
 public class IssueDetailActivity extends HSActivityParent {
-	
+    private static final String TAG = IssueDetailActivity.class.getSimpleName();
+
 	public static final String EXTRAS_TICKET = "ticket";
 	
 	@Override
@@ -43,7 +44,8 @@ public class IssueDetailActivity extends HSActivityParent {
 
 		if (savedInstanceState == null) {
 			IssueDetailFragment mIssueDetailFragment = HSFragmentManager.getIssueDetailFragment();
-			HSFragmentManager.putFragmentInActivity(this, R.id.container, mIssueDetailFragment, "IssueDetail");
+
+            HSFragmentManager.putFragmentInActivity(this, R.id.container, mIssueDetailFragment, TAG);
 			HSTicket ticket = (HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET);
 			mIssueDetailFragment.setTicket(ticket);
 			getHelpStackActionBar().setTitle(ticket.getSubject());
@@ -57,24 +59,16 @@ public class IssueDetailActivity extends HSActivityParent {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.hs_issue_detail, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			finish();
 			return true;
-		}
-		if(id == android.R.id.home) {
-			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

@@ -40,17 +40,18 @@ public class AttachmentDownloadReceiver extends BroadcastReceiver {
 
 	private static final int NOTIFICATION_ID = 1008;
 	private static final int PENDING_INTENT_REQUEST_CODE = 108;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
-		String package_name = intent.getPackage();
-		String cpackage = context.getPackageName();
+		String intendedPackage = intent.getPackage();
+		String contextPackage = context.getPackageName();
 		
-        if (package_name.equals(cpackage) && DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+        if (intendedPackage.equals(contextPackage) && DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
         	downloadCompleted(context, intent);
         }
-        else if (package_name.equals(cpackage) && DownloadManager.ACTION_NOTIFICATION_CLICKED.equals(action)) {
-        	notificationClicked(context,intent);
+        else if (intendedPackage.equals(contextPackage) && DownloadManager.ACTION_NOTIFICATION_CLICKED.equals(action)) {
+        	notificationClicked(context, intent);
         }
 	}
 	
@@ -61,14 +62,14 @@ public class AttachmentDownloadReceiver extends BroadcastReceiver {
 	}
 	
 	private void downloadCompleted(Context context, Intent intent) {
-		StringBuilder text = new StringBuilder();
     	//Files are  ready
     	String filename = context.getString(R.string.hs_attachment);
     	String filepath = null;
     	String mediaType = null;
-    	DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-    	long downloadId = intent.getLongExtra(
-                DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+        DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+    	long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+        StringBuilder text = new StringBuilder();
+
 		Query query = new Query();
 		query.setFilterById(downloadId);
 		Cursor c = dm.query(query);
@@ -79,26 +80,23 @@ public class AttachmentDownloadReceiver extends BroadcastReceiver {
 			mediaType = c.getString(c.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE));
 			if(status == DownloadManager.STATUS_SUCCESSFUL) {
 				text.append(context.getString(R.string.hs_download_complete));
-				
 			}
 			else {
 				text.append(context.getString(R.string.hs_error_during_download));
 			}
 		}
         
-        
-        
     	NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     	
-    	NotificationCompat.Builder notificationbuilder = new NotificationCompat.Builder(context);
-    	notificationbuilder.setAutoCancel(true);
-    	notificationbuilder.setContentText(text.toString());
-    	notificationbuilder.setContentTitle(filename);
-    	notificationbuilder.setSmallIcon(R.drawable.hs_notification_download_light_img);
-    	notificationbuilder.setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE);
-    	notificationbuilder.setContentIntent(getPendingIntent(context));
+    	NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+    	notificationBuilder.setAutoCancel(true);
+    	notificationBuilder.setContentText(text.toString());
+    	notificationBuilder.setContentTitle(filename);
+    	notificationBuilder.setSmallIcon(R.drawable.hs_notification_download_light_img);
+    	notificationBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
+    	notificationBuilder.setContentIntent(getPendingIntent(context));
     	
-    	notificationManager.notify(filename,NOTIFICATION_ID, notificationbuilder.build());
+    	notificationManager.notify(filename, NOTIFICATION_ID, notificationBuilder.build());
 	}
 
 	public PendingIntent getPendingIntent(Context context, String filename, String mediatype) {

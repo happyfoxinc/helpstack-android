@@ -22,13 +22,13 @@
 
 package com.tenmiles.helpstack.model;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import android.content.Context;
+import android.net.Uri;
 
 import org.apache.http.entity.mime.content.InputStreamBody;
 
-import android.content.Context;
-import android.net.Uri;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class HSUploadAttachment {
 
@@ -42,10 +42,13 @@ public class HSUploadAttachment {
 	
 	public InputStreamBody generateStreamToUpload() throws FileNotFoundException {
         InputStream stream = generateInputStreamToUpload();
-		
-		InputStreamBody body =  new InputStreamBody(stream, attachment.getMime_type(), 
-				attachment.getFileName() == null?"attachment":attachment.getFileName());
-		
+
+        String attachmentFileName = "attachment";
+        if (attachment.getFileName()!=null) {
+            attachmentFileName = attachment.getFileName();
+        }
+
+		InputStreamBody body =  new InputStreamBody(stream, attachment.getMimeType(), attachmentFileName);
 		return body;
 	}
 
@@ -53,7 +56,6 @@ public class HSUploadAttachment {
         InputStream stream = mContext.getContentResolver().openInputStream(Uri.parse(attachment.getUrl()));
         return stream;
     }
-
 
     public HSAttachment getAttachment() {
 		return attachment;

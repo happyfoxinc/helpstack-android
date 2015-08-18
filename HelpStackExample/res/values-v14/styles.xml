@@ -10,8 +10,7 @@
       <!-- <item name="android:actionBarStyle">@style/MyActionBar</item> -->
     </style>
     
-    <style name="MyActionBar"
-           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         
     </style>
   

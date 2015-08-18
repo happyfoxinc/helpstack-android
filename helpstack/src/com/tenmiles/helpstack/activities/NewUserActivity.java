@@ -32,7 +32,7 @@ import com.tenmiles.helpstack.fragments.NewUserFragment;
 
 public class NewUserActivity extends HSActivityParent {
 	
-	
+	private static final String TAG = "NewUser";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +41,10 @@ public class NewUserActivity extends HSActivityParent {
 		
 		if (savedInstanceState == null) {
             Bundle bundle = getIntent().getExtras();
-			NewUserFragment newUserFragment = new NewUserFragment();
+            NewUserFragment newUserFragment = new NewUserFragment();
             newUserFragment.setArguments(bundle);
-			HSFragmentManager.putFragmentInActivity(this, R.id.container, newUserFragment, "NewUser");
-		}
-		
+            HSFragmentManager.putFragmentInActivity(this, R.id.container, newUserFragment, TAG);
+        }
 	}
 	
 	@Override
@@ -56,9 +55,6 @@ public class NewUserActivity extends HSActivityParent {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			HSActivityManager.finishSafe(this);
