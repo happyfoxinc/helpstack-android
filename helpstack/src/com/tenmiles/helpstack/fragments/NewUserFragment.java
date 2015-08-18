@@ -61,40 +61,34 @@ public class NewUserFragment extends HSFragmentParent {
     private String subject;
     private String message;
     private HSAttachment[] attachmentArray;
+    private EditText firstNameField, lastNameField, emailField;
+    private HSSource gearSource;
 
     public NewUserFragment() {
-
 	}
-	
-	EditText firstNameField, lastNameField, emailField;
-	
-	HSSource gearSource;
-	
+
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-             Bundle savedInstanceState) {
-		
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		
 		View rootView = inflater.inflate(R.layout.hs_fragment_new_user, container, false);
-		
 		this.firstNameField = (EditText) rootView.findViewById(R.id.firstname);
 		this.lastNameField = (EditText) rootView.findViewById(R.id.lastname);
 		this.emailField = (EditText) rootView.findViewById(R.id.email);
 
-        
-		
 		return rootView;
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+
 		outState.putString(EXTRAS_FIRST_NAME, firstNameField.getText().toString());
 		outState.putString(EXTRAS_LAST_NAME, lastNameField.getText().toString());
 		outState.putString(EXTRAS_EMAIL, emailField.getText().toString());
 		outState.putString(EXTRAS_SUBJECT, subject);
 		outState.putString(EXTRAS_MESSAGE, message);
+
 		if (attachmentArray != null) {
 			Gson gson = new Gson();
 			outState.putString(EXTRAS_ATTACHMENT, gson.toJson(attachmentArray));
@@ -191,7 +185,6 @@ public class NewUserFragment extends HSFragmentParent {
 
                                 @Override
                                 public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
-
                                     getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
                                     sendSuccessSignal(ticket);
                                     gearSource.clearTicketDraft();
@@ -217,8 +210,7 @@ public class NewUserFragment extends HSFragmentParent {
 			
 			return true;
 		}
-		
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 

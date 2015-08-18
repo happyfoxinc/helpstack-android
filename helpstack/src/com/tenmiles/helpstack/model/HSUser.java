@@ -34,10 +34,10 @@ import com.google.gson.annotations.SerializedName;
 public class HSUser implements Serializable {
 
 	@SerializedName("first_name")
-	private String first_Name;
+	private String firstName;
 	
 	@SerializedName("last_name")
-	private String last_Name;
+	private String lastName;
 	
 	@SerializedName("email")
 	private String emailAddress;
@@ -54,30 +54,30 @@ public class HSUser implements Serializable {
 	public HSUser() {
 	}
 	
-	public static HSUser createNewUserWithDetails(String first_name, String last_name, String email) {
+	public static HSUser createNewUserWithDetails(String firstName, String lastName, String email) {
 		HSUser user = new HSUser();
-		user.first_Name = first_name;
-		user.last_Name = last_name;
+		user.firstName = firstName;
+		user.lastName = lastName;
 		user.emailAddress = email;
 		return user;
 	}
 
-    public static HSUser createNewUserWithDetails(String first_name, String last_name, String email, String userLink) {
-        HSUser user = createNewUserWithDetails(first_name, last_name, email);
+    public static HSUser createNewUserWithDetails(String firstName, String lastName, String email, String userLink) {
+        HSUser user = createNewUserWithDetails(firstName, lastName, email);
         user.userApiHref = userLink;
         return user;
     }
 	
 	public String getFirstName() {
-		return first_Name;
+		return firstName;
 	}
 	
 	public String getLastName() {
-		return last_Name;
+		return lastName;
 	}
 	
 	public String getFullName() {
-		return ""+first_Name+" "+last_Name;
+		return ""+ firstName +" "+ lastName;
 	}
 	
 	public String getEmail() {

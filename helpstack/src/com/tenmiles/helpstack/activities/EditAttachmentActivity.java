@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.model.HSAttachment;
+import com.tenmiles.helpstack.theme.widget.DrawingView;
 
 import java.io.FileNotFoundException;
 import java.util.UUID;
@@ -99,7 +100,6 @@ public class EditAttachmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.hs_edit_attachment, menu);
         return super.onCreateOptionsMenu(menu);
@@ -128,36 +128,40 @@ public class EditAttachmentActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        switch(requestCode) {
-            case REQUEST_CODE_PHOTO_PICKER:
-                if(resultCode == Activity.RESULT_OK){
-                    Uri selectedImage = intent.getData();
+        if(requestCode == REQUEST_CODE_PHOTO_PICKER) {
+            if(resultCode == Activity.RESULT_OK) {
+                Uri selectedImage = intent.getData();
 
-                    Cursor cursor = this.getContentResolver().query(selectedImage, new String[] {
+                Cursor cursor = this.getContentResolver().query(selectedImage,
+                        new String[] {
                             MediaStore.Images.ImageColumns.DATA,
                             MediaStore.Images.ImageColumns.DISPLAY_NAME,
-                            MediaStore.Images.ImageColumns.MIME_TYPE }, null, null, null);
+                            MediaStore.Images.ImageColumns.MIME_TYPE
+                        }, null, null, null);
+
+                if (cursor != null) {
                     cursor.moveToFirst();
-
-                    String display_name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
-                    String mime_type = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.MIME_TYPE));
-
-                    cursor.close();
-
-                    selectedAttachment = HSAttachment.createAttachment(selectedImage.toString(), display_name, mime_type);
-
-                    try {
-                        Uri uri = Uri.parse(selectedAttachment.getUrl());
-                        originalBitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri), null, null);
-                        drawView.setCanvasBitmap(originalBitmap);
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
                 }
-                else {
-                    finish();
+
+                String display_name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME));
+                String mime_type = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.MIME_TYPE));
+
+                cursor.close();
+
+                selectedAttachment = HSAttachment.createAttachment(selectedImage.toString(), display_name, mime_type);
+
+                try {
+                    Uri uri = Uri.parse(selectedAttachment.getUrl());
+                    originalBitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri), null, null);
+                    drawView.setCanvasBitmap(originalBitmap);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
+            }
+            else {
+                finish();
+            }
         }
     }
 
@@ -176,8 +180,7 @@ public class EditAttachmentActivity extends AppCompatActivity {
         }
 
         if(imageSaved!=null){
-            Toast savedToast = Toast.makeText(getApplicationContext(),
-                    "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
+            Toast savedToast = Toast.makeText(getApplicationContext(), R.string.drawing_saved, Toast.LENGTH_SHORT);
             savedToast.show();
 
             Intent resultIntent = new Intent();
@@ -187,8 +190,7 @@ public class EditAttachmentActivity extends AppCompatActivity {
             finish();
         }
         else{
-            Toast unsavedToast = Toast.makeText(getApplicationContext(),
-                    "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
+            Toast unsavedToast = Toast.makeText(getApplicationContext(), R.string.image_not_saved, Toast.LENGTH_SHORT);
             unsavedToast.show();
         }
 
@@ -217,16 +219,16 @@ public class EditAttachmentActivity extends AppCompatActivity {
     private void discardDraft() {
         if (drawView.hasBeenEdited()) {
             new AlertDialog.Builder(this)
-                    .setTitle(R.string.discard)
-                    .setMessage("Do you want to discard your changes?")
-                    .setNegativeButton(android.R.string.no, null)
-                    .setPositiveButton(R.string.discard, new DialogInterface.OnClickListener() {
+                .setTitle(R.string.discard)
+                .setMessage("Do you want to discard your changes?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(R.string.discard, new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    EditAttachmentActivity.super.onBackPressed();
-                                }
-                            }
-                    ).create().show();
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            EditAttachmentActivity.super.onBackPressed();
+                        }
+                    }
+                ).create().show();
         }
         else {
             HSActivityManager.finishSafe(this);

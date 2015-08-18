@@ -37,6 +37,7 @@ public class ArticleFragment extends HSFragmentParent {
 	public static final String HTML_WRAPPER_WITH_TITLE = 
 			"<!DOCTYPE html><html><head><style>body{font:18.0px helvetica} .heading{}</style>" +
 			"</head><body><h3 class='heading'>%s</h3>%s</body></html>";
+
 	public HSKBItem kbItem;
 	private WebView webview;
 	
@@ -44,8 +45,7 @@ public class ArticleFragment extends HSFragmentParent {
 	}
 	
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.hs_fragment_article, container, false);
 		
 		webview = (WebView)rootView.findViewById(R.id.webview);

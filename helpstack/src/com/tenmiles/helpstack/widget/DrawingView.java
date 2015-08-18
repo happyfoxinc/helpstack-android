@@ -1,4 +1,4 @@
-package com.tenmiles.helpstack.activities;
+package com.tenmiles.helpstack.theme.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,9 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import static java.lang.StrictMath.max;
 import static java.lang.StrictMath.min;
-
 
 public class DrawingView extends View {
 

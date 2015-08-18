@@ -24,11 +24,11 @@ package com.tenmiles.helpstack.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.fragments.HSFragmentManager;
+import com.tenmiles.helpstack.fragments.ImageAttachmentDisplayFragment;
 
 public class ImageAttachmentDisplayActivity extends HSActivityParent {
 
@@ -44,8 +44,8 @@ public class ImageAttachmentDisplayActivity extends HSActivityParent {
 			String url = getIntent().getExtras().getString(EXTRAS_STRING_URL);
 			String title = getIntent().getExtras().getString(EXTRAS_TITLE);
 			getSupportActionBar().setTitle(title);
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, HSFragmentManager.getImageAttachmentDisplayFragment(this, url)).commit();
+            ImageAttachmentDisplayFragment fragment = HSFragmentManager.getImageAttachmentDisplayFragment(this, url);
+            getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
 		}
 	}
 	
@@ -56,9 +56,6 @@ public class ImageAttachmentDisplayActivity extends HSActivityParent {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			finish();

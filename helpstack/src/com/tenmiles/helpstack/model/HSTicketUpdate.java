@@ -22,10 +22,10 @@
 
 package com.tenmiles.helpstack.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import com.google.gson.annotations.SerializedName;
 
 public class HSTicketUpdate implements Serializable {
 	
@@ -52,24 +52,24 @@ public class HSTicketUpdate implements Serializable {
 	
 	// Date, Attachments etc will come here
 	
-	public static HSTicketUpdate createUpdateByStaff(String updateId, String name, String text, Date update_time, HSAttachment[] attachments) {
+	public static HSTicketUpdate createUpdateByStaff(String updateId, String name, String text, Date updateTime, HSAttachment[] attachments) {
 		HSTicketUpdate update = new HSTicketUpdate();
 		update.updateBy = TYPE_STAFF;
 		update.text = text;
 		update.updateId = updateId;
 		update.name = name;
-		update.updateTime = update_time;
+		update.updateTime = updateTime;
 		update.attachments = attachments;
 		return update;
 	}
 	
-	public static HSTicketUpdate createUpdateByUser(String updateId, String name, String text, Date update_time, HSAttachment[] attachments) {
+	public static HSTicketUpdate createUpdateByUser(String updateId, String name, String text, Date updateTime, HSAttachment[] attachments) {
 		HSTicketUpdate update = new HSTicketUpdate();
 		update.updateBy = TYPE_USER;
 		update.text = text;
 		update.updateId = updateId;
 		update.name = name;
-		update.updateTime = update_time;
+		update.updateTime = updateTime;
 		update.attachments = attachments;
 		return update;
 	}
@@ -94,15 +94,11 @@ public class HSTicketUpdate implements Serializable {
 		return attachments;
 	}
 	
-	public boolean isAttachmentEmtpy() {
-		if(attachments == null) {
+	public boolean isAttachmentEmpty() {
+		if(attachments == null || attachments.length == 0) {
 			return true;
-		} else {
-			if(attachments.length == 0) {
-				return true;
-			}
 		}
-		return false;	
+		return false;
 	}
 	
  }

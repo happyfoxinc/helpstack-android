@@ -66,11 +66,9 @@ public class HomeFragment extends HSFragmentParent {
 
 	private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
-
-	private SearchFragment mSearchFragment;
+    private SearchFragment mSearchFragment;
 
 	private HSSource gearSource;
-
 	private HSKBItem[] fetchedKbArticles;
 	private HSTicket[] fetchedTickets;
 	
@@ -78,12 +76,10 @@ public class HomeFragment extends HSFragmentParent {
 	private int numberOfServerCallWaiting = 0;
 
 	public HomeFragment() {
-
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.hs_fragment_home, container, false);
 
@@ -130,7 +126,6 @@ public class HomeFragment extends HSFragmentParent {
 			else {
 				refreshList();
 			}
-			
 		}
 
 		return rootView;
@@ -174,9 +169,7 @@ public class HomeFragment extends HSFragmentParent {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
 
-		// Inflate the menu; this adds items to the action bar if it is present.
 		inflater.inflate(R.menu.hs_search_menu, menu);
-
 		MenuItem searchItem = menu.findItem(R.id.search);
 		mSearchFragment.addSearchViewInMenuItem(getActivity(), searchItem);
 	}
@@ -188,37 +181,26 @@ public class HomeFragment extends HSFragmentParent {
 	}
 	
 	private void initializeView() {
+        startHomeScreenLoadingDisplay(true);
 
-		startHomeScreenLoadingDisplay(true);
-		
-		// Show Loading
 		gearSource.requestKBArticle("FAQ", null, new OnFetchedArraySuccessListener() {
-
-
 
 			@Override
 			public void onSuccess(Object[] kbArticles) {
-
 				fetchedKbArticles = (HSKBItem[]) kbArticles;
 				mSearchFragment.setKBArticleList(fetchedKbArticles);
 				refreshList();
-				
-				// Stop Loading
 				startHomeScreenLoadingDisplay(false);
-				
 			}
-
 		}, new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError arg0) {
-				// Stop Loading
 				startHomeScreenLoadingDisplay(false);
 				if(numberOfServerCallWaiting == 0) {
 					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_fetching_articles_issues));
 				}
 			}
-
 		});
 
 		gearSource.requestAllTickets(new OnFetchedArraySuccessListener() {
@@ -233,12 +215,10 @@ public class HomeFragment extends HSFragmentParent {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				// Stop Loading
 				startHomeScreenLoadingDisplay(false);
 				if(numberOfServerCallWaiting == 0) {
 					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_fetching_articles_issues));
 				}
-
 			}
 		});
 
@@ -256,7 +236,6 @@ public class HomeFragment extends HSFragmentParent {
 				if (getHelpStackActivity() != null) { // To handle a crash that happens if activity is re-created and we receive network response after that.
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				}
-				
 			}
 		}
 	}
@@ -264,9 +243,7 @@ public class HomeFragment extends HSFragmentParent {
 	protected OnChildClickListener expandableChildViewClickListener = new OnChildClickListener() {
 
 		@Override
-		public boolean onChildClick(ExpandableListView parent, View v,
-				int groupPosition, int childPosition, long id) {
-
+		public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 			if (groupPosition == 0) {
 				HSKBItem kbItemClicked = (HSKBItem) mAdapter.getChild(groupPosition, childPosition);
 				articleClickedOnPosition(kbItemClicked);
@@ -286,7 +263,6 @@ public class HomeFragment extends HSFragmentParent {
 
 		@Override
 		public void onClick(View v) {
-
 			gearSource.launchCreateNewTicketScreen(HomeFragment.this, REQUEST_CODE_NEW_TICKET);
 		}
 	};
@@ -296,50 +272,36 @@ public class HomeFragment extends HSFragmentParent {
 
 		@Override
 		public void startReportAnIssue() {
-			
 			mSearchFragment.setVisibility(false);
 			gearSource.launchCreateNewTicketScreen(HomeFragment.this, REQUEST_CODE_NEW_TICKET);
 		}
-		
-		
 	};
-	
-	
 
 	//////////////////////////////////////
 	// 		UTILITY FUNCTIONS         ///
 	/////////////////////////////////////
 
-	
-
 	private void refreshList() {
-
 		mAdapter.clearAll();
-
-		mAdapter.addParent(0, getString(R.string.hs_articles_title));
+        mAdapter.addParent(0, getString(R.string.hs_articles_title));
 
 		if (fetchedKbArticles != null) {
 			for (int i = 0; i < fetchedKbArticles.length ; i++) {
-
-				HSKBItem item = (HSKBItem) fetchedKbArticles[i];
+				HSKBItem item = fetchedKbArticles[i];
 				mAdapter.addChild(0, item);
 			}
 		}
-
 
 		if (fetchedTickets != null && fetchedTickets.length > 0) {
 			mAdapter.addParent(1, getString(R.string.hs_issues_title));
 
 			for (int i = 0; i < fetchedTickets.length ; i++) {
-
-				HSTicket item = (HSTicket) fetchedTickets[i];
+				HSTicket item = fetchedTickets[i];
 				mAdapter.addChild(1, item);
 			}
 		}
 
-
 		mAdapter.notifyDataSetChanged();
-
 		expandAll();
 	}
 
@@ -353,31 +315,26 @@ public class HomeFragment extends HSFragmentParent {
 	protected void articleClickedOnPosition(HSKBItem kbItemClicked) {
 		if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
 			HSActivityManager.startArticleActivity(this, kbItemClicked, REQUEST_CODE_NEW_TICKET);
-
-		} else {
+		}
+        else {
 			HSActivityManager.startSectionActivity(this, kbItemClicked, REQUEST_CODE_NEW_TICKET);
 		}
 	}
 
-	private class LocalAdapter extends HSBaseExpandableListAdapter
-	{
+	private class LocalAdapter extends HSBaseExpandableListAdapter {
 
 		public LocalAdapter(Context context) {
 			super(context);
 		}
 
 		@Override
-		public View getChildView(final int groupPosition,final int childPosition,
-				boolean isLastChild, View convertView, ViewGroup parent) {
-
+		public View getChildView(final int groupPosition,final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 			ChildViewHolder holder;
 
 			if (convertView == null) {
 				convertView = mLayoutInflater.inflate(R.layout.hs_expandable_child_home_default, null);
 				holder = new ChildViewHolder();
-
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
-
 				convertView.setTag(holder);
 			}
 			else {
@@ -387,8 +344,6 @@ public class HomeFragment extends HSFragmentParent {
 			if (groupPosition == 0) {
 				HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
 				holder.textView1.setText(item.getSubject());
-
-
 			}
 			else if (groupPosition == 1){
 				HSTicket item = (HSTicket) getChild(groupPosition, childPosition);
@@ -399,16 +354,13 @@ public class HomeFragment extends HSFragmentParent {
 		}
 
 		@Override
-		public View getGroupView(int groupPosition, boolean isExpanded,
-				View convertView, ViewGroup parent) {
+		public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 			ParentViewHolder holder;
 
 			if (convertView == null) {
 				convertView = mLayoutInflater.inflate(R.layout.hs_expandable_parent_home_default, null);
 				holder = new ParentViewHolder();
-
 				holder.textView1 = (TextView) convertView.findViewById(R.id.textView1);
-
 				convertView.setTag(holder);
 			}
 			else {
@@ -416,9 +368,7 @@ public class HomeFragment extends HSFragmentParent {
 			}
 
 			String text = (String) getGroup(groupPosition);
-
 			holder.textView1.setText(text);
-
 			return convertView;
 		}
 

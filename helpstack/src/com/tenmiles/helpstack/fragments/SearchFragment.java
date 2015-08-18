@@ -22,10 +22,6 @@
 
 package com.tenmiles.helpstack.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,6 +45,9 @@ import com.tenmiles.helpstack.R;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.model.HSKBItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Search Fragment
  * 
@@ -64,13 +63,10 @@ public class SearchFragment extends HSFragmentParent {
 	private OnReportAnIssueClickListener articleSelecetedListener;
 
 	public SearchFragment() {
-		// Required empty public constructor
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView =  inflater.inflate(R.layout.hs_fragment_search, container, false);
 		setVisibility(false);
 		listView = (ListView)rootView.findViewById(R.id.searchList);
@@ -80,10 +76,8 @@ public class SearchFragment extends HSFragmentParent {
         report_an_issue_view.findViewById(R.id.button1).setOnClickListener(reportIssueClickListener);
 
         listView.addFooterView(report_an_issue_view);
-		
-		listView.setAdapter(searchAdapter);
-		
-		listView.setOnItemClickListener(listItemClickListener);
+        listView.setAdapter(searchAdapter);
+        listView.setOnItemClickListener(listItemClickListener);
 		
 		return rootView;
 	}
@@ -136,7 +130,6 @@ public class SearchFragment extends HSFragmentParent {
 	protected void articleClickedOnPosition(HSKBItem kbItemClicked) {
 		if(kbItemClicked.getArticleType() == HSKBItem.TYPE_ARTICLE) {
 			HSActivityManager.startArticleActivity(this, kbItemClicked, HomeFragment.REQUEST_CODE_NEW_TICKET);
-			
 		} else {
 			HSActivityManager.startSectionActivity(this, kbItemClicked, HomeFragment.REQUEST_CODE_NEW_TICKET);
 		}
@@ -161,9 +154,7 @@ public class SearchFragment extends HSFragmentParent {
 
 			@Override
 			public boolean onQueryTextSubmit(String q) {
-				
 				doSearchForQuery(q);
-				
 				return true;
 			}
 
@@ -193,15 +184,12 @@ public class SearchFragment extends HSFragmentParent {
 		if (Build.VERSION.SDK_INT >= 14) {
 			searchView.setQueryHint(getString(R.string.hs_search_hint)); // Works on android 4.0 and above, but crashes in below version.
 		}
-		
-		
 	}
 	
 	private OnClickListener reportIssueClickListener = new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
-			
 			if (articleSelecetedListener != null) {
 				articleSelecetedListener.startReportAnIssue();
 			}
@@ -216,7 +204,7 @@ public class SearchFragment extends HSFragmentParent {
 		public void startReportAnIssue();
 	}
 	
-	private class SearchAdapter extends BaseAdapter implements Filterable{
+	private class SearchAdapter extends BaseAdapter implements Filterable {
 
 		private HSKBItem[] allKBItems;
 		private HSKBItem[] searchResults;
@@ -257,7 +245,8 @@ public class SearchFragment extends HSFragmentParent {
 				holder = new ViewHolder();
 				holder.textview = (TextView)convertView.findViewById(R.id.sectionlisttextview);
 				convertView.setTag(holder);
-			}else {
+			}
+            else {
 				holder = (ViewHolder)convertView.getTag();
 			}
 			holder.textview.setText(((HSKBItem)this.searchResults[position]).getSubject());
@@ -286,13 +275,15 @@ public class SearchFragment extends HSFragmentParent {
 					results.values = (HSKBItem[])allKBItems;
 					results.count = allKBItems.length;
 					
-				} else {
+				}
+                else {
 					// We perform filtering operation
 			        List<HSKBItem> filterList = new ArrayList<HSKBItem>();
 			         
 			        for (HSKBItem p : allKBItems) {
-			            if (p.getSubject().toUpperCase().contains(constraint.toString().toUpperCase())) //.startsWith(constraint.toString().toUpperCase()))
-			            	filterList.add(p);
+			            if (p.getSubject().toUpperCase().contains(constraint.toString().toUpperCase())) { //.startsWith(constraint.toString().toUpperCase()))
+                            filterList.add(p);
+                        }
 			        }
 			        HSKBItem[] values = filterList.toArray(new HSKBItem[filterList.size()]);
 			        results.values = values;
@@ -306,14 +297,13 @@ public class SearchFragment extends HSFragmentParent {
 					FilterResults results) {
 				if(results == null) {
 					notifyDataSetInvalidated();
-				}else {
+				}
+                else {
 					searchResults = (HSKBItem[]) results.values;
 					notifyDataSetChanged();
 				}
-				
 			}
-			
 		}
-		
 	}
+
 }

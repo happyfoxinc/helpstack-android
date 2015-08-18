@@ -113,8 +113,7 @@ public class HSZendeskGear extends HSGear {
                         }, errorListener);
 
                 request.setTag(cancelTag);
-                request.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
-                        ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+                request.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS, ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
 
                 queue.add(request);
                 queue.start();
@@ -130,8 +129,7 @@ public class HSZendeskGear extends HSGear {
 
     @Override
     public void createNewTicket(String cancelTag, HSUser user, String message, String body, HSUploadAttachment[] attachments,  RequestQueue queue,
-                                OnNewTicketFetchedSuccessListener successListener,
-                                ErrorListener errorListener) {
+                                OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
 
         if (attachments != null && attachments.length > 0) {
         	createNewTicketWithAttachment(cancelTag, user, message, body, attachments, queue, successListener, errorListener);
@@ -197,8 +195,6 @@ public class HSZendeskGear extends HSGear {
         }
     }
 
-
-
     public void setSectionId(String section_id) {
         this.section_id = section_id;
     }
@@ -239,8 +235,7 @@ public class HSZendeskGear extends HSGear {
 
         attachmentRequest.addCredential(staff_email_address, api_token);
         attachmentRequest.setTag(cancelTag);
-        attachmentRequest.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
-                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+        attachmentRequest.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS, ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
 
         queue.add(attachmentRequest);
         queue.start();
@@ -303,7 +298,6 @@ public class HSZendeskGear extends HSGear {
                     String[] attachmentTokenList = new String[1]; // It is been specified in constructor, so hard-coding the value. Can be changed later
                     attachmentTokenList[0] = attachmentToken;
 
-
                     HSAttachment[] attachmentObjectList = new HSAttachment[1]; // It is been specified in constructor, so hard-coding the value. Can be changed later
                     attachmentObjectList[0] = attachmentObject.getAttachment();
 
@@ -317,8 +311,7 @@ public class HSZendeskGear extends HSGear {
 
         attachmentRequest.addCredential(staff_email_address, api_token);
         attachmentRequest.setTag(cancelTag);
-        attachmentRequest.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS,
-                ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
+        attachmentRequest.setRetryPolicy(new DefaultRetryPolicy(ZendeskJsonObjectRequest.TIMEOUT_MS, ZendeskJsonObjectRequest.MAX_RETRIES, ZendeskJsonObjectRequest.BACKOFF_MULT));
 
         queue.add(attachmentRequest);
         queue.start();
@@ -339,8 +332,8 @@ public class HSZendeskGear extends HSGear {
         }
 
         ZendeskJsonObjectRequest request = new ZendeskJsonObjectRequest(cancelTag, user.getEmail(), Request.Method.PUT,
-                getApiUrl().concat("requests/").concat(ticket.getTicketId()).concat(".json"),
-                ticketJson, new ZendeskBaseListener<JSONObject>(successListener, errorListener) {
+                getApiUrl().concat("requests/").concat(ticket.getTicketId()).concat(".json"), ticketJson,
+                new ZendeskBaseListener<JSONObject>(successListener, errorListener) {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -432,7 +425,6 @@ public class HSZendeskGear extends HSGear {
         }
 
         requestProperties.put("comment", comment);
-
         requestObject.put("request", requestProperties);
 
         return requestObject;
@@ -490,8 +482,6 @@ public class HSZendeskGear extends HSGear {
                         isUpdateTypeUserReply = true;
                     }
                 }
-                
-                
 
                 if (!updateObject.isNull("created_at")) {
                     update_time = parseTime(updateObject.getString("created_at"));
@@ -512,8 +502,7 @@ public class HSZendeskGear extends HSGear {
                     }
                     attachments = attachmentArray.toArray(new HSAttachment[length]);
                 }
-                
-                
+
                 break;
             }
         }

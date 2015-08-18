@@ -39,8 +39,7 @@ import com.tenmiles.helpstack.fragments.HomeFragment;
  *
  */
 public class HomeActivity extends HSActivityParent {
-	
-	
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +49,6 @@ public class HomeActivity extends HSActivityParent {
         	HomeFragment homeFrag = HSFragmentManager.getHomeFragment();
         	HSFragmentManager.putFragmentInActivity(this, R.id.container, homeFrag, "Home");
         }
-       
     }
     
     @Override
@@ -61,9 +59,6 @@ public class HomeActivity extends HSActivityParent {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.search) {
             return true;
