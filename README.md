@@ -45,7 +45,7 @@ Installing the HelpStack library is fairly straight-forward.
 2. Add *com.tenmiles:helpstack:1.1.2* as a dependency in the same build.gradle
         
         dependencies {
-          compile 'com.tenmiles:helpstack:1.1.2'
+          compile 'com.tenmiles:helpstack:1.1.3'
         }
 
         
@@ -143,10 +143,10 @@ For more information, refer to the documents in the [Wiki section](https://githu
 
 HelpStack depends on the following libraries:
 
-    com.android.support:appcompat-v7:20.0.0
-    com.google.code.gson:gson:2.2.4
+    com.android.support:appcompat-v7:22.2.1
+    com.google.code.gson:gson:2.3
     org.apache.httpcomponents:httpmime:4.2.6
-    com.mcxiaoke.volley:library-aar:1.+
+    com.mcxiaoke.volley:library-aar:1.0.5
   
   
 ## Video
