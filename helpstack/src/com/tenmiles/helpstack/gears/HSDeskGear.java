@@ -637,7 +637,7 @@ public class HSDeskGear extends HSGear {
         protected static final int TIMEOUT_MS = 10000;
 
         /** Default number of retries for image requests */
-        protected static final int MAX_RETRIES = 0;
+        protected static final int MAX_RETRIES = 2;
 
         /** Default backoff multiplier for image requests */
         protected static final float BACKOFF_MULT = 0f;

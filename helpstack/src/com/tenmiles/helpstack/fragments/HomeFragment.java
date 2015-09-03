@@ -34,6 +34,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Response.ErrorListener;
@@ -74,8 +75,10 @@ public class HomeFragment extends HSFragmentParent {
 	
 	// To show loading until both the kb and tickets are not fetched.
 	private int numberOfServerCallWaiting = 0;
+    private ProgressBar progressBar;
+    private int faq_position = 0;
 
-	public HomeFragment() {
+    public HomeFragment() {
 	}
 
 	@Override
@@ -86,6 +89,10 @@ public class HomeFragment extends HSFragmentParent {
 		// ListView
 		mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableList); 
 		mAdapter = new LocalAdapter(getActivity());
+
+        View progress_bar_view = inflater.inflate(R.layout.hs_expandable_footer_progress_bar, null);
+        progressBar = (ProgressBar) progress_bar_view.findViewById(R.id.progressBar1);
+        mExpandableListView.addFooterView(progress_bar_view);
 
 		// report an issue
 		View report_an_issue_view = inflater.inflate(R.layout.hs_expandable_footer_report_issue, null);
@@ -227,14 +234,14 @@ public class HomeFragment extends HSFragmentParent {
 	public void startHomeScreenLoadingDisplay(boolean loading) {
 		if (loading) {
 			numberOfServerCallWaiting = 2;
-			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
+			progressBar.setVisibility(View.VISIBLE);
 		}
 		else {
 			// Stop Loading
 			numberOfServerCallWaiting--;
 			if (numberOfServerCallWaiting == 0) {
 				if (getHelpStackActivity() != null) { // To handle a crash that happens if activity is re-created and we receive network response after that.
-					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+					progressBar.setVisibility(View.GONE);
 				}
 			}
 		}
@@ -244,12 +251,12 @@ public class HomeFragment extends HSFragmentParent {
 
 		@Override
 		public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-			if (groupPosition == 0) {
+			if (groupPosition == faq_position) {
 				HSKBItem kbItemClicked = (HSKBItem) mAdapter.getChild(groupPosition, childPosition);
 				articleClickedOnPosition(kbItemClicked);
 				return true;
 			}
-			if (groupPosition == 1) {
+			if (groupPosition == get_issues_position()) {
 				HSTicket ticket = (HSTicket) mAdapter.getChild(groupPosition, childPosition);
 				HSActivityManager.startIssueDetailActivity(getHelpStackActivity(), ticket);
 				return true;
@@ -283,23 +290,25 @@ public class HomeFragment extends HSFragmentParent {
 
 	private void refreshList() {
 		mAdapter.clearAll();
-        mAdapter.addParent(0, getString(R.string.hs_articles_title));
 
-		if (fetchedKbArticles != null) {
-			for (int i = 0; i < fetchedKbArticles.length ; i++) {
-				HSKBItem item = fetchedKbArticles[i];
+        if (fetchedTickets != null && fetchedTickets.length > 0) {
+            faq_position = 1;
+			mAdapter.addParent(0, getString(R.string.hs_issues_title));
+
+			for (int i = 0; i < fetchedTickets.length ; i++) {
+				HSTicket item = fetchedTickets[i];
 				mAdapter.addChild(0, item);
 			}
 		}
 
-		if (fetchedTickets != null && fetchedTickets.length > 0) {
-			mAdapter.addParent(1, getString(R.string.hs_issues_title));
+        mAdapter.addParent(faq_position, getString(R.string.hs_articles_title));
 
-			for (int i = 0; i < fetchedTickets.length ; i++) {
-				HSTicket item = fetchedTickets[i];
-				mAdapter.addChild(1, item);
-			}
-		}
+        if (fetchedKbArticles != null) {
+            for (int i = 0; i < fetchedKbArticles.length ; i++) {
+                HSKBItem item = fetchedKbArticles[i];
+                mAdapter.addChild(faq_position, item);
+            }
+        }
 
 		mAdapter.notifyDataSetChanged();
 		expandAll();
@@ -341,13 +350,13 @@ public class HomeFragment extends HSFragmentParent {
 				holder = (ChildViewHolder) convertView.getTag();
 			}
 
-			if (groupPosition == 0) {
-				HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
-				holder.textView1.setText(item.getSubject());
+			if (groupPosition == faq_position) {
+                HSKBItem item = (HSKBItem) getChild(groupPosition, childPosition);
+                holder.textView1.setText(item.getSubject());
 			}
-			else if (groupPosition == 1){
-				HSTicket item = (HSTicket) getChild(groupPosition, childPosition);
-				holder.textView1.setText(item.getSubject());
+			else if (groupPosition == get_issues_position()){
+                HSTicket item = (HSTicket) getChild(groupPosition, childPosition);
+                holder.textView1.setText(item.getSubject());
 			}
 
 			return convertView;
@@ -380,4 +389,8 @@ public class HomeFragment extends HSFragmentParent {
 			TextView textView1;
 		}
 	}
+
+    private int get_issues_position() {
+        return 1 - faq_position;
+    }
 }

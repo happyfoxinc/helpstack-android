@@ -40,10 +40,9 @@ public class HSActivityParent extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
 		// Handling actionbar title when activity changes so activity does not have to handle it.
 		if (savedInstanceState != null) {
-
             getHelpStackActionBar().setTitle(savedInstanceState.getString(ACTION_BAR_TITLE));
 		}
 		getSupportActionBar().setHomeButtonEnabled(true);
