@@ -124,7 +124,6 @@ public class NewIssueFragment extends HSFragmentParent {
 
         if (!HSHelpStack.getInstance(getActivity()).getShowCredits()) {
             rootView.findViewById(R.id.footerTextLabel).setVisibility(View.GONE);
-            rootView.findViewById(R.id.footerDivider).setVisibility(View.GONE);
         }
 
         return rootView;
