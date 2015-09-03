@@ -259,7 +259,7 @@ public class IssueDetailFragment extends HSFragmentParent {
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
 				alertBuilder.setTitle(getResources().getString(R.string.hs_attachment));
-				alertBuilder.setIcon(R.drawable.hs_attachment_img);
+				alertBuilder.setIcon(R.drawable.hs_attachment);
 				String[] attachmentOptions = {getResources().getString(R.string.hs_change), getResources().getString(R.string.hs_remove)};
 				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
 					

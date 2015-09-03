@@ -92,7 +92,7 @@ public class AttachmentDownloadReceiver extends BroadcastReceiver {
     	notificationBuilder.setAutoCancel(true);
     	notificationBuilder.setContentText(text.toString());
     	notificationBuilder.setContentTitle(filename);
-    	notificationBuilder.setSmallIcon(R.drawable.hs_notification_download_light_img);
+    	notificationBuilder.setSmallIcon(R.drawable.hs_download_light);
     	notificationBuilder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
     	notificationBuilder.setContentIntent(getPendingIntent(context));
     	
