@@ -330,8 +330,7 @@ public class IssueDetailFragment extends HSFragmentParent {
 					selectedAttachment = null;
 					replyEditTextView.setText("");
 					resetAttachmentImage();
-					
-					
+
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 					
 					scrollListToBottom();
