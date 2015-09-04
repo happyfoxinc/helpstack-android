@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
     tools:context="com.tenmiles.helpstack.NewIssueActivity$PlaceholderFragment"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,13 +12,13 @@
 
         <EditText
             android:id="@+id/subjectField"
+            style="@style/hs_editTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="8dp"
             android:hint="@string/hs_subject_hint"
-            android:inputType="textEmailSubject"
             android:lines="1"
             android:text="" />
 
@@ -34,9 +33,9 @@
             android:src="@drawable/hs_attachment_icon" />
     </LinearLayout>
 
-
     <EditText
         android:id="@+id/messageField"
+        style="@style/hs_editTextStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

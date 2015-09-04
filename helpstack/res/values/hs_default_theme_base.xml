@@ -118,9 +118,7 @@
     
     <!-- Edit text default Style -->
     <style name="hs_editText_defaultStyle">
-        <item name="android:background">@color/hs_transparent_color</item>
-        <item name="android:textColor">@color/hs_editTextcolor</item>
-        <item name="android:textSize">@dimen/hs_default_text_size</item>
+        <item name="android:inputType">textCapSentences</item>
     </style>
     
     
