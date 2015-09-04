@@ -226,6 +226,8 @@ public class NewIssueFragment extends HSFragmentParent {
                                 getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
                             }
                         });
+
+                Toast.makeText(getActivity(), getResources().getString(R.string.hs_creating_issue), Toast.LENGTH_LONG).show();
             }
             else {
                 HSActivityManager.startNewUserActivity(this, REQUEST_CODE_NEW_TICKET, getSubject(), formattedBody, attachmentArray);

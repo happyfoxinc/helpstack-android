@@ -20,6 +20,7 @@
     <string name="hs_new_user_message">Enter your contact details to reach you later</string>
 
     <!-- Strings used in new Issue screen -->
+    <string name="hs_creating_issue">Creating issue</string>
     <string name="hs_issue_created_raised">Your issue has been created and raised</string>
     <string name="hs_new_issue_title">Report Issue</string>
     <string name="hs_subject_hint">Subject</string>

@@ -173,40 +173,42 @@ public class NewUserFragment extends HSFragmentParent {
 
             getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 
-			gearSource.checkForUserDetailsValidity("NEW_USER", getFirstName(), getLastName(), 
-					getEmailAdddress(), new OnFetchedSuccessListener() {
-				
-				@Override
-				public void onSuccess(Object successObject) {
-                    String formattedBody = message;
+			gearSource.checkForUserDetailsValidity("NEW_USER", getFirstName(), getLastName(),
+                    getEmailAdddress(), new OnFetchedSuccessListener() {
 
-                    gearSource.createNewTicket("NEW_TICKET", (HSUser)successObject, subject, formattedBody, attachmentArray,
-                            new OnNewTicketFetchedSuccessListener() {
+                        @Override
+                        public void onSuccess(Object successObject) {
+                            String formattedBody = message;
 
-                                @Override
-                                public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
-                                    getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-                                    sendSuccessSignal(ticket);
-                                    gearSource.clearTicketDraft();
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
-                                }
+                            gearSource.createNewTicket("NEW_TICKET", (HSUser) successObject, subject, formattedBody, attachmentArray,
+                                    new OnNewTicketFetchedSuccessListener() {
 
-                            }, new ErrorListener() {
+                                        @Override
+                                        public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
+                                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                                            sendSuccessSignal(ticket);
+                                            gearSource.clearTicketDraft();
+                                            Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
+                                        }
 
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_reporting_issue), getResources().getString(R.string.hs_error_check_network_connection));
-                                    getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-                                }
-                            });
-				}
-			}, new ErrorListener() {
+                                    }, new ErrorListener() {
 
-				@Override
-				public void onErrorResponse(VolleyError error) {
-					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-				}
-			});
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_reporting_issue), getResources().getString(R.string.hs_error_check_network_connection));
+                                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                                        }
+                                    });
+                        }
+                    }, new ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                        }
+                    });
+
+            Toast.makeText(getActivity(), getResources().getString(R.string.hs_creating_issue), Toast.LENGTH_LONG).show();
 			
 			return true;
 		}
