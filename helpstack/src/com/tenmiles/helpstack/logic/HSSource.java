@@ -323,13 +323,13 @@ public class HSSource {
         builder.append(Build.MODEL);
 		builder.append("\nAndroid version: ");
 		builder.append(Build.VERSION.SDK_INT);
-		builder.append("\nApp package :");
+		builder.append("\nApp package: ");
 		try {
 			builder.append(activity.getPackageManager().getPackageInfo(activity.getPackageName(),0).packageName);
 		} catch (NameNotFoundException e) {
 			builder.append("NA");
 		}
-		builder.append("\nApp version :");
+		builder.append("\nApp version: ");
 		try {
 			builder.append(activity.getPackageManager().getPackageInfo(activity.getPackageName(),0).versionCode);
 		} catch (NameNotFoundException e) {
