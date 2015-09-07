@@ -46,6 +46,8 @@
         android:gravity="left|top"
         android:hint="@string/hs_message_hint"
         android:minLines="4"
+        android:inputType="textCapSentences|textMultiLine"
+        android:scrollbars="vertical"
         android:text=""/>
 
     <TextView
