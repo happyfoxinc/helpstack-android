@@ -11,8 +11,8 @@
         android:layout_height="match_parent"
         android:groupIndicator="@null"
         android:layout_above="@+id/replyLayout"
-        android:dividerHeight="1dip"
         android:listSelector="#0000"
+        android:childDivider="@color/hs_transparent_color"
         android:cacheColorHint="@color/hs_transparent_color" />
 
     <RelativeLayout
@@ -26,16 +26,19 @@
         <ImageView 
             android:id="@+id/attachmentbutton"
             android:layout_alignParentLeft="true"
-            android:layout_alignBottom="@+id/replyEditText"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
             android:layout_height="30dp"
             android:layout_width="30dp"
             android:src="@drawable/hs_add_attachment"/>
 
         <EditText
             android:id="@+id/replyEditText"
+            android:theme="@style/hs_editText_defaultStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="4dp"
             android:layout_toRightOf="@id/attachmentbutton"
             android:layout_marginRight="5dp"
             android:gravity="bottom"
@@ -46,12 +49,13 @@
         <ImageView
             android:id="@+id/button1"
             android:layout_alignBottom="@+id/replyEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="4dp"
             android:layout_alignParentRight="true"
             android:background="@color/hs_transparent_color"
             android:contentDescription="@string/hs_sendbutton_title"
-            android:src="@drawable/hs_send_now_img"
+            android:src="@drawable/hs_send"
             />
 
     </RelativeLayout>

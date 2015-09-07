@@ -34,41 +34,40 @@ import java.util.TimeZone;
 public class HSUtils {
 	
 	private static final long TIME_MILLIS = 1000;
-	private static final long TIME_MINUTE = 60*TIME_MILLIS;
-	private static final long TIME_HOUR = 60*TIME_MINUTE;
-	private static final long TIME_DAY = 24*TIME_HOUR;
+	private static final long TIME_MINUTE = 60 * TIME_MILLIS;
+	private static final long TIME_HOUR = 60 * TIME_MINUTE;
+	private static final long TIME_DAY = 24 * TIME_HOUR;
 	
 	public static final String DATE_PATTERN_SHORT = "yyyy-MM-dd";
 	public static final String DATE_PATTERN_MEDIUM = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_PATTERN_USER_DISPLAY_SHORT = "dd-MMM, yyyy";
 	
 	public HSUtils() {
-		
 	}
-	
-	
+
 	//TODO: optimize this function
-	public  static String convertToHumanReadableTime(Date givenDate, long currentTimeLong) {
-		
+	public static String convertToHumanReadableTime(Date givenDate, long currentTimeLong) {
+
 		Calendar currentTime = Calendar.getInstance();
 		currentTime.setTimeZone(TimeZone.getTimeZone("UTC"));
 		currentTime.setTimeInMillis(currentTimeLong);
+
 		Calendar givenTime = Calendar.getInstance();
 		givenTime.setTimeZone(TimeZone.getTimeZone("UTC"));
 		givenTime.setTime(givenDate);
+
 		// Step 1: To see if time difference is less than 24 hours of not
 		long timeDiff = currentTime.getTimeInMillis() - givenTime.getTimeInMillis();
 		if(timeDiff<=0) {
-			// I am not sure why can we here
 			return "Now";
 		}
 		
 		String humanString = null;
 		// Checking if timeDiff is less than 24 or not
 		if((timeDiff/TIME_DAY)>=1) {
-			// day
-			int day = (int) (timeDiff/TIME_DAY);
-			humanString = String.format(Locale.getDefault(),"%dd", day);
+			// days
+			int days = (int) (timeDiff/TIME_DAY);
+			humanString = String.format(Locale.getDefault(), "%dd", days);
 		}
 		else {
 			// checking if greater than hour
@@ -82,8 +81,7 @@ public class HSUtils {
 				humanString = String.format(Locale.getDefault(),"%ds", (timeDiff/TIME_MILLIS));
 			}
 		}
-		
-		
+
 		return humanString;
 	}
 	

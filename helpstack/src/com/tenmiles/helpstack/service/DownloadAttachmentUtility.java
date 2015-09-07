@@ -22,35 +22,32 @@
 
 package com.tenmiles.helpstack.service;
 
-import com.tenmiles.helpstack.R;
-
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
+import com.tenmiles.helpstack.R;
+
 public class DownloadAttachmentUtility {
 
 	public static long downloadAttachment(Context ctx, String url, String title) {
 		DownloadManager dm;
-		
-		dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
-		
-		DownloadManager.Request request = new DownloadManager.Request(
-                        Uri.parse(url));
-		request.setTitle(title);
-		request.setDescription(ctx.getString(R.string.hs_attachments));
+        dm = (DownloadManager) ctx.getSystemService(Context.DOWNLOAD_SERVICE);
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setTitle(title);
+        request.setDescription(ctx.getString(R.string.hs_attachments));
+
 		if(Build.VERSION.SDK_INT >= 11) {
 			request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
 			request.allowScanningByMediaScanner();
 		}
 		
 		long enqueue = dm.enqueue(request);
-        Toast.makeText(ctx, 
-        		ctx.getString(R.string.hs_attachments) + " " + title + ". " + ctx.getString(R.string.hs_notify_download_complete),
-				Toast.LENGTH_LONG)
-				.show();
+        final String toastText = ctx.getString(R.string.hs_attachments) + " " + title + ". " + ctx.getString(R.string.hs_notify_download_complete);
+        Toast.makeText(ctx, toastText, Toast.LENGTH_LONG).show();
         
         return enqueue;
 	}

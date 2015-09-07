@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
     <corners android:radius="6px"/>
     <solid android:color="@color/hs_rightchat_bubblecolor"/>
-    <padding android:left="10dp" android:right="10dp" android:bottom="10dp" android:top="10dp"/>
+    <padding android:left="10dp" android:right="10dp" android:bottom="6dp" />
 
 </shape>

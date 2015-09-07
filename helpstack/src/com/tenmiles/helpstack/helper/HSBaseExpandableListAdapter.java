@@ -22,14 +22,14 @@
 
 package com.tenmiles.helpstack.helper;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -43,7 +43,7 @@ import android.widget.BaseExpandableListAdapter;
  */
 public abstract class HSBaseExpandableListAdapter extends BaseExpandableListAdapter {
 	
-	ArrayList<Object> childrens = new ArrayList<Object>();
+	ArrayList<Object> children = new ArrayList<Object>();
 	SparseArray<Parent> groups = new SparseArray<Parent>();
 	
 	protected final LayoutInflater mLayoutInflater;
@@ -67,7 +67,7 @@ public abstract class HSBaseExpandableListAdapter extends BaseExpandableListAdap
 	}
 	
 	public void clearAll() {
-		childrens.clear();
+		children.clear();
 		groups.clear();
 	}
 
@@ -80,15 +80,15 @@ public abstract class HSBaseExpandableListAdapter extends BaseExpandableListAdap
 	// Please note the value of the previous parent will be overridden
 	public void addParent(int parentId, Object parent) {
 		assert parent!=null;
-		Parent parentholder = new Parent();
-		parentholder.id = parentId;
-		parentholder.parent = parent;
-		groups.put(parentId, parentholder);
+		Parent parentHolder = new Parent();
+		parentHolder.id = parentId;
+		parentHolder.parent = parent;
+		groups.put(parentId, parentHolder);
 	}
 	
 	public void addChild(int parentId, Object child) {
-		childrens.add(child);
-		int pos = childrens.indexOf(child);
+		children.add(child);
+		int pos = children.indexOf(child);
 		groups.get(parentId).childs.add(pos);
 	}
 	
@@ -101,7 +101,7 @@ public abstract class HSBaseExpandableListAdapter extends BaseExpandableListAdap
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		int childPos = groups.valueAt(groupPosition).childs.get(childPosition);
-		return childrens.get(childPos);
+		return children.get(childPos);
 	}
 
 	@Override
@@ -156,51 +156,50 @@ public abstract class HSBaseExpandableListAdapter extends BaseExpandableListAdap
 		return true;
 	}
 
-//Listeners
-	
-	protected OnChildItemClickListener childlistener;
-	protected OnParentItemClickListener parentlistener;
+    //Listeners
+	protected OnChildItemClickListener childListener;
+	protected OnParentItemClickListener parentListener;
 	
 	protected void sendChildClickEvent(int groupPosition, int childPosition,String type, Object map) {
-		if(childlistener!=null) {
-			childlistener.onChildListItemClick(groupPosition,childPosition,type,map);
+		if(childListener!=null) {
+			childListener.onChildListItemClick(groupPosition, childPosition, type, map);
 		}
 	}
 	
 	protected void sendParentItemClickEvent(int groupPosition,String type, Object obj) {
-		if(parentlistener!=null) {
-			parentlistener.onParentItemClicked(groupPosition,type,obj);
+		if(parentListener!=null) {
+			parentListener.onParentItemClicked(groupPosition, type, obj);
 		}
 	}
 	
 	protected boolean sendChildLongClickEvent(int groupPosition, int childPosition,String type, Object map) {
-		if(childlistener!=null) {
-			return childlistener.onChildListItemLongClick(groupPosition,childPosition,type, map);
+		if(childListener!=null) {
+			return childListener.onChildListItemLongClick(groupPosition,childPosition,type, map);
 		}
 		return false;
 	}
 	
 	protected void sendChildCheckedEvent(int groupPosition, int childPosition,String type,Object map,boolean checked) {
-		if(childlistener!=null) {
-			childlistener.onChildCheckedListner(groupPosition,childPosition,type, map,checked);
+		if(childListener!=null) {
+			childListener.onChildCheckedListener(groupPosition, childPosition, type, map, checked);
 		}
 	}
 		
 	public void setOnChildItemClickListener(OnChildItemClickListener listener) {
-		this.childlistener = listener;
+		this.childListener = listener;
 	}
 	
 	public void setOnParentItemClickListener(OnParentItemClickListener listener) {
-		this.parentlistener = listener;
+		this.parentListener = listener;
 	}
 	
 	public interface OnChildItemClickListener {
 		void onChildListItemClick(int groupPosition, int childPosition,String type,Object map);
-		void onChildCheckedListner(int groupPosition, int childPosition,String type,Object map,boolean checked);
-		boolean onChildListItemLongClick(int groupPosition, int childPosition,String type,Object map);
+		void onChildCheckedListener(int groupPosition, int childPosition, String type, Object map, boolean checked);
+		boolean onChildListItemLongClick(int groupPosition, int childPosition, String type, Object map);
 	}
 	
 	public interface OnParentItemClickListener {
-		void onParentItemClicked(int groupPosition,String type, Object obj);
+		void onParentItemClicked(int groupPosition, String type, Object obj);
 	}
 }

@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.text.method.LinkMovementMethod;
@@ -71,15 +72,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-public class IssueDetailFragment extends HSFragmentParent 
-{
+public class IssueDetailFragment extends HSFragmentParent {
 
 	private final int REQUEST_CODE_PHOTO_PICKER = 100;
-	
-	public IssueDetailFragment() {
-	}
-	
-	private ExpandableListView mExpandableListView;
+
+    private ExpandableListView mExpandableListView;
 	private LocalAdapter mAdapter;
 	private ImageView sendButton;
 	private EditText replyEditTextView;
@@ -89,18 +86,16 @@ public class IssueDetailFragment extends HSFragmentParent
 	private HSTicket ticket;
 	private HSTicketUpdate[] fetchedUpdates;
 	private HSAttachment selectedAttachment;
-	
-	
-	
-	
+
+    public IssueDetailFragment() {
+    }
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		View rootView = inflater.inflate(R.layout.hs_fragment_issue_detail, null);
 		
-		
-		replyEditTextView = (EditText) rootView.findViewById(R.id.replyEditText);
+        replyEditTextView = (EditText) rootView.findViewById(R.id.replyEditText);
 		sendButton = (ImageView)rootView.findViewById(R.id.button1);
 		sendButton.setOnClickListener(sendReplyListener);
 		
@@ -141,8 +136,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			ticket = (HSTicket) savedInstanceState.getSerializable("ticket");
 			selectedAttachment = (HSAttachment) savedInstanceState.getSerializable("selectedAttachment");
 			replyEditTextView.setText(savedInstanceState.getString("replyEditTextView"));
-			
-			
+
 			refreshList();
 			resetAttachmentImage();
 			
@@ -170,7 +164,6 @@ public class IssueDetailFragment extends HSFragmentParent
         super.onPause();
 
         HSAttachment[] attachmentArray = null;
-
         if (selectedAttachment != null) {
             attachmentArray = new HSAttachment[1];
             attachmentArray[0] = selectedAttachment;
@@ -182,27 +175,27 @@ public class IssueDetailFragment extends HSFragmentParent
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		
-		if(requestCode == REQUEST_CODE_PHOTO_PICKER && resultCode == Activity.RESULT_OK)
-		{
-
+		if(requestCode == REQUEST_CODE_PHOTO_PICKER && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = Uri.parse(intent.getStringExtra("URI"));
-			
-			//User had pick an image.
-	        Cursor cursor = getActivity().getContentResolver().query(selectedImage, new String[] { 
-	        		ImageColumns.DATA,
-	        		ImageColumns.DISPLAY_NAME, 
-	        		ImageColumns.MIME_TYPE }, null, null, null);
-	        cursor.moveToFirst();
-			
-	        String display_name = cursor.getString(cursor.getColumnIndex(ImageColumns.DISPLAY_NAME));
+
+	        Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                    new String[] {
+                        ImageColumns.DATA,
+                        ImageColumns.DISPLAY_NAME,
+                        ImageColumns.MIME_TYPE
+                    }, null, null, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+            }
+
+            String display_name = cursor.getString(cursor.getColumnIndex(ImageColumns.DISPLAY_NAME));
 	        String mime_type = cursor.getString(cursor.getColumnIndex(ImageColumns.MIME_TYPE));
-	        
-	        cursor.close();
+
+            cursor.close();
 	        
 	        selectedAttachment = HSAttachment.createAttachment(selectedImage.toString(), display_name, mime_type);
-			
 			resetAttachmentImage();
-            
         }
 	};
 	
@@ -214,16 +207,13 @@ public class IssueDetailFragment extends HSFragmentParent
 	}
 	
 	private void refreshUpdateFromServer() {
-		
 		getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 		
 		gearSource.requestAllUpdatesOnTicket("ALL_UPDATES", ticket, new OnFetchedArraySuccessListener() {
 			
 			@Override
 			public void onSuccess(Object[] successObject) {
-				
 				fetchedUpdates = (HSTicketUpdate[]) successObject;
-				
 				refreshList();
 				
 				getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
@@ -242,21 +232,17 @@ public class IssueDetailFragment extends HSFragmentParent
 	private OnChildItemClickListener listChildClickListener = new OnChildItemClickListener() {
 		
 		@Override
-		public boolean onChildListItemLongClick(int groupPosition,
-				int childPosition, String type, Object map) {
+		public boolean onChildListItemLongClick(int groupPosition, int childPosition, String type, Object map) {
 			return false;
 		}
 		
 		@Override
-		public void onChildListItemClick(int groupPosition, int childPosition,
-				String type, Object map) {
+		public void onChildListItemClick(int groupPosition, int childPosition, String type, Object map) {
 			showAttachments(((HSTicketUpdate)map).getAttachments());
 		}
 		
 		@Override
-		public void onChildCheckedListner(int groupPosition, int childPosition,
-				String type, Object map, boolean checked) {
-			
+		public void onChildCheckedListener(int groupPosition, int childPosition, String type, Object map, boolean checked) {
 		}
 	};
 	
@@ -273,7 +259,7 @@ public class IssueDetailFragment extends HSFragmentParent
 			else {
 				AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
 				alertBuilder.setTitle(getResources().getString(R.string.hs_attachment));
-				alertBuilder.setIcon(R.drawable.hs_attachment_img);
+				alertBuilder.setIcon(R.drawable.hs_attachment);
 				String[] attachmentOptions = {getResources().getString(R.string.hs_change), getResources().getString(R.string.hs_remove)};
 				alertBuilder.setItems(attachmentOptions, new DialogInterface.OnClickListener() {
 					
@@ -292,7 +278,6 @@ public class IssueDetailFragment extends HSFragmentParent
 				});
 				alertBuilder.create().show();
 			}
-			
 		}
 	};
 	
@@ -300,7 +285,6 @@ public class IssueDetailFragment extends HSFragmentParent
 		
 		@Override
 		public void onClick(View v) {
-			
 			String message = replyEditTextView.getText().toString();
 			if(message.trim().length() == 0) {
 				return;
@@ -308,18 +292,19 @@ public class IssueDetailFragment extends HSFragmentParent
 			
 			getHelpStackActivity().setProgressBarIndeterminateVisibility(true);
 			sendButton.setEnabled(false);
-            sendButton.setAlpha((float)0.4);
-			
-			HSAttachment[] attachmentArray = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                sendButton.setAlpha((float)0.4);
+            }
+
+            HSAttachment[] attachmentArray = null;
 			
 			if (selectedAttachment != null) {
 				attachmentArray = new HSAttachment[1];
 				attachmentArray[0] = selectedAttachment;
 			}
 			
-			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
-				      Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(replyEditTextView.getWindowToken(), 0);
+			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(replyEditTextView.getWindowToken(), 0);
 				
 			gearSource.addReplyOnATicket("REPLY_TO_A_TICKET", message, attachmentArray, ticket, new OnFetchedSuccessListener() {
 				
@@ -328,8 +313,10 @@ public class IssueDetailFragment extends HSFragmentParent
                     clearFormData();
                     
 					sendButton.setEnabled(true);
-                    sendButton.setAlpha((float)1.0);
-					HSTicketUpdate update = (HSTicketUpdate) successObject;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        sendButton.setAlpha((float)1.0);
+                    }
+                    HSTicketUpdate update = (HSTicketUpdate) successObject;
 					
 					ArrayList<HSTicketUpdate> updateList = new ArrayList<HSTicketUpdate>();
 					updateList.addAll(Arrays.asList(fetchedUpdates));
@@ -343,8 +330,7 @@ public class IssueDetailFragment extends HSFragmentParent
 					selectedAttachment = null;
 					replyEditTextView.setText("");
 					resetAttachmentImage();
-					
-					
+
 					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 					
 					scrollListToBottom();
@@ -355,8 +341,10 @@ public class IssueDetailFragment extends HSFragmentParent
 				public void onErrorResponse(VolleyError error) {
 					HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error), getResources().getString(R.string.hs_error_posting_reply));
 					sendButton.setEnabled(true);
-                    sendButton.setAlpha((float)1.0);
-					getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        sendButton.setAlpha((float)1.0);
+                    }
+                    getHelpStackActivity().setProgressBarIndeterminateVisibility(false);
 				}
 			});
 		}
@@ -375,23 +363,20 @@ public class IssueDetailFragment extends HSFragmentParent
 	}
 	
 	private void refreshList() {
-		
 		mAdapter.clearAll();
 		
 		if (fetchedUpdates != null) {
 			mAdapter.addParent(1, "");
-			for (int i = 0; i < fetchedUpdates.length; i++) {
-				mAdapter.addChild(1, fetchedUpdates[i]);
-			}
+            for (HSTicketUpdate fetchedUpdate : fetchedUpdates) {
+                mAdapter.addChild(1, fetchedUpdate);
+            }
 		}
 		
 		mAdapter.notifyDataSetChanged();
-		
 		expandAll();
 	}
 
 	private void showAttachments(final HSAttachment[] attachmentsArray) {
-		
 		if (attachmentsArray.length == 1) {
 			HSAttachment attachmentToShow = attachmentsArray[0];
 			openAttachment(attachmentToShow);
@@ -402,6 +387,7 @@ public class IssueDetailFragment extends HSFragmentParent
 		for(HSAttachment attachment : attachmentsArray) {
 			attachments.add(attachment.getFileName());
 		}
+
 		String[] attachmentNames = attachments.toArray(new String[attachments.size()]);
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -427,16 +413,13 @@ public class IssueDetailFragment extends HSFragmentParent
         dialog.show();
 	}
 
-
-	private class LocalAdapter extends HSBaseExpandableListAdapter 
-	{
+	private class LocalAdapter extends HSBaseExpandableListAdapter {
 		public LocalAdapter(Context context) {
 			super(context);
 		}
 
 		@Override
-		public View getChildView(final int groupPosition, final int childPosition,
-				boolean isLastChild, View convertView, ViewGroup parent) {
+		public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 			ChildViewHolder holder;
 			if (convertView == null) {
 				holder = new ChildViewHolder();
@@ -475,21 +458,22 @@ public class IssueDetailFragment extends HSFragmentParent
                 holder.textView1.setText(text);
             }
 
-
-			
 			if(update.isUserUpdate()) {
 				holder.nameField.setText(getResources().getString(R.string.hs_me));
-			}else {
+			}
+            else {
 				if(update.name != null) {
 					holder.nameField.setText(update.name);
-				} else {
+				}
+                else {
 					holder.nameField.setText(getResources().getString(R.string.hs_staff));
 				}
 			}
 			
-			if(update.isAttachmentEmtpy()) {
+			if(update.isAttachmentEmpty()) {
 				holder.attachmentButton.setVisibility(View.INVISIBLE);
-			}else {
+			}
+            else {
 				holder.attachmentButton.setVisibility(View.VISIBLE);
 				holder.attachmentButton.setFocusable(true);
 				holder.attachmentButton.setOnClickListener(new OnClickListener() {
@@ -502,7 +486,6 @@ public class IssueDetailFragment extends HSFragmentParent
 			}
 			
 			Date updatedTime = update.getUpdatedTime();
-			
 			String dateString = HSUtils.convertToHumanReadableTime(updatedTime, Calendar.getInstance().getTimeInMillis());
 			holder.timeField.setText(dateString.trim());
 			
@@ -510,15 +493,13 @@ public class IssueDetailFragment extends HSFragmentParent
 		}
 
 		@Override
-		public View getGroupView(int groupPosition, boolean isExpanded,
-				View convertView, ViewGroup parent) {
+		public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 			ParentViewHolder holder;
 			if (convertView == null) {
 				convertView = mLayoutInflater.inflate(R.layout.hs_expandable_parent_issue_detail_default, null);
 				holder = new ParentViewHolder();
 				holder.parent = convertView;
-				
-				convertView.setTag(holder);
+                convertView.setTag(holder);
 			}
 			else {
 				holder = (ParentViewHolder) convertView.getTag();
@@ -565,7 +546,6 @@ public class IssueDetailFragment extends HSFragmentParent
 			this.mAttachmentButton.setImageResource(R.drawable.hs_add_attachment);
 		}
 		else {
-			
 			try {
 				Uri uri = Uri.parse(selectedAttachment.getUrl());
 				Bitmap selectedBitmap;
@@ -574,16 +554,12 @@ public class IssueDetailFragment extends HSFragmentParent
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			
-			
 		}
-		
 	}
 	
 	private void scrollListToBottom() {
 		mExpandableListView.setSelectedChild(0, mAdapter.getChildrenCount(0) - 1, true);
 	}
-	
 
 	/**
 	 * @return the ticket
@@ -599,9 +575,7 @@ public class IssueDetailFragment extends HSFragmentParent
 	public void setTicket(HSTicket ticket) {
 		this.ticket = ticket;
 	}
-	
-	
-	
+
 	/// Attachments
 	private void openAttachment(HSAttachment attachment) {
 		if(knownAttachmentType(attachment)) {
@@ -610,12 +584,10 @@ public class IssueDetailFragment extends HSFragmentParent
 		else {
 			downloadAttachment(attachment);
 		}
-
 	}
 	
-	private boolean knownAttachmentType(HSAttachment attachment) 
-	{
-		String mime_type = attachment.getMime_type();
+	private boolean knownAttachmentType(HSAttachment attachment) {
+		String mime_type = attachment.getMimeType();
 		if (mime_type != null  && mime_type.startsWith("image")) {
 			return true;
 		}
@@ -628,16 +600,16 @@ public class IssueDetailFragment extends HSFragmentParent
 	
 	private boolean isKnowFileNameType(String file_name) {
 		// get the type of file
-		StringTokenizer strtok = new StringTokenizer(file_name, ".");
+		StringTokenizer stringTokenizer = new StringTokenizer(file_name, ".");
 
 		// getting the last token
 		String fileType = null;
-		while (strtok.hasMoreTokens()) {
+		while (stringTokenizer.hasMoreTokens()) {
 			// parsing to get last token
-			fileType = strtok.nextToken();
+			fileType = stringTokenizer.nextToken();
 		}
 		String[] knownFileType = {"png", "jpg", "jpeg"};
-		if(containString(knownFileType,fileType.toLowerCase())) {
+		if(fileType!=null && containString(knownFileType, fileType.toLowerCase())) {
 			return true;
 		}
 		return false;

@@ -49,7 +49,6 @@
         <item name="android:textSize">@dimen/hs_listView_ChildView_TextSize</item>
     </style>
     
-    
     <!-- Chat screen - right chat bubble color, if using this no need to change property of bubble and bubble triangle -->
     <color name="hs_rightchat_bubblecolor">@color/hs_rightchat_bubblecolor_defaultColor</color>
     
@@ -76,15 +75,12 @@
         <item name="android:background">@drawable/left_chat_bubble_triangle</item> 
     </style>
     
-    
-    
     <!-- Chat screen - message text default Style -->
     <style name="hs_messageText_defaultStyle">
         <item name="android:paddingTop">3dp</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">@dimen/hs_message_TextSize</item>
         <item name="android:gravity">left</item>
-        <item name="android:minWidth">100dp</item>
         <item name="android:linksClickable">true</item>
         <item name="android:textColorLink">#306EFF</item>
     </style>
@@ -118,11 +114,7 @@
     
     <!-- Edit text default Style -->
     <style name="hs_editText_defaultStyle">
-        <item name="android:background">@color/hs_transparent_color</item>
-        <item name="android:textColor">@color/hs_editTextcolor</item>
-        <item name="android:textSize">@dimen/hs_default_text_size</item>
+        <item name="android:inputType">textCapSentences</item>
     </style>
-    
-    
 
 </resources>

@@ -31,8 +31,7 @@ import com.tenmiles.helpstack.logic.HSGear;
  */
 public class HSEmailGear extends HSGear {
 
-	public HSEmailGear(String supportEmailAddress, int localArticleResId) 
-	{
+    public HSEmailGear(String supportEmailAddress, int localArticleResId) {
 		setNotImplementingKBFetching(localArticleResId);
 		setNotImplementingTicketsFetching(supportEmailAddress);
 	}

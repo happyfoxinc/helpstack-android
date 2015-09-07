@@ -5,6 +5,12 @@
     style="@style/hs_listView_headerBackgroundStyle"
     android:orientation="vertical" >
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        style="@style/hs_backgroundStyle"
+        />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"

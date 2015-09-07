@@ -22,9 +22,9 @@
 
 package com.tenmiles.helpstack.model;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * 

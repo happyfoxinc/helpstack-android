@@ -39,9 +39,9 @@ import com.tenmiles.helpstack.HSHelpStack;
 import com.tenmiles.helpstack.activities.HSActivityManager;
 import com.tenmiles.helpstack.fragments.HSFragmentParent;
 import com.tenmiles.helpstack.model.HSAttachment;
-import com.tenmiles.helpstack.model.HSDraft;
 import com.tenmiles.helpstack.model.HSCachedTicket;
 import com.tenmiles.helpstack.model.HSCachedUser;
+import com.tenmiles.helpstack.model.HSDraft;
 import com.tenmiles.helpstack.model.HSKBItem;
 import com.tenmiles.helpstack.model.HSTicket;
 import com.tenmiles.helpstack.model.HSTicketUpdate;
@@ -94,39 +94,32 @@ public class HSSource {
 	private HSGear gear;
 	private Context mContext;
 	private RequestQueue mRequestQueue;
-	
 	private HSCachedTicket cachedTicket;
 	private HSCachedUser cachedUser;
-
     private HSDraft draftObject;
 	
 	private HSSource(Context context) {
 		this.mContext = context;
 		setGear(HSHelpStack.getInstance(context).getGear());
 		mRequestQueue = HSHelpStack.getInstance(context).getRequestQueue();
-		
 		refreshFieldsFromCache();
 	}
-	
 
 	public void requestKBArticle(String cancelTag, HSKBItem section, OnFetchedArraySuccessListener success, ErrorListener errorListener ) {
 		
 		if (gear.haveImplementedKBFetching()) {
-			
 			gear.fetchKBArticle(cancelTag, section,mRequestQueue,  new SuccessWrapper(success) {
-				@Override
+
+                @Override
 				public void onSuccess(Object[] successObject) {
-					
-					assert successObject != null  : "It seems requestKBArticle was not implemented in gear" ;
+                    assert successObject != null  : "It seems requestKBArticle was not implemented in gear" ;
 
 					// Do your work here, may be caching, data validation etc.
 					super.onSuccess(successObject);
-					
 				}
 			}, new ErrorWrapper("Fetching KB articles", errorListener));
 		}
 		else {
-			
 			try {
 				HSArticleReader reader = new HSArticleReader(gear.getLocalArticleResourceId());
 				success.onSuccess(reader.readArticlesFromResource(mContext));
@@ -141,7 +134,6 @@ public class HSSource {
 	}
 	
 	public void requestAllTickets(OnFetchedArraySuccessListener success, ErrorListener error ) {
-		
 		if (cachedTicket == null) {
 			success.onSuccess(new HSTicket[0]);
 		}
@@ -157,10 +149,9 @@ public class HSSource {
 	public void createNewTicket(String cancelTag, HSUser user, String subject, String message, HSAttachment[] attachment,  OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
 		
 		HSUploadAttachment[] upload_attachments = convertAttachmentArrayToUploadAttachment(attachment);
-		
 		message = message + getDeviceInformation(mContext);
 		
-		if (gear.canUplaodMessageAsHtmlString()) {
+		if (gear.canUploadMessageAsHtmlString()) {
 			message = Html.toHtml(new SpannableString(message));
 		}
 		
@@ -185,7 +176,7 @@ public class HSSource {
 	
 	public void addReplyOnATicket(String cancelTag, String message, HSAttachment[] attachments,  HSTicket ticket,  OnFetchedSuccessListener success, ErrorListener errorListener) {
 		
-		if (gear.canUplaodMessageAsHtmlString()) {
+		if (gear.canUploadMessageAsHtmlString()) {
 			message = Html.toHtml(new SpannableString(message));
 		}
 		
@@ -304,14 +295,14 @@ public class HSSource {
 		if (haveImplementedTicketFetching()) {
 			if(isNewUser()) {
                 HSActivityManager.startNewIssueActivity(fragment, null, requestCode);
-			}else {
+			}
+            else {
 				HSActivityManager.startNewIssueActivity(fragment, getUser(), requestCode);
 			}
 		}
 		else {
 			launchEmailAppWithEmailAddress(fragment.getActivity());
 		}
-		
 	}
 
 	public void launchEmailAppWithEmailAddress(Activity activity) {
@@ -328,17 +319,17 @@ public class HSSource {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n\n\n");
 		builder.append("========");
-		builder.append("\nDevice Android version : ");
+        builder.append("\nDevice brand: ");
+        builder.append(Build.MODEL);
+		builder.append("\nAndroid version: ");
 		builder.append(Build.VERSION.SDK_INT);
-		builder.append("\nDevice brand : ");
-		builder.append(Build.MODEL);
-		builder.append("\nApplication package :");
+		builder.append("\nApp package :");
 		try {
 			builder.append(activity.getPackageManager().getPackageInfo(activity.getPackageName(),0).packageName);
 		} catch (NameNotFoundException e) {
 			builder.append("NA");
 		}
-		builder.append("\nApplication version :");
+		builder.append("\nApp version :");
 		try {
 			builder.append(activity.getPackageManager().getPackageInfo(activity.getPackageName(),0).versionCode);
 		} catch (NameNotFoundException e) {
@@ -351,7 +342,6 @@ public class HSSource {
 	public void cancelOperation(String cancelTag) {
 		mRequestQueue.cancelAll(cancelTag);
 	}
-	
 	
 	/////////////////////////////////////////////////
 	////////     Utility Functions  /////////////////
@@ -381,16 +371,16 @@ public class HSSource {
 		try {
 			StringBuilder datax = new StringBuilder();
 			inputStream = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader ( inputStream ) ;
-            BufferedReader buffreader = new BufferedReader ( isr ) ;
+			InputStreamReader isr = new InputStreamReader(inputStream);
+            BufferedReader bufferReader = new BufferedReader(isr);
 
-            String readString = buffreader.readLine ( ) ;
-            while ( readString != null ) {
+            String readString = bufferReader.readLine();
+            while (readString != null) {
                 datax.append(readString);
-                readString = buffreader.readLine ( ) ;
+                readString = bufferReader.readLine();
             }
 
-            isr.close ( ) ;
+            isr.close();
             
             json = datax.toString();
             return json;
@@ -416,37 +406,28 @@ public class HSSource {
 	}
 	
 	protected void doSaveNewTicketPropertiesForGearInCache(HSTicket ticket) {
-		
-		cachedTicket.addTicketAtStart(ticket);
+        cachedTicket.addTicketAtStart(ticket);
 		
 		Gson gson = new Gson();
 		String ticketsgson = gson.toJson(cachedTicket);
-		
-		
-		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
+        File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
 		
 		writeJsonIntoFile(ticketFile, ticketsgson);
-		
 	}
 	
 	protected void doSaveNewUserPropertiesForGearInCache(HSUser user) {
-		
 		cachedUser.setUser(user);
 		
 		Gson gson = new Gson();
 		String userjson = gson.toJson(cachedUser);
-		
-		File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
+        File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
 		
 		writeJsonIntoFile(userFile, userjson);
-		
 	}
 	
 	protected void doReadTicketsFromCache() {
-		
 		File ticketFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_FILE_NAME);
-		
-		String json = readJsonFromFile(ticketFile);
+        String json = readJsonFromFile(ticketFile);
 		
 		if (json == null) {
 			cachedTicket = new HSCachedTicket();
@@ -457,13 +438,9 @@ public class HSSource {
 		}
 	}
 	
-	
-	
-	protected void doReadUserFromCache() {
-		
-		File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
-		
-		String json = readJsonFromFile(userFile);
+    protected void doReadUserFromCache() {
+        File userFile = new File(getProjectDirectory(), HELPSTACK_TICKETS_USER_DATA);
+        String json = readJsonFromFile(userFile);
 		
 		if (json == null) {
 			cachedUser = new HSCachedUser();
@@ -476,7 +453,6 @@ public class HSSource {
 
     protected void doReadDraftFromCache() {
         File draftFile = new File(getProjectDirectory(), HELPSTACK_DRAFT);
-
         String json = readJsonFromFile(draftFile);
 
         if (json == null) {
@@ -497,7 +473,7 @@ public class HSSource {
     }
 
     protected void doSaveUserDraftForGearInCache(HSUser user) {
-        draftObject.setDraftUSer(user);
+        draftObject.setDraftUser(user);
         writeDraftIntoFile();
     }
 
@@ -518,7 +494,6 @@ public class HSSource {
     }
 
     protected File getProjectDirectory() {
-		
 		File projDir = new File(mContext.getFilesDir(), HELPSTACK_DIRECTORY);
 		if (!projDir.exists())
 		    projDir.mkdirs();
@@ -534,21 +509,19 @@ public class HSSource {
         saveReplyDetailsInDraft("", null);
     }
 
-    private class NewTicketSuccessWrapper implements OnNewTicketFetchedSuccessListener
-	{
+    private class NewTicketSuccessWrapper implements OnNewTicketFetchedSuccessListener {
 
-		private OnNewTicketFetchedSuccessListener lastListner;
+		private OnNewTicketFetchedSuccessListener lastListener;
 
-		public NewTicketSuccessWrapper(OnNewTicketFetchedSuccessListener lastListner) {
-			this.lastListner = lastListner;
+		public NewTicketSuccessWrapper(OnNewTicketFetchedSuccessListener lastListener) {
+			this.lastListener = lastListener;
 		}
 		
 		@Override
 		public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
-			if (lastListner != null)
-				lastListner.onSuccess(udpatedUserDetail, ticket);
+			if (lastListener != null)
+				lastListener.onSuccess(udpatedUserDetail, ticket);
 		}
-		
 	}
 	
 	protected HSUploadAttachment[] convertAttachmentArrayToUploadAttachment(HSAttachment[] attachment) {
@@ -557,7 +530,7 @@ public class HSSource {
 		
 		if (attachment != null && attachment.length > 0) {
 			int attachmentCount = gear.getNumberOfAttachmentGearCanHandle();
-			assert attachmentCount >=  attachment.length : "Gear cannot handle more than "+attachmentCount+" attachmnets";
+			assert attachmentCount >=  attachment.length : "Gear cannot handle more than "+attachmentCount+" attachments";
 			upload_attachments = new HSUploadAttachment[attachment.length];
 			for (int i = 0; i < upload_attachments.length; i++) {
 				upload_attachments[i] = new HSUploadAttachment(mContext, attachment[i]);
@@ -567,21 +540,19 @@ public class HSSource {
 		return upload_attachments;
 	}
 	
-	private class SuccessWrapper implements OnFetchedArraySuccessListener
-	{
+	private class SuccessWrapper implements OnFetchedArraySuccessListener {
 
-		private OnFetchedArraySuccessListener lastListner;
+		private OnFetchedArraySuccessListener lastListener;
 
-		public SuccessWrapper(OnFetchedArraySuccessListener lastListner) {
-			this.lastListner = lastListner;
+		public SuccessWrapper(OnFetchedArraySuccessListener lastListener) {
+			this.lastListener = lastListener;
 		}
 		
 		@Override
 		public void onSuccess(Object[] successObject) {
-			if (lastListner != null)
-				lastListner.onSuccess(successObject);
+			if (lastListener != null)
+				lastListener.onSuccess(successObject);
 		}
-		
 	}
 
     private class OnFetchedSuccessListenerWrapper implements OnFetchedSuccessListener {
@@ -595,7 +566,6 @@ public class HSSource {
             this.message = message;
             this.attachments = attachments;
         }
-
 
         @Override
         public void onSuccess(Object successObject) {
@@ -628,8 +598,7 @@ public class HSSource {
 		errorListener.onErrorResponse(volleyError);
 	}
 	
-	private static void printErrorDescription (String methodName, VolleyError error)
-	{
+	private static void printErrorDescription (String methodName, VolleyError error) {
 		if (methodName == null) {
 			Log.e(HSHelpStack.LOG_TAG, "Error occurred in HelpStack");
 		}

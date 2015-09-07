@@ -4,14 +4,14 @@
     <dimen name="hs_activity_horizontal_margin">16dp</dimen>
     <dimen name="hs_activity_vertical_margin">16dp</dimen>
     
-	<dimen name="hs_default_text_size">20sp</dimen>
+	<dimen name="hs_default_text_size">14sp</dimen>
 	<dimen name="hs_listView_divider_height">0.5dip</dimen>
 	<dimen name="hs_listView_header_TextSize">18sp</dimen>
-	<dimen name="hs_listView_ChildView_TextSize">18sp</dimen>
+	<dimen name="hs_listView_ChildView_TextSize">16sp</dimen>
 	<dimen name="hs_message_TextSize">18sp</dimen>
 	<dimen name="hs_small_TextSize">13sp</dimen>
 	<dimen name="hs_button_marginSize">32dp</dimen>
-	<dimen name="hs_button_textSize">20sp</dimen>
+	<dimen name="hs_button_textSize">18sp</dimen>
 	<dimen name="hs_smallTextMaxWidth">100dp</dimen>
 	<dimen name="hs_chatbubbleMarginWidth">4dp</dimen>
 

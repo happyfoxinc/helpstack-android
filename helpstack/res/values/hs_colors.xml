@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="hs_accent_color">#228CD1</color>
     <color name="hs_background_color">#e1e1e1</color>
     <color name="hs_header_background_color">#228CD1</color>
     <color name="hs_childView_background_color">#ffffff</color>

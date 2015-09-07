@@ -5,18 +5,18 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/hs_chatbubbleMarginWidth"
     android:paddingRight="@dimen/hs_chatbubbleMarginWidth"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp" >
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp" >
 
     <TextView
         android:id="@+id/name"
+        style="@style/hs_smallTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        android:text=""
-        style="@style/hs_smallTextStyle"/>
+        android:text=""/>
     
     <View
         style="@style/hs_leftChatBubbleTriangleStyle"

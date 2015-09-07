@@ -61,40 +61,34 @@ public class NewUserFragment extends HSFragmentParent {
     private String subject;
     private String message;
     private HSAttachment[] attachmentArray;
+    private EditText firstNameField, lastNameField, emailField;
+    private HSSource gearSource;
 
     public NewUserFragment() {
-
 	}
-	
-	EditText firstNameField, lastNameField, emailField;
-	
-	HSSource gearSource;
-	
+
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-             Bundle savedInstanceState) {
-		
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		
 		View rootView = inflater.inflate(R.layout.hs_fragment_new_user, container, false);
-		
 		this.firstNameField = (EditText) rootView.findViewById(R.id.firstname);
 		this.lastNameField = (EditText) rootView.findViewById(R.id.lastname);
 		this.emailField = (EditText) rootView.findViewById(R.id.email);
 
-        
-		
 		return rootView;
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+
 		outState.putString(EXTRAS_FIRST_NAME, firstNameField.getText().toString());
 		outState.putString(EXTRAS_LAST_NAME, lastNameField.getText().toString());
 		outState.putString(EXTRAS_EMAIL, emailField.getText().toString());
 		outState.putString(EXTRAS_SUBJECT, subject);
 		outState.putString(EXTRAS_MESSAGE, message);
+
 		if (attachmentArray != null) {
 			Gson gson = new Gson();
 			outState.putString(EXTRAS_ATTACHMENT, gson.toJson(attachmentArray));
@@ -179,46 +173,46 @@ public class NewUserFragment extends HSFragmentParent {
 
             getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(true);
 
-			gearSource.checkForUserDetailsValidity("NEW_USER", getFirstName(), getLastName(), 
-					getEmailAdddress(), new OnFetchedSuccessListener() {
-				
-				@Override
-				public void onSuccess(Object successObject) {
-                    String formattedBody = message;
+			gearSource.checkForUserDetailsValidity("NEW_USER", getFirstName(), getLastName(),
+                    getEmailAdddress(), new OnFetchedSuccessListener() {
 
-                    gearSource.createNewTicket("NEW_TICKET", (HSUser)successObject, subject, formattedBody, attachmentArray,
-                            new OnNewTicketFetchedSuccessListener() {
+                        @Override
+                        public void onSuccess(Object successObject) {
+                            String formattedBody = message;
 
-                                @Override
-                                public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
+                            gearSource.createNewTicket("NEW_TICKET", (HSUser) successObject, subject, formattedBody, attachmentArray,
+                                    new OnNewTicketFetchedSuccessListener() {
 
-                                    getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-                                    sendSuccessSignal(ticket);
-                                    gearSource.clearTicketDraft();
-                                    Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
-                                }
+                                        @Override
+                                        public void onSuccess(HSUser udpatedUserDetail, HSTicket ticket) {
+                                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                                            sendSuccessSignal(ticket);
+                                            gearSource.clearTicketDraft();
+                                            Toast.makeText(getActivity(), getResources().getString(R.string.hs_issue_created_raised), Toast.LENGTH_LONG).show();
+                                        }
 
-                            }, new ErrorListener() {
+                                    }, new ErrorListener() {
 
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_reporting_issue), getResources().getString(R.string.hs_error_check_network_connection));
-                                    getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-                                }
-                            });
-				}
-			}, new ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            HSUtils.showAlertDialog(getActivity(), getResources().getString(R.string.hs_error_reporting_issue), getResources().getString(R.string.hs_error_check_network_connection));
+                                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                                        }
+                                    });
+                        }
+                    }, new ErrorListener() {
 
-				@Override
-				public void onErrorResponse(VolleyError error) {
-					getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
-				}
-			});
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            getHelpStackActivity().setSupportProgressBarIndeterminateVisibility(false);
+                        }
+                    });
+
+            Toast.makeText(getActivity(), getResources().getString(R.string.hs_creating_issue), Toast.LENGTH_LONG).show();
 			
 			return true;
 		}
-		
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 

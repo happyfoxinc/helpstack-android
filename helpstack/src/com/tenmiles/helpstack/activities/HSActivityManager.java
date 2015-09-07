@@ -74,6 +74,7 @@ public class HSActivityManager {
 		Intent intent = new Intent(context.getActivity(), NewUserActivity.class);
         intent.putExtra(NewIssueActivity.EXTRAS_SUBJECT, subject);
         intent.putExtra(NewIssueActivity.EXTRAS_MESSAGE, message);
+
         if (attachmentArray != null) {
         	Gson json = new Gson();
         	intent.putExtra(NewIssueActivity.EXTRAS_ATTACHMENT, json.toJson(attachmentArray));
@@ -97,12 +98,12 @@ public class HSActivityManager {
 	
 	public static void finishSafe(Activity context) {
 		Intent intent = new Intent();
-		context.setResult(HSActivityManager.resultCode_cancelled,intent);
+		context.setResult(HSActivityManager.resultCode_cancelled, intent);
 		context.finish();
 	}
 	
 	public static void sendSuccessSignal(Activity context, Intent result) {
-		context.setResult(HSActivityManager.resultCode_sucess,result);
+		context.setResult(HSActivityManager.resultCode_sucess, result);
 		context.finish();
 	}
 }

@@ -72,7 +72,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
 
-
 public class HSHappyfoxGear extends HSGear {
 	private static final String TAG = HSHappyfoxGear.class.getSimpleName();
 
@@ -106,8 +105,7 @@ public class HSHappyfoxGear extends HSGear {
 
 	// If user taps on a section, then section is send as a paremeter to the function
 	@Override
-	public void fetchKBArticle(String cancelTag, HSKBItem section, RequestQueue queue,
-			OnFetchedArraySuccessListener success, ErrorListener errorListener) {
+	public void fetchKBArticle(String cancelTag, HSKBItem section, RequestQueue queue, OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 
 		if (section == null) {
 			// This is first request of sections 
@@ -126,10 +124,9 @@ public class HSHappyfoxGear extends HSGear {
 				}, errorListener);
 
 				// to avoid server overload call
-				request.setRetryPolicy(new DefaultRetryPolicy(TicketFormRequest.TIMEOUT_MS,
-						TicketFormRequest.MAX_RETRIES, TicketFormRequest.BACKOFF_MULT));
+				request.setRetryPolicy(new DefaultRetryPolicy(TicketFormRequest.TIMEOUT_MS, TicketFormRequest.MAX_RETRIES, TicketFormRequest.BACKOFF_MULT));
+                request.setTag(cancelTag);
 
-				request.setTag(cancelTag);
 				queue.add(request);
 				queue.start();
 			}
@@ -152,10 +149,9 @@ public class HSHappyfoxGear extends HSGear {
 				}, errorListener);
 
 				// to avoid server overload call
-				request.setRetryPolicy(new DefaultRetryPolicy(TicketFormRequest.TIMEOUT_MS,
-						TicketFormRequest.MAX_RETRIES, TicketFormRequest.BACKOFF_MULT));
+				request.setRetryPolicy(new DefaultRetryPolicy(TicketFormRequest.TIMEOUT_MS, TicketFormRequest.MAX_RETRIES, TicketFormRequest.BACKOFF_MULT));
+                request.setTag(cancelTag);
 
-				request.setTag(cancelTag);
 				queue.add(request);
 				queue.start();
 			}
@@ -187,20 +183,16 @@ public class HSHappyfoxGear extends HSGear {
 	}
 
 	@Override
-	public void registerNewUser(String cancelTag, String firstName, String lastname,
-			String emailAddress, RequestQueue queue,OnFetchedSuccessListener success,
-			ErrorListener error) {
+	public void registerNewUser(String cancelTag, String firstName, String lastname, String emailAddress, RequestQueue queue,
+            OnFetchedSuccessListener success, ErrorListener error) {
 
 		HSUser user = HSUser.createNewUserWithDetails(firstName, lastname, emailAddress);
 		success.onSuccess(user);
-
 	}
 
 	@Override
 	public void createNewTicket(String cancelTag, HSUser user, String message, String body, HSUploadAttachment[] attachments,  RequestQueue queue,
-			OnNewTicketFetchedSuccessListener successListener,
-			ErrorListener errorListener) {
-
+			OnNewTicketFetchedSuccessListener successListener, ErrorListener errorListener) {
 
 		Properties prop = new Properties();
 		prop.put("name", user.getFullName());
@@ -209,8 +201,6 @@ public class HSHappyfoxGear extends HSGear {
 		prop.put("priority", priority_id);
 		prop.put("subject", message);
 		prop.put("text", body);
-
-
 
 		TicketFormRequest request = new TicketFormRequest(getApiUrl()+"new_ticket/", prop, attachments,  new CreateNewTicketSuccessListener(user, successListener, errorListener) {
 
@@ -225,7 +215,6 @@ public class HSHappyfoxGear extends HSGear {
 					e.printStackTrace();
 					this.errorListener.onErrorResponse(new VolleyError("Parsing failed when creating a ticket"));
 				}
-
 			}
 		}, errorListener);
 
@@ -281,25 +270,20 @@ public class HSHappyfoxGear extends HSGear {
 	}
 
 	@Override
-	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] attachments,  HSTicket ticket, HSUser user,
-			RequestQueue queue, OnFetchedSuccessListener success,
-			ErrorListener errorListener) {
+	public void addReplyOnATicket(String cancelTag, String message, HSUploadAttachment[] attachments,  HSTicket ticket, HSUser user, RequestQueue queue,
+            OnFetchedSuccessListener success, ErrorListener errorListener) {
 
 		Properties prop = new Properties();
 		prop.put("user", user.getUserId());
 		prop.put("text", message);
 
-		TicketFormRequest request = new TicketFormRequest(
-				getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", 
-				prop, 
-				attachments,  
+		TicketFormRequest request = new TicketFormRequest(getApiUrl()+"ticket/" + ticket.getTicketId() + "/user_reply/", prop, attachments,
 				new HappyfoxBaseListner<JSONObject>(success, errorListener) {
 
 					@Override
 					public void onResponse(JSONObject response) {
 
 						try {
-
 							HSTicketUpdate update = null;
 							// fetch last message from user in update array.
 							JSONArray updateArray = response.getJSONArray("updates");
@@ -330,8 +314,6 @@ public class HSHappyfoxGear extends HSGear {
 								this.successCallback.onSuccess(update);
 							}
 
-
-
 						} catch (JSONException e) {
 							e.printStackTrace();
 							this.errorListener.onErrorResponse(new VolleyError("Parsing failed when adding reply to a ticket"));
@@ -345,7 +327,6 @@ public class HSHappyfoxGear extends HSGear {
 
 		queue.add(request);
 		queue.start();
-
 	}
 
     public void setSectionId(String sectionId) {
@@ -482,12 +463,10 @@ public class HSHappyfoxGear extends HSGear {
 		protected OnFetchedArraySuccessListener successCallback;
 		protected ErrorListener errorListener;
 
-		public HappyfoxArrayBaseListener(OnFetchedArraySuccessListener success,
-                                         ErrorListener errorListener) {
+		public HappyfoxArrayBaseListener(OnFetchedArraySuccessListener success, ErrorListener errorListener) {
 			this.successCallback = success;
 			this.errorListener = errorListener;
 		}
-
 	}
 
 	private abstract class HappyfoxBaseListner<T> implements Listener<T> {
@@ -495,16 +474,13 @@ public class HSHappyfoxGear extends HSGear {
 		protected OnFetchedSuccessListener successCallback;
 		protected ErrorListener errorListener;
 
-		public HappyfoxBaseListner(OnFetchedSuccessListener success,
-				ErrorListener errorListener) {
+		public HappyfoxBaseListner(OnFetchedSuccessListener success, ErrorListener errorListener) {
 			this.successCallback = success;
 			this.errorListener = errorListener;
 		}
-
 	}
 
-	private abstract class CreateNewTicketSuccessListener implements Listener<JSONObject>
-	{
+	private abstract class CreateNewTicketSuccessListener implements Listener<JSONObject> {
 
 		protected HSUser user;
 		protected OnNewTicketFetchedSuccessListener successListener;
@@ -518,15 +494,13 @@ public class HSHappyfoxGear extends HSGear {
 		}
 	}
 
-
-
 	private class TicketFormRequest extends Request<JSONObject> {
 
 		/** Socket timeout in milliseconds for image requests */
 		protected static final int TIMEOUT_MS = 10000;
 
 		/** Default number of retries for image requests */
-		protected static final int MAX_RETRIES = 0;
+		protected static final int MAX_RETRIES = 2;
 
 		/** Default backoff multiplier for image requests */
 		protected static final float BACKOFF_MULT = 1f;
@@ -537,8 +511,8 @@ public class HSHappyfoxGear extends HSGear {
 
 		HashMap<String, String> headers = new HashMap<String, String>();
 
-		public TicketFormRequest(String url, Properties requestProperties, HSUploadAttachment[] attachments_to_upload, Listener<JSONObject> listener,
-                                 ErrorListener errorListener) {
+		public TicketFormRequest(String url, Properties requestProperties, HSUploadAttachment[] attachments_to_upload,
+                                 Listener<JSONObject> listener, ErrorListener errorListener) {
 			super(Method.POST, url, errorListener);
 			mListener = listener;
 
@@ -570,15 +544,12 @@ public class HSHappyfoxGear extends HSGear {
 					}
 				}
 			}
-
 		}
 
-		public TicketFormRequest(String url, Listener<JSONObject> listener,
-                                 ErrorListener errorListener) {
+		public TicketFormRequest(String url, Listener<JSONObject> listener, ErrorListener errorListener) {
 			super(Method.GET, url, errorListener);
 			mListener = listener;
-			setRetryPolicy(
-					new DefaultRetryPolicy(TIMEOUT_MS, MAX_RETRIES, BACKOFF_MULT));
+			setRetryPolicy(new DefaultRetryPolicy(TIMEOUT_MS, MAX_RETRIES, BACKOFF_MULT));
 		}
 
 		@Override
@@ -597,12 +568,9 @@ public class HSHappyfoxGear extends HSGear {
 				return super.getBody();
 			}
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			try
-			{
+			try {
 				entity.writeTo(bos);
-			}
-			catch (IOException e)
-			{
+			} catch (IOException e) {
 				VolleyLog.e("IOException writing to ByteArrayOutputStream");
 			}
 			return bos.toByteArray();

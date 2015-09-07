@@ -61,7 +61,6 @@ import java.util.TimeZone;
 
 import static com.tenmiles.helpstack.model.HSUser.createNewUserWithDetails;
 
-
 public class HSDeskGear extends HSGear {
 
     private String instanceUrl;
@@ -85,7 +84,6 @@ public class HSDeskGear extends HSGear {
                                OnFetchedArraySuccessListener successListener, Response.ErrorListener errorListener) {
 
         if (section == null) {
-            //
             String url = getApiUrl().concat("topics");
 
             DeskJsonObjectRequest request = new DeskJsonObjectRequest(cancelTag, url, new DeskArrayBaseListener<JSONObject>(successListener, errorListener) {
@@ -108,7 +106,6 @@ public class HSDeskGear extends HSGear {
         }
         else {
             // Fetch articles under that section.
-
             DeskJsonObjectRequest request = new DeskJsonObjectRequest(cancelTag, section.getId(), null, new DeskArrayBaseListener<JSONObject>(successListener, errorListener) {
 
                 @Override
@@ -125,19 +122,17 @@ public class HSDeskGear extends HSGear {
             }, errorListener);
 
             addRequestAndStartQueue(queue, request);
-
-
         }
     }
 
     @Override
-    public void registerNewUser(final String cancelTag, final String firstName, final String lastname,
-                                final String emailAddress, final RequestQueue queue,OnFetchedSuccessListener successListener,
-                                Response.ErrorListener errorListener) {
+    public void registerNewUser(final String cancelTag, final String firstName, final String lastname, final String emailAddress, final RequestQueue queue,
+                                OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
 
         HSUser user = createNewUserWithDetails(firstName, lastname, emailAddress);
 
-        DeskJsonObjectRequest request = new DeskJsonObjectRequest(cancelTag, getApiUrl().concat("customers/search?email=").concat(user.getEmail()),  new CreateNewUserSuccessListener(user, successListener, errorListener) {
+        DeskJsonObjectRequest request = new DeskJsonObjectRequest(cancelTag, getApiUrl().concat("customers/search?email=").concat(user.getEmail()),
+                new CreateNewUserSuccessListener(user, successListener, errorListener) {
 
             @Override
             public void onResponse(JSONObject responseObject) {
@@ -152,7 +147,6 @@ public class HSDeskGear extends HSGear {
 
                 if (totalEntries >= 1) {
                     try {
-
                         JSONObject validUserDetail = null;
 
                         JSONArray couldBeValidUsersArray = responseObject.getJSONObject("_embedded").getJSONArray("entries");
@@ -178,7 +172,6 @@ public class HSDeskGear extends HSGear {
                         }
 
                         if (validUserDetail != null) {
-
                             String firstName = validUserDetail.getString("first_name");
                             String lastName = validUserDetail.getString("last_name");
                             String email = validUserDetail.getJSONArray("emails").getJSONObject(0).getString("value");
@@ -217,7 +210,6 @@ public class HSDeskGear extends HSGear {
 
                             @Override
                             public void onResponse(JSONObject responseObject) {
-
                                 String firstName;
                                 String lastName;
                                 String apiHref;
@@ -229,7 +221,6 @@ public class HSDeskGear extends HSGear {
                                     firstName = responseObject.getString("first_name");
                                     lastName = responseObject.getString("last_name");
                                     apiHref = responseObject.getJSONObject("_links").getJSONObject("self").getString("href");
-
                                     emailsArray = responseObject.getJSONArray("emails");
 
                                     int eventsArrayLength = emailsArray.length();
@@ -263,8 +254,7 @@ public class HSDeskGear extends HSGear {
 
     @Override
     public void createNewTicket(final String cancelTag, HSUser user, String message, String body, final HSUploadAttachment[] attachments, final RequestQueue queue,
-                                OnNewTicketFetchedSuccessListener successListener,
-                                Response.ErrorListener errorListener) {
+                                OnNewTicketFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
 
         JSONObject ticketJson = null;
         try {
@@ -275,7 +265,8 @@ public class HSDeskGear extends HSGear {
             return;
         }
 
-        DeskJsonObjectRequest request = new DeskJsonObjectRequest(cancelTag, getApiUrl().concat("cases"), ticketJson, new CreateNewTicketSuccessListener(user, successListener, errorListener) {
+        DeskJsonObjectRequest request = new DeskJsonObjectRequest(cancelTag, getApiUrl().concat("cases"), ticketJson,
+                new CreateNewTicketSuccessListener(user, successListener, errorListener) {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -290,7 +281,6 @@ public class HSDeskGear extends HSGear {
 
                     if (attachments != null && attachments.length > 0) {
                         HSUploadAttachment attachmentObject = attachments[0]; // We are handling the number of attachments in constructor
-
 
                         uploadAttachmentToServer(cancelTag, caseIdHref, attachmentObject, queue, new Response.Listener<JSONObject>() {
                             @Override
@@ -330,7 +320,6 @@ public class HSDeskGear extends HSGear {
 
                     String content = responseObject.getString("body");
                     String from = responseObject.getString("from");
-
                     final Date update_time = parseTime(responseObject.getString("updated_at"));
 
                     HSTicketUpdate originalMessage = HSTicketUpdate.createUpdateByUser(ticket.getTicketId(), from, content, update_time, null);
@@ -405,8 +394,8 @@ public class HSDeskGear extends HSGear {
     }
 
     @Override
-    public void addReplyOnATicket(final String cancelTag, final String message, final HSUploadAttachment[] attachments,  final HSTicket ticket, final HSUser user,
-                                  final RequestQueue queue, final OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
+    public void addReplyOnATicket(final String cancelTag, final String message, final HSUploadAttachment[] attachments,  final HSTicket ticket, final HSUser user, final RequestQueue queue,
+                                  final OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
 
         JSONObject replyJson = null;
         try {
@@ -421,7 +410,6 @@ public class HSDeskGear extends HSGear {
 
                     @Override
                     public void onResponse(JSONObject responseObject) {
-
                         String content = null;
                         String userName = null;
                         Date update_time = null;
@@ -444,7 +432,6 @@ public class HSDeskGear extends HSGear {
                             if (attachments != null && attachments.length > 0) {
                                 HSUploadAttachment attachmentObject = attachments[0]; // We are handling the number of attachments in constructor
 
-
                                 uploadAttachmentToServer(cancelTag, ticket.getApiHref(), attachmentObject, queue, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject jsonObject) {
@@ -456,9 +443,6 @@ public class HSDeskGear extends HSGear {
                             else {
                             	successListener.onSuccess(userReply);
                             }
-
-                            
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             errorListener.onErrorResponse(new VolleyError("Error when parsing replies"));
@@ -486,7 +470,8 @@ public class HSDeskGear extends HSGear {
         queue.start();
     }
     
-    private void uploadAttachmentToServer(String cancelTag,  String caseId, HSUploadAttachment attachmentObject, RequestQueue queue, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) throws JSONException {
+    private void uploadAttachmentToServer(String cancelTag,  String caseId, HSUploadAttachment attachmentObject, RequestQueue queue,
+                                          Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) throws JSONException {
 
         Uri.Builder builder = new Uri.Builder();
         builder.encodedPath(instanceUrl);
@@ -494,10 +479,9 @@ public class HSDeskGear extends HSGear {
         builder.appendEncodedPath("attachments");
 
         String attachmentUrl = builder.build().toString();
-
-
         String attachmentFileName = attachmentObject.getAttachment().getFileName() == null ? "picture":attachmentObject.getAttachment().getFileName();
-        String attachmentMimeType = attachmentObject.getAttachment().getMime_type();
+        String attachmentMimeType = attachmentObject.getAttachment().getMimeType();
+
         try {
             JSONObject attachmentPostObject = new JSONObject();
 
@@ -518,8 +502,6 @@ public class HSDeskGear extends HSGear {
             attachmentPostObject.put("content_type", attachmentMimeType);
             attachmentPostObject.put("file_name", attachmentFileName);
 
-
-
             DeskJsonObjectRequest attachmentRequest = new DeskJsonObjectRequest(cancelTag, attachmentUrl, attachmentPostObject,
                     successListener, errorListener);
 
@@ -529,8 +511,6 @@ public class HSDeskGear extends HSGear {
             e.printStackTrace();
         }
     }
-
-    
 
     private String retrieveSectionId(String href) throws JSONException {
         // href will be of the form: /api/v2/topic/<section id>
@@ -576,7 +556,6 @@ public class HSDeskGear extends HSGear {
     }
 
     private JSONObject retrieveTicketProperties(HSUser user, String body, String message) throws JSONException {
-
         JSONObject messageFields = new JSONObject();
         JSONObject customerLinks = new JSONObject();
         JSONObject customerParameter = new JSONObject();
@@ -598,17 +577,14 @@ public class HSDeskGear extends HSGear {
         params.put("_links", customerParameter);
         params.put("message", messageFields);
 
-
         return params;
     }
 
     private JSONObject createUserReply(String message, String email) throws JSONException {
         JSONObject userReply = new JSONObject();
-
         userReply.put("direction", "in");
         userReply.put("body", message);
         userReply.put("to", email);
-
         return  userReply;
     }
 
@@ -637,29 +613,23 @@ public class HSDeskGear extends HSGear {
     }
 
     private abstract class DeskArrayBaseListener<T> implements Response.Listener<T> {
-
         protected OnFetchedArraySuccessListener successListener;
         protected Response.ErrorListener errorListener;
 
-        public DeskArrayBaseListener(OnFetchedArraySuccessListener successListener,
-                                     Response.ErrorListener errorListener) {
+        public DeskArrayBaseListener(OnFetchedArraySuccessListener successListener, Response.ErrorListener errorListener) {
             this.successListener = successListener;
             this.errorListener = errorListener;
         }
-
     }
 
     private abstract class DeskBaseListener<T> implements Response.Listener<T> {
-
         protected OnFetchedSuccessListener successListener;
         protected Response.ErrorListener errorListener;
 
-        public DeskBaseListener(OnFetchedSuccessListener successListener,
-                                Response.ErrorListener errorListener) {
+        public DeskBaseListener(OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
             this.successListener = successListener;
             this.errorListener = errorListener;
         }
-
     }
 
     private class DeskJsonObjectRequest extends JsonObjectRequest {
@@ -667,7 +637,7 @@ public class HSDeskGear extends HSGear {
         protected static final int TIMEOUT_MS = 10000;
 
         /** Default number of retries for image requests */
-        protected static final int MAX_RETRIES = 0;
+        protected static final int MAX_RETRIES = 2;
 
         /** Default backoff multiplier for image requests */
         protected static final float BACKOFF_MULT = 0f;
@@ -703,18 +673,14 @@ public class HSDeskGear extends HSGear {
         public Map<String, String> getHeaders() throws AuthFailureError {
             return headers;
         }
-
     }
 
-    private abstract class CreateNewTicketSuccessListener implements Response.Listener<JSONObject>
-    {
-
+    private abstract class CreateNewTicketSuccessListener implements Response.Listener<JSONObject> {
         protected HSUser user;
         protected OnNewTicketFetchedSuccessListener successListener;
         protected Response.ErrorListener errorListener;
 
-        public CreateNewTicketSuccessListener(HSUser user, OnNewTicketFetchedSuccessListener successListener,
-                                              Response.ErrorListener errorListener) {
+        public CreateNewTicketSuccessListener(HSUser user, OnNewTicketFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
             this.user = user;
             this.successListener = successListener;
             this.errorListener = errorListener;
@@ -722,13 +688,11 @@ public class HSDeskGear extends HSGear {
     }
 
     private abstract class CreateNewUserSuccessListener implements Response.Listener<JSONObject> {
-
         protected HSUser user;
         protected OnFetchedSuccessListener successListener;
         protected Response.ErrorListener errorListener;
 
-        public CreateNewUserSuccessListener(HSUser user, OnFetchedSuccessListener successListener,
-                                            Response.ErrorListener errorListener) {
+        public CreateNewUserSuccessListener(HSUser user, OnFetchedSuccessListener successListener, Response.ErrorListener errorListener) {
             this.user = user;
             this.successListener = successListener;
             this.errorListener = errorListener;

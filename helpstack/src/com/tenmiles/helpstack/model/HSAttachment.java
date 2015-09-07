@@ -23,9 +23,9 @@
 
 package com.tenmiles.helpstack.model;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 public class HSAttachment implements Serializable{
 	
@@ -35,7 +35,7 @@ public class HSAttachment implements Serializable{
 	private String fileName;
 	
 	@SerializedName("mime_type")
-	private String mime_type;
+	private String mimeType;
 	
 	@SerializedName("url")
 	private String url;
@@ -43,12 +43,11 @@ public class HSAttachment implements Serializable{
 	public HSAttachment() {
 	}
 
-	public static HSAttachment createAttachment(String url, String fileName, String mime_type)
-	{
+	public static HSAttachment createAttachment(String url, String fileName, String mimeType) {
 		HSAttachment attachment = new HSAttachment();
 		
 		attachment.fileName = fileName;
-		attachment.mime_type = mime_type;
+		attachment.mimeType = mimeType;
 		attachment.url = url;
 		
 		return attachment;
@@ -62,8 +61,8 @@ public class HSAttachment implements Serializable{
 		return url;
 	}
 	
-	public String getMime_type() {
-		return mime_type;
+	public String getMimeType() {
+		return mimeType;
 	}
 	
 }

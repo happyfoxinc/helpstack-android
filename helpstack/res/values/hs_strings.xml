@@ -17,10 +17,11 @@
     <string name="hs_firstname_hint">First Name</string>
     <string name="hs_lastname_hint">Last Name</string>
     <string name="hs_email_hint">Email Address</string>
-    <string name="hs_new_user_message">Please enter your contact details to reach you</string>
+    <string name="hs_new_user_message">Enter your contact details to reach you later</string>
 
     <!-- Strings used in new Issue screen -->
-    <string name="hs_issue_created_raised">Your issue has been created and raised.</string>
+    <string name="hs_creating_issue">Creating issue</string>
+    <string name="hs_issue_created_raised">Your issue has been created and raised</string>
     <string name="hs_new_issue_title">Report Issue</string>
     <string name="hs_subject_hint">Subject</string>
     <string name="hs_message_hint">Message</string>
@@ -57,8 +58,8 @@
     <string name="hs_download">Download</string>
     <string name="hs_downloading_attachment">Downloading Attachment</string>
     <string name="hs_download_complete">Download complete</string>
-    <string name="hs_loading">Loading...</string>
-    <string name="hs_notify_download_complete">You will be notified when the download finishes.</string>
+    <string name="hs_loading">Loading…</string>
+    <string name="hs_notify_download_complete">You will be notified when the download finishes</string>
     <string name="hs_open_with">Open with</string>
 
     <!-- String used in error messages -->
@@ -75,5 +76,8 @@
     <string name="hs_error_posting_reply">Error in posting your reply, please check your network connection</string>
     <string name="hs_error_reporting_issue">Error in reporting issue</string>
     <string name="hs_error_subject_message_empty">Subject and message cannot be empty</string>
+
+    <string name="drawing_saved">Drawing saved to Gallery</string>
+    <string name="image_not_saved">Image could not be saved</string>
 
 </resources>
