@@ -37,17 +37,17 @@ Have you made something awesome with HelpStack? Add yourself here: [App Showcase
 Installing the HelpStack library is fairly straight-forward. 
 
 1. Add jcenter as a repository to your app's build.gradle
-
-        repositories {
-          jcenter()
-        }
-        
+```groovy
+repositories {
+  jcenter()
+}
+```        
 2. Add *com.tenmiles:helpstack:1.2.0* as a dependency in the same build.gradle
-        
-        dependencies {
-          compile 'com.tenmiles:helpstack:1.2.0'
-        }
-
+```groovy        
+dependencies {
+  compile 'com.tenmiles:helpstack:1.2.0'
+}
+```
         
 For more information on installation, such as Installing in Eclipse and common installation errors, visit this Wiki page: [Installation Instructions](https://github.com/happyfoxinc/helpstack-android/wiki/Installation-Instructions)
 
@@ -65,33 +65,33 @@ The helpdesk solutions will be referred to as **Gears**.
 #### Step 1 - Configure HelpStack with the Gear of your choice:
 
 Create a custom *Application* class which extends the **Application** class. Be sure to mention it in your manifest as well.
-
-    <application
-      android:name="HSApplication"
-      ...
-    />    
-    
+```xml
+<application
+  android:name="HSApplication"
+  ...
+/>    
+```
 Obtain the necessary credentials for the gear of your choice and create a suitable Gear object. Set the Gear object with *HSHelpStack* instance only once. 
 
 ##### Setting the Gear
 
 The general structure of setting a gear is given below: 
-
-    public class HSApplication extends Application {
-      HSHelpStack helpStack;
-      
-      @Override
-      public void onCreate() {
-        super.onCreate();
-        
-        helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
-        
-        <GearType> <gear> = new <GearType>(<Gear credentials as parameters>); // Create the Gear object 
-          
-        helpStack.setGear(<gear>); // Set the Gear
-      }
-    }
+```java
+public class HSApplication extends Application {
+  HSHelpStack helpStack;
+  
+  @Override
+  public void onCreate() {
+    super.onCreate();
     
+    helpStack = HSHelpStack.getInstance(this); // Get the HSHelpStack instance
+    
+    <GearType> <gear> = new <GearType>(<Gear credentials as parameters>); // Create the Gear object 
+      
+    helpStack.setGear(<gear>); // Set the Gear
+  }
+}
+```    
   Follow the instructions below for configuring the gear of your choice:
     
   - [HappyFox gear](https://github.com/happyfoxinc/helpstack-android/wiki/Configuring-gears-for-HelpStack#i-happyfox)
@@ -103,8 +103,9 @@ The general structure of setting a gear is given below:
 #### Step 2 - Entry point in UI:
 Add a clickable item (probably a button) in your UI, wherever appropriate. Set a *click listener* to it. Within the *click listener*, use the **showHelp** API to open up the HelpStack UI:
 
+```java
     HSHelpStack.getInstance(getActivity()).showHelp(getActivity());
-
+```
 
 #### Step 3 - Theming/Skinning:
 
@@ -142,12 +143,12 @@ For more information, refer to the documents in the [Wiki section](https://githu
 ## External Dependencies
 
 HelpStack depends on the following libraries:
-
+```groovy
     'com.android.support:appcompat-v7:23.0.0'
     'com.google.code.gson:gson:2.3'
     'org.apache.httpcomponents:httpmime:4.2.6'
     'com.mcxiaoke.volley:library:1.0.5'
-  
+```
   
 ## Video
 
