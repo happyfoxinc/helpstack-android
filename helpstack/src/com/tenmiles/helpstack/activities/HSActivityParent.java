@@ -22,45 +22,70 @@
 
 package com.tenmiles.helpstack.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+
+import com.tenmiles.helpstack.R;
+import com.tenmiles.helpstack.gears.HSHappyfoxGear;
 
 /**
  * This is base class of all Activity used in HelpStack
- * 
- * @author Nalin Chhajer
  *
+ * @author Nalin Chhajer
  */
 public class HSActivityParent extends AppCompatActivity {
 
     private static final String ACTION_BAR_TITLE = "Actionbar_title";
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private Toolbar mToolbar;
 
-		// Handling actionbar title when activity changes so activity does not have to handle it.
-		if (savedInstanceState != null) {
-            getHelpStackActionBar().setTitle(savedInstanceState.getString(ACTION_BAR_TITLE));
-		}
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		configureActionBar(getSupportActionBar());
-	}
+    // Handling actionbar title when activity changes so activity doesn't have to handle it.
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(getSupportActionBar() != null)
+        outState.putString(ACTION_BAR_TITLE, getSupportActionBar().getTitle().toString());
+    }
 
-	public void configureActionBar(ActionBar actionBar) {
-	}
-	
-	// Handling actionbar title when activity changes so activity doesnot have to handle it.
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(ACTION_BAR_TITLE, getHelpStackActionBar().getTitle().toString());
-	}
-	
-	public ActionBar getHelpStackActionBar() {
-		return getSupportActionBar();
-	}
+    protected void setContentView(int layoutResId, Bundle savedInstanceState, int title) {
+        super.setContentView(R.layout.hs_activity_base);
+        mToolbar =  (Toolbar)findViewById(R.id.toolbar);
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        LinearLayout lLayout = (LinearLayout) findViewById(R.id.lyt_base);
+        View view = layoutInflater.inflate(layoutResId, null);
+
+        if(getSupportActionBar() != null){
+            ActionBar actionbar = getSupportActionBar();
+            setTitle(savedInstanceState, title);
+            actionbar.setHomeButtonEnabled(true);
+            actionbar.setDisplayHomeAsUpEnabled(true);
+        } else{
+            mToolbar.setVisibility(View.VISIBLE);
+            setSupportActionBar(mToolbar);
+            setTitle(savedInstanceState, title);
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        lLayout.addView(view);
+    }
+
+    private void setTitle(Bundle savedInstanceState, int title) {
+        ActionBar actionbar = getSupportActionBar();
+        if (savedInstanceState != null) {
+            actionbar.setTitle(savedInstanceState.getString(ACTION_BAR_TITLE));
+        } else if(title != 0){
+            actionbar.setTitle(getString(title));
+        } else{
+            actionbar.setTitle(getString(R.string.hs_help_title));
+        }
+    }
 }

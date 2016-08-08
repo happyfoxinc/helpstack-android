@@ -43,7 +43,7 @@ public class HomeActivity extends HSActivityParent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		setContentView(R.layout.hs_activity_home);
+		setContentView(R.layout.hs_activity_home, savedInstanceState, R.string.hs_help_title);
 
         if (savedInstanceState == null) { // Activity started first time
         	HomeFragment homeFrag = HSFragmentManager.getHomeFragment();
@@ -51,12 +51,6 @@ public class HomeActivity extends HSActivityParent {
         }
     }
     
-    @Override
-    public void configureActionBar(ActionBar actionBar) {
-    	super.configureActionBar(actionBar);
-    	actionBar.setTitle(getString(R.string.hs_help_title)); 
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
