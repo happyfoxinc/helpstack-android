@@ -28,6 +28,8 @@ Check out [helpstack.io](http://www.helpstack.io) for more information.
 Checkout this wiki page if you want a clear idea on how you can progress with HelpStack: [Wiki - How to progress with HelpStack](https://github.com/happyfoxinc/helpstack-android/wiki/How-to-progress-with-HelpStack)
 
 ## App Showcase
+
+[![Join the chat at https://gitter.im/happyfoxinc/helpstack-android](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/happyfoxinc/helpstack-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Have you made something awesome with HelpStack? Add yourself here: [App Showcase](https://github.com/happyfoxinc/helpstack-android/wiki/App-Showcase)
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/happyfoxinc/helpstack-android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
