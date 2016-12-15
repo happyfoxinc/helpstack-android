@@ -48,6 +48,7 @@ import com.tenmiles.helpstack.model.HSTicketUpdate;
 import com.tenmiles.helpstack.model.HSUploadAttachment;
 import com.tenmiles.helpstack.model.HSUser;
 
+import org.apache.commons.io.FileUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
@@ -621,5 +622,14 @@ public class HSSource {
 		}
 		
 		error.printStackTrace();
+	}
+
+	public void deleteAllFiles(){
+		try {
+			File dir = new File(mContext.getFilesDir(), HELPSTACK_DIRECTORY);
+			FileUtils.deleteDirectory(dir);
+		} catch (Exception ex){
+			ex.printStackTrace();
+		}
 	}
 }

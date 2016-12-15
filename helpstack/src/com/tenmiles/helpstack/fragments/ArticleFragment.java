@@ -59,8 +59,10 @@ public class ArticleFragment extends HSFragmentParent {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
                 progress = progress * 100;
-                getHelpStackActivity().setSupportProgressBarVisibility(progress < 98);
-                getHelpStackActivity().setSupportProgress(progress);
+                if(getHelpStackActivity() != null) {
+                    getHelpStackActivity().setSupportProgressBarVisibility(progress < 98);
+                    getHelpStackActivity().setSupportProgress(progress);
+                }
             }
         });
 

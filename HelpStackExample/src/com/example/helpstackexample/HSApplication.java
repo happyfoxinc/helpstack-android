@@ -2,21 +2,25 @@ package com.example.helpstackexample;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.tenmiles.helpstack.HSHelpStack;
 import com.tenmiles.helpstack.gears.HSEmailGear;
 
+import io.fabric.sdk.android.Fabric;
+
 public class HSApplication extends Application {
 
-	HSHelpStack helpStack;
+    HSHelpStack helpStack;
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-		helpStack = HSHelpStack.getInstance(this);
+        Fabric.with(this, new Crashlytics());
+        helpStack = HSHelpStack.getInstance(this);
 
-		HSEmailGear emailGear = new HSEmailGear("foo@bar.com", R.xml.articles);
-		helpStack.setGear(emailGear);
+        HSEmailGear emailGear = new HSEmailGear("foo@bar.com", R.xml.articles);
+        helpStack.setGear(emailGear);
 
 		/* Uncomment the following to use the HappyFox gear with appropriate support email address */
 
@@ -28,5 +32,5 @@ public class HSApplication extends Application {
 //                "<Priority ID>");
 //
 //        helpStack.setGear(happyfoxGear);
-	}
+    }
 }

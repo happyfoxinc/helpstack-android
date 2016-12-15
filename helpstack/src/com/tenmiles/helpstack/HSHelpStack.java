@@ -30,6 +30,7 @@ import android.util.Log;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.tenmiles.helpstack.logic.HSGear;
+import com.tenmiles.helpstack.logic.HSSource;
 
 /**
  * 
@@ -115,6 +116,15 @@ public class HSHelpStack {
      */
     public boolean getShowCredits() {
         return this.showCredits;
+    }
+
+    /**
+     *
+     * clears all files.
+     */
+    public void clear(Context context) {
+        HSSource source = HSSource.getInstance(context);
+        source.deleteAllFiles();
     }
 
     /**
