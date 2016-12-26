@@ -109,7 +109,7 @@ public class SearchFragment extends HSFragmentParent {
 	}
 	
 	public void setKBArticleList(HSKBItem[] fetchedKbArticles) {
-		this.allKbArticles = fetchedKbArticles;
+		this.allKbArticles = (fetchedKbArticles == null) ? new HSKBItem[0] : fetchedKbArticles;
 		if (isSearchVisible()) {
 			searchAdapter.refreshList(allKbArticles);
 			searchAdapter.getFilter().filter("");
@@ -211,11 +211,11 @@ public class SearchFragment extends HSFragmentParent {
 		private CustomFilter filter;
 		
 		public SearchAdapter(HSKBItem[] list) {
-			this.allKBItems = list;
+			this.allKBItems = (list == null) ? new HSKBItem[0] : list;
 		}
 		
 		public void refreshList(HSKBItem[] list) {
-			this.allKBItems = list;
+			this.allKBItems = (list == null) ? new HSKBItem[0] : list;
 		}
 		
 		@Override

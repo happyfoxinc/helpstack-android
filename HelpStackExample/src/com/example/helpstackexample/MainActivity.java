@@ -61,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
                     HSHelpStack.getInstance(getActivity()).showHelp(getActivity());
                 }
             });
+            rootView.findViewById(R.id.btnClearCache).setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    HSHelpStack.getInstance(getActivity()).clear(getActivity());
+                }
+            });
             return rootView;
         }
     }

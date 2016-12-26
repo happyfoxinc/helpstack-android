@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tenmiles.helpstack"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -12,47 +12,40 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application >
+    <application>
         <activity
-            android:name="com.tenmiles.helpstack.activities.HomeActivity"
-            android:label="@string/hs_app_name" android:exported="false">
+            android:name=".activities.HomeActivity"
+            android:exported="false"
+            android:label="@string/hs_app_name">
             <intent-filter>
-                <action android:name="com.tenmiles.helpstack.ShowHelp"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.tenmiles.helpstack.ShowHelp" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tenmiles.helpstack.activities.NewIssueActivity"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
+            android:name=".activities.NewIssueActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
-            android:name="com.tenmiles.helpstack.activities.NewUserActivity"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
+            android:name=".activities.NewUserActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
-            android:name="com.tenmiles.helpstack.activities.IssueDetailActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
-        </activity>
+            android:name=".activities.IssueDetailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".activities.ArticleActivity"></activity>
+        <activity android:name=".activities.SectionActivity"></activity>
+        <activity android:name=".activities.ImageAttachmentDisplayActivity"></activity>
         <activity
-            android:name="com.tenmiles.helpstack.activities.ArticleActivity">
-        </activity>
-        <activity
-            android:name="com.tenmiles.helpstack.activities.SectionActivity">
-        </activity>
-        <activity
-            android:name="com.tenmiles.helpstack.activities.ImageAttachmentDisplayActivity">
-        </activity>
-        <activity
-            android:name="com.tenmiles.helpstack.activities.EditAttachmentActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:name=".activities.EditAttachmentActivity"
+            android:screenOrientation="portrait"></activity>
 
         <receiver
-            android:name="com.tenmiles.helpstack.service.AttachmentDownloadReceiver"
-            android:enabled="true" >
+            android:name=".service.AttachmentDownloadReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
                 <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>

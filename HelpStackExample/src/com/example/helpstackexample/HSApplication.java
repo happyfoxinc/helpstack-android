@@ -10,7 +10,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class HSApplication extends Application {
 
-    HSHelpStack helpStack;
+    public static HSHelpStack helpStack;
 
     @Override
     public void onCreate() {
@@ -32,7 +32,7 @@ public class HSApplication extends Application {
 //                "<Priority ID>");
 //
 //        helpStack.setGear(happyfoxGear);
-    }
 
+    }
 
 }

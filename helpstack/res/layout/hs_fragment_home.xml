@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/hs_backgroundStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/hs_backgroundStyle"
-    tools:context="com.tenmiles.helpstack.HomeActivity$PlaceholderFragment" >
+    tools:context="com.tenmiles.helpstack.MainActivitiy$PlaceholderFragment">
 
     <com.tenmiles.helpstack.theme.widget.HSExpandableListView
         android:id="@+id/expandableList"
@@ -15,8 +15,6 @@
     <FrameLayout
         android:id="@+id/search_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </FrameLayout>
-    
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
