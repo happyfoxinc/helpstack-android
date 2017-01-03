@@ -249,5 +249,4 @@ public abstract class HSGear {
 	private boolean supportHtmlMessage = false;
 
     private boolean ignoreTicketUpdateInformationAfterAddingReply = false;
-
 }
