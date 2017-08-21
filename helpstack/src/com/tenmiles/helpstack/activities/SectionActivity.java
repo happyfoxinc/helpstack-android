@@ -46,13 +46,13 @@ public class SectionActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.hs_activity_section);
+		setContentView(R.layout.hs_activity_section, savedInstanceState, 0);
 
 		if (savedInstanceState == null) {
 			HSKBItem kbSectionItem = (HSKBItem)getIntent().getSerializableExtra(EXTRAS_SECTION_ITEM);
 			SectionFragment sectionFragment = HSFragmentManager.getSectionFragment(this, kbSectionItem);
             HSFragmentManager.putFragmentInActivity(this, R.id.container, sectionFragment, TAG);
-			getHelpStackActionBar().setTitle(kbSectionItem.getSubject());
+			getSupportActionBar().setTitle(kbSectionItem.getSubject());
 		}
 	}
 
@@ -70,11 +70,6 @@ public class SectionActivity extends HSActivityParent {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	@Override
-	public void configureActionBar(ActionBar actionBar) {
-		super.configureActionBar(actionBar);
 	}
 
 }

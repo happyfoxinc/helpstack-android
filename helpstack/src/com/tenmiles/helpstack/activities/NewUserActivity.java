@@ -37,20 +37,14 @@ public class NewUserActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.hs_activity_new_user);
-		
+		setContentView(R.layout.hs_activity_new_user, savedInstanceState, R.string.hs_new_issue_title);
+
 		if (savedInstanceState == null) {
             Bundle bundle = getIntent().getExtras();
             NewUserFragment newUserFragment = new NewUserFragment();
             newUserFragment.setArguments(bundle);
             HSFragmentManager.putFragmentInActivity(this, R.id.container, newUserFragment, TAG);
         }
-	}
-	
-	@Override
-	public void configureActionBar(ActionBar actionBar) {
-		super.configureActionBar(actionBar);
-		actionBar.setTitle(getString(R.string.hs_new_issue_title));
 	}
 
 	@Override

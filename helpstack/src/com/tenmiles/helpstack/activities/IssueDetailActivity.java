@@ -40,7 +40,7 @@ public class IssueDetailActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.hs_activity_issue_detail);
+		setContentView(R.layout.hs_activity_issue_detail, savedInstanceState, 0);
 
 		if (savedInstanceState == null) {
 			IssueDetailFragment mIssueDetailFragment = HSFragmentManager.getIssueDetailFragment();
@@ -48,15 +48,10 @@ public class IssueDetailActivity extends HSActivityParent {
             HSFragmentManager.putFragmentInActivity(this, R.id.container, mIssueDetailFragment, TAG);
 			HSTicket ticket = (HSTicket)getIntent().getExtras().getSerializable(EXTRAS_TICKET);
 			mIssueDetailFragment.setTicket(ticket);
-			getHelpStackActionBar().setTitle(ticket.getSubject());
+			getSupportActionBar().setTitle(ticket.getSubject());
 		}
 	}
 
-	@Override
-	public void configureActionBar(ActionBar actionBar) {
-		super.configureActionBar(actionBar);
-	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.hs_issue_detail, menu);

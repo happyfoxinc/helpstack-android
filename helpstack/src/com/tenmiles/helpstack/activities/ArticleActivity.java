@@ -39,13 +39,12 @@ public class ArticleActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.hs_activity_article);
+		setContentView(R.layout.hs_activity_article, savedInstanceState, R.string.hs_article);
 
 		if (savedInstanceState == null) {
 			HSKBItem kbItem = (HSKBItem)getIntent().getSerializableExtra("item");
 			ArticleFragment sectionFragment = HSFragmentManager.getArticleFragment(this, kbItem);
 			HSFragmentManager.putFragmentInActivity(this, R.id.container, sectionFragment, "Article");
-			getHelpStackActionBar().setTitle(R.string.hs_article);
 		}
 	}
 
@@ -64,10 +63,5 @@ public class ArticleActivity extends HSActivityParent {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	@Override
-    public void configureActionBar(ActionBar actionBar) {
-    	super.configureActionBar(actionBar);
-    }
 
 }

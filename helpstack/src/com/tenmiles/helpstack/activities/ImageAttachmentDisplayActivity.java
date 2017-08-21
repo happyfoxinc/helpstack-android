@@ -38,7 +38,7 @@ public class ImageAttachmentDisplayActivity extends HSActivityParent {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.hs_activity_image_attachment_display);
+		setContentView(R.layout.hs_activity_image_attachment_display, savedInstanceState, 0);
 
 		if (savedInstanceState == null) {
 			String url = getIntent().getExtras().getString(EXTRAS_STRING_URL);
@@ -47,11 +47,6 @@ public class ImageAttachmentDisplayActivity extends HSActivityParent {
             ImageAttachmentDisplayFragment fragment = HSFragmentManager.getImageAttachmentDisplayFragment(this, url);
             getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
 		}
-	}
-	
-	@Override
-	public void configureActionBar(ActionBar actionBar) {
-		super.configureActionBar(actionBar);
 	}
 
 	@Override

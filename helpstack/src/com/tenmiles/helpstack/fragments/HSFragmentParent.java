@@ -22,6 +22,8 @@
 
 package com.tenmiles.helpstack.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 
@@ -36,13 +38,21 @@ import com.tenmiles.helpstack.activities.HSActivityParent;
  */
 public class HSFragmentParent extends Fragment {
 
-	ActionBar getActionBar() {
-		HSActivityParent act = (HSActivityParent) getActivity();
-		return act.getSupportActionBar();
-	}
-	
+	HSActivityParent mActivity;
+
 	public HSActivityParent getHelpStackActivity() {
-		HSActivityParent act = (HSActivityParent) getActivity();
-		return act;
+		return mActivity;
+	}
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		mActivity = (HSActivityParent) context;
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mActivity = null;
 	}
 }

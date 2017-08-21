@@ -49,7 +49,7 @@ import com.tenmiles.helpstack.theme.widget.DrawingView;
 import java.io.FileNotFoundException;
 import java.util.UUID;
 
-public class EditAttachmentActivity extends AppCompatActivity {
+public class EditAttachmentActivity extends HSActivityParent {
 
     private final int REQUEST_CODE_PHOTO_PICKER = 100;
 
@@ -63,10 +63,7 @@ public class EditAttachmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hs_activity_edit_attachment);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.hs_attachment_edit);
+        setContentView(R.layout.hs_activity_edit_attachment, savedInstanceState, R.string.hs_attachment_edit);
 
         drawView = (DrawingView)findViewById(R.id.drawing);
         drawView.setObserver(new DrawingView.ObserverInterface() {
