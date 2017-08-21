@@ -48,6 +48,13 @@ Installing the HelpStack library is fairly straight-forward.
           compile 'com.tenmiles:helpstack:1.2.0'
         }
 
+3. Add this to avoid *duplicate file during packaging APK*
+
+        packagingOptions {
+                exclude 'META-INF/DEPENDENCIES'
+                exclude 'META-INF/NOTICE'
+                exclude 'META-INF/LICENSE'
+        }
         
 For more information on installation, such as Installing in Eclipse and common installation errors, visit this Wiki page: [Installation Instructions](https://github.com/happyfoxinc/helpstack-android/wiki/Installation-Instructions)
 
@@ -146,7 +153,7 @@ HelpStack depends on the following libraries:
     'com.android.support:appcompat-v7:23.0.0'
     'com.google.code.gson:gson:2.3'
     'org.apache.httpcomponents:httpmime:4.2.6'
-    'com.mcxiaoke.volley:library:1.0.5'
+    'com.mcxiaoke.volley:library:1.0.19'
   
 ## Proguard (Optional) 
 
