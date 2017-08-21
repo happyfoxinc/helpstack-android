@@ -148,6 +148,16 @@ HelpStack depends on the following libraries:
     'org.apache.httpcomponents:httpmime:4.2.6'
     'com.mcxiaoke.volley:library:1.0.5'
   
+## Proguard (Optional) 
+
+If you have Proguard enabled, please add this snippet to your proguard rules file (eg proguard-rules.pro, proguard.cfg or others):
+
+        # helpstack
+        -dontwarn com.polites.**
+        -dontwarn com.tenmiles.helpstack.**
+        -dontwarn org.apache.commons.**
+        -keep class org.apache.http.** { *; }
+        -dontwarn org.apache.http.**
   
 ## Video
 
