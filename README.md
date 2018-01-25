@@ -1,5 +1,5 @@
 <p align="center" >
-  <a href="http://www.helpstack.io/"><img src="https://dl.dropboxusercontent.com/u/55774910/HelpStack/Helpstack%20by%20Happyfox%20logos.png" alt="HelpStack" title="Logo" /></a>
+  <a href="http://www.helpstack.io/"><img src="https://s3-us-west-2.amazonaws.com/helpstack-screenshots-dont-delete/Helpstack+by+Happyfox+logos.png" alt="HelpStack" title="Logo" /></a>
 </p>
 
 **HelpStack** is a library to provide in-app support for your app's users, by connecting with the helpdesk of your choice. Your app’s users can easily raise requests or report issues from within your app.
