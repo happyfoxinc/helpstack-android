@@ -128,7 +128,6 @@ public class HSHappyfoxGear extends HSGear {
                 request.setTag(cancelTag);
 
 				queue.add(request);
-				queue.start();
 			}
 			else {
 				// Fetch individual section
@@ -153,7 +152,6 @@ public class HSHappyfoxGear extends HSGear {
                 request.setTag(cancelTag);
 
 				queue.add(request);
-				queue.start();
 			}
 
 		}
