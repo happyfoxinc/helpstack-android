@@ -29,6 +29,7 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.tenmiles.helpstack.activities.HomeActivity;
 import com.tenmiles.helpstack.logic.HSGear;
 import com.tenmiles.helpstack.logic.HSSource;
 
@@ -85,7 +86,7 @@ public class HSHelpStack {
      * @param activity Activity
      */
 	public void showHelp(Activity activity) {
-		activity.startActivity(new Intent("com.tenmiles.helpstack.ShowHelp"));
+		activity.startActivity(new Intent(this.mContext, HomeActivity.class));
 	}
 
     /**
