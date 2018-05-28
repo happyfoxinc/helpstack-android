@@ -67,16 +67,7 @@
     <style name="hs_messageEditTextStyle" parent="hs_editText_defaultStyle"></style> 
 	    
     <!-- DRAWABLES
-    Defining the drawable icons used in the project, override the drawable to give your own custom icons
-    
-    Attachment icon used in New Issue screen, and chat screen to show attachments -->
-    <drawable name="hs_attachment_icon">@drawable/hs_attachment_img</drawable>
-    
-   <!--  Search icon used in search menu -->
-    <drawable name="hs_search_icon">@drawable/hs_search_img_light</drawable>
-    
-    <!-- Disclosure icon used in main list view -->
-    <drawable name="hs_disclosure_next">@drawable/hs_disclosure_img</drawable>
+    Defining the drawable icons used in the project, override the drawable to give your own custom icons -->
     
     <!-- Add attachment icon used in issue detail screen - add reply -->
     <drawable name="hs_add_attachment">@drawable/hs_add_attachment_img</drawable>

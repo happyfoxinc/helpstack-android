@@ -44,7 +44,7 @@ public class NewIssueActivity extends HSActivityParent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hs_activity_new_issue);
+        setContentView(R.layout.hs_activity_new_issue, savedInstanceState, R.string.hs_new_issue_title);
 
         if (savedInstanceState == null) {
             Bundle bundle = getIntent().getExtras();
@@ -57,12 +57,6 @@ public class NewIssueActivity extends HSActivityParent {
             }
             HSFragmentManager.putFragmentInActivity(this, R.id.container, newIssueFragment, "Issue");
         }
-    }
-
-    @Override
-    public void configureActionBar(ActionBar actionBar) {
-        super.configureActionBar(actionBar);
-        actionBar.setTitle(getString(R.string.hs_new_issue_title));
     }
 
     @Override

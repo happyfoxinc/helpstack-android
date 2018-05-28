@@ -1,15 +1,43 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.25.1'
+        classpath 'com.google.gms:google-services:3.2.0'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':helpstack')
-
-    compile 'com.android.support:appcompat-v7:23.0.0'
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation project(':helpstack')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
+        transitive = true
+    }
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId "com.tenmiles.helpstack"
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
 
     sourceSets {
         main {
@@ -23,7 +51,7 @@ android {
         }
 
         // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
+        androidTest.setRoot('tests')
 
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
@@ -40,4 +68,5 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
     }
+
 }

@@ -1,5 +1,5 @@
 <p align="center" >
-  <a href="http://www.helpstack.io/"><img src="https://dl.dropboxusercontent.com/u/55774910/HelpStack/Helpstack%20by%20Happyfox%20logos.png" alt="HelpStack" title="Logo" /></a>
+  <a href="http://www.helpstack.io/"><img src="https://s3-us-west-2.amazonaws.com/helpstack-screenshots-dont-delete/Helpstack+by+Happyfox+logos.png" alt="HelpStack" title="Logo" /></a>
 </p>
 
 **HelpStack** is a library to provide in-app support for your app's users, by connecting with the helpdesk of your choice. Your app’s users can easily raise requests or report issues from within your app.
@@ -42,12 +42,19 @@ Installing the HelpStack library is fairly straight-forward.
           jcenter()
         }
         
-2. Add *com.tenmiles:helpstack:1.1.2* as a dependency in the same build.gradle
+2. Add *com.tenmiles:helpstack:1.2.0* as a dependency in the same build.gradle
         
         dependencies {
-          compile 'com.tenmiles:helpstack:1.1.2'
+          compile 'com.tenmiles:helpstack:1.2.0'
         }
 
+3. Add this to avoid *duplicate file during packaging APK*
+
+        packagingOptions {
+                exclude 'META-INF/DEPENDENCIES'
+                exclude 'META-INF/NOTICE'
+                exclude 'META-INF/LICENSE'
+        }
         
 For more information on installation, such as Installing in Eclipse and common installation errors, visit this Wiki page: [Installation Instructions](https://github.com/happyfoxinc/helpstack-android/wiki/Installation-Instructions)
 
@@ -143,11 +150,21 @@ For more information, refer to the documents in the [Wiki section](https://githu
 
 HelpStack depends on the following libraries:
 
-    com.android.support:appcompat-v7:20.0.0
-    com.google.code.gson:gson:2.2.4
-    org.apache.httpcomponents:httpmime:4.2.6
-    com.mcxiaoke.volley:library-aar:1.+
+    'com.android.support:appcompat-v7:23.0.0'
+    'com.google.code.gson:gson:2.3'
+    'org.apache.httpcomponents:httpmime:4.2.6'
+    'com.mcxiaoke.volley:library:1.0.19'
   
+## Proguard (Optional) 
+
+If you have Proguard enabled, please add this snippet to your proguard rules file (eg proguard-rules.pro, proguard.cfg or others):
+
+        # helpstack
+        -dontwarn com.polites.**
+        -dontwarn com.tenmiles.helpstack.**
+        -dontwarn org.apache.commons.**
+        -keep class org.apache.http.** { *; }
+        -dontwarn org.apache.http.**
   
 ## Video
 

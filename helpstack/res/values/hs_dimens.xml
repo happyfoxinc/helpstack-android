@@ -8,7 +8,7 @@
 	<dimen name="hs_listView_divider_height">0.5dip</dimen>
 	<dimen name="hs_listView_header_TextSize">18sp</dimen>
 	<dimen name="hs_listView_ChildView_TextSize">16sp</dimen>
-	<dimen name="hs_message_TextSize">18sp</dimen>
+	<dimen name="hs_message_TextSize">16sp</dimen>
 	<dimen name="hs_small_TextSize">13sp</dimen>
 	<dimen name="hs_button_marginSize">32dp</dimen>
 	<dimen name="hs_button_textSize">18sp</dimen>

@@ -158,7 +158,7 @@ public class HSDeskGear extends HSGear {
 
                             int emailsArrayLength = emailsArray.length();
                             for (int j = 0; j < emailsArrayLength; j++) {
-                                JSONObject emailDetails = couldBeValidUsersArray.getJSONObject(j);
+                                JSONObject emailDetails = emailsArray.getJSONObject(j);
 
                                 if (emailDetails.getString("value").equals(user.getEmail())) {
                                     validUserDetail = couldBeValidUserDetail;

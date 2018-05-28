@@ -26,6 +26,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -97,5 +100,18 @@ public class HSUtils {
 			}
 		});
 		dialog.show();  
+	}
+
+	public static <T> T getObjectFromJson(String json, Type type) {
+		Gson gson = new Gson();
+		if ((json != null) && (json.isEmpty())) {
+				return null;
+		}
+		return gson.fromJson(json, type);
+	}
+
+	public static <T> String convertObjectToStringJson(T object, Type type) {
+		Gson gson = new Gson();
+		return gson.toJson(object, type);
 	}
 }
